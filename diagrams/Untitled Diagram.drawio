@@ -1,23 +1,80 @@
-<mxfile host="app.diagrams.net" modified="2021-10-26T03:29:42.687Z" agent="5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36" etag="Yxh7HaC64XN-EtUAhpwr" version="15.5.8" type="github">
+<mxfile host="app.diagrams.net" modified="2021-10-26T16:44:28.518Z" agent="5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36" etag="reSYkkap7IVLTN65f7yg" version="15.5.9" type="github">
   <diagram id="PlvwreAZiAJSUX1v1ITJ" name="Page-1">
-    <mxGraphModel dx="1006" dy="3063" grid="1" gridSize="10" guides="0" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="583" math="0" shadow="0">
+    <mxGraphModel dx="1984" dy="2700" grid="1" gridSize="10" guides="0" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="583" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="yFsAtdXDurBXTi6BtmDB-1" value="&lt;p style=&quot;margin: 0px ; margin-top: 4px ; text-align: center&quot;&gt;&lt;b&gt;Food Record&lt;/b&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px ; margin-top: 4px ; text-align: center&quot;&gt;/record&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin: 0px ; margin-left: 4px&quot;&gt;&lt;span&gt;button: upload-photo-button&lt;/span&gt;&lt;br&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px&quot;&gt;button: past-meal-record-button&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin: 0px ; margin-left: 4px&quot;&gt;+onClickedUploadPhotoButton&lt;/p&gt;&lt;p style=&quot;margin: 0px ; margin-left: 4px&quot;&gt;+onClickedPastMealsButton&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1" vertex="1" parent="1">
+        <mxCell id="yFsAtdXDurBXTi6BtmDB-1" value="&lt;p style=&quot;margin: 0px ; margin-top: 4px ; text-align: center&quot;&gt;&lt;b&gt;Food Record&lt;/b&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px ; margin-top: 4px ; text-align: center&quot;&gt;/record&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin: 0px ; margin-left: 4px&quot;&gt;&lt;span&gt;button: upload-photo-button&lt;/span&gt;&lt;br&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px&quot;&gt;button: past-meal-record-button&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin: 0px ; margin-left: 4px&quot;&gt;+onClickedUploadPhotoButton&lt;/p&gt;&lt;p style=&quot;margin: 0px ; margin-left: 4px&quot;&gt;+onClickedPastMealsButton&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1" parent="1" vertex="1">
           <mxGeometry x="40" y="-1720" width="190" height="130" as="geometry" />
         </mxCell>
-        <mxCell id="yFsAtdXDurBXTi6BtmDB-2" value="&lt;p style=&quot;margin: 0px ; margin-top: 4px ; text-align: center&quot;&gt;&lt;b&gt;Past Meal Record&lt;/b&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px ; margin-top: 4px ; text-align: center&quot;&gt;/history&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px&quot;&gt;button: food-record-button&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px&quot;&gt;&amp;lt; Records /&amp;gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px&quot;&gt;button: logout-button&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin: 0px ; margin-left: 4px&quot;&gt;+onClickedFoodRecordButton&lt;/p&gt;&lt;p style=&quot;margin: 0px ; margin-left: 4px&quot;&gt;+onClickedLogoutButton&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1" vertex="1" parent="1">
+        <mxCell id="zfJmxb2nl3hgMHxSFfvK-23" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.482;entryY=-0.002;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="zfJmxb2nl3hgMHxSFfvK-1" target="zfJmxb2nl3hgMHxSFfvK-10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="zfJmxb2nl3hgMHxSFfvK-1" value="main" style="swimlane;" vertex="1" parent="1">
+          <mxGeometry x="240" y="-1080" width="340" height="400" as="geometry" />
+        </mxCell>
+        <mxCell id="zfJmxb2nl3hgMHxSFfvK-2" value="추천 메뉴" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="zfJmxb2nl3hgMHxSFfvK-1">
+          <mxGeometry x="60" y="110" width="210" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="zfJmxb2nl3hgMHxSFfvK-3" value="먹었다" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="zfJmxb2nl3hgMHxSFfvK-1">
+          <mxGeometry x="200" y="250" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="zfJmxb2nl3hgMHxSFfvK-4" value="딴거먹었다" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="zfJmxb2nl3hgMHxSFfvK-1">
+          <mxGeometry x="70" y="250" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="zfJmxb2nl3hgMHxSFfvK-5" value="직접 등록" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="zfJmxb2nl3hgMHxSFfvK-1">
+          <mxGeometry x="230" y="320" width="80" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="zfJmxb2nl3hgMHxSFfvK-6" value="먹었던 거" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="zfJmxb2nl3hgMHxSFfvK-1">
+          <mxGeometry x="30" y="320" width="90" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="zfJmxb2nl3hgMHxSFfvK-7" value="통계" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="zfJmxb2nl3hgMHxSFfvK-1">
+          <mxGeometry x="270" y="30" width="50" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="zfJmxb2nl3hgMHxSFfvK-15" value="메뉴 추천" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="zfJmxb2nl3hgMHxSFfvK-1">
+          <mxGeometry x="110" y="30" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="yFsAtdXDurBXTi6BtmDB-2" value="&lt;p style=&quot;margin: 0px ; margin-top: 4px ; text-align: center&quot;&gt;&lt;b&gt;Past Meal Record&lt;/b&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px ; margin-top: 4px ; text-align: center&quot;&gt;/history&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px&quot;&gt;button: food-record-button&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px&quot;&gt;&amp;lt; Records /&amp;gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px&quot;&gt;button: logout-button&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin: 0px ; margin-left: 4px&quot;&gt;+onClickedFoodRecordButton&lt;/p&gt;&lt;p style=&quot;margin: 0px ; margin-left: 4px&quot;&gt;+onClickedLogoutButton&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1" parent="1" vertex="1">
           <mxGeometry x="260" y="-1730" width="190" height="150" as="geometry" />
         </mxCell>
-        <mxCell id="yFsAtdXDurBXTi6BtmDB-3" value="&lt;p style=&quot;margin: 0px ; margin-top: 4px ; text-align: center&quot;&gt;&lt;b&gt;Login&lt;/b&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px ; margin-top: 4px ; text-align: center&quot;&gt;/login&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin: 0px ; margin-left: 4px&quot;&gt;input: username-input&lt;/p&gt;&lt;p style=&quot;margin: 0px ; margin-left: 4px&quot;&gt;input: password-input&lt;/p&gt;&lt;p style=&quot;margin: 0px ; margin-left: 4px&quot;&gt;button: submit-button&lt;/p&gt;&lt;p style=&quot;margin: 0px ; margin-left: 4px&quot;&gt;button: signup-button&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin: 0px ; margin-left: 4px&quot;&gt;+ onClickedSignInButton&lt;/p&gt;&lt;p style=&quot;margin: 0px ; margin-left: 4px&quot;&gt;+ onClickedSignUpButton&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1" vertex="1" parent="1">
+        <mxCell id="yFsAtdXDurBXTi6BtmDB-3" value="&lt;p style=&quot;margin: 0px ; margin-top: 4px ; text-align: center&quot;&gt;&lt;b&gt;Login&lt;/b&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px ; margin-top: 4px ; text-align: center&quot;&gt;/login&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin: 0px ; margin-left: 4px&quot;&gt;input: username-input&lt;/p&gt;&lt;p style=&quot;margin: 0px ; margin-left: 4px&quot;&gt;input: password-input&lt;/p&gt;&lt;p style=&quot;margin: 0px ; margin-left: 4px&quot;&gt;button: submit-button&lt;/p&gt;&lt;p style=&quot;margin: 0px ; margin-left: 4px&quot;&gt;button: signup-button&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin: 0px ; margin-left: 4px&quot;&gt;+ onClickedSignInButton&lt;/p&gt;&lt;p style=&quot;margin: 0px ; margin-left: 4px&quot;&gt;+ onClickedSignUpButton&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1" parent="1" vertex="1">
           <mxGeometry x="480" y="-1735" width="190" height="160" as="geometry" />
         </mxCell>
-        <mxCell id="yFsAtdXDurBXTi6BtmDB-4" value="&lt;p style=&quot;margin: 0px ; margin-top: 4px ; text-align: center&quot;&gt;&lt;b&gt;&amp;lt; Records /&amp;gt;&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin: 0px ; margin-left: 4px&quot;&gt;div: record-list&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin: 0px ; margin-left: 4px&quot;&gt;props: user-id&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1" vertex="1" parent="1">
+        <mxCell id="yFsAtdXDurBXTi6BtmDB-4" value="&lt;p style=&quot;margin: 0px ; margin-top: 4px ; text-align: center&quot;&gt;&lt;b&gt;&amp;lt; Records /&amp;gt;&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin: 0px ; margin-left: 4px&quot;&gt;div: record-list&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin: 0px ; margin-left: 4px&quot;&gt;props: user-id&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1" parent="1" vertex="1">
           <mxGeometry x="40" y="-1420" width="190" height="80" as="geometry" />
         </mxCell>
-        <mxCell id="yFsAtdXDurBXTi6BtmDB-5" value="&lt;p style=&quot;margin: 0px ; margin-top: 4px ; text-align: center&quot;&gt;&lt;b&gt;&amp;lt; Record /&amp;gt;&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin: 0px ; margin-left: 4px&quot;&gt;image: previous-meal-image&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px&quot;&gt;button: previous-meal-detail-button&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin: 0px ; margin-left: 4px&quot;&gt;props: record-id&lt;/p&gt;&lt;p style=&quot;margin: 0px ; margin-left: 4px&quot;&gt;+onClickedMealDetailButton&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1" vertex="1" parent="1">
+        <mxCell id="yFsAtdXDurBXTi6BtmDB-5" value="&lt;p style=&quot;margin: 0px ; margin-top: 4px ; text-align: center&quot;&gt;&lt;b&gt;&amp;lt; Record /&amp;gt;&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin: 0px ; margin-left: 4px&quot;&gt;image: previous-meal-image&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px&quot;&gt;button: previous-meal-detail-button&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin: 0px ; margin-left: 4px&quot;&gt;props: record-id&lt;/p&gt;&lt;p style=&quot;margin: 0px ; margin-left: 4px&quot;&gt;+onClickedMealDetailButton&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1" parent="1" vertex="1">
           <mxGeometry x="260" y="-1430" width="200" height="112" as="geometry" />
+        </mxCell>
+        <mxCell id="zfJmxb2nl3hgMHxSFfvK-28" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="zfJmxb2nl3hgMHxSFfvK-10" target="zfJmxb2nl3hgMHxSFfvK-24">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="zfJmxb2nl3hgMHxSFfvK-10" value="food record" style="swimlane;" vertex="1" parent="1">
+          <mxGeometry x="250" y="-520" width="330" height="400" as="geometry" />
+        </mxCell>
+        <mxCell id="zfJmxb2nl3hgMHxSFfvK-19" value="등록" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="zfJmxb2nl3hgMHxSFfvK-10">
+          <mxGeometry x="190" y="310" width="100" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="zfJmxb2nl3hgMHxSFfvK-18" value="input" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="zfJmxb2nl3hgMHxSFfvK-10">
+          <mxGeometry x="40" y="310" width="90" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="zfJmxb2nl3hgMHxSFfvK-22" value="&amp;lt;div/&amp;gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="zfJmxb2nl3hgMHxSFfvK-10">
+          <mxGeometry x="40" y="80" width="250" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="zfJmxb2nl3hgMHxSFfvK-24" value="confirm detection" style="swimlane;" vertex="1" parent="1">
+          <mxGeometry x="-230" y="-520" width="330" height="400" as="geometry" />
+        </mxCell>
+        <mxCell id="zfJmxb2nl3hgMHxSFfvK-25" value="등록" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="zfJmxb2nl3hgMHxSFfvK-24">
+          <mxGeometry x="180" y="310" width="100" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="zfJmxb2nl3hgMHxSFfvK-26" value="input" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="zfJmxb2nl3hgMHxSFfvK-24">
+          <mxGeometry x="40" y="310" width="90" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="zfJmxb2nl3hgMHxSFfvK-27" value="&amp;lt;div/&amp;gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="zfJmxb2nl3hgMHxSFfvK-24">
+          <mxGeometry x="40" y="40" width="240" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="zfJmxb2nl3hgMHxSFfvK-30" value="&amp;lt;div/&amp;gt;&lt;br&gt;영양정보" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="zfJmxb2nl3hgMHxSFfvK-24">
+          <mxGeometry x="40" y="190" width="240" height="110" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
