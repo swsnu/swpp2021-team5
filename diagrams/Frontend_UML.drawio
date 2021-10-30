@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2021-10-30T01:15:16.620Z" agent="5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36" etag="DKwovJt9AzSaJru3OGqP" version="15.6.2" type="github">
+<mxfile host="app.diagrams.net" modified="2021-10-30T01:17:55.892Z" agent="5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36" etag="xMR2TcdS1g-Zi-ERBgx_" version="15.6.2" type="github">
   <diagram name="Page-1" id="c4acf3e9-155e-7222-9cf6-157b1a14988f">
     <mxGraphModel dx="946" dy="1788" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1200" background="none" math="0" shadow="0">
       <root>
@@ -128,18 +128,6 @@
         <mxCell id="bxKK3A8rRiATeC3KXuF5-23" value="&lt;p style=&quot;margin: 0px ; margin-top: 4px ; text-align: center&quot;&gt;&lt;b&gt;Confirm Detection&amp;nbsp;&lt;/b&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px ; margin-top: 4px ; text-align: center&quot;&gt;/confirm&lt;b&gt;&amp;nbsp;&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin: 0px ; margin-left: 4px&quot;&gt;&amp;lt;Header/&amp;gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px ; margin-left: 4px&quot;&gt;&amp;lt;Record/&amp;gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px ; margin-left: 4px&quot;&gt;&amp;lt;Nutrition/&amp;gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px ; margin-left: 4px&quot;&gt;image: meal-image&lt;/p&gt;&lt;p style=&quot;margin: 0px ; margin-left: 4px&quot;&gt;input: meal-name-input&lt;/p&gt;&lt;p style=&quot;margin: 0px ; margin-left: 4px&quot;&gt;&lt;span&gt;button: confirm-button&lt;/span&gt;&lt;br&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px ; margin-left: 4px&quot;&gt;button: edit-result-button&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin: 0px ; margin-left: 4px&quot;&gt;+onClickedConfirmButton&lt;/p&gt;&lt;p style=&quot;margin: 0px ; margin-left: 4px&quot;&gt;+onClickedEditResultButton&lt;/p&gt;&lt;p style=&quot;margin: 0px ; margin-left: 4px&quot;&gt;&lt;br&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px ; margin-left: 4px&quot;&gt;&lt;br&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;" vertex="1" parent="1">
           <mxGeometry x="710" y="-688" width="190" height="188" as="geometry" />
         </mxCell>
-        <mxCell id="bxKK3A8rRiATeC3KXuF5-24" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.75;entryDx=0;entryDy=0;fontColor=#FFFFFF;" edge="1" parent="1" source="bxKK3A8rRiATeC3KXuF5-25" target="bxKK3A8rRiATeC3KXuF5-17">
-          <mxGeometry relative="1" as="geometry">
-            <Array as="points">
-              <mxPoint x="900" y="-330" />
-              <mxPoint x="950" y="-330" />
-              <mxPoint x="950" y="-787" />
-            </Array>
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="bxKK3A8rRiATeC3KXuF5-25" value="&lt;p style=&quot;margin: 0px ; margin-top: 4px ; text-align: center&quot;&gt;&lt;b&gt;Nutritional Info&lt;/b&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px ; margin-top: 4px ; text-align: center&quot;&gt;/history/:id/&lt;b&gt;&amp;nbsp;&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px&quot;&gt;h1: Nutritional Info&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px&quot;&gt;&amp;lt;Nutrition/&amp;gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px&quot;&gt;button:&amp;nbsp; past-meal-record-button&amp;nbsp;&lt;br&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px&quot;&gt;button: logout-button&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px&quot;&gt;+ onClickPastMealRecordButton&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px&quot;&gt;+ onClickLogoutButton&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;" vertex="1" parent="1">
-          <mxGeometry x="710" y="-440" width="190" height="162" as="geometry" />
-        </mxCell>
         <mxCell id="bxKK3A8rRiATeC3KXuF5-26" value="User?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#000000;fontColor=#FFFFFF;" vertex="1" parent="1">
           <mxGeometry x="95" y="-990" width="80" height="40" as="geometry" />
         </mxCell>
@@ -153,22 +141,22 @@
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="bxKK3A8rRiATeC3KXuF5-30" value="&lt;p style=&quot;margin: 0px ; margin-top: 4px ; text-align: center&quot;&gt;&lt;b&gt;Previous meal&lt;/b&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px ; margin-top: 4px ; text-align: center&quot;&gt;/history/:id/&lt;b&gt;&amp;nbsp;&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin: 0px ; margin-left: 4px&quot;&gt;&amp;lt; RecordDetail /&amp;gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px ; margin-left: 4px&quot;&gt;button: back-to-records-button&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin: 0px ; margin-left: 4px&quot;&gt;+ onClickRecordsButton&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;" vertex="1" parent="1">
-          <mxGeometry x="1032.5" y="-850" width="155" height="110" as="geometry" />
+          <mxGeometry x="1032.5" y="-850" width="177.5" height="110" as="geometry" />
         </mxCell>
-        <mxCell id="bxKK3A8rRiATeC3KXuF5-31" value="" style="endArrow=classic;html=1;rounded=0;entryX=0.002;entryY=0.869;entryDx=0;entryDy=0;entryPerimeter=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="bxKK3A8rRiATeC3KXuF5-21" target="bxKK3A8rRiATeC3KXuF5-9">
+        <mxCell id="bxKK3A8rRiATeC3KXuF5-31" value="" style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" target="bxKK3A8rRiATeC3KXuF5-9">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="340" y="-630" as="sourcePoint" />
-            <mxPoint x="390" y="-680" as="targetPoint" />
+            <mxPoint x="232.75" y="-479.5" as="sourcePoint" />
+            <mxPoint x="378" y="-1010" as="targetPoint" />
             <Array as="points">
-              <mxPoint x="270" y="-439" />
-              <mxPoint x="270" y="-912" />
+              <mxPoint x="314" y="-479" />
+              <mxPoint x="314" y="-1010" />
             </Array>
           </mxGeometry>
         </mxCell>
         <mxCell id="bxKK3A8rRiATeC3KXuF5-33" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.25;exitY=0;exitDx=0;exitDy=0;entryX=0.25;entryY=1;entryDx=0;entryDy=0;fontColor=#FFFFFF;" edge="1" parent="1">
           <mxGeometry relative="1" as="geometry">
-            <mxPoint x="445.5" y="-832" as="sourcePoint" />
-            <mxPoint x="448.5" y="-870" as="targetPoint" />
+            <mxPoint x="482.5" y="-832" as="sourcePoint" />
+            <mxPoint x="485.5" y="-870" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="bxKK3A8rRiATeC3KXuF5-34" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.25;exitDx=0;exitDy=0;entryX=0.998;entryY=0.208;entryDx=0;entryDy=0;fontColor=#FFFFFF;entryPerimeter=0;" edge="1" parent="1">
