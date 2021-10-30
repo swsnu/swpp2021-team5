@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2021-10-30T06:49:33.011Z" agent="5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.81 Safari/537.36" etag="9qnIjAHIwiEhL3hkOiy4" version="15.5.8" type="github">
+<mxfile host="app.diagrams.net" modified="2021-10-30T06:50:49.176Z" agent="5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.81 Safari/537.36" etag="SE7eVGI6PxIhDiPNro_g" version="15.5.8" type="github">
   <diagram name="Page-1" id="c4acf3e9-155e-7222-9cf6-157b1a14988f">
-    <mxGraphModel dx="884" dy="1550" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1200" background="none" math="0" shadow="0">
+    <mxGraphModel dx="1831" dy="1926" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1200" background="none" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -40,10 +40,10 @@
         <mxCell id="bxKK3A8rRiATeC3KXuF5-12" value="&lt;p style=&quot;margin: 0px ; margin-top: 4px ; text-align: center&quot;&gt;&lt;b&gt;Login&lt;/b&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px ; margin-top: 4px ; text-align: center&quot;&gt;/login&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin: 0px ; margin-left: 4px&quot;&gt;input: username-input&lt;/p&gt;&lt;p style=&quot;margin: 0px ; margin-left: 4px&quot;&gt;input: password-input&lt;/p&gt;&lt;p style=&quot;margin: 0px ; margin-left: 4px&quot;&gt;button: submit-button&lt;/p&gt;&lt;p style=&quot;margin: 0px ; margin-left: 4px&quot;&gt;button: signup-button&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin: 0px ; margin-left: 4px&quot;&gt;+ onClickedSignInButton&lt;/p&gt;&lt;p style=&quot;margin: 0px ; margin-left: 4px&quot;&gt;+ onClickedSignUpButton&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1" parent="1" vertex="1">
           <mxGeometry x="40" y="-1160" width="190" height="160" as="geometry" />
         </mxCell>
-        <mxCell id="bxKK3A8rRiATeC3KXuF5-13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;fontColor=#FFFFFF;" parent="1" source="bxKK3A8rRiATeC3KXuF5-9" target="bxKK3A8rRiATeC3KXuF5-17" edge="1">
+        <mxCell id="bxKK3A8rRiATeC3KXuF5-13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.464;entryY=-0.001;entryDx=0;entryDy=0;fontColor=#FFFFFF;entryPerimeter=0;" parent="1" source="bxKK3A8rRiATeC3KXuF5-9" target="bxKK3A8rRiATeC3KXuF5-17" edge="1">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="805" y="-930" />
+              <mxPoint x="812" y="-930" />
             </Array>
           </mxGeometry>
         </mxCell>
@@ -51,7 +51,7 @@
           <mxGeometry x="730" y="-1160" width="180" height="149" as="geometry" />
         </mxCell>
         <mxCell id="bxKK3A8rRiATeC3KXuF5-17" value="&lt;p style=&quot;margin: 0px ; margin-top: 4px ; text-align: center&quot;&gt;&lt;b&gt;Past Meal Record&lt;/b&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px ; margin-top: 4px ; text-align: center&quot;&gt;/history&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px&quot;&gt;button: food-record-button&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px&quot;&gt;&amp;lt;Records/&amp;gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin: 0px ; margin-left: 4px&quot;&gt;+onClickedFoodRecordButton&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1" parent="1" vertex="1">
-          <mxGeometry x="710" y="-900" width="190" height="120" as="geometry" />
+          <mxGeometry x="710" y="-900" width="220" height="120" as="geometry" />
         </mxCell>
         <mxCell id="bxKK3A8rRiATeC3KXuF5-19" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="bxKK3A8rRiATeC3KXuF5-20" target="bxKK3A8rRiATeC3KXuF5-21" edge="1">
           <mxGeometry relative="1" as="geometry" />
@@ -69,6 +69,9 @@
         </mxCell>
         <mxCell id="bxKK3A8rRiATeC3KXuF5-21" value="&lt;p style=&quot;margin: 4px 0px 0px ; text-align: center&quot;&gt;&lt;b style=&quot;font-family: &amp;#34;verdana&amp;#34; ; font-size: 10px&quot;&gt;Setting&lt;/b&gt;&lt;br style=&quot;font-family: &amp;#34;verdana&amp;#34; ; font-size: 10px&quot;&gt;&lt;span style=&quot;font-family: &amp;#34;verdana&amp;#34; ; font-size: 10px&quot;&gt;/setting&lt;/span&gt;&lt;br&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px&quot;&gt;&amp;lt;Header /&amp;gt;&lt;br&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px&quot;&gt;&lt;br&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px&quot;&gt;h1: Setting Page&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px&quot;&gt;div: current-setting-info&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px&quot;&gt;input: user-sex-input&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px&quot;&gt;input: user-age-input&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px&quot;&gt;input: user-height-input&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px&quot;&gt;input: user-weight-input&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px&quot;&gt;input: user-food-no-eat-input&lt;br&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px&quot;&gt;button: user-food-no-eat-button&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px&quot;&gt;button: confirm-button&lt;br&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px&quot;&gt;button: delete-account-button&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px&quot;&gt;+ onChangedUserSexInput&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px&quot;&gt;+ onChangedUserAgedInput&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px&quot;&gt;+ onChangedUserHeightInput&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px&quot;&gt;+ onChangedUserWeightInput&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px&quot;&gt;+ onChangedUserFoodNoEatInput&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px&quot;&gt;+ onClickedUserFoodNoEatButton&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px&quot;&gt;+ onCllickedConfirmButton&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;" parent="1" vertex="1">
           <mxGeometry x="37.5" y="-609" width="191.25" height="339" as="geometry" />
+        </mxCell>
+        <mxCell id="_MN3SdQh-A93I4YFqN-j-17" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.75;entryDx=0;entryDy=0;exitX=0.999;exitY=0.537;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="1" source="bxKK3A8rRiATeC3KXuF5-23" target="bxKK3A8rRiATeC3KXuF5-17">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="bxKK3A8rRiATeC3KXuF5-23" value="&lt;p style=&quot;margin: 0px ; margin-top: 4px ; text-align: center&quot;&gt;&lt;b&gt;Confirm Detection&amp;nbsp;&lt;/b&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px ; margin-top: 4px ; text-align: center&quot;&gt;/confirm&lt;b&gt;&amp;nbsp;&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin: 0px ; margin-left: 4px&quot;&gt;&amp;lt;Header/&amp;gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px ; margin-left: 4px&quot;&gt;&amp;lt;Record/&amp;gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px ; margin-left: 4px&quot;&gt;&amp;lt;Nutrition/&amp;gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px ; margin-left: 4px&quot;&gt;image: meal-image&lt;/p&gt;&lt;p style=&quot;margin: 0px ; margin-left: 4px&quot;&gt;input: meal-name-input&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px&quot;&gt;h1: Create a review for your meal&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px&quot;&gt;text: If you don&#39;t want to write it now,&amp;nbsp;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px&quot;&gt;you can always write your review later :)&lt;/p&gt;&lt;p style=&quot;margin: 0px ; margin-left: 4px&quot;&gt;&lt;span&gt;button: confirm-button&lt;/span&gt;&lt;br&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px ; margin-left: 4px&quot;&gt;button: edit-result-button&lt;/p&gt;&lt;p style=&quot;margin: 0px ; margin-left: 4px&quot;&gt;button: cancel-record-button&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin: 0px ; margin-left: 4px&quot;&gt;+ onClickedConfirmButton&lt;/p&gt;&lt;p style=&quot;margin: 0px ; margin-left: 4px&quot;&gt;+ onClickedEditResultButton&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px&quot;&gt;+ onClickedCancelRecordButton&lt;/p&gt;&lt;p style=&quot;margin: 0px ; margin-left: 4px&quot;&gt;&lt;br&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px ; margin-left: 4px&quot;&gt;&lt;br&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;" parent="1" vertex="1">
           <mxGeometry x="710" y="-705" width="220" height="265" as="geometry" />
@@ -115,7 +118,7 @@
         </mxCell>
         <mxCell id="_MN3SdQh-A93I4YFqN-j-14" value="" style="endArrow=classic;startArrow=classic;html=1;rounded=0;entryX=0;entryY=0.282;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" target="bxKK3A8rRiATeC3KXuF5-30">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="900" y="-840" as="sourcePoint" />
+            <mxPoint x="930" y="-841" as="sourcePoint" />
             <mxPoint x="950" y="-890" as="targetPoint" />
           </mxGeometry>
         </mxCell>
