@@ -19,11 +19,6 @@ def record(request):
 
         ## return all records
         all_record_list = [record for record in Record.objects.all().values()]
-        for record in all_record_list:
-            record["user_id"] = record.pop("user_id_id")
-            record["menu_id"] = record.pop("menu_id_id")
-            record["recipe_id"] = record.pop("recipe_id_id")
-        
         return JsonResponse(all_record_list, safe=False)
 
     elif request.method == 'POST':
@@ -50,8 +45,8 @@ def recordID(request, record_id):
 
         ## return record of record_id
         matchingRecord = Record.objects.get(id = record_id)
-        response_dict = {'id' : record_id, 'user_id' : matchingRecord.user_id.id, 'menu_id' : matchingRecord.menu_id.id, 
-                        'recipe_id' : matchingRecord.recipe_id.id, 'review' : matchingRecord.review, 
+        response_dict = {'id' : record_id, 'user_id' : matchingRecord.user.id, 'menu_id' : matchingRecord.menu.id, 
+                        'recipe_id' : matchingRecord.recipe.id, 'review' : matchingRecord.review, 
                         'liked' : matchingRecord.liked, 'date' : matchingRecord.date}
         return JsonResponse(response_dict)
 
@@ -66,11 +61,7 @@ def recordUserID(request, user_id):
             return HttpResponse(status = 401)
 
         ## Get all records whose user id is user_id
-        all_record_list = [record for record in Record.objects.all().values() if record["user_id_id"] == user_id]
-        for record in all_record_list:
-            record["user_id"] = record.pop("user_id_id")
-            record["menu_id"] = record.pop("menu_id_id")
-            record["recipe_id"] = record.pop("recipe_id_id")
+        all_record_list = [record for record in Record.objects.all().values() if record["user_id"] == user_id]
 
         ## If there are no such records, respond with 404
         if len(all_record_list) == 0:
@@ -116,8 +107,8 @@ def review(request, record_id):
         recordToAddReview.save()
 
         ## respond with the edited record
-        response_dict = {'id' : record_id, 'user_id' : recordToAddReview.user_id.id, 'menu_id' : recordToAddReview.menu_id.id, 
-                        'recipe_id' : recordToAddReview.recipe_id.id, 'review' : recordToAddReview.review, 
+        response_dict = {'id' : record_id, 'user_id' : recordToAddReview.user.id, 'menu_id' : recordToAddReview.menu.id, 
+                        'recipe_id' : recordToAddReview.recipe.id, 'review' : recordToAddReview.review, 
                         'liked' : recordToAddReview.liked, 'date' : recordToAddReview.date}
         return HttpResponse(json.dumps(response_dict), status = 200)
 
@@ -141,8 +132,8 @@ def review(request, record_id):
         recordToEditReview.save()
 
         ## respond with the edited record
-        response_dict = {'id' : record_id, 'user_id' : recordToEditReview.user_id.id, 'menu_id' : recordToEditReview.menu_id.id, 
-                        'recipe_id' : recordToEditReview.recipe_id.id, 'review' : recordToEditReview.review, 
+        response_dict = {'id' : record_id, 'user_id' : recordToEditReview.user.id, 'menu_id' : recordToEditReview.menu.id, 
+                        'recipe_id' : recordToEditReview.recipe.id, 'review' : recordToEditReview.review, 
                         'liked' : recordToEditReview.liked, 'date' : recordToEditReview.date}
         return HttpResponse(json.dumps(response_dict), status = 200)
 
@@ -165,8 +156,8 @@ def review(request, record_id):
         recordToDeleteReview.save()
 
         ## respond with the edited record
-        response_dict = {'id' : record_id, 'user_id' : recordToDeleteReview.user_id.id, 'menu_id' : recordToDeleteReview.menu_id.id, 
-                        'recipe_id' : recordToDeleteReview.recipe_id.id, 'review' : recordToDeleteReview.review, 
+        response_dict = {'id' : record_id, 'user_id' : recordToDeleteReview.user.id, 'menu_id' : recordToDeleteReview.menu.id, 
+                        'recipe_id' : recordToDeleteReview.recipe.id, 'review' : recordToDeleteReview.review, 
                         'liked' : recordToDeleteReview.liked, 'date' : recordToDeleteReview.date}
         return HttpResponse(json.dumps(response_dict), status = 200)
 
@@ -183,7 +174,7 @@ def recipeMenuName(request, menu_name):
 
         ## find the menu id and the recipe object corresponding to the menu_name
         matchingMenuID = Menu.objects.get(name = menu_name).id
-        matchingRecipe = [recipe for recipe in Recipe.objects.all().values() if recipe["menu_id_id"] == matchingMenuID]
+        matchingRecipe = [recipe for recipe in Recipe.objects.all().values() if recipe["menu_id"] == matchingMenuID]
 
         ## if there are no recipes corresponding to the menu id, respond with 404
         ## else, return the correct recipe
@@ -212,8 +203,8 @@ def menu(request):
 def menuName(request, menu_name):
     if request.method == 'GET':
         ## If user is not signed in, respond with 401
-        #if not request.user.is_authenticated:
-         #   return HttpResponse(status = 401)
+        if not request.user.is_authenticated:
+            return HttpResponse(status = 401)
         
         ## If there are no menus with menu_name, respond with 404
         if not Menu.objects.filter(name = menu_name).exists():

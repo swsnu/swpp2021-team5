@@ -12,13 +12,13 @@ class Menu(models.Model):
     fat = IntegerField()
 
 class Recipe(models.Model):
-    menu_id = ForeignKey(Menu, on_delete = models.CASCADE, related_name = 'menu_of_recipe')
+    menu = ForeignKey(Menu, on_delete = models.CASCADE, related_name = 'menu_of_recipe')
     recipe = TextField()
 
 class Record(models.Model):
-    user_id = ForeignKey(User, on_delete = models.CASCADE, related_name = 'creator_of')
-    menu_id = ForeignKey(Menu, on_delete = models.CASCADE, related_name = 'menu_of_record')
-    recipe_id = ForeignKey(Recipe, on_delete = models.CASCADE, related_name = 'recipe_of')
+    user = ForeignKey(User, on_delete = models.CASCADE, related_name = 'creator_of')
+    menu = ForeignKey(Menu, on_delete = models.CASCADE, related_name = 'menu_of_record')
+    recipe = ForeignKey(Recipe, on_delete = models.CASCADE, related_name = 'recipe_of')
     review = TextField()
     liked = BooleanField()
     date = DateField()
