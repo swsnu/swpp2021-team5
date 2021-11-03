@@ -1,15 +1,18 @@
 from django.http import HttpResponse, HttpResponseNotAllowed
 from django.contrib.auth.models import User
 from django.http.response import JsonResponse
-from django.views.decorators.csrf import ensure_csrf_cookie
+from django.views.decorators import csrf
+from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
 import json
 from django.contrib.auth import authenticate, login, logout
 from .models import Menu, Recipe, Record
+import datetime
 
 # Create your views here.
 def user(request):
     ## DO SOMETHING
     return
+
 
 def record(request):
     if request.method == 'GET':
@@ -26,8 +29,24 @@ def record(request):
         if not request.user.is_authenticated:
             return HttpResponse(status = 401)
 
+        ## decode request
         req_data = json.loads(request.body.decode())
-        ## TO DO
+        menu_id = req_data['menu_id']
+        recipe_id = req_data['recipe_id']
+        review = req_data['review']
+        liked = True if req_data['liked'] == "True" else False
+        ## req_data['date'] comes in YYYY-MM-DD form, transform the string into datetime object
+        date_list = req_data['date'].split('-')
+        date = datetime(int(date_list[0]), int(date_list[1]), int(date_list[2]))
+        
+        record = Record(user = request.user, menu = Menu.objects.get(id = menu_id), 
+                        recipe = Recipe.objects.get(id = recipe_id), review = review, liked = liked, date = date)
+        record.save()
+
+        ## respond with created record detail
+        response_dict = {'id' : record.id, 'user' : record.user, 'menu' : record.menu, 'recipe' : record.recipe,
+                        'review' : record.review, 'liked' : record.liked, 'date' : record.date}
+        return HttpResponse(json.dumps(response_dict), status = 201)
 
     else:
         return HttpResponseNotAllowed(['GET', 'POST'])
@@ -216,5 +235,13 @@ def menuName(request, menu_name):
                         'protein' : matchingMenu.protein, 'fat' : matchingMenu.fat}
         return JsonResponse(response_dict)
 
+    else:
+        return HttpResponseNotAllowed(['GET'])
+
+
+@ensure_csrf_cookie
+def token(request):
+    if request.method == 'GET':
+        return HttpResponse(status=204)
     else:
         return HttpResponseNotAllowed(['GET'])
