@@ -1,5 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
+import React from 'react';
+import  { Button } from 'semantic-ui-react';
 
 function App() {
   return (
@@ -16,7 +18,15 @@ function App() {
           rel="noopener noreferrer"
         >
           Learn React
+          
         </a>
+        <p/>
+        <Button
+            color='red'
+            content='Like'
+            icon='heart'
+            label={{ basic: true, color: 'red', pointing: 'left', content: '2,048' }}
+          />
       </header>
     </div>
   );
