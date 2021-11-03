@@ -12,4 +12,5 @@ urlpatterns = [
     path('recipe/<str:menu_name>/', views.recipeMenuName, name='recipeMenuName'),
     path('menu/', views.menu, name='menu'),
     path('menu/<str:menu_name>/', views.menuName, name='menuName'),
+    path('token/', views.token, name='token'),
 ]
