@@ -4,7 +4,6 @@ from django.urls.resolvers import URLPattern
 from . import views
 
 urlpatterns = [
-    path('user/', views.user, name='user'),
     path('record/', views.record, name='record'),
     path('record/<int:record_id>/', views.recordID, name='recordID'),
     path('record/user/<int:user_id>/', views.recordUserID, name='recordUserID'),
