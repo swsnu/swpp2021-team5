@@ -2,7 +2,7 @@ from django.http import HttpResponse, HttpResponseNotAllowed
 from django.contrib.auth.models import User
 from django.http.response import JsonResponse
 from django.views.decorators import csrf
-from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
+from django.views.decorators.csrf import ensure_csrf_cookie
 import json
 from django.contrib.auth import authenticate, login, logout
 from .models import Menu, Recipe, Record
@@ -13,7 +13,6 @@ def user(request):
     ## DO SOMETHING
     return
 
-@csrf_exempt
 def record(request):
     if request.method == 'GET':
         ## If user is not signed in, respond with 401
