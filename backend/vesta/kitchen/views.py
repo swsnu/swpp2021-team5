@@ -13,7 +13,7 @@ def user(request):
     ## DO SOMETHING
     return
 
-
+@csrf_exempt
 def record(request):
     if request.method == 'GET':
         ## If user is not signed in, respond with 401
@@ -37,10 +37,10 @@ def record(request):
         liked = True if req_data['liked'] == "True" else False
         ## req_data['date'] comes in YYYY-MM-DD form, transform the string into datetime object
         date_list = req_data['date'].split('-')
-        date = datetime(int(date_list[0]), int(date_list[1]), int(date_list[2]))
+        date = datetime.date(int(date_list[0]), int(date_list[1]), int(date_list[2]))
         
         record = Record(user = request.user, menu = Menu.objects.get(id = menu_id), 
-                        recipe = Recipe.objects.get(id = recipe_id), review = review, liked = liked, date = date)
+                        recipe = Recipe.objects.get(id = recipe_id), review = review, liked = True, date = date)
         record.save()
 
         ## respond with created record detail
