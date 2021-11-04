@@ -127,15 +127,20 @@ def profile(request):
 
 
 
-def nutrition(request, year, month, day):
-    today = datetime.date(year, month, day)
+def nutrition(request):
     if request.method == 'GET':
         if request.user.is_authenticated:
+            req_data = json.loads(request.body.decode())
+            ## req_data['date'] comes in YYYY-MM-DD form, transform the string into datetime object
+            date_list = req_data['date'].split('-')
+            today = datetime.date(int(date_list[0]), int(date_list[1]), int(date_list[2]))
             try:
                 today_nutrition = UserNutrition.objects.get(user_id=request.user.id, date=today)
             except (UserNutrition.DoesNotExist):
                 return HttpResponse(status=404)
             response_dict = {
+                'user_id': today_nutrition.user_id,
+                'date': today_nutrition.date.strftime('%Y-%m-%d'), # is it okay?
                 'calories': today_nutrition.calories,
                 'carbs': today_nutrition.carbs,
                 'protein': today_nutrition.protein,
@@ -147,15 +152,20 @@ def nutrition(request, year, month, day):
     elif request.method == 'POST':
         if request.user.is_authenticated:
             req_data = json.loads(request.body.decode())
+            date_list = req_data['date'].split('-')
+            today = datetime.date(int(date_list[0]), int(date_list[1]), int(date_list[2]))
             calories = int(req_data['calories'])
             carbs = int(req_data['carbs'])
             protein = int(req_data['protein'])
             fat = int(req_data['fat'])
+
             new_record = UserNutrition(user=request.user, date=today, calories=calories, carbs=carbs, protein=protein, fat=fat)
             new_record.save()
+
             response_dict = {
                 'id': new_record.id,
-                #'date': ??
+                'user_id': new_record.user_id,
+                'date': new_record.date.strftime('%Y-%m-%d'),  # is it okay?
                 'calories': new_record.calories,
                 'carbs': new_record.carbs,
                 'protein': new_record.protein,
@@ -166,11 +176,13 @@ def nutrition(request, year, month, day):
             return HttpResponse(status=401)
     elif request.method == 'PUT':
         if request.user.is_authenticated:
+            req_data = json.loads(request.body.decode())
+            date_list = req_data['date'].split('-')
+            today = datetime.date(int(date_list[0]), int(date_list[1]), int(date_list[2]))
             try:
                 today_nutrition = UserNutrition.objects.get(user_id=request.user.id, date=today)
             except (UserNutrition.DoesNotExist):
                 return HttpResponse(status=404)
-            req_data = json.loads(request.body.decode())
             new_calories = int(req_data['calories'])
             new_carbs = int(req_data['carbs'])
             new_protein = int(req_data['protein'])
@@ -181,9 +193,11 @@ def nutrition(request, year, month, day):
             today_nutrition.protein = new_protein
             today_nutrition.fat = new_fat
             today_nutrition.save()
+
             response_dict = {
                 'id': today_nutrition.id,
-                #'date': ??
+                'user_id': today_nutrition.user_id,
+                'date': today_nutrition.date.strftime('%Y-%m-%d'),       # is it okay?
                 'calories': today_nutrition.calories,
                 'carbs': today_nutrition.carbs,
                 'protein': today_nutrition.protein,
