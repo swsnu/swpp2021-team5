@@ -1,12 +1,13 @@
 from django.http import HttpResponse, HttpResponseNotAllowed
 from django.http.response import JsonResponse
 from django.views.decorators.csrf import csrf_exempt, csrf_protect, ensure_csrf_cookie
-from django.views.decorators.http import require_GET
+from django.views.decorators.http import require_GET, require_http_methods
 import json
 from .models import Menu, Recipe, Record
 import datetime
 
 # Create your views here.
+@require_http_methods(['GET', 'POST'])
 def record(request):
     if request.method == 'GET':
         ## If user is not signed in, respond with 401
@@ -86,6 +87,7 @@ def recordUserID(request, user_id):
         return HttpResponseNotAllowed(['GET'])
 
 
+@require_http_methods(['GET', 'POST', 'PUT', 'DELETE'])
 def review(request, record_id):
     if request.method == 'GET':
         ## If user is not signed in, respond with 401
@@ -238,6 +240,7 @@ def menuName(request, menu_name):
 
 
 @ensure_csrf_cookie
+@require_GET
 def token(request):
     if request.method == 'GET':
         return HttpResponse(status=204)
