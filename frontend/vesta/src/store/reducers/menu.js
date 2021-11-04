@@ -1,3 +1,4 @@
+import * as actionTypes from '../actions/actionType';
 
 const initialState = {
     selectedMenu: null,
@@ -6,6 +7,8 @@ const initialState = {
 }
 const menuReducer = (state=initialState, action) => {
     switch (action.type) {
+        case actionTypes.GET_MENU:
+            return { ...state, selectedMenu: action.selectedMenu };
         default:
             break;
     }
