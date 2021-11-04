@@ -27,7 +27,7 @@ class Preference(models.Model):
   )
 
   """ 
-  !!!! It should be processed to be comments for 'migrate' !!!!
+  !!!! It should be processed as comments for 'migrate' temporarily !!!!
   menu = models.ForeignKey(
     Menu,
     on_delete=models.CASCADE  # is it also should be delete
