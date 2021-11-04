@@ -22,13 +22,17 @@ class Profile(models.Model):
 class Preference(models.Model): 
   user = models.ForeignKey(
     User,
-    on_delete=models.CASCADE
+    on_delete=models.CASCADE,
+    related_name='preference_list'
   )
+
+  """ 
+  !!!! It should be processed to be comments for 'migrate' !!!!
   menu = models.ForeignKey(
     Menu,
     on_delete=models.CASCADE  # is it also should be delete
   )                           # when the related menu has been deleted?
-
+  """
 #### it must be better to rename this Model
 #### EX) DateNutrition, Nutrition
 
