@@ -5,7 +5,7 @@ const Nutrient = (props) => {
         <div>
             <h1>{props.menu_name}</h1>
             <img className="menu_img"></img>
-            <text>{props.nutrient}</text>
+            <text>{props.calories, props.carbs, props.protein, props.fat}</text>
         </div>    
     );
 }
