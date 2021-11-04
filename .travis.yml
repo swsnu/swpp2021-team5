@@ -1,14 +1,32 @@
-node_js:
-    - '10'
- addons:
- sonarcloud:
-organization: "swsnu"
-  
-token:
-secure: "Cl/GBbM3Y5gCfgFlcu44n9pm4ZhYSZTqDSPjoJMzSdc2kTvXKGYiKvQO7ndOuTBtXsMAXaq7VfSin06Y4n6N/6rvYzyr9Y/0t6ZFSMFZuIDnBGCtvvTipfZg2lPv/P6EJI5lXf3EXc3AplIm66Pad9wPfHCZ6bm6FvWZ4xMZVXinPCURU260Cgw5NyzAJQB7z2PWV5+pNFPRjJJUj2jCrnLA7JWOlC/UKwYwbQ3xj4tdOKzuCYxAhfyJr8QA+KyWDz9INtV4tOF8lWgptLoyTHncwsepI7AeLMEGmCXc0pEYc0uctUSY0Jk0dmRXwXqeVHILL+tautKCkVYDG8XZI9fD42YEv+u/YeKxMlmFXAOjVSZ4BzWGg5vj6QghoGYDKShifnhkV5Wco0VLxSgvPG0irOMvZg8Fj78u0ERszZIHKCmM12XdhTaZaeQln3cXt05w89wPlCRs+fnOdYerhf8F1PkADryiDkt3WklpzCp1iNN+noAYiNAQsAel/rDI2U29JHTNjXRB2J8HlniYa3tP16qgPTy8N/oY9Ga3mMbpUu4vDTTy9BQ4/JZNYTzIY1v0VjX0UgzCwpXrBSTeUfL9lFVYoGMG40yJX1zR3Ao4YYO+d4SiGU8WEwgRVqptIPflTy6zobFH2sBfmcDckyZXEQeAuIIxpH7U67VKtNQ="
-  before_install:
-#...
-script:
-- coverage xml
-- cd .. && sonar-scanner
+dist: bionic
+
+jobs:
+  include:
+    - language: python
+      python: "3.7.9"
+      install:
+        - cd backend
+        - cd vesta
+        - pip install -r requirements.txt
+      script:
+        - pylint **/*.py --load-plugins pylint_django
+        - coverage run --source='.' manage.py test
+        - coverage xml
+    
+    - language: node_js
+      node_js: '16'
+      addons:
+        sonarcloud:
+          organization: "swsnu"
+          token:
+            secure: "Cl/GBbM3Y5gCfgFlcu44n9pm4ZhYSZTqDSPjoJMzSdc2kTvXKGYiKvQO7ndOuTBtXsMAXaq7VfSin06Y4n6N/6rvYzyr9Y/0t6ZFSMFZuIDnBGCtvvTipfZg2lPv/P6EJI5lXf3EXc3AplIm66Pad9wPfHCZ6bm6FvWZ4xMZVXinPCURU260Cgw5NyzAJQB7z2PWV5+pNFPRjJJUj2jCrnLA7JWOlC/UKwYwbQ3xj4tdOKzuCYxAhfyJr8QA+KyWDz9INtV4tOF8lWgptLoyTHncwsepI7AeLMEGmCXc0pEYc0uctUSY0Jk0dmRXwXqeVHILL+tautKCkVYDG8XZI9fD42YEv+u/YeKxMlmFXAOjVSZ4BzWGg5vj6QghoGYDKShifnhkV5Wco0VLxSgvPG0irOMvZg8Fj78u0ERszZIHKCmM12XdhTaZaeQln3cXt05w89wPlCRs+fnOdYerhf8F1PkADryiDkt3WklpzCp1iNN+noAYiNAQsAel/rDI2U29JHTNjXRB2J8HlniYa3tP16qgPTy8N/oY9Ga3mMbpUu4vDTTy9BQ4/JZNYTzIY1v0VjX0UgzCwpXrBSTeUfL9lFVYoGMG40yJX1zR3Ao4YYO+d4SiGU8WEwgRVqptIPflTy6zobFH2sBfmcDckyZXEQeAuIIxpH7U67VKtNQ="
+      install:
+        - cd frontend
+        - cd vesta
+        - yarn install
+      script:
+        - ./node_modules/.bin/eslint src
+        - yarn test --coverage --watchAll=false
+        - coverage xml
+        - cd .. && sonar-scanner
  
