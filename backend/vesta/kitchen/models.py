@@ -10,6 +10,7 @@ class Menu(models.Model):
     carbs = IntegerField()
     protein = IntegerField()
     fat = IntegerField()
+    image = models.ImageField(upload_to = 'images', blank = True)
 
 class Recipe(models.Model):
     menu = ForeignKey(Menu, on_delete = models.CASCADE, related_name = 'menu_of_recipe')

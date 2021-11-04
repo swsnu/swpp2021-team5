@@ -232,7 +232,7 @@ def menuName(request, menu_name):
         ## return corresponding menu
         matchingMenu = Menu.objects.get(name = menu_name)
         response_dict = {'id' : matchingMenu.id, 'name' : menu_name, 'calories' : matchingMenu.calories, 
-                        'protein' : matchingMenu.protein, 'fat' : matchingMenu.fat}
+                        'protein' : matchingMenu.protein, 'fat' : matchingMenu.fat, 'image' : matchingMenu.image.url}
         return JsonResponse(response_dict)
 
     else:
