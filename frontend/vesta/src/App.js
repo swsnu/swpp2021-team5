@@ -1,34 +1,33 @@
 import logo from './logo.svg';
 import './App.css';
 import React from 'react';
+import { Route, Redirect, Switch } from 'react-router-dom';
 import  { Button } from 'semantic-ui-react';
+import { ConnectedRouter } from 'connected-react-router';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-          
-        </a>
-        <p/>
-        <Button
-            color='red'
-            content='Like'
-            icon='heart'
-            label={{ basic: true, color: 'red', pointing: 'left', content: '2,048' }}
-          />
-      </header>
-    </div>
+    <ConnectedRouter history={props.history}>
+      <div className="App">
+        <div class="ui main text container">
+          <div class="ui placeholder">
+            <i class="id card icon"></i>
+            <Button class="ui button">main</Button>
+            <Button class="ui button">logout</Button>
+            </div>
+        </div>
+        <Switch>
+          <Route path='/login' exact render={() => (<div class="ui placeholder segment">
+            <p></p>
+            <div class="ui active dimmer">
+              <div class="ui text loader">Loading</div>
+            </div>
+            <p></p>
+          </div>)} />
+          <Redirect exact from='/' to='/login' />
+        </Switch>
+      </div>
+    </ConnectedRouter>
   );
 }
 
