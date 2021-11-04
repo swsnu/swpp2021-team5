@@ -6,7 +6,7 @@ from .models import Menu, Recipe, Record
 import datetime
 
 # Create your views here.
-@csrf_protect
+@ensure_csrf_cookie
 def record(request):
     if request.method == 'GET':
         ## If user is not signed in, respond with 401
@@ -45,7 +45,7 @@ def record(request):
         return HttpResponseNotAllowed(['GET', 'POST'])
 
 
-@csrf_protect
+@ensure_csrf_cookie
 def recordID(request, record_id):
     if request.method == 'GET':
         ## If user is not signed in, respond with 401
@@ -67,7 +67,7 @@ def recordID(request, record_id):
         return HttpResponseNotAllowed(['GET'])
 
 
-@csrf_protect
+@ensure_csrf_cookie
 def recordUserID(request, user_id):
     if request.method == 'GET':
         ## If user is not signed in, respond with 401
@@ -88,7 +88,7 @@ def recordUserID(request, user_id):
         return HttpResponseNotAllowed(['GET'])
 
 
-@csrf_protect
+@ensure_csrf_cookie
 def review(request, record_id):
     if request.method == 'GET':
         ## If user is not signed in, respond with 401
@@ -177,7 +177,7 @@ def review(request, record_id):
         return HttpResponse(json.dumps(response_dict), status = 200)
 
 
-@csrf_protect
+@ensure_csrf_cookie
 def recipeMenuName(request, menu_name):
     if request.method == 'GET':
         ## If user is not signed in, respond with 401
@@ -202,7 +202,7 @@ def recipeMenuName(request, menu_name):
     else:
         return HttpResponseNotAllowed(['GET'])
 
-@csrf_protect
+@ensure_csrf_cookie
 def menu(request):
     if request.method == 'GET':
         ## If user is not signed in, respond with 401
@@ -216,7 +216,7 @@ def menu(request):
     else:
         return HttpResponseNotAllowed(['GET'])
 
-@csrf_protect
+@ensure_csrf_cookie
 def menuName(request, menu_name):
     if request.method == 'GET':
         ## If user is not signed in, respond with 401
