@@ -5,7 +5,7 @@ import { Route, Redirect, Switch } from 'react-router-dom';
 import  { Button } from 'semantic-ui-react';
 import { ConnectedRouter } from 'connected-react-router';
 
-function App() {
+function App(props) {
   return (
     <ConnectedRouter history={props.history}>
       <div className="App">

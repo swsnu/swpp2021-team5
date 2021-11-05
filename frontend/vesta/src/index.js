@@ -5,12 +5,13 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
 import 'semantic-ui-css/semantic.min.css'
-import store from './store/store';
 import store, { history } from './store/store';
 
 
 ReactDOM.render(
-  <Provider store={store}><App history={history}/></Provider>,
+  <Provider store={store}>
+    <App history={history}/>
+  </Provider>,
   document.getElementById('root')
 );
 
