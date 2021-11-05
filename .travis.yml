@@ -8,13 +8,17 @@ jobs:
         - cd backend
         - cd vesta
         - pip install -r requirements.txt
+        - pip install coveralls
+        - gem install coveralls-lcov
       script:
         - pylint **/*.py --load-plugins pylint_django
         - coverage run --source='.' manage.py test
         - coverage xml
+        - sonar-scanner
+        - coveralls --merge=../../frontend/vesta/coverage.json
     
     - language: node_js
-      node_js: '16'
+      node_js: '14'
       addons:
         sonarcloud:
           organization: "swsnu"
@@ -24,9 +28,12 @@ jobs:
         - cd frontend
         - cd vesta
         - yarn install
+        - yarn global add coveralls 
+        - gem install coveralls-lcov
       script:
         - ./node_modules/.bin/eslint src
         - yarn test --coverage --watchAll=false
+        - coveralls-lcov -v -n coverage/lcov.info > coverage.json
         - coverage xml
         - cd .. && sonar-scanner
  
