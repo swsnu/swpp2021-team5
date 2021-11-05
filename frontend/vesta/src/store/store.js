@@ -1,4 +1,6 @@
-import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
+import {
+  createStore, combineReducers, applyMiddleware, compose,
+} from 'redux';
 import thunk from 'redux-thunk';
 import { connectRouter, routerMiddleware } from 'connected-react-router';
 import { createBrowserHistory } from 'history';
@@ -7,18 +9,17 @@ import recordReducer from './reducers/record';
 import menuReducer from './reducers/menu';
 import recipeReducer from './reducers/recipe';
 
-
 export const history = createBrowserHistory();
 
 const rootReducer = combineReducers({
-    user: userReducer,
-    record: recordReducer,
-    menu: menuReducer,
-    recipe: recipeReducer,
-    router: connectRouter(history),
+  user: userReducer,
+  record: recordReducer,
+  menu: menuReducer,
+  recipe: recipeReducer,
+  router: connectRouter(history),
 });
 
-export const middleWares = [thunk, routerMiddleware(history)]
+export const middleWares = [thunk, routerMiddleware(history)];
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(rootReducer, composeEnhancers(applyMiddleware(...middleWares)));
