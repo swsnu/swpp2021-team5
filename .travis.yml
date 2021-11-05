@@ -35,5 +35,6 @@ jobs:
         - yarn test --coverage --watchAll=false
         - coveralls-lcov -v -n coverage/lcov.info > coverage.json
         - coverage xml
+        - cd ..
         - cd .. && sonar-scanner
  
