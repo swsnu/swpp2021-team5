@@ -1,22 +1,42 @@
 import React from 'react';
 import {
-  Image, Container, Header, Divider,
+  Image, Container, Divider,
 } from 'semantic-ui-react';
+import styled from 'styled-components';
+
+const MenuNameHeader = styled.div`
+background-color:#B3D962;
+font-size:44px;
+font-weight:600;
+color:#F28095;
+font-family:sans-serif;
+`;
 
 const Nutrient = (props) => (
   <Container text>
-    <Header as="h2">{props.menu_name}</Header>
+    <MenuNameHeader>{props.menu_name}</MenuNameHeader>
     <Divider />
     <Image
       src="/sushi_example_image.jpeg"
-      as="a"
       alt="menu"
-      size="medium"
+      size="large"
     />
-    <p>{props.calories}</p>
-    <p>{props.carbs}</p>
-    <p>{props.protein}</p>
-    <p>{props.fat}</p>
+    <p>
+      Calories:
+      {props.calories}
+    </p>
+    <p>
+      Carbohydrate:
+      {props.carbs}
+    </p>
+    <p>
+      Protein:
+      {props.protein}
+    </p>
+    <p>
+      Fat:
+      {props.fat}
+    </p>
   </Container>
 );
 

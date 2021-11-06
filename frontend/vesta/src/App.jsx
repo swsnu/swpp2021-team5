@@ -4,11 +4,13 @@ import { Route, Redirect, Switch } from 'react-router-dom';
 import { Button } from 'semantic-ui-react';
 import { ConnectedRouter } from 'connected-react-router';
 import NutritionalInfoAndRecipe from './pages/Nutritional_Info_and_Recipe/NutritionalInfoAndRecipe';
+import GlobalFonts from './styles/fonts/fonts';
 
 function App(props) {
   const { history } = props;
   return (
     <ConnectedRouter history={history}>
+      <GlobalFonts />
       <div className="App">
         <div className="ui main text container">
           <div className="ui placeholder">
