@@ -5,14 +5,15 @@ import { Button } from 'semantic-ui-react';
 import { ConnectedRouter } from 'connected-react-router';
 
 function App(props) {
+  const { history } = props;
   return (
-    <ConnectedRouter history={props.history}>
+    <ConnectedRouter history={history}>
       <div className="App">
         <div className="ui main text container">
           <div className="ui placeholder">
             <i className="id card icon" />
-            <Button class="ui button">main</Button>
-            <Button class="ui button">logout</Button>
+            <Button className="ui button">main</Button>    
+            <Button className="ui button">logout</Button>
           </div>
         </div>
         <Switch>
