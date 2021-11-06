@@ -22,5 +22,6 @@ module.exports = {
   ],
   rules: {
     'react/prop-types': ['off'],
+    'import/no-extraneous-dependencies': ['error', {'devDependencies': true}],
   },
 };
