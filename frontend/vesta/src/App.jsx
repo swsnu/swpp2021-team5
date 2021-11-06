@@ -3,6 +3,7 @@ import React from 'react';
 import { Route, Redirect, Switch } from 'react-router-dom';
 import { Button } from 'semantic-ui-react';
 import { ConnectedRouter } from 'connected-react-router';
+import NutritionalInfoAndRecipe from './pages/Nutritional_Info_and_Recipe/NutritionalInfoAndRecipe';
 
 function App(props) {
   const { history } = props;
@@ -12,7 +13,7 @@ function App(props) {
         <div className="ui main text container">
           <div className="ui placeholder">
             <i className="id card icon" />
-            <Button className="ui button">main</Button>    
+            <Button className="ui button">main</Button>
             <Button className="ui button">logout</Button>
           </div>
         </div>
@@ -29,6 +30,11 @@ function App(props) {
                 <p />
               </div>
             )}
+          />
+          <Route
+            path="/recommendation"
+            exact
+            render={() => <NutritionalInfoAndRecipe />}
           />
           <Redirect exact from="/" to="/login" />
         </Switch>
