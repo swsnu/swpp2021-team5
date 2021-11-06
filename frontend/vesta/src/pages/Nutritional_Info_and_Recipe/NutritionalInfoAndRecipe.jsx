@@ -11,7 +11,7 @@ class NutritionalInfoAndRecipe extends Component {
 
   render() {
     console.log('here');
-    let menuName = '';
+    let menuName = 'Sushi';
     let calories = 0;
     let carbs = 0;
     let protein = 0;
