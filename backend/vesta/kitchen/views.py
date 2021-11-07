@@ -15,7 +15,6 @@ def user(request):
     ### Skip now, because the purpose of this reqeust is ambiguous ###    
     return HttpResponse('Empty response, temporarily')
 
-@csrf_exempt
 def signup(request):
     if request.method == 'POST':
         req_data = json.loads(request.body.decode())
@@ -26,7 +25,6 @@ def signup(request):
     else:
         return HttpResponseNotAllowed(['POST'])
 
-@csrf_exempt
 def signin(request):
     if request.method == 'POST':
         req_data = json.loads(request.body.decode())
@@ -41,7 +39,6 @@ def signin(request):
     else:
         return HttpResponseNotAllowed(['POST'])
 
-@csrf_exempt
 def signout(request):
     if request.method == 'GET':
         if request.user.is_authenticated:
@@ -66,7 +63,6 @@ def resign(request):
     else:
         return HttpResponseNotAllowed(['DELETE'])
 
-@csrf_exempt
 def profile(request):
     if request.method == 'GET':
         if request.user.is_authenticated:
@@ -140,7 +136,6 @@ def profile(request):
     else:
         return HttpResponseNotAllowed(['GET', 'PUT'])
 
-@csrf_exempt
 def nutrition(request):
     if request.method == 'GET':
         if request.user.is_authenticated:
