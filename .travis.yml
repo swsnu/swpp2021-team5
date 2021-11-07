@@ -1,14 +1,34 @@
-node_js:
-    - '10'
- addons:
- sonarcloud:
-organization: "swsnu"
-  
-token:
-secure: "Cl/GBbM3Y5gCfgFlcu44n9pm4ZhYSZTqDSPjoJMzSdc2kTvXKGYiKvQO7ndOuTBtXsMAXaq7VfSin06Y4n6N/6rvYzyr9Y/0t6ZFSMFZuIDnBGCtvvTipfZg2lPv/P6EJI5lXf3EXc3AplIm66Pad9wPfHCZ6bm6FvWZ4xMZVXinPCURU260Cgw5NyzAJQB7z2PWV5+pNFPRjJJUj2jCrnLA7JWOlC/UKwYwbQ3xj4tdOKzuCYxAhfyJr8QA+KyWDz9INtV4tOF8lWgptLoyTHncwsepI7AeLMEGmCXc0pEYc0uctUSY0Jk0dmRXwXqeVHILL+tautKCkVYDG8XZI9fD42YEv+u/YeKxMlmFXAOjVSZ4BzWGg5vj6QghoGYDKShifnhkV5Wco0VLxSgvPG0irOMvZg8Fj78u0ERszZIHKCmM12XdhTaZaeQln3cXt05w89wPlCRs+fnOdYerhf8F1PkADryiDkt3WklpzCp1iNN+noAYiNAQsAel/rDI2U29JHTNjXRB2J8HlniYa3tP16qgPTy8N/oY9Ga3mMbpUu4vDTTy9BQ4/JZNYTzIY1v0VjX0UgzCwpXrBSTeUfL9lFVYoGMG40yJX1zR3Ao4YYO+d4SiGU8WEwgRVqptIPflTy6zobFH2sBfmcDckyZXEQeAuIIxpH7U67VKtNQ="
-  before_install:
-#...
-script:
-- coverage xml
-- cd .. && sonar-scanner
+# CI Environment
+dist: bionic
+
+# Job Configurations
+jobs:
+  include:
+    - language: node_js
+      node_js: 14
+      python: "3.7.9"
+      addons:
+        sonarcloud:
+          organization: "swsnu"
+          token:
+            secure: "l4NqIHCHMkpfOMIf7BSEsl85R4AB/GV/cKK/6EYauw0yzK5CYk24pNdSLLKqXrD5RYRM0JbWg6lf/IDvsnhgDHNN4obmT9SPqsw2CU10KfMQBwK9AQTL3cc+sNha5ohJy7cCZUfnph11qB0R33FfALeaNZoIIvT7mQy5Kxoxea3qmU0OFcP5qsZrbHQoCy+fghxL4elktEz77ru1NwnRo5GVgYHK+7QOud0irTJaSA6Zdo2YiC9kInwyRAUypS3KCYWqUn/mXqwq8aLkBscS+2Ss+jHC8vnVxjiBBL/Jk42dc+UoLk3gBdHGid53pFIewt6lGkDJngXSkruzPqAgUmLEsYDBWgY1IscxUBPEYpe4ABw0ZeEIsZec47OV5gsrc3J/oHM1w8X0BUhjGkEmnOZAwACO3ba2GJkyWA7N2j6z9FfLcg3KD/GzHkC2Hzsj/7+3J9UqcA9koI+CJ0M+ouUeKREwlfP+fQIwk+zjDXJk5MuHS3WUebMTHgAznlwKeRkoBN8oakzD18Ab7BK+K/946Z+DDZkX6fAyghYb9/Gr5gCgSPc0iTH6vQER04tD/pGip1jyh9z1IUXAoz7RgxuhqIJnH+6A0Q8ATh9tSuI0ZECWl7xunIkd4QzeRbn8rzkFr1w9XINPHVpupv1ZW9wXReoJwwRN5VHtD2mJJ6s="
+      install:
+        - source ~/virtualenv/python3.7/bin/activate
+        - cd backend/vesta
+        - pip install -r requirements.txt
+        - pip install coveralls
+        - cd ../../frontend/vesta
+        - yarn install
+        - yarn global add coveralls
+        - gem install coveralls-lcov
+      script:
+        - ./node_modules/.bin/eslint src
+        - yarn test --coverage --watchAll=false
+        - coveralls-lcov -v -n coverage/lcov.info > coverage.json
+        - cd ../../backend/vesta
+        - pylint **/*.py --load-plugins pylint_django
+        - coverage run --source='.' manage.py test
+        - coverage xml
+        - cd ../.. && sonar-scanner
+        - coveralls --merge=frontend/vesta/coverage.json
  
