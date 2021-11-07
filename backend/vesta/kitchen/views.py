@@ -6,7 +6,7 @@ import json
 from django.contrib.auth import authenticate, login, logout
 from django.views.decorators.http import require_http_methods
 
-from .models import Profile, UserNutrition #,Preference 
+from .models import Profile, UserNutrition ,Preference 
 import datetime
 
 # Create your views here.
@@ -73,19 +73,18 @@ def profile(request):
             except (User.DoesNotExist):      # Profile.DoesNotExist?
                 return HttpResponse(status=404)
 
+            #food_preference_list = []
+            #for item in user.preference_list:
+            #    food_preference_list.append(str(item.menu.name))
             
-            """
-            food_preference_list = []
-            for item in user.preference_list:
-                food_preference_list.append(str(item.menu.name))
-            """
+            food_preference_list = [row for row in Preference.objects.filter().values()]
             response_dict = {
                 'username': user.username,
                 'age': user.profile.age,
                 'sex': user.profile.sex,
                 'height': user.profile.height,
                 'weight': user.profile.weight,
-                #'food-preference' : food_preference_list
+                'food-preference' : json.dumps(food_preference_list)
             }
             return JsonResponse(response_dict, status=200, safe=False)
         else:
