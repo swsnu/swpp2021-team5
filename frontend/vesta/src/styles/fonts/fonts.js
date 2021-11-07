@@ -1,12 +1,12 @@
 import { createGlobalStyle } from 'styled-components';
-import twostick from './twostick.woff';
+// import twostick from './twostick.woff';
 // import noovo from './Noovo ITC Std Light.woff2';
+import verveine from './Verveine-W01-Regular.woff';
 
-export default createGlobalStyle`
+const FontStyle = createGlobalStyle`
 @font-face {
-    font-family: 'twostick';
-    src: local('twostick');
-    url(${twostick}) format('woff');
-    font-weight: 300;
-    font-style: normal;
+    font-family: 'verveine';
+    src: url(${verveine}) format('woff');
 `;
+
+export default FontStyle;
