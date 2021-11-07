@@ -4,10 +4,9 @@ from django.http.response import JsonResponse
 from django.views.decorators.csrf import ensure_csrf_cookie
 import json
 from django.contrib.auth import authenticate, login, logout
-from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 
-from .models import Profile, Preference, UserNutrition
+from .models import Profile, Preference, UserNutrition, Menu
 import datetime
 
 # Create your views here.
@@ -18,11 +17,17 @@ def signup(request):
         req_data = json.loads(request.body.decode())
         username = req_data['username']
         password = req_data['password']
-        User.objects.create_user(username=username, password=password)
+        user = User.objects.create_user(username=username, password=password)
+
+        # Model 'Profile' should be created simultaneously #
+        profile = Profile(user=user)
+        profile.save()
+
         return HttpResponse(status=201)
     else:
         return HttpResponseNotAllowed(['POST'])
 
+@require_http_methods(["POST"])
 def signin(request):
     if request.method == 'POST':
         req_data = json.loads(request.body.decode())
@@ -47,7 +52,6 @@ def signout(request):
     else:
         return HttpResponseNotAllowed(['GET'])
 
-@csrf_exempt
 def resign(request):
     if request.method == 'DELETE':
         print(request.user)
