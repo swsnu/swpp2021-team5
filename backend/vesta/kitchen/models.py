@@ -9,15 +9,27 @@ class Profile(models.Model):
     User,
     on_delete=models.CASCADE
   )
-  age = models.IntegerField()
-  sex = models.CharField(max_length=1) # 'M' for Male, 'F' for Female
-  height = models.IntegerField()
-  weight = models.IntegerField()
+  age = models.IntegerField(default=None)
+  sex = models.CharField(max_length=1, default=None) # 'M' for Male, 'F' for Female
+  height = models.IntegerField(default=None)
+  weight = models.IntegerField(default=None)
 
 
 #### 'Preference' Model is Seperated from 'Profile'
 #### Because field type 'list' does not exist
-#### and it has two foreign key: User, Menu
+
+
+class Menu(models.Model):
+    name = models.CharField(max_length = 32)
+    calories = models.IntegerField()
+    carbs = models.IntegerField()
+    protein = models.IntegerField()
+    fat = models.IntegerField()
+    image = models.ImageField(upload_to = 'images', blank = True)
+
+
+#### model 'Preference' consists of two foreign key field ####
+####                  : User, Menu                        ####
 
 class Preference(models.Model): 
   user = models.ForeignKey(
@@ -26,13 +38,10 @@ class Preference(models.Model):
     related_name='preference_list'
   )
 
-  """ 
-  !!!! It should be processed as comments for 'migrate' temporarily !!!!
   menu = models.ForeignKey(
     Menu,
     on_delete=models.CASCADE  # is it also should be delete
   )                           # when the related menu has been deleted?
-  """
 #### it must be better to rename this Model
 #### EX) DateNutrition, Nutrition
 
@@ -46,3 +55,5 @@ class UserNutrition(models.Model):
   carbs = models.IntegerField()
   protein = models.IntegerField()
   fat = models.IntegerField()
+
+
