@@ -24,15 +24,17 @@ class NutritionalInfoAndRecipe extends Component {
       fat = this.props.selectedMenu.fat;
     }
     return (
-      <Background>
-        <Nutrient
-          menu_name={menuName}
-          calories={calories}
-          carbs={carbs}
-          protein={protein}
-          fat={fat}
-        />
-      </Background>
+      <div className="NutritionalInfoAndRecipe">
+        <Background>
+          <Nutrient
+            menu_name={menuName}
+            calories={calories}
+            carbs={carbs}
+            protein={protein}
+            fat={fat}
+          />
+        </Background>
+      </div>
     );
   }
 }
