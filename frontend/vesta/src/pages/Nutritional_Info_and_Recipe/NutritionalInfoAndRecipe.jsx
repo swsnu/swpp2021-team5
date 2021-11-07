@@ -4,6 +4,7 @@ import { withRouter } from 'react-router';
 import Nutrient from '../../component/Nutrient/Nutrient';
 import * as actionCreators from '../../store/actions/index';
 import Background from '../../styles/Nutritional_Info_and_Recipe/Background';
+import Recipe from '../../component/Recipe/Recipe';
 
 class NutritionalInfoAndRecipe extends Component {
   componentDidMount() {
@@ -16,12 +17,14 @@ class NutritionalInfoAndRecipe extends Component {
     let carbs = 0;
     let protein = 0;
     let fat = 0;
+    let recipe = 'Ways to make good sushi';
     if (this.props.selectedMenu) {
       menuName = this.props.selectedMenu.name;
       calories = this.props.selectedMenu.calories;
       carbs = this.props.selectedMenu.carbs;
       protein = this.props.selectedMenu.protein;
       fat = this.props.selectedMenu.fat;
+      recipe = this.props.selectedMenu.recipe;
     }
     return (
       <div className="NutritionalInfoAndRecipe">
@@ -32,6 +35,9 @@ class NutritionalInfoAndRecipe extends Component {
             carbs={carbs}
             protein={protein}
             fat={fat}
+          />
+          <Recipe
+            recipe={recipe}
           />
         </Background>
       </div>
