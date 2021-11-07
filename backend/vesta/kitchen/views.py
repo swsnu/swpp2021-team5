@@ -6,10 +6,16 @@ import json
 from django.contrib.auth import authenticate, login, logout
 from django.views.decorators.http import require_http_methods
 
-from .models import Profile, UserNutrition ,Preference 
+from .models import Profile, UserNutrition, Preference, Menu 
 import datetime
 
 # Create your views here.
+@ensure_csrf_cookie
+def token(request):
+    if request.method == 'GET':
+        return HttpResponse(status=204)
+    else:
+        return HttpResponseNotAllowed(['GET'])
 
 @require_http_methods(["POST"])
 def signup(request):
@@ -73,18 +79,17 @@ def profile(request):
             except (User.DoesNotExist):      # Profile.DoesNotExist?
                 return HttpResponse(status=404)
 
-            #food_preference_list = []
-            #for item in user.preference_list:
-            #    food_preference_list.append(str(item.menu.name))
-            
-            food_preference_list = [row for row in Preference.objects.filter().values()]
+            food_preference_list = []
+            for item in Preference.objects.filter(user_id=request.user.id):
+                food_preference_list.append(str(item.menu.name))
+
             response_dict = {
                 'username': user.username,
                 'age': user.profile.age,
                 'sex': user.profile.sex,
                 'height': user.profile.height,
                 'weight': user.profile.weight,
-                'food-preference' : json.dumps(food_preference_list)
+                'preference' : food_preference_list
             }
             return JsonResponse(response_dict, status=200, safe=False)
         else:
@@ -93,10 +98,10 @@ def profile(request):
         if request.user.is_authenticated:
             try:
                 user = User.objects.get(id=request.user.id)
-            except (User.DoesNotExist):           # Profile.DoesNotExist?
+            except (User.DoesNotExist):           # may be equals to Profile.DoesNotExist
                 return HttpResponse(status=404)
 
-            # !! should add checking Forbidden(403) !!
+            # Should I add checking Forbidden(403) ??
 
             req_data = json.loads(request.body.decode())
             new_username = req_data['username']
@@ -104,7 +109,7 @@ def profile(request):
             new_sex = req_data['sex']
             new_height = int(req_data['height'])
             new_weight = int(req_data['weight'])
-            #new_food_preference_list = req_data['food-preference']
+            new_food_preference_list = req_data['preference']
             
             user.username = new_username
             user.profile.age = new_age
@@ -113,23 +118,24 @@ def profile(request):
             user.profile.weight = new_weight
             user.save()
             user.profile.save()
-            """
+            
+            # lines below should be refactored so that pk of row could be keep
             Preference.objects.filter(user_id=request.user.id).delete()
             for food in new_food_preference_list:
                 new_menu = Menu.objects.get(name=food)
-                new_preference_item = Preference(user=reqeust.user, menu=new_menu)
+                new_preference_item = Preference(user=request.user, menu=new_menu)
                 new_preference_item.save()
             food_preference_list_response = []
-            for item in user.preference_list:
+            for item in Preference.objects.filter(user_id=request.user.id):
                 food_preference_list_response.append(str(item.menu.name))
-            """
+            
             response_dict = {
                 'username': user.username,
                 'age': user.profile.age,
                 'sex': user.profile.sex,
                 'height': user.profile.height,
                 'weight': user.profile.weight,
-               # 'food-preference' : food_preference_list_response
+                'preference' : food_preference_list_response
             }
             return JsonResponse(response_dict, status=200)   
         else:
