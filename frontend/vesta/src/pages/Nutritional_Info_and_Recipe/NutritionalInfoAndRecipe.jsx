@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import Nutrient from '../../component/Nutrient';
 import * as actionCreators from '../../store/actions/index';
+import Background from '../../styles/Nutritional_Info_and_Recipe/Background';
 
 class NutritionalInfoAndRecipe extends Component {
   componentDidMount() {
@@ -10,7 +11,6 @@ class NutritionalInfoAndRecipe extends Component {
   }
 
   render() {
-    console.log('here');
     let menuName = 'Sushi';
     let calories = 0;
     let carbs = 0;
@@ -24,7 +24,7 @@ class NutritionalInfoAndRecipe extends Component {
       fat = this.props.selectedMenu.fat;
     }
     return (
-      <div className="NutritionalInfoAndRecipe">
+      <Background>
         <Nutrient
           menu_name={menuName}
           calories={calories}
@@ -32,7 +32,7 @@ class NutritionalInfoAndRecipe extends Component {
           protein={protein}
           fat={fat}
         />
-      </div>
+      </Background>
     );
   }
 }
