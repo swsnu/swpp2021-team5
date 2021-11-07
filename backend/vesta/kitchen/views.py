@@ -1,13 +1,12 @@
+import json, datetime
 from django.http import HttpResponse, HttpResponseNotAllowed
 from django.contrib.auth.models import User
 from django.http.response import JsonResponse
 from django.views.decorators.csrf import ensure_csrf_cookie
-import json
 from django.contrib.auth import authenticate, login, logout
 from django.views.decorators.http import require_http_methods
 
-from .models import Profile, UserNutrition, Preference, Menu 
-import datetime
+from .models import Profile, UserNutrition, Preference, Menu
 
 # Create your views here.
 @ensure_csrf_cookie
@@ -76,7 +75,7 @@ def profile(request):
         if request.user.is_authenticated:
             try:
                 user = User.objects.get(id=request.user.id)
-            except (User.DoesNotExist):      # Profile.DoesNotExist?
+            except User.DoesNotExist:      # Profile.DoesNotExist?
                 return HttpResponse(status=404)
 
             food_preference_list = []
@@ -98,7 +97,7 @@ def profile(request):
         if request.user.is_authenticated:
             try:
                 user = User.objects.get(id=request.user.id)
-            except (User.DoesNotExist):           # may be equals to Profile.DoesNotExist
+            except User.DoesNotExist:           # may be equals to Profile.DoesNotExist
                 return HttpResponse(status=404)
 
             # Should I add checking Forbidden(403) ??
@@ -137,7 +136,7 @@ def profile(request):
                 'weight': user.profile.weight,
                 'preference' : food_preference_list_response
             }
-            return JsonResponse(response_dict, status=200)   
+            return JsonResponse(response_dict, status=200)
         else:
             return HttpResponse(status=401)
     else:
@@ -152,7 +151,7 @@ def nutrition(request):
             today = datetime.date(int(date_list[0]), int(date_list[1]), int(date_list[2]))
             try:
                 today_nutrition = UserNutrition.objects.get(user_id=request.user.id, date=today)
-            except (UserNutrition.DoesNotExist):      # User.DoesNotExist?
+            except UserNutrition.DoesNotExist:      # User.DoesNotExist?
                 return HttpResponse(status=404)
             response_dict = {
                 'user_id': today_nutrition.user_id,
@@ -174,7 +173,7 @@ def nutrition(request):
             carbs = int(req_data['carbs'])
             protein = int(req_data['protein'])
             fat = int(req_data['fat'])
-    
+
             new_record = UserNutrition(user=request.user, date=today, calories=calories, carbs=carbs, protein=protein, fat=fat)
             new_record.save()
 
@@ -197,7 +196,7 @@ def nutrition(request):
             today = datetime.date(int(date_list[0]), int(date_list[1]), int(date_list[2]))
             try:
                 today_nutrition = UserNutrition.objects.get(user_id=request.user.id, date=today)
-            except (UserNutrition.DoesNotExist):    # User.DoesNotExist?
+            except UserNutrition.DoesNotExist:    # User.DoesNotExist?
                 return HttpResponse(status=404)
 
             # should add checking Forbidden(403)

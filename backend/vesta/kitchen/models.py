@@ -25,7 +25,7 @@ class Menu(models.Model):
 
 #### model 'Preference' consists of two foreign key field ####
 ####                  : User, Menu                        ####
-class Preference(models.Model): 
+class Preference(models.Model):
   user = models.ForeignKey(
     User,
     on_delete=models.CASCADE,
@@ -49,5 +49,3 @@ class UserNutrition(models.Model):
   carbs = models.IntegerField()
   protein = models.IntegerField()
   fat = models.IntegerField()
-
-
