@@ -5,16 +5,14 @@ from django.views.decorators.csrf import ensure_csrf_cookie
 import json
 from django.contrib.auth import authenticate, login, logout
 from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_http_methods
 
 from .models import Profile, Preference, UserNutrition
 import datetime
 
 # Create your views here.
 
-def user(request):
-    ### Skip now, because the purpose of this reqeust is ambiguous ###    
-    return HttpResponse('Empty response, temporarily')
-
+@require_http_methods(["POST"])
 def signup(request):
     if request.method == 'POST':
         req_data = json.loads(request.body.decode())
