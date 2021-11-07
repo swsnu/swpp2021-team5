@@ -6,16 +6,17 @@ import styled from 'styled-components';
 
 const MenuNameHeader = styled.div`
 background-color:#B3D962;
-font-size:44px;
-font-weight:600;
+font-size:65px;
 color:#F28095;
-font-family:"Helvetica";
+font-family:'verveine';
 border-radius: 10px;
 `;
 
 const TextArea = styled.div`
-background-color:#F2CE1B;
+background-color:#F2BB16;
 border-radius: 10%;
+font-family:'verveine';
+font-size:30px;
 `;
 
 const Nutrient = (props) => (
