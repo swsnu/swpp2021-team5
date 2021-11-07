@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import Nutrient from '../../component/Nutrient';
+import Nutrient from '../../component/Nutrient/Nutrient';
 import * as actionCreators from '../../store/actions/index';
 import Background from '../../styles/Nutritional_Info_and_Recipe/Background';
 
