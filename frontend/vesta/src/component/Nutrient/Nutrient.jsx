@@ -16,38 +16,46 @@ const TextArea = styled.div`
 background-color:#F2BB16;
 border-radius: 10%;
 font-family:'verveine';
-font-size:30px;
+font-size:25px;
 `;
 
 const Nutrient = (props) => (
-  <Container text>
+  <Container text className="Nutrient">
     <MenuNameHeader>{props.menu_name}</MenuNameHeader>
     <Divider />
     <Grid>
-      <Grid.Column width={12}>
+      <Grid.Column width={9}>
         <Image
           src="/sushi_example_image.jpeg"
           alt="menu"
           size="large"
         />
       </Grid.Column>
-      <Grid.Column width={4}>
+      <Grid.Column width={7}>
         <TextArea>
           <p>
-            Calories:
+            Calories:&nbsp;
             {props.calories}
+            &nbsp;
+            kCal
           </p>
           <p>
-            Carbohydrate:
+            Carbohydrate:&nbsp;
             {props.carbs}
+            &nbsp;
+            g
           </p>
           <p>
-            Protein:
+            Protein:&nbsp;
             {props.protein}
+            &nbsp;
+            g
           </p>
           <p>
-            Fat:
+            Fat:&nbsp;
             {props.fat}
+            &nbsp;
+            g
           </p>
         </TextArea>
       </Grid.Column>

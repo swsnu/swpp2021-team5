@@ -61,7 +61,9 @@
     "collectCoverageFrom": [
       "src/**/*.{js,jsx}",
       "!src/index.jsx",
-      "!src/reportWebVitals.js"
+      "!src/reportWebVitals.js",
+      "!src/styles/fonts/fonts.js",
+      "!src/store/actions/index.js"
     ]
   }
 }
