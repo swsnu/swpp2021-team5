@@ -54,7 +54,7 @@ def record(request):
     return HttpResponseNotAllowed(["GET", "POST"])
 
 @require_GET
-def record_ID(request, record_id):
+def record_id_func(request, record_id):
     if request.method == 'GET':
         ## If user is not signed in, respond with 401
         if not request.user.is_authenticated:
@@ -98,19 +98,10 @@ def record_user_id(request, user_id):
 
 
 def review(request, review_record_id):
-    if request.method == "GET":
-        ## If user is not signed in, respond with 401
-        if not request.user.is_authenticated:
-            return HttpResponse(status = 401)
+    ## if request method is not GET, POST, PUT, or DELETE, respond with 405
+    if request.method not in ['GET', 'POST', 'PUT', 'DELETE']:
+        return HttpResponseNotAllowed(['GET', 'POST', 'PUT', 'DELETE'])
 
-        ## If record of record_id does not exist, respond with 404
-        if not Record.objects.filter(id = review_record_id).exists():
-            return HttpResponse(status = 404)
-
-        matching_review = Record.objects.get(id = review_record_id).review
-        return JsonResponse({'review' : matching_review})
-
-    
     ## If user is not signed in, respond with 401
     if not request.user.is_authenticated:
         return HttpResponse(status = 401)
@@ -119,9 +110,13 @@ def review(request, review_record_id):
     if not Record.objects.filter(id = review_record_id).exists():
         return HttpResponse(status = 404)
 
-    ## If post request is not from the user of the record, respond with 403
+    ## If request is not from the user of the record, respond with 403
     if Record.objects.get(id = review_record_id).user_id.id != request.user.id:
         return HttpResponse(status = 403)
+
+    if request.method == "GET":
+        matching_review = Record.objects.get(id = review_record_id).review
+        return JsonResponse({'review' : matching_review})
 
     if request.method == "POST":
         ## create review in selected record
