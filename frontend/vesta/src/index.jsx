@@ -6,9 +6,13 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import 'semantic-ui-css/semantic.min.css';
 import store, { history } from './store/store';
+import FontStyle from './styles/fonts/fonts';
 
 ReactDOM.render(
-  <Provider store={store}><App history={history} /></Provider>,
+  <Provider store={store}>
+    <FontStyle />
+    <App history={history} />
+  </Provider>,
   document.getElementById('root'),
 );
 
