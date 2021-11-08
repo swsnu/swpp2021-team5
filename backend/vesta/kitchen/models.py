@@ -7,12 +7,13 @@ from django.db.models.fields.related import ForeignKey
 class Profile(models.Model):
     user = models.OneToOneField(
         User,
+        null=True,
         on_delete=models.CASCADE
     )
-    age = models.IntegerField(default=None)
-    sex = models.CharField(max_length=1, default=None) # 'M' for Male, 'F' for Female
-    height = models.IntegerField(default=None)
-    weight = models.IntegerField(default=None)
+    age = models.IntegerField(null=True)
+    sex = models.CharField(max_length=1, null=True) # 'M' for Male, 'F' for Female
+    height = models.IntegerField(null=True)
+    weight = models.IntegerField(null=True)
 
 class Menu(models.Model):
     name = models.CharField(max_length = 32)
@@ -33,6 +34,7 @@ class Preference(models.Model):
     )
     menu = models.ForeignKey(
         Menu,
+        null=True,
         on_delete=models.CASCADE  # is it also should be delete
     )                           # when the related menu has been deleted?
 
