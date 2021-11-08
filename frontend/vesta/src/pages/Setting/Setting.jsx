@@ -11,7 +11,7 @@ class Setting extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      user_id: null,
+      userID: null,
       username: null,
       age: null,
       sex: null,
@@ -22,24 +22,28 @@ class Setting extends Component {
   }
 
   onChangedUserAgeInput = (e) => {
-    this.setState({ ...this.state, age: e.target.value });
+    const thisState = this.state;
+    this.setState({ ...thisState, age: e.target.value });
   }
 
   onChangedUserSexInput = (e) => {
-    this.setState({ ...this.state, sex: e.target.value });
+    const thisState = this.state;
+    this.setState({ ...thisState, sex: e.target.value });
   }
 
   onChangedUserHeightInput = (e) => {
-    this.setState({ ...this.state, height: e.target.value });
+    const thisState = this.state;
+    this.setState({ ...thisState, height: e.target.value });
   }
 
   onChangedUserWeightInput = (e) => {
-    this.setState({ ...this.state, weight: e.target.value });
+    const thisState = this.state;
+    this.setState({ ...thisState, weight: e.target.value });
   }
 
   onClickedSaveButton = () => {
     this.props.onSave(
-      this.state.user_id,
+      this.state.userID,
       this.state.username,
       this.state.age,
       this.state.sex,
@@ -120,7 +124,7 @@ class Setting extends Component {
                 </Table.Cell>
               </Table.Row>
               <Table.Row>
-                <Table.HeaderCell>Foods you don't eat</Table.HeaderCell>
+                <Table.HeaderCell>Foods you don&apos;t eat</Table.HeaderCell>
                 <Table.Cell />
                 <Table.Cell>
                   <Input placeholder="Add.." />
@@ -154,8 +158,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onSave: (user_id, username, age, sex, height, weight, preference) => dispatch(actionCreators.saveUserSetting({
-    user_id, username, age, sex, height, weight, preference,
+  onSave: (userID, username, age, sex, height, weight, preference) => dispatch(actionCreators.saveUserSetting({
+    userID, username, age, sex, height, weight, preference,
   })),
 });
 
