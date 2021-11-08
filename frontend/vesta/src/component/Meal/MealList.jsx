@@ -9,14 +9,16 @@ background-color:#B3D962;
 border-radius: 10px;
 width: 1060px;
 height: 80px;
-padding: 1.5%
+margin:0 auto;
 `;
 
 const RecommendationHeader = styled.div`
 font-family:'verveine';
 font-size:65px;
 color:#F28095;
-position:relative;
+text-align: center;
+vertical-align: middle;
+line-height: 80px;
 `;
 
 const MealList = (props) => (
