@@ -1,1 +1,1 @@
-export { getMenu } from './Menu/menu';
+export { getMenu, getRecommendedMenus } from './Menu/menu';
