@@ -29,8 +29,8 @@ def signup(request):
         user = User.objects.create_user(username=username, password=password)
 
         # Model 'Profile' should be created simultaneously #
-        profile = Profile(user=user)
-        profile.save()
+        new_profile = Profile(user=user)
+        new_profile.save()
 
         return HttpResponse(status=201)
     else:
@@ -111,22 +111,16 @@ def profile(request):
             # Should I add checking Forbidden(403) ??
 
             req_data = json.loads(request.body.decode())
-            new_username = req_data['username']
-            new_age = int(req_data['age'])
-            new_sex = req_data['sex']
-            new_height = int(req_data['height'])
-            new_weight = int(req_data['weight'])
-            new_food_preference_list = req_data['preference']
-
-            user.username = new_username
-            user.profile.age = new_age
-            user.profile.sex = new_sex
-            user.profile.height = new_height
-            user.profile.weight = new_weight
+            user.username = req_data['username']
+            user.profile.age = int(req_data['age'])
+            user.profile.sex = req_data['sex']
+            user.profile.height = int(req_data['height'])
+            user.profile.weight = int(req_data['weight'])
             user.save()
             user.profile.save()
 
             # lines below should be refactored so that pk of row could be keep
+            new_food_preference_list = req_data['preference']
             Preference.objects.filter(user_id=request.user.id).delete()
             for food in new_food_preference_list:
                 new_menu = Menu.objects.get(name=food)
