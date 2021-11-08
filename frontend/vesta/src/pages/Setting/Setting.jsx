@@ -21,6 +21,11 @@ class Setting extends Component {
     };
   }
 
+  componentDidMount() {
+    const currentUserID = this.props.currUser.userID;
+    this.props.onGetUserSetting(currentUserID);
+  }
+
   onChangedUserAgeInput = (e) => {
     const thisState = this.state;
     this.setState({ ...thisState, age: e.target.value });
@@ -42,7 +47,7 @@ class Setting extends Component {
   }
 
   onClickedSaveButton = () => {
-    this.props.onSave(
+    this.props.onSaveUserSetting(
       this.state.userID,
       this.state.username,
       this.state.age,
@@ -158,9 +163,18 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onSave: (userID, username, age, sex, height, weight, preference) => dispatch(actionCreators.saveUserSetting({
+  onSaveUserSetting: (
+    userID,
+    username,
+    age,
+    sex,
+    height,
+    weight,
+    preference,
+  ) => dispatch(actionCreators.saveUserSetting({
     userID, username, age, sex, height, weight, preference,
   })),
+  onGetUserSetting: (userID) => dispatch(actionCreators.getUserSetting(userID)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Setting);

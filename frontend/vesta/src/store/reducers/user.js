@@ -3,7 +3,7 @@ import * as actionTypes from '../actions/actionType';
 const initialState = {
   user: null,
   currentUser: {
-    user_id: null,
+    userID: null,
     username: null,
     age: null,
     sex: null,

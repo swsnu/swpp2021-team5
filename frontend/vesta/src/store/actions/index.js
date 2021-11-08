@@ -1,2 +1,2 @@
 export { getMenu } from './Menu/menu';
-export { saveUserSetting } from './User/user';
+export { saveUserSetting, getUserSetting } from './User/user';

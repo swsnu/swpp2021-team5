@@ -1,9 +1,15 @@
 import axios from 'axios';
 import * as actionTypes from '../actionType';
 
+/*                <<Backend API>>                  */
+/*            URL:  /api/user/profile/   */
+/*            json body: like below                */
+/*                                                 */
+/*                                                 */
+
 export const saveUserSetting_ = (user) => ({
   type: actionTypes.SAVE_USER_SETTING,
-  user_id: user.user_id,
+  userID: user.userID,
   username: user.username,
   age: user.age,
   sex: user.sex,
@@ -12,12 +18,7 @@ export const saveUserSetting_ = (user) => ({
   preference: user.preference,
 });
 
-/*                <<Backend API>>                  */
-/*            URL:  /api/user/:user_id/profile/   */
-/*            json body: like below                */
-/*                                                 */
-/*                                                 */
-export const saveUserSetting = (user) => (dispatch) => axios.put(`/api/user/${user.user_id}/profile/`,
+export const saveUserSetting = (user) => (dispatch) => axios.put('/api/user/profile/',
   {
     username: user.username,
     age: user.age,
@@ -28,4 +29,12 @@ export const saveUserSetting = (user) => (dispatch) => axios.put(`/api/user/${us
   })
   .then((res) => {
     dispatch(saveUserSetting_(user));
+  });
+
+// json format of this request ?? //
+export const getUserSetting = (userID) => (dispatch) => axios.get('/api/user/profile/')
+  .then((res) => {
+    dispatch(saveUserSetting_(
+      res.data,
+    ));
   });
