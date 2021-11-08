@@ -10,7 +10,7 @@ class Menu(models.Model):
     carbs = IntegerField()
     protein = IntegerField()
     fat = IntegerField()
-    image = models.ImageField(upload_to = 'images', blank = True)
+    image = models.ImageField(upload_to = 'menu_images', blank = True)
 
 class Recipe(models.Model):
     menu = ForeignKey(Menu, on_delete = models.CASCADE, related_name = 'menu_of_recipe')
@@ -23,3 +23,4 @@ class Record(models.Model):
     review = TextField()
     liked = BooleanField()
     date = DateField()
+    image = models.ImageField(upload_to = 'record_images', blank = True)
