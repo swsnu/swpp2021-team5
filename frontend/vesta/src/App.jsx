@@ -5,6 +5,8 @@ import { ConnectedRouter } from 'connected-react-router';
 import NutritionalInfoAndRecipe from './pages/Nutritional_Info_and_Recipe/NutritionalInfoAndRecipe';
 import Header from './component/Header/Header';
 
+import Setting from './pages/Setting/Setting';
+
 function App(props) {
   const { history } = props;
   return (
@@ -31,6 +33,11 @@ function App(props) {
             render={() => <NutritionalInfoAndRecipe />}
           />
           <Redirect exact from="/" to="/login" />
+          <Route
+            path="/setting"
+            exact
+            render={() => <Setting />}
+          />
         </Switch>
       </div>
     </ConnectedRouter>
