@@ -1,5 +1,6 @@
 import json
 import datetime
+from django.db.models.fields import NullBooleanField
 from django.http import HttpResponse, HttpResponseNotAllowed
 from django.contrib.auth.models import User
 from django.http.response import JsonResponse
@@ -52,7 +53,7 @@ def signin(request):
     else:
         return HttpResponseNotAllowed(['POST'])
 
-
+@require_http_methods(["GET"])
 def signout(request):
     if request.method == 'GET':
         if request.user.is_authenticated:
@@ -63,7 +64,7 @@ def signout(request):
     else:
         return HttpResponseNotAllowed(['GET'])
 
-
+@require_http_methods(["DELETE"])
 def resign(request):
     if request.method == 'DELETE':
         print(request.user)
@@ -90,12 +91,13 @@ def profile(request):
             for item in Preference.objects.filter(user_id=request.user.id):
                 food_preference_list.append(str(item.menu.name))
 
+            user_profile = user.profile
             response_dict = {
-                'username': user.username,
-                'age': user.profile.age,
-                'sex': user.profile.sex,
-                'height': user.profile.height,
-                'weight': user.profile.weight,
+                'username': user_profile.username,
+                'age': user_profile.profile.age,
+                'sex': user_profile.profile.sex,
+                'height': user_profile.profile.height,
+                'weight': user_profile.profile.weight,
                 'preference': food_preference_list
             }
             return JsonResponse(response_dict, status=200, safe=False)
@@ -110,17 +112,24 @@ def profile(request):
 
             # Should I add checking Forbidden(403) ??
 
+            user_profile = user.profile
             req_data = json.loads(request.body.decode())
             user.username = req_data['username']
-            user.profile.age = int(req_data['age'])
-            user.profile.sex = req_data['sex']
-            user.profile.height = int(req_data['height'])
-            user.profile.weight = int(req_data['weight'])
+            user_profile.age = int(req_data['age'])
+            user_profile.sex = req_data['sex']
+            user_profile.height = int(req_data['height'])
+            user_profile.weight = int(req_data['weight'])
             user.save()
-            user.profile.save()
+            user_profile.save()
 
             # lines below should be refactored so that pk of row could be keep
             new_food_preference_list = req_data['preference']
+            for food in new_food_preference_list:
+                try:
+                    Menu.objects.get(name=food)
+                except Menu.DoesNotExist:
+                    return HttpResponse(status=404)
+
             Preference.objects.filter(user_id=request.user.id).delete()
             for food in new_food_preference_list:
                 new_menu = Menu.objects.get(name=food)
@@ -133,10 +142,10 @@ def profile(request):
 
             response_dict = {
                 'username': user.username,
-                'age': user.profile.age,
-                'sex': user.profile.sex,
-                'height': user.profile.height,
-                'weight': user.profile.weight,
+                'age': user_profile.age,
+                'sex': user_profile.sex,
+                'height': user_profile.height,
+                'weight': user_profile.weight,
                 'preference': food_preference_list_response
             }
             return JsonResponse(response_dict, status=200)
