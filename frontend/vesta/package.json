@@ -65,5 +65,6 @@
       "!src/styles/fonts/fonts.js",
       "!src/store/actions/index.js"
     ]
-  }
+  },
+  "proxy": "http://localhost:8000"
 }
