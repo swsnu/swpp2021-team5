@@ -6,5 +6,5 @@ export const getMenu_ = (menu) => ({
   selectedMenu: menu,
 });
 
-export const getMenu = () => (dispatch) => axios.get('/api/menu/<str:menu_name>/')
+export const getMenu = (menuName) => (dispatch) => axios.get(`/api/menu/${menuName}/`)
   .then((res) => dispatch(getMenu_(res.data)));
