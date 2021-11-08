@@ -6,6 +6,7 @@ import NutritionalInfoAndRecipe from './pages/Nutritional_Info_and_Recipe/Nutrit
 import Header from './component/Header/Header';
 
 import Setting from './pages/Setting/Setting';
+import Statistics from './pages/Statistics/Statistics';
 
 function App(props) {
   const { history } = props;
@@ -37,6 +38,11 @@ function App(props) {
             path="/setting"
             exact
             render={() => <Setting />}
+          />
+          <Route
+            path="/statistics"
+            exact
+            render={() => <Statistics />}
           />
         </Switch>
       </div>
