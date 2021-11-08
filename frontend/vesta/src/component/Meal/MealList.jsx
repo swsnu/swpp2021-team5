@@ -7,7 +7,7 @@ import Meal from './Meal';
 const Box = styled.div`
 background-color:#B3D962;
 border-radius: 10px;
-width: 1060px;
+width: 950px;
 height: 80px;
 margin:0 auto;
 `;
@@ -22,30 +22,27 @@ line-height: 80px;
 `;
 
 const MealList = (props) => (
-  <div className="MealList">
-    <Box className="MenuRecommendation">
-      <RecommendationHeader>{props.title}</RecommendationHeader>
-    </Box>
+  <Box className="MenuRecommendation">
+    <RecommendationHeader>{props.title}</RecommendationHeader>
     <Divider />
     <Grid>
-      <Grid.Column width={3}>
+      <Grid.Column width={5}>
         <Meal
           time="breakfast"
         />
       </Grid.Column>
-      <Grid.Column width={3}>
+      <Grid.Column width={5}>
         <Meal
           time="lunch"
         />
       </Grid.Column>
-      <Grid.Column width={3}>
+      <Grid.Column width={5}>
         <Meal
           time="dinner"
         />
       </Grid.Column>
     </Grid>
-    {/* </Box> */}
-  </div>
+  </Box>
 );
 
 export default MealList;
