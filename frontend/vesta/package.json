@@ -19,6 +19,7 @@
     "redux-thunk": "^2.4.0",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^2.0.4",
+    "styled-components": "^5.3.3",
     "web-vitals": "^1.0.1"
   },
   "scripts": {
@@ -60,7 +61,10 @@
     "collectCoverageFrom": [
       "src/**/*.{js,jsx}",
       "!src/index.jsx",
-      "!src/reportWebVitals.js"
+      "!src/reportWebVitals.js",
+      "!src/styles/fonts/fonts.js",
+      "!src/store/actions/index.js"
     ]
-  }
+  },
+  "proxy": "http://localhost:8000"
 }
