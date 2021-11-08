@@ -25,6 +25,9 @@ module.exports = {
     'import/no-extraneous-dependencies': ['error', {'devDependencies': true}],
     "import/prefer-default-export": "off",
     "no-underscore-dangle": "off",
-    "react/destructuring-assignment": ['off']
+    "react/destructuring-assignment": ['off'],
+    "no-unused-vars": "off",
+    'max-len': ["error", { "code": 120 }]
   },
+  "parser": "babel-eslint"
 };
