@@ -2,6 +2,7 @@ import './App.css';
 import React from 'react';
 import { Route, Redirect, Switch } from 'react-router-dom';
 import { ConnectedRouter } from 'connected-react-router';
+import MenuRecommendation from './pages/Menu_Recommendation/MenuRecommendation';
 import NutritionalInfoAndRecipe from './pages/Nutritional_Info_and_Recipe/NutritionalInfoAndRecipe';
 import Header from './component/Header/Header';
 
@@ -27,6 +28,11 @@ function App(props) {
           />
           <Route
             path="/recommendation"
+            exact
+            render={() => <MenuRecommendation />}
+          />
+          <Route
+            path="/recommendation/detail"
             exact
             render={() => <NutritionalInfoAndRecipe />}
           />

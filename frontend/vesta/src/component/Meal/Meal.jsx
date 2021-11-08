@@ -3,18 +3,21 @@ import { Image } from 'semantic-ui-react';
 import styled from 'styled-components';
 
 const Breakfast = styled.div`
-background-color:#BDD9A0;
+background-color:#77ACF2;
 border-radius: 10px;
+padding:4.5%;
 `;
 
 const Lunch = styled.div`
 background-color:#D95407;
 border-radius: 10px;
+padding:4.5%;
 `;
 
 const Dinner = styled.div`
 background-color:#BF7960;
 border-radius: 10px;
+padding:4.5%;
 `;
 
 const MealName = styled.div`
