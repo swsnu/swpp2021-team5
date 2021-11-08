@@ -25,8 +25,8 @@ def record(request):
 
         ## decode request
         req_data = json.loads(request.body.decode())
-        menu_id = req_data['menu_id']
-        recipe_id = req_data['recipe_id']
+        menu_id = int(req_data['menu_id'])
+        recipe_id = int(req_data['recipe_id'])
         review_text = req_data['review']
         liked = req_data['liked'] == "True"
         ## req_data['date'] comes in YYYY-MM-DD form, transform the string into datetime object
@@ -34,21 +34,23 @@ def record(request):
         date = datetime.date(int(date_list[0]), int(date_list[1]), int(date_list[2]))
 
         new_record = Record(user = request.user,
-                        menu = Menu.objects.get(id = menu_id),
-                        recipe = Recipe.objects.get(id = recipe_id),
-                        review = review_text,
-                        liked = liked,
-                        date = date)
+                                menu = Menu.objects.get(id = menu_id),
+                                recipe = Recipe.objects.get(id = recipe_id),
+                                review = review_text,
+                                liked = liked,
+                                date = date,
+                                image = req_data['image'])
         new_record.save()
 
         ## respond with created record detail
         response_dict = {'id' : new_record.id,
-                        'user' : new_record.user,
-                        'menu' : new_record.menu,
-                        'recipe' : new_record.recipe,
-                        'review' : new_record.review,
-                        'liked' : new_record.liked,
-                        'date' : new_record.date}
+                            'user' : new_record.user,
+                            'menu' : new_record.menu,
+                            'recipe' : new_record.recipe,
+                            'review' : new_record.review,
+                            'liked' : new_record.liked,
+                            'date' : new_record.date,
+                            'image' : new_record.image}
         return JsonResponse(response_dict)
 
     return HttpResponseNotAllowed(["GET", "POST"])
@@ -72,7 +74,8 @@ def record_id_func(request, record_id):
                         'recipe_id' : matching_record.recipe.id,
                         'review' : matching_record.review,
                         'liked' : matching_record.liked,
-                        'date' : matching_record.date}
+                        'date' : matching_record.date,
+                        'image' : matching_record.image.url}
         return JsonResponse(response_dict)
 
     return HttpResponseNotAllowed(['GET'])
@@ -111,7 +114,7 @@ def review(request, review_record_id):
         return HttpResponse(status = 404)
 
     ## If request is not from the user of the record, respond with 403
-    if Record.objects.get(id = review_record_id).user_id.id != request.user.id:
+    if Record.objects.get(id = review_record_id).user.id != request.user.id:
         return HttpResponse(status = 403)
 
     if request.method == "GET":
@@ -167,8 +170,6 @@ def review(request, review_record_id):
                         'liked' : record_to_delete_review.liked,
                         'date' : record_to_delete_review.date}
         return JsonResponse(response_dict)
-
-    return HttpResponseNotAllowed(['GET', 'POST', 'PUT', 'DELETE'])
 
 
 @require_GET
