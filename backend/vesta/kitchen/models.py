@@ -7,7 +7,7 @@ from django.db.models.fields.related import ForeignKey
 class Profile(models.Model):
     user = models.OneToOneField(
         User,
-        null=True,
+        null=True,                      # should be revised to => 'null=False'
         on_delete=models.CASCADE
     )
     age = models.IntegerField(null=True)
@@ -34,9 +34,9 @@ class Preference(models.Model):
     )
     menu = models.ForeignKey(
         Menu,
-        null=True,
-        on_delete=models.CASCADE  # is it also should be delete
-    )                           # when the related menu has been deleted?
+        null=True,                  # should be revised to => 'null=False'
+        on_delete=models.CASCADE    # is it also should be delete
+    )                               # when the related menu has been deleted?
 
 
 #### it must be better to rename this Model
