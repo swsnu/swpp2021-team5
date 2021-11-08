@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 // import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import { Button } from 'semantic-ui-react';
+// import { Button } from 'semantic-ui-react';
 import MealList from '../../component/Meal/MealList';
 import Background from '../../styles/Nutritional_Info_and_Recipe/Background';
 import * as actionCreators from '../../store/actions/index';
@@ -28,7 +28,7 @@ class MenuRecommendation extends Component {
           <MealList
             title="Today's Recommendation"
           />
-          <Button className="main-button">Back</Button>
+          {/* <Button className="main-button">Back</Button> */}
         </Background>
       </div>
     );
