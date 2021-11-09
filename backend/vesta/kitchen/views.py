@@ -1,6 +1,5 @@
 import json
 import datetime
-from django.db.models.fields import NullBooleanField
 from django.http import HttpResponse, HttpResponseNotAllowed
 from django.contrib.auth.models import User
 from django.http.response import JsonResponse
