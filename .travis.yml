@@ -17,6 +17,7 @@ jobs:
         - cd backend/vesta
         - pip install -r requirements.txt
         - pip install coveralls
+        - pip install pillow
         - cd ../../frontend/vesta
         - yarn install
         - yarn global add coveralls
