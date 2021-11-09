@@ -73,7 +73,7 @@ class KitchenTestClass(TestCase):
         ## correct response test
         response = client2.get('/api/record/1/')
         self.assertEqual(response.status_code, 200)
-        self.assertEqual('', response.content.decode())
+        self.assertEqual('{"id": 1, "user_id": 1, "menu_id": 1, "recipe_id": 1, "review": "review1", "liked": true, "date": "2021-11-01", "image": "/record_images/brownie.jpeg"}', response.content.decode())
 
     def test_review(self):
         user = User.objects.create(username='testuser')
