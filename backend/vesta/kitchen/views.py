@@ -7,7 +7,6 @@ from django.views.decorators.http import require_GET, require_http_methods
 from .models import Menu, Recipe, Record
 
 # Create your views here.
-@require_http_methods(["GET", "POST"])
 def record(request):
     if request.method == "GET":
         ## If user is not signed in, respond with 401
@@ -20,8 +19,8 @@ def record(request):
 
     if request.method == "POST":
         ## If user is not signed in, respond with 401
-        if not request.user.is_authenticated:
-            return HttpResponse(status = 401)
+        #if not request.user.is_authenticated:
+         #   return HttpResponse(status = 401)
 
         ## decode request
         req_data = json.loads(request.body.decode())
@@ -44,59 +43,56 @@ def record(request):
 
         ## respond with created record detail
         response_dict = {'id' : new_record.id,
-                            'user' : new_record.user,
-                            'menu' : new_record.menu,
-                            'recipe' : new_record.recipe,
+                            'user_id' : new_record.user.id,
+                            'menu_id' : new_record.menu.id,
+                            'recipe_id' : new_record.recipe.id,
                             'review' : new_record.review,
                             'liked' : new_record.liked,
                             'date' : new_record.date,
-                            'image' : new_record.image}
+                            'image' : new_record.image.url}
         return JsonResponse(response_dict)
 
     return HttpResponseNotAllowed(["GET", "POST"])
 
+
 @require_GET
 def record_id_func(request, record_id):
-    if request.method == 'GET':
-        ## If user is not signed in, respond with 401
-        if not request.user.is_authenticated:
-            return HttpResponse(status = 401)
+    ## If user is not signed in, respond with 401
+    if not request.user.is_authenticated:
+        return HttpResponse(status = 401)
         
-        ## If record of record_id does not exist, respond with 404
-        if not Record.objects.filter(id = record_id).exists():
-            return HttpResponse(status = 404)
+    ## If record of record_id does not exist, respond with 404
+    if not Record.objects.filter(id = record_id).exists():
+        return HttpResponse(status = 404)
 
-        ## return record of record_id
-        matching_record = Record.objects.get(id = record_id)
-        response_dict = {'id' : record_id,
-                        'user_id' : matching_record.user.id,
-                        'menu_id' : matching_record.menu.id,
-                        'recipe_id' : matching_record.recipe.id,
-                        'review' : matching_record.review,
-                        'liked' : matching_record.liked,
-                        'date' : matching_record.date,
-                        'image' : matching_record.image.url}
-        return JsonResponse(response_dict)
+    ## return record of record_id
+    matching_record = Record.objects.get(id = record_id)
+    response_dict = {'id' : record_id,
+                    'user_id' : matching_record.user.id,
+                    'menu_id' : matching_record.menu.id,
+                    'recipe_id' : matching_record.recipe.id,
+                    'review' : matching_record.review,
+                    'liked' : matching_record.liked,
+                    'date' : matching_record.date,
+                    'image' : matching_record.image.url}
+    return JsonResponse(response_dict)
 
-    return HttpResponseNotAllowed(['GET'])
 
 @require_GET
 def record_user_id(request, user_id):
-    if request.method == 'GET':
-        ## If user is not signed in, respond with 401
-        if not request.user.is_authenticated:
-            return HttpResponse(status = 401)
+    ## If user is not signed in, respond with 401
+    if not request.user.is_authenticated:
+        return HttpResponse(status = 401)
 
-        ## Get all records whose user id is user_id
-        all_record_list = [record for record in Record.objects.all().values() if record["user_id"] == user_id]
+    ## Get all records whose user id is user_id
+    all_record_list = [record for record in Record.objects.all().values() if record["user_id"] == user_id]
 
-        ## If there are no such records, respond with 404
-        if len(all_record_list) == 0:
-            return HttpResponse(status = 404)
-        ## else, return records
-        return JsonResponse(all_record_list, safe = False)
+    ## If there are no such records, respond with 404
+    if len(all_record_list) == 0:
+        return HttpResponse(status = 404)
+    ## else, return records
+    return JsonResponse(all_record_list, safe = False)
 
-    return HttpResponseNotAllowed(['GET'])
 
 
 
@@ -174,65 +170,58 @@ def review(request, review_record_id):
 
 @require_GET
 def recipe_menu_name(request, menu_name_recipe):
-    if request.method == 'GET':
-        ## If user is not signed in, respond with 401
-        if not request.user.is_authenticated:
-            return HttpResponse(status = 401)
+    ## If user is not signed in, respond with 401
+    if not request.user.is_authenticated:
+        return HttpResponse(status = 401)
 
-        ## If there are no menus with menu_name_recipe, respond with 404
-        if not Menu.objects.filter(name = menu_name_recipe).exists():
-            return HttpResponse(status = 404)
+    ## If there are no menus with menu_name_recipe, respond with 404
+    if not Menu.objects.filter(name = menu_name_recipe).exists():
+        return HttpResponse(status = 404)
 
-        ## find the menu id and the recipe object corresponding to the menu_name_recipe
-        matching_menu_id = Menu.objects.get(name = menu_name_recipe).id
-        matching_recipe = [recipe for recipe in Recipe.objects.all().values() if recipe["menu_id"] == matching_menu_id]
+    ## find the menu id and the recipe object corresponding to the menu_name_recipe
+    matching_menu_id = Menu.objects.get(name = menu_name_recipe).id
+    matching_recipe = [recipe for recipe in Recipe.objects.all().values() if recipe["menu_id"] == matching_menu_id]
 
-        ## if there are no recipes corresponding to the menu id, respond with 404
-        ## else, return the correct recipe
-        if len(matching_recipe) == 0:
-            return HttpResponse(status = 404)
-        return JsonResponse({'recipe' : matching_recipe[0]["recipe"]})
+    ## if there are no recipes corresponding to the menu id, respond with 404
+    ## else, return the correct recipe
+    if len(matching_recipe) == 0:
+        return HttpResponse(status = 404)
+    return JsonResponse({'recipe' : matching_recipe[0]["recipe"]})
 
-    return HttpResponseNotAllowed(['GET'])
 
 
 @require_GET
 def menu(request):
-    if request.method == 'GET':
-        ## If user is not signed in, respond with 401
-        if not request.user.is_authenticated:
-            return HttpResponse(status = 401)
+    ## If user is not signed in, respond with 401
+    if not request.user.is_authenticated:
+        return HttpResponse(status = 401)
 
-        ## return all menus
-        all_menu_list = list(Menu.objects.all().values())
-        return JsonResponse(all_menu_list, safe=False)
+    ## return all menus
+    all_menu_list = list(Menu.objects.all().values())
+    return JsonResponse(all_menu_list, safe=False)
 
-    return HttpResponseNotAllowed(['GET'])
 
 
 @require_GET
 def menu_name(request, menuname):
-    if request.method == 'GET':
-        ## If user is not signed in, respond with 401
-        if not request.user.is_authenticated:
-            return HttpResponse(status = 401)
+    ## If user is not signed in, respond with 401
+    if not request.user.is_authenticated:
+        return HttpResponse(status = 401)
         
-        ## If there are no menus with menu_name, respond with 404
-        if not Menu.objects.filter(name = menuname).exists():
-            return HttpResponse(status = 404)
+    ## If there are no menus with menu_name, respond with 404
+    if not Menu.objects.filter(name = menuname).exists():
+        return HttpResponse(status = 404)
 
-        ## return corresponding menu
-        matching_menu = Menu.objects.get(name = menuname)
-        response_dict = {'id' : matching_menu.id, 'name' : menuname, 'calories' : matching_menu.calories,
-                        'protein' : matching_menu.protein, 'fat' : matching_menu.fat, 'image' : matching_menu.image.url}
-        return JsonResponse(response_dict)
+    ## return corresponding menu
+    matching_menu = Menu.objects.get(name = menuname)
+    response_dict = {'id' : matching_menu.id, 'name' : menuname, 'calories' : matching_menu.calories,
+                    'carbs' : matching_menu.carbs, 'protein' : matching_menu.protein,
+                    'fat' : matching_menu.fat, 'image' : matching_menu.image.url}
+    return JsonResponse(response_dict)
 
-    return HttpResponseNotAllowed(['GET'])
 
 
 @ensure_csrf_cookie
 @require_GET
 def token(request):
-    if request.method == 'GET':
-        return HttpResponse(status=204)
-    return HttpResponseNotAllowed(['GET'])
+    return HttpResponse(status=204)
