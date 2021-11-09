@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import {
   Header, Table, Input, Button,
 } from 'semantic-ui-react';
-import { Doughnut } from 'react-chartjs-2';
+import { Bar } from 'react-chartjs-2';
 
 import * as actionCreators from '../../store/actions/index';
 
@@ -18,19 +18,20 @@ class Statistics extends Component {
   render() {
     const data = {
       labels: [
-        'Red',
-        'Blue',
-        'Yellow',
+        'Calorie',
+        'Carbs',
+        'Protein',
+        'Fat',
       ],
       datasets: [{
-        label: 'My First Dataset',
-        data: [300, 50, 100],
+        // label: "Today's My Nutrient Intake",
+        data: [10, 10, 10, 10],
         backgroundColor: [
+          'green',
           'rgb(255, 99, 132)',
           'rgb(54, 162, 235)',
           'rgb(255, 205, 86)',
         ],
-        hoverOffset: 4,
       }],
     };
 
@@ -40,8 +41,8 @@ class Statistics extends Component {
           <Header as="h1">Statistics Page</Header>
         </div>
 
-        <div className="chart">
-          <Doughnut data={data} radius="1%" />
+        <div className="chart" style={{ width: 300, height: 150, margin: 5, }}>
+          <Bar data={data} width={30} height={30} />
         </div>
 
       </div>
