@@ -9,6 +9,8 @@ const menuReducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.GET_MENU:
       return { ...state, selectedMenu: action.selectedMenu };
+    case actionTypes.GET_RECOMMENDED_MENUS:
+      return { ...state, recommendedMenus: action.recommendedMenus };
     default:
       break;
   }
