@@ -1,31 +1,8 @@
 import React, { PureComponent } from 'react';
 import { Image, Button } from 'semantic-ui-react';
-import styled from 'styled-components';
-
-const Breakfast = styled.div`
-background-color:#77ACF2;
-border-radius: 10px;
-padding:4%;
-`;
-
-const Lunch = styled.div`
-background-color:#D95407;
-border-radius: 10px;
-padding:4%;
-`;
-
-const Dinner = styled.div`
-background-color:#BF7960;
-border-radius: 10px;
-padding:4%;
-`;
-
-const MealName = styled.div`
-font-family:'verveine';
-font-size:25px;
-padding-top:10px;
-padding-bottom:10px;
-`;
+import {
+  Breakfast, Lunch, Dinner, MealName,
+} from '../../styles/Menu_Recommendation/Meals';
 
 class Meal extends PureComponent {
   render() {
@@ -36,6 +13,7 @@ class Meal extends PureComponent {
             src="/sushi_example_image.jpeg"
             size="medium"
             alt="meal_one"
+            href="/recommendation/detail"
           />
           <MealName>Breakfast</MealName>
           <Button className="other-meal-breakfast-button">Other</Button>
@@ -48,6 +26,7 @@ class Meal extends PureComponent {
             src="/sushi_example_image.jpeg"
             size="medium"
             alt="meal_one"
+            href="/recommendation/detail"
           />
           <MealName>Lunch</MealName>
           <Button className="other-meal-lunch-button">Other</Button>
@@ -60,6 +39,7 @@ class Meal extends PureComponent {
           src="/sushi_example_image.jpeg"
           size="medium"
           alt="meal_one"
+          href="/recommendation/detail"
         />
         <MealName>Dinner</MealName>
         <Button className="other-meal-dinner-button">Other</Button>
