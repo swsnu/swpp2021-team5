@@ -48,7 +48,7 @@ class KitchenTestClass(TestCase):
         ## NOT GET, POST TEST
         response = client2.put('/api/record/')
         self.assertEqual(response.status_code, 405)
-        
+
 
     ## test api/record/<int:record_id>/
     def test_record_id(self):
