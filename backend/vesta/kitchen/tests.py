@@ -1,11 +1,10 @@
 import datetime
-import json
 from django.test import TestCase, Client
 from django.contrib.auth.models import User
 from .models import Menu, Recipe, Record
 
 # Create your tests here.
-class kitchen_test_class(TestCase):
+class KitchenTestClass(TestCase):
     ## test api/record/
     def test_record(self):
         user = User.objects.create(username='testuser')
