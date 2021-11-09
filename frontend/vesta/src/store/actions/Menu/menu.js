@@ -8,3 +8,11 @@ export const getMenu_ = (menu) => ({
 
 export const getMenu = (menuName) => (dispatch) => axios.get(`/api/menu/${menuName}/`)
   .then((res) => dispatch(getMenu_(res.data)));
+
+export const getRecommendedMenus_ = (menu) => ({
+  type: actionTypes.GET_RECOMMENDED_MENUS,
+  recommendedMenus: menu,
+});
+// TODO
+export const getRecommendedMenus = () => (dispatch) => axios.get('/api/menu/')
+  .then((res) => dispatch(getRecommendedMenus_(res.data)));
