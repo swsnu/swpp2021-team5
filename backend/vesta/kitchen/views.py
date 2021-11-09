@@ -3,7 +3,7 @@ import datetime
 from django.http import HttpResponse, HttpResponseNotAllowed
 from django.http.response import JsonResponse
 from django.views.decorators.csrf import ensure_csrf_cookie
-from django.views.decorators.http import require_GET, require_http_methods
+from django.views.decorators.http import require_GET
 from .models import Menu, Recipe, Record
 
 # Create your views here.
