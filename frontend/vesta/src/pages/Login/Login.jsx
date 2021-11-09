@@ -35,7 +35,7 @@ class Login extends Component {
   render() {
     return (
       <Div className="Login" class="ui one column stackable center aligned page grid">
-        <Form class="ui six wide column form segment">
+        <Form className="ui six wide column form segment">
         <Divider/>
           <Form.Field>
             <input
