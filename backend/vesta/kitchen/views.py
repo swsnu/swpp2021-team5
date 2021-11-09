@@ -19,8 +19,8 @@ def record(request):
 
     if request.method == "POST":
         ## If user is not signed in, respond with 401
-        #if not request.user.is_authenticated:
-         #   return HttpResponse(status = 401)
+        if not request.user.is_authenticated:
+            return HttpResponse(status = 401)
 
         ## decode request
         req_data = json.loads(request.body.decode())
