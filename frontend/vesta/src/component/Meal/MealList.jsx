@@ -1,5 +1,5 @@
 import React from 'react';
-import { Divider, Grid } from 'semantic-ui-react';
+import { Divider, Grid, Button } from 'semantic-ui-react';
 import styled from 'styled-components';
 // import { StyledContainer } from '../../styles/Menu_Recommendation/StyledContainer';
 import Meal from './Meal';
@@ -22,27 +22,32 @@ line-height: 80px;
 `;
 
 const MealList = (props) => (
-  <Box className="MenuRecommendation">
-    <RecommendationHeader>{props.title}</RecommendationHeader>
-    <Divider />
-    <Grid>
-      <Grid.Column width={5}>
-        <Meal
-          time="breakfast"
-        />
-      </Grid.Column>
-      <Grid.Column width={5}>
-        <Meal
-          time="lunch"
-        />
-      </Grid.Column>
-      <Grid.Column width={5}>
-        <Meal
-          time="dinner"
-        />
-      </Grid.Column>
-    </Grid>
-  </Box>
+  <div>
+    <Box className="MenuRecommendation">
+      <RecommendationHeader>{props.title}</RecommendationHeader>
+      <Divider />
+      <Grid>
+        <Grid.Row columns={3}>
+          <Grid.Column>
+            <Meal
+              time="breakfast"
+            />
+          </Grid.Column>
+          <Grid.Column>
+            <Meal
+              time="lunch"
+            />
+          </Grid.Column>
+          <Grid.Column>
+            <Meal
+              time="dinner"
+            />
+          </Grid.Column>
+        </Grid.Row>
+      </Grid>
+      <Button className="main-button">Back</Button>
+    </Box>
+  </div>
 );
 
 export default MealList;
