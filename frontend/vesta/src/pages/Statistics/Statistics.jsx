@@ -37,12 +37,19 @@ class Statistics extends Component {
 
     return (
       <div className="Statistics">
+
         <div className="Header">
           <Header as="h1">Statistics Page</Header>
         </div>
 
-        <div className="chart" style={{ width: 300, height: 150, margin: 5, }}>
+        <div className="chart" style={{ width: 300, height: 150, }}>
           <Bar data={data} width={30} height={30} />
+        </div>
+
+        <div className="day-week-month-button">
+          <Button>Today</Button>
+          <Button>Weekly</Button>
+          <Button>Monthly</Button>
         </div>
 
       </div>
