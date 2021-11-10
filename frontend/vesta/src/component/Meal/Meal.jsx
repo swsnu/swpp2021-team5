@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import { Image, Button } from 'semantic-ui-react';
+import { Image } from 'semantic-ui-react';
 import {
   Breakfast, Lunch, Dinner, MealName,
 } from '../../styles/Menu_Recommendation/Meals';
@@ -70,54 +70,50 @@ class Meal extends Component {
       return (
         <div>
           <Breakfast>
-            <Image
-              src="/sushi_example_image.jpeg"
-              size="medium"
-              alt="meal_one"
-              href="/recommendation/detail"
-            />
+            <a href="/recommendation/detail">
+              <img
+                src="/DummyImages/breakfast5_.jpeg"
+                height={180}
+                width={270}
+                alt="meal_one"
+              />
+            </a>
             <MealName>Breakfast</MealName>
-            {/* <Button className="other-meal-breakfast-button" onClick={() => this.onClickedOtherBreakfast()}>
-              Other
-            </Button> */}
           </Breakfast>
-          {/* {this.state.otherBreakfast ? 'breakfast' : null} */}
         </div>
       );
     } if (this.props.time === 'lunch') {
       return (
         <div>
           <Lunch>
-            <Image
-              src="/sushi_example_image.jpeg"
-              size="medium"
-              alt="meal_one"
-              href="/recommendation/detail"
-            />
+            <a href="/recommendation/detail">
+              <img
+                src="/DummyImages/lunch5_.jpeg"
+                height={180}
+                width={270}
+                alt="meal_one"
+                href="/recommendation/detail"
+              />
+            </a>
             <MealName>Lunch</MealName>
-            {/* <Button className="other-meal-lunch-button" onClick={() => this.onClickedOtherLunch()}>
-              Other
-            </Button> */}
           </Lunch>
-          {/* {this.state.otherLunch ? 'lunch' : null} */}
         </div>
       );
     }
     return (
       <div>
         <Dinner>
-          <Image
-            src="/sushi_example_image.jpeg"
-            size="medium"
-            alt="meal_one"
-            href="/recommendation/detail"
-          />
+          <a href="/recommendation/detail">
+            <img
+              src="/DummyImages/dinner5_.jpeg"
+              height={180}
+              width={270}
+              alt="meal_one"
+              href="/recommendation/detail"
+            />
+          </a>
           <MealName>Dinner</MealName>
-          {/* <Button className="other-meal-dinner-button" onClick={() => this.onClickedOtherDinner()}>
-            Other
-          </Button> */}
         </Dinner>
-        {/* {this.state.otherDinner ? 'dinner' : null} */}
       </div>
     );
   }
