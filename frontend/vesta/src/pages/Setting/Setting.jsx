@@ -59,7 +59,8 @@ class Setting extends Component {
   }
 
   onClickedDeleteAccountButton = () => {
-
+    const currentUserID = this.props.currUser.userID;
+    this.props.onDeleteUserAccount(currentUserID);
   }
 
   render() {
@@ -150,7 +151,7 @@ class Setting extends Component {
 
         <div className="resign">
           <br />
-          <Button floated="right">Delete Account</Button>
+          <Button onClick={() => this.onClickedDeleteAccountButton()} floated="right">Delete Account</Button>
         </div>
 
       </div>
@@ -175,6 +176,7 @@ const mapDispatchToProps = (dispatch) => ({
     userID, username, age, sex, height, weight, preference,
   })),
   onGetUserSetting: (userID) => dispatch(actionCreators.getUserSetting(userID)),
+  onDeleteUserAccount: (userID) => dispatch(actionCreators.deleteUserAccount(userID)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Setting);
