@@ -14,7 +14,7 @@ const Header = () => (
       alt="logo"
       size="medium"
     />
-    <Button className="ui button">main</Button>
+    <Button className="ui button">setting</Button>
     <Button className="ui button">logout</Button>
   </HeaderBackground>
 );

@@ -1,4 +1,7 @@
+/* eslint-disable */
 import axios from 'axios';
+import { push } from 'connected-react-router';
+
 import * as actionTypes from '../actionType';
 
 /*                <<Backend API>>                  */
@@ -38,3 +41,14 @@ export const getUserSetting = (userID) => (dispatch) => axios.get('/api/user/pro
       res.data,
     ));
   });
+
+export const logIn_ = (user) => ({
+  type: actionTypes.LOGIN,
+  currentUser: user,
+});
+
+export const logIn = (info) => (dispatch) => axios.get('/api/signin/', info)
+  .then((res) => {
+    dispatch(logIn_(res.data));
+    dispatch(push('/history'));
+  }).catch(() => dispatch(push('/history')));
