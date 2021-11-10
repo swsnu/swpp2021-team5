@@ -12,9 +12,16 @@ const initialState = {
     },
     {
       id: 2,
-      image: "/sushi_example_image.jpeg",
-      date: "2021/11/09",
+      image: "/chicken_sample_image.jpeg",
+      date: "2021/11/08",
       liked: false,
+      review: null,
+    },
+    {
+      id: 3,
+      image: "/pasta_sample_image.jpeg",
+      date: "2021/11/07",
+      liked: true,
       review: null,
     },
   ],
