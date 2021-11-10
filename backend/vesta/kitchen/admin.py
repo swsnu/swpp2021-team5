@@ -1,7 +1,5 @@
 from django.contrib import admin
-from .models import Menu, Recipe, Record
-
-from .models import Preference, UserNutrition, Profile, Menu
+from .models import Menu, Recipe, Record, Preference, UserNutrition, Profile
 
 # Register your models here.
 
