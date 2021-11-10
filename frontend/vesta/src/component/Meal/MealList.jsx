@@ -68,17 +68,6 @@ class MealList extends Component {
             <Grid.Column>
               <a onClick={() => this.onMealDetail(0, 1)}>
                 <img
-                  src="/DummyImages/breakfast1_.jpeg"
-                  alt="meal_one"
-                  height={160}
-                  width={210}
-                />
-              </a>
-              <OtherMealName>Oatmeal</OtherMealName>
-            </Grid.Column>
-            <Grid.Column>
-              <a onClick={() => this.onMealDetail(0, 2)}>
-                <img
                   src="/DummyImages/breakfast2_.jpeg"
                   alt="meal_one"
                   height={160}
@@ -88,8 +77,8 @@ class MealList extends Component {
               <OtherMealName>Chicken Sandwich</OtherMealName>
             </Grid.Column>
             <Grid.Column>
-              <a onClick={() => this.onMealDetail(0, 3)}>
-                <Image
+              <a onClick={() => this.onMealDetail(0, 2)}>
+                <img
                   src="/DummyImages/breakfast3_.jpeg"
                   alt="meal_one"
                   height={160}
@@ -99,8 +88,8 @@ class MealList extends Component {
               <OtherMealName>Salad</OtherMealName>
             </Grid.Column>
             <Grid.Column>
-              <a onClick={() => this.onMealDetail(0, 4)}>
-                <img
+              <a onClick={() => this.onMealDetail(0, 3)}>
+                <Image
                   src="/DummyImages/breakfast4_.jpeg"
                   alt="meal_one"
                   height={160}
@@ -108,6 +97,17 @@ class MealList extends Component {
                 />
               </a>
               <OtherMealName>Baked Salmon</OtherMealName>
+            </Grid.Column>
+            <Grid.Column>
+              <a onClick={() => this.onMealDetail(0, 4)}>
+                <img
+                  src="/DummyImages/breakfast5_.jpeg"
+                  alt="meal_one"
+                  height={160}
+                  width={210}
+                />
+              </a>
+              <OtherMealName>Tomato Pasta</OtherMealName>
             </Grid.Column>
           </Grid.Row>
         </Grid>
@@ -120,17 +120,6 @@ class MealList extends Component {
             <Grid.Column>
               <a onClick={() => this.onMealDetail(1, 1)}>
                 <img
-                  src="/DummyImages/lunch1_.jpeg"
-                  alt="meal_one"
-                  height={160}
-                  width={210}
-                />
-              </a>
-              <OtherMealName>Chicken Teriyaki</OtherMealName>
-            </Grid.Column>
-            <Grid.Column>
-              <a onClick={() => this.onMealDetail(1, 2)}>
-                <img
                   src="/DummyImages/lunch2_.jpeg"
                   alt="meal_one"
                   height={160}
@@ -140,7 +129,7 @@ class MealList extends Component {
               <OtherMealName>Pasta</OtherMealName>
             </Grid.Column>
             <Grid.Column>
-              <a onClick={() => this.onMealDetail(1, 3)}>
+              <a onClick={() => this.onMealDetail(1, 2)}>
                 <img
                   src="/DummyImages/lunch3_.jpeg"
                   alt="meal_one"
@@ -151,7 +140,7 @@ class MealList extends Component {
               <OtherMealName>Steak</OtherMealName>
             </Grid.Column>
             <Grid.Column>
-              <a onClick={() => this.onMealDetail(1, 4)}>
+              <a onClick={() => this.onMealDetail(1, 3)}>
                 <img
                   src="/DummyImages/lunch4_.jpeg"
                   alt="meal_one"
@@ -160,6 +149,17 @@ class MealList extends Component {
                 />
               </a>
               <OtherMealName>Tomato Spaghetti</OtherMealName>
+            </Grid.Column>
+            <Grid.Column>
+              <a onClick={() => this.onMealDetail(1, 4)}>
+                <img
+                  src="/DummyImages/lunch5_.jpeg"
+                  alt="meal_one"
+                  height={160}
+                  width={210}
+                />
+              </a>
+              <OtherMealName>Vietnamese Pho</OtherMealName>
             </Grid.Column>
           </Grid.Row>
         </Grid>
@@ -172,17 +172,6 @@ class MealList extends Component {
             <Grid.Column>
               <a onClick={() => this.onMealDetail(2, 1)}>
                 <img
-                  src="/DummyImages/dinner1_.jpeg"
-                  height={160}
-                  width={210}
-                  alt="meal_one"
-                />
-              </a>
-              <OtherMealName>Bibimbap</OtherMealName>
-            </Grid.Column>
-            <Grid.Column>
-              <a onClick={() => this.onMealDetail(2, 2)}>
-                <img
                   src="/DummyImages/dinner2_.jpeg"
                   height={160}
                   width={210}
@@ -192,7 +181,7 @@ class MealList extends Component {
               <OtherMealName>Chinese Noodle</OtherMealName>
             </Grid.Column>
             <Grid.Column>
-              <a onClick={() => this.onMealDetail(2, 3)}>
+              <a onClick={() => this.onMealDetail(2, 2)}>
                 <img
                   src="/DummyImages/dinner3_.jpg"
                   height={160}
@@ -203,7 +192,7 @@ class MealList extends Component {
               <OtherMealName>Kimbap</OtherMealName>
             </Grid.Column>
             <Grid.Column>
-              <a onClick={() => this.onMealDetail(2, 4)}>
+              <a onClick={() => this.onMealDetail(2, 3)}>
                 <img
                   src="/DummyImages/dinner4_.jpeg"
                   height={160}
@@ -212,6 +201,17 @@ class MealList extends Component {
                 />
               </a>
               <OtherMealName>Aglio e Olio</OtherMealName>
+            </Grid.Column>
+            <Grid.Column>
+              <a onClick={() => this.onMealDetail(2, 4)}>
+                <img
+                  src="/DummyImages/dinner5_.jpeg"
+                  height={160}
+                  width={210}
+                  alt="meal_one"
+                />
+              </a>
+              <OtherMealName>Vegetable Rice</OtherMealName>
             </Grid.Column>
           </Grid.Row>
         </Grid>

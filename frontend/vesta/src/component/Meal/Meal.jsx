@@ -23,7 +23,7 @@ class Meal extends Component {
           <Breakfast>
             <a onClick={() => this.onMealDetail(0, 0)}>
               <img
-                src="/DummyImages/breakfast5_.jpeg"
+                src="/DummyImages/breakfast1_.jpeg"
                 height={180}
                 width={270}
                 alt="meal_one"
@@ -39,11 +39,10 @@ class Meal extends Component {
           <Lunch>
             <a onClick={() => this.onMealDetail(1, 0)}>
               <img
-                src="/DummyImages/lunch5_.jpeg"
+                src="/DummyImages/lunch1_.jpeg"
                 height={180}
                 width={270}
                 alt="meal_one"
-                href="/recommendation/detail"
               />
             </a>
             <MealName>Lunch</MealName>
@@ -56,11 +55,10 @@ class Meal extends Component {
         <Dinner>
           <a onClick={() => this.onMealDetail(2, 0)}>
             <img
-              src="/DummyImages/dinner5_.jpeg"
+              src="/DummyImages/dinner1_.jpeg"
               height={180}
               width={270}
               alt="meal_one"
-              href="/recommendation/detail"
             />
           </a>
           <MealName>Dinner</MealName>
