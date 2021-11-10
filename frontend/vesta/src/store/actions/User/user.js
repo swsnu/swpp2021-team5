@@ -37,10 +37,16 @@ export const saveUserSetting = (user) => (dispatch) => axios.put('/api/user/prof
 // json format of this request ?? //
 export const getUserSetting = (userID) => (dispatch) => axios.get('/api/user/profile/')
   .then((res) => {
-    dispatch(saveUserSetting_(
-      res.data,
-    ));
+    dispatch(saveUserSetting_({
+      ...res.data,
+      userId: userID,
+    }));
   });
+
+export const deleteUserAccount = (userID) => (dispatch) => axios.delete('/api/user/resign/')
+  .then((res) => {
+    dispatch({ /*logout action */ })
+  })
 
 export const logIn_ = (user) => ({
   type: actionTypes.LOGIN,
