@@ -9,6 +9,7 @@ import styled from 'styled-components';
 // import Background from '../../styles/Nutritional_Info_and_Recipe/Background';
 import * as actionCreators from '../../../store/actions/index'
 import Nutrient from '../../Nutrient/Nutrient';
+import Review from '../Review/Review';
 
 const Div = styled.div`
 background-color:#B3D962;
@@ -78,6 +79,7 @@ class RecordDetail extends Component {
                   fat={fat}
                 />
               </p>
+              <Review />
               <p>
                 <Button id="back-to-recommendations"
                   onClick={() => this.props.history.push('/history')}
