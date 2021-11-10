@@ -65,7 +65,7 @@ class Review extends Component {
             onChange={(event) => this.setState({ review: event.target.value })}/>
         </Form>
         <Button size='mini' onClick={() => this.onClickedEditReview()}>Confirm</Button>
-        <Button>Back</Button>
+        <Button size='mini' onClick={() => this.setState({ editing: false })}>Back</Button>
       </div>
     );
     let reviewIsNull = (
