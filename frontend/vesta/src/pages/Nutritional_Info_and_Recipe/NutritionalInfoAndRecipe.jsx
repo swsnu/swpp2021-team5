@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
+import { Button } from 'semantic-ui-react';
 import Nutrient from '../../component/Nutrient/Nutrient';
 import * as actionCreators from '../../store/actions/index';
 import Background from '../../styles/Nutritional_Info_and_Recipe/Background';
@@ -39,6 +40,7 @@ class NutritionalInfoAndRecipe extends Component {
           <Recipe
             recipe={recipe}
           />
+          <Button className="menu-recommendation-button">Back</Button>
         </Background>
       </div>
     );
