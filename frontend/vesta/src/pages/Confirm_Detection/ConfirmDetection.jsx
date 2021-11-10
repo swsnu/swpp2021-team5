@@ -17,14 +17,14 @@ class ConfirmDetection extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      menuName: 'You Ate : Sushi',
+      menuName: 'Burger',
       review: null,
     };
   }
 
   onClickedEditResultButton = () => {
     const correctName = prompt('Please enter correct meal name');
-    this.setState({ menuName: `You Ate : ${correctName}` });
+    this.setState({ menuName: correctName });
   }
 
   onChangedReviewInput = (event) => {
@@ -33,16 +33,22 @@ class ConfirmDetection extends Component {
   }
 
   render() {
-    const calories = 0;
-    const carbs = 0;
-    const protein = 0;
-    const fat = 0;
+    let calories = 2;
+    let carbs = 2;
+    let protein = 2;
+    let fat = 2;
+    if (this.state.menuName.toLocaleLowerCase() === 'sushi') {
+      calories = 1;
+      carbs = 1;
+      protein = 1;
+      fat = 1;
+    }
     return (
       <div>
         <Container className="Confirm">
           <Background>
             <Nutrient
-              menu_name={this.state.menuName}
+              menu_name={`You Ate : ${this.state.menuName}`}
               calories={calories}
               carbs={carbs}
               protein={protein}
