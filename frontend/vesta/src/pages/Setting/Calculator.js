@@ -1,4 +1,4 @@
-export const recommendCalorie = (age, sex, height, weight) => {
+export const recommendedCalorie = (age, sex, height, weight) => {
     if (sex === 'M') {
         return 66.47 + 13.75*weight + 5*height - 6.76*age
     }
@@ -9,7 +9,7 @@ export const recommendCalorie = (age, sex, height, weight) => {
         return undefined // value of sex is invalid
 }
 
-export const recommendCarbs = (age, sex, height, weight) => {
+export const recommendedCarbs = (age, sex, height, weight) => {
     if (sex === 'M') {
         return 350 // not implemented
     }
@@ -20,7 +20,7 @@ export const recommendCarbs = (age, sex, height, weight) => {
         return undefined // value of sex is invalid
 }
 
-export const recommendProtein = (age, sex, height, weight) => {
+export const recommendedProtein = (age, sex, height, weight) => {
     if (sex === 'M') {
         return 100 // not implemented
     }
@@ -31,7 +31,7 @@ export const recommendProtein = (age, sex, height, weight) => {
         return undefined // value of sex is invalid
 }
 
-export const recommendFat = (age, sex, height, weight) => {
+export const recommendedFat = (age, sex, height, weight) => {
     if (sex === 'M') {
         return 30// not implemented
     }
