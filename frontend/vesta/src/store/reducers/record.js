@@ -8,15 +8,22 @@ const initialState = {
       image: "/sushi_example_image.jpeg",
       date: "2021/11/09",
       liked: true,
+      review: null,
     },
     {
       id: 2,
       image: "/sushi_example_image.jpeg",
       date: "2021/11/09",
       liked: false,
+      review: null,
     },
   ],
-  selectedRecord: null,
+  selectedRecord: {
+    id: 1,
+    date: "2021/11/09",
+    liked: true,
+    review: "My favorite Dish",
+  },
   selectedReview: null,
 };
 const recordReducer = (state = initialState, action) => {
