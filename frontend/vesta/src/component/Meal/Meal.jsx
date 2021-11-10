@@ -1,66 +1,69 @@
+/* eslint-disable */
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 import { Image, Button } from 'semantic-ui-react';
 import {
   Breakfast, Lunch, Dinner, MealName,
 } from '../../styles/Menu_Recommendation/Meals';
 
 class Meal extends Component {
-  constructor() {
-    super();
-    this.state = {
-      otherBreakfast: false,
-      otherLunch: false,
-      otherDinner: false,
-    };
-  }
+  // constructor() {
+  //   super();
+  //   this.state = {
+  //     otherBreakfast: false,
+  //     otherLunch: false,
+  //     otherDinner: false,
+  //   };
+  // }
 
-  onClickedOtherBreakfast = () => {
-    if (this.state.otherBreakfast) {
-      this.setState({
-        otherBreakfast: false,
-        otherLunch: false,
-        otherDinner: false,
-      });
-    } else {
-      this.setState({
-        otherBreakfast: true,
-        otherLunch: false,
-        otherDinner: false,
-      });
-    }
-  };
+  // onClickedOtherBreakfast = () => {
+  //   if (this.state.otherBreakfast) {
+  //     this.setState({
+  //       otherBreakfast: false,
+  //       otherLunch: false,
+  //       otherDinner: false,
+  //     });
+  //   } else {
+  //     this.setState({
+  //       otherBreakfast: true,
+  //       otherLunch: false,
+  //       otherDinner: false,
+  //     });
+  //   }
+  // };
 
-  onClickedOtherLunch = () => {
-    if (this.state.otherLunch) {
-      this.setState({
-        otherBreakfast: false,
-        otherLunch: false,
-        otherDinner: false,
-      });
-    } else {
-      this.setState({
-        otherBreakfast: false,
-        otherLunch: true,
-        otherDinner: false,
-      });
-    }
-  };
+  // onClickedOtherLunch = () => {
+  //   if (this.state.otherLunch) {
+  //     this.setState({
+  //       otherBreakfast: false,
+  //       otherLunch: false,
+  //       otherDinner: false,
+  //     });
+  //   } else {
+  //     this.setState({
+  //       otherBreakfast: false,
+  //       otherLunch: true,
+  //       otherDinner: false,
+  //     });
+  //   }
+  // };
 
-  onClickedOtherDinner = () => {
-    if (this.state.otherDinner) {
-      this.setState({
-        otherBreakfast: false,
-        otherLunch: false,
-        otherDinner: false,
-      });
-    } else {
-      this.setState({
-        otherBreakfast: false,
-        otherLunch: false,
-        otherDinner: true,
-      });
-    }
-  };
+  // onClickedOtherDinner = () => {
+  //   if (this.state.otherDinner) {
+  //     this.setState({
+  //       otherBreakfast: false,
+  //       otherLunch: false,
+  //       otherDinner: false,
+  //     });
+  //   } else {
+  //     this.setState({
+  //       otherBreakfast: false,
+  //       otherLunch: false,
+  //       otherDinner: true,
+  //     });
+  //   }
+  // };
 
   render() {
     if (this.props.time === 'breakfast') {
@@ -74,11 +77,11 @@ class Meal extends Component {
               href="/recommendation/detail"
             />
             <MealName>Breakfast</MealName>
-            <Button className="other-meal-breakfast-button" onClick={() => this.onClickedOtherBreakfast()}>
+            {/* <Button className="other-meal-breakfast-button" onClick={() => this.onClickedOtherBreakfast()}>
               Other
-            </Button>
+            </Button> */}
           </Breakfast>
-          {this.state.otherBreakfast ? 'breakfast' : null}
+          {/* {this.state.otherBreakfast ? 'breakfast' : null} */}
         </div>
       );
     } if (this.props.time === 'lunch') {
@@ -92,11 +95,11 @@ class Meal extends Component {
               href="/recommendation/detail"
             />
             <MealName>Lunch</MealName>
-            <Button className="other-meal-lunch-button" onClick={() => this.onClickedOtherLunch()}>
+            {/* <Button className="other-meal-lunch-button" onClick={() => this.onClickedOtherLunch()}>
               Other
-            </Button>
+            </Button> */}
           </Lunch>
-          {this.state.otherLunch ? 'lunch' : null}
+          {/* {this.state.otherLunch ? 'lunch' : null} */}
         </div>
       );
     }
@@ -110,14 +113,18 @@ class Meal extends Component {
             href="/recommendation/detail"
           />
           <MealName>Dinner</MealName>
-          <Button className="other-meal-dinner-button" onClick={() => this.onClickedOtherDinner()}>
+          {/* <Button className="other-meal-dinner-button" onClick={() => this.onClickedOtherDinner()}>
             Other
-          </Button>
+          </Button> */}
         </Dinner>
-        {this.state.otherDinner ? 'dinner' : null}
+        {/* {this.state.otherDinner ? 'dinner' : null} */}
       </div>
     );
   }
 }
 
-export default Meal;
+const mapStateToProps = (state) => ({
+  recommendedMenus: state.menu.recommendedMenus,
+});
+
+export default connect(mapStateToProps, null)(withRouter(Meal));

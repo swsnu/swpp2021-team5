@@ -41,3 +41,21 @@ text-align: center;
 vertical-align: middle;
 line-height: 80px;
 `;
+
+export const OtherBreakfastBox = styled.div`
+background-color:#77ACF2;
+border-radius: 10px;
+padding:2%;
+`;
+
+export const OtherLunchBox = styled.div`
+background-color:#D95407;
+border-radius: 10px;
+padding:2%;
+`;
+
+export const OtherDinnerBox = styled.div`
+background-color:#BF7960;
+border-radius: 10px;
+padding:2%;
+`;
