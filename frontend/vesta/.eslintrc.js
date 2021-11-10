@@ -27,4 +27,5 @@ module.exports = {
     'no-underscore-dangle': 'off',
     'react/destructuring-assignment': ['off'],
   },
+  parser: "babel-eslint"
 };
