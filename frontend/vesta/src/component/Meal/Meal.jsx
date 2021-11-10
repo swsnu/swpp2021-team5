@@ -1,69 +1,121 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import { Image, Button } from 'semantic-ui-react';
-import styled from 'styled-components';
+import {
+  Breakfast, Lunch, Dinner, MealName,
+} from '../../styles/Menu_Recommendation/Meals';
 
-const Breakfast = styled.div`
-background-color:#77ACF2;
-border-radius: 10px;
-padding:4%;
-`;
+class Meal extends Component {
+  constructor() {
+    super();
+    this.state = {
+      otherBreakfast: false,
+      otherLunch: false,
+      otherDinner: false,
+    };
+  }
 
-const Lunch = styled.div`
-background-color:#D95407;
-border-radius: 10px;
-padding:4%;
-`;
+  onClickedOtherBreakfast = () => {
+    if (this.state.otherBreakfast) {
+      this.setState({
+        otherBreakfast: false,
+        otherLunch: false,
+        otherDinner: false,
+      });
+    } else {
+      this.setState({
+        otherBreakfast: true,
+        otherLunch: false,
+        otherDinner: false,
+      });
+    }
+  };
 
-const Dinner = styled.div`
-background-color:#BF7960;
-border-radius: 10px;
-padding:4%;
-`;
+  onClickedOtherLunch = () => {
+    if (this.state.otherLunch) {
+      this.setState({
+        otherBreakfast: false,
+        otherLunch: false,
+        otherDinner: false,
+      });
+    } else {
+      this.setState({
+        otherBreakfast: false,
+        otherLunch: true,
+        otherDinner: false,
+      });
+    }
+  };
 
-const MealName = styled.div`
-font-family:'verveine';
-font-size:25px;
-padding-top:10px;
-padding-bottom:10px;
-`;
+  onClickedOtherDinner = () => {
+    if (this.state.otherDinner) {
+      this.setState({
+        otherBreakfast: false,
+        otherLunch: false,
+        otherDinner: false,
+      });
+    } else {
+      this.setState({
+        otherBreakfast: false,
+        otherLunch: false,
+        otherDinner: true,
+      });
+    }
+  };
 
-class Meal extends PureComponent {
   render() {
     if (this.props.time === 'breakfast') {
       return (
-        <Breakfast>
-          <Image
-            src="/sushi_example_image.jpeg"
-            size="medium"
-            alt="meal_one"
-          />
-          <MealName>Breakfast</MealName>
-          <Button className="other-meal-breakfast-button">Other</Button>
-        </Breakfast>
+        <div>
+          <Breakfast>
+            <Image
+              src="/sushi_example_image.jpeg"
+              size="medium"
+              alt="meal_one"
+              href="/recommendation/detail"
+            />
+            <MealName>Breakfast</MealName>
+            <Button className="other-meal-breakfast-button" onClick={() => this.onClickedOtherBreakfast()}>
+              Other
+            </Button>
+          </Breakfast>
+          {this.state.otherBreakfast ? 'breakfast' : null}
+        </div>
       );
     } if (this.props.time === 'lunch') {
       return (
-        <Lunch>
+        <div>
+          <Lunch>
+            <Image
+              src="/sushi_example_image.jpeg"
+              size="medium"
+              alt="meal_one"
+              href="/recommendation/detail"
+            />
+            <MealName>Lunch</MealName>
+            <Button className="other-meal-lunch-button" onClick={() => this.onClickedOtherLunch()}>
+              Other
+            </Button>
+          </Lunch>
+          {this.state.otherLunch ? 'lunch' : null}
+        </div>
+      );
+    }
+    return (
+      <div>
+        <Dinner>
           <Image
             src="/sushi_example_image.jpeg"
             size="medium"
             alt="meal_one"
+            href="/recommendation/detail"
           />
-          <MealName>Lunch</MealName>
-          <Button className="other-meal-lunch-button">Other</Button>
-        </Lunch>
-      );
-    }
-    return (
-      <Dinner>
-        <Image
-          src="/sushi_example_image.jpeg"
-          size="medium"
-          alt="meal_one"
-        />
-        <MealName>Dinner</MealName>
-        <Button className="other-meal-dinner-button">Other</Button>
-      </Dinner>
+          <MealName>Dinner</MealName>
+          <Button className="other-meal-dinner-button" onClick={() => this.onClickedOtherDinner()}>
+            Other
+          </Button>
+        </Dinner>
+        {this.state.otherDinner ? 'dinner' : null}
+      </div>
     );
   }
 }
