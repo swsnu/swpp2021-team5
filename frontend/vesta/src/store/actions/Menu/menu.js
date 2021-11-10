@@ -16,3 +16,9 @@ export const getRecommendedMenus_ = (menu) => ({
 // TODO
 export const getRecommendedMenus = () => (dispatch) => axios.get('/api/menu/')
   .then((res) => dispatch(getRecommendedMenus_(res.data)));
+
+export const updateSelectedMenu_ = (when, idx) => ({
+  type: actionTypes.UPDATE_SELECTED_MENU,
+  when,
+  idx,
+});

@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+/* eslint-disable */
+import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { Button } from 'semantic-ui-react';
@@ -8,19 +9,21 @@ import * as actionCreators from '../../store/actions/index';
 import Background from '../../styles/Nutritional_Info_and_Recipe/Background';
 import Recipe from '../../component/Recipe/Recipe';
 
-class NutritionalInfoAndRecipe extends Component {
+class NutritionalInfoAndRecipe extends PureComponent {
   componentDidMount() {
-    this.props.onGetMenu();
+    this.props.onUpdateSelectedMenu(parseInt(this.props.match.params.when, 10), parseInt(this.props.match.params.idx, 10));
   }
 
   render() {
-    let menuName = 'Sushi';
+    let menuName = '';
     let calories = 0;
     let carbs = 0;
     let protein = 0;
     let fat = 0;
     let recipe = 'Ways to make good sushi';
     if (this.props.selectedMenu) {
+      // eslint-disable-next-line
+      console.log('updated');
       menuName = this.props.selectedMenu.name;
       calories = this.props.selectedMenu.calories;
       carbs = this.props.selectedMenu.carbs;
@@ -28,6 +31,7 @@ class NutritionalInfoAndRecipe extends Component {
       fat = this.props.selectedMenu.fat;
       recipe = this.props.selectedMenu.recipe;
     }
+    console.log(this.props.selectedMenu);
     return (
       <div className="NutritionalInfoAndRecipe">
         <Background>
@@ -55,7 +59,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onGetMenu: (menuName) => dispatch(actionCreators.getMenu(menuName)),
+  onUpdateSelectedMenu: (when, idx) => dispatch(actionCreators.updateSelectedMenu_(when, idx)),
+  // onGetMenu: (menuName) => dispatch(actionCreators.getMenu(menuName)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(NutritionalInfoAndRecipe));
