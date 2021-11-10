@@ -35,6 +35,18 @@ const recordReducer = (state = initialState, action) => {
     case actionTypes.GET_RECORD: {
       return { ...state, selectedRecord: action.record };
     }
+    case actionTypes.GET_REVIEW: {
+      return { ...state, selectedReview: action.selectedReview };
+    }
+    case actionTypes.CREATE_REVIEW: {
+      return { ...state, selectedReview: action.selectedReview };
+    }
+    case actionTypes.EDIT_REVIEW: {
+      return { ...state, selectedReview: action.selectedReview };
+    }
+    case actionTypes.DELETE_REVIEW: {
+      return { ...state, selectedReview: action.selectedReview };
+    };
     default: {
       break;
     }
