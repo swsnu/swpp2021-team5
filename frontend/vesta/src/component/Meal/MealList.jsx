@@ -1,9 +1,8 @@
+/* eslint-disable */
 import React, { Component } from 'react';
 import {
   Divider, Grid, Button, Image,
 } from 'semantic-ui-react';
-// import styled from 'styled-components';
-// import { StyledContainer } from '../../styles/Menu_Recommendation/StyledContainer';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import Meal from './Meal';
@@ -19,6 +18,10 @@ class MealList extends Component {
       otherLunch: false,
       otherDinner: false,
     };
+  }
+
+  onMealDetail = (when, idx) => {
+    this.props.history.push(`/recommendation/${when}/${idx}`);
   }
 
   onClickedOtherBreakfast = () => {
@@ -63,7 +66,7 @@ class MealList extends Component {
         <Grid>
           <Grid.Row columns={4}>
             <Grid.Column>
-              <a href="/recommendation/detail">
+              <a onClick={() => this.onMealDetail(0, 1)}>
                 <img
                   src="/DummyImages/breakfast1_.jpeg"
                   alt="meal_one"
@@ -74,7 +77,7 @@ class MealList extends Component {
               <OtherMealName>Oatmeal</OtherMealName>
             </Grid.Column>
             <Grid.Column>
-              <a href="/recommendation/detail">
+              <a onClick={() => this.onMealDetail(0, 2)}>
                 <img
                   src="/DummyImages/breakfast2_.jpeg"
                   alt="meal_one"
@@ -85,7 +88,7 @@ class MealList extends Component {
               <OtherMealName>Chicken Sandwich</OtherMealName>
             </Grid.Column>
             <Grid.Column>
-              <a href="/recommendation/detail">
+              <a onClick={() => this.onMealDetail(0, 3)}>
                 <Image
                   src="/DummyImages/breakfast3_.jpeg"
                   alt="meal_one"
@@ -96,7 +99,7 @@ class MealList extends Component {
               <OtherMealName>Salad</OtherMealName>
             </Grid.Column>
             <Grid.Column>
-              <a href="/recommendation/detail">
+              <a onClick={() => this.onMealDetail(0, 4)}>
                 <img
                   src="/DummyImages/breakfast4_.jpeg"
                   alt="meal_one"
@@ -115,7 +118,7 @@ class MealList extends Component {
         <Grid>
           <Grid.Row columns={4}>
             <Grid.Column>
-              <a href="/recommendation/detail">
+              <a onClick={() => this.onMealDetail(1, 1)}>
                 <img
                   src="/DummyImages/lunch1_.jpeg"
                   alt="meal_one"
@@ -126,7 +129,7 @@ class MealList extends Component {
               <OtherMealName>Chicken Teriyaki</OtherMealName>
             </Grid.Column>
             <Grid.Column>
-              <a href="/recommendation/detail">
+              <a onClick={() => this.onMealDetail(1, 2)}>
                 <img
                   src="/DummyImages/lunch2_.jpeg"
                   alt="meal_one"
@@ -137,7 +140,7 @@ class MealList extends Component {
               <OtherMealName>Pasta</OtherMealName>
             </Grid.Column>
             <Grid.Column>
-              <a href="/recommendation/detail">
+              <a onClick={() => this.onMealDetail(1, 3)}>
                 <img
                   src="/DummyImages/lunch3_.jpeg"
                   alt="meal_one"
@@ -148,7 +151,7 @@ class MealList extends Component {
               <OtherMealName>Steak</OtherMealName>
             </Grid.Column>
             <Grid.Column>
-              <a href="/recommendation/detail">
+              <a onClick={() => this.onMealDetail(1, 4)}>
                 <img
                   src="/DummyImages/lunch4_.jpeg"
                   alt="meal_one"
@@ -167,7 +170,7 @@ class MealList extends Component {
         <Grid>
           <Grid.Row columns={4}>
             <Grid.Column>
-              <a href="/recommendation/detail">
+              <a onClick={() => this.onMealDetail(2, 1)}>
                 <img
                   src="/DummyImages/dinner1_.jpeg"
                   height={160}
@@ -178,7 +181,7 @@ class MealList extends Component {
               <OtherMealName>Bibimbap</OtherMealName>
             </Grid.Column>
             <Grid.Column>
-              <a href="/recommendation/detail">
+              <a onClick={() => this.onMealDetail(2, 2)}>
                 <img
                   src="/DummyImages/dinner2_.jpeg"
                   height={160}
@@ -189,7 +192,7 @@ class MealList extends Component {
               <OtherMealName>Chinese Noodle</OtherMealName>
             </Grid.Column>
             <Grid.Column>
-              <a href="/recommendation/detail">
+              <a onClick={() => this.onMealDetail(2, 3)}>
                 <img
                   src="/DummyImages/dinner3_.jpg"
                   height={160}
@@ -200,7 +203,7 @@ class MealList extends Component {
               <OtherMealName>Kimbap</OtherMealName>
             </Grid.Column>
             <Grid.Column>
-              <a href="/recommendation/detail">
+              <a onClick={() => this.onMealDetail(2, 4)}>
                 <img
                   src="/DummyImages/dinner4_.jpeg"
                   height={160}

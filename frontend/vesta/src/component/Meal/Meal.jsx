@@ -3,74 +3,25 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { Image } from 'semantic-ui-react';
+import * as actionCreators from '../../store/actions/index';
 import {
   Breakfast, Lunch, Dinner, MealName,
 } from '../../styles/Menu_Recommendation/Meals';
 
 class Meal extends Component {
-  // constructor() {
-  //   super();
-  //   this.state = {
-  //     otherBreakfast: false,
-  //     otherLunch: false,
-  //     otherDinner: false,
-  //   };
-  // }
-
-  // onClickedOtherBreakfast = () => {
-  //   if (this.state.otherBreakfast) {
-  //     this.setState({
-  //       otherBreakfast: false,
-  //       otherLunch: false,
-  //       otherDinner: false,
-  //     });
-  //   } else {
-  //     this.setState({
-  //       otherBreakfast: true,
-  //       otherLunch: false,
-  //       otherDinner: false,
-  //     });
-  //   }
-  // };
-
-  // onClickedOtherLunch = () => {
-  //   if (this.state.otherLunch) {
-  //     this.setState({
-  //       otherBreakfast: false,
-  //       otherLunch: false,
-  //       otherDinner: false,
-  //     });
-  //   } else {
-  //     this.setState({
-  //       otherBreakfast: false,
-  //       otherLunch: true,
-  //       otherDinner: false,
-  //     });
-  //   }
-  // };
-
-  // onClickedOtherDinner = () => {
-  //   if (this.state.otherDinner) {
-  //     this.setState({
-  //       otherBreakfast: false,
-  //       otherLunch: false,
-  //       otherDinner: false,
-  //     });
-  //   } else {
-  //     this.setState({
-  //       otherBreakfast: false,
-  //       otherLunch: false,
-  //       otherDinner: true,
-  //     });
-  //   }
-  // };
+  onMealDetail = (when, idx) => {
+    this.props.history.push('/recommendation/'+when+'/'+idx);
+  }
 
   render() {
+    // if (this.props.recommendedMenus) console.log(this.props.recommendedMenus[0]);
     if (this.props.time === 'breakfast') {
+      // let url = `/recommendation/${this.props.recommendedMenus[0][1].name}`
+      // console.log(url);
       return (
         <div>
           <Breakfast>
-            <a href="/recommendation/detail">
+            <a onClick={() => this.onMealDetail(0, 0)}>
               <img
                 src="/DummyImages/breakfast5_.jpeg"
                 height={180}
@@ -86,7 +37,7 @@ class Meal extends Component {
       return (
         <div>
           <Lunch>
-            <a href="/recommendation/detail">
+            <a onClick={() => this.onMealDetail(1, 0)}>
               <img
                 src="/DummyImages/lunch5_.jpeg"
                 height={180}
@@ -103,7 +54,7 @@ class Meal extends Component {
     return (
       <div>
         <Dinner>
-          <a href="/recommendation/detail">
+          <a onClick={() => this.onMealDetail(2, 0)}>
             <img
               src="/DummyImages/dinner5_.jpeg"
               height={180}
@@ -122,5 +73,9 @@ class Meal extends Component {
 const mapStateToProps = (state) => ({
   recommendedMenus: state.menu.recommendedMenus,
 });
+
+// const mapDispatchToProps = (dispatch) => ({
+//   onUpdateSelectedMenu: (when, idx) => dispatch(actionCreators.updateSelectedMenu_(when, idx)),
+// });
 
 export default connect(mapStateToProps, null)(withRouter(Meal));
