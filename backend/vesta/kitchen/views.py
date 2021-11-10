@@ -6,19 +6,10 @@ from django.views.decorators.csrf import ensure_csrf_cookie
 from django.contrib.auth import authenticate, login, logout
 from django.views.decorators.http import require_http_methods, require_GET
 
-
+from django.contrib.auth.models import User
 from .models import Profile, UserNutrition, Preference, Menu, Recipe, Record
 
 # Create your views here.
-
-
-@ensure_csrf_cookie
-def token(request):
-    if request.method == 'GET':
-        return HttpResponse(status=204)
-    else:
-        return HttpResponseNotAllowed(['GET'])
-
 
 @require_http_methods(["POST"])
 def signup(request):
@@ -297,9 +288,7 @@ def record(request):
                             'date' : new_record.date,
                             'image' : new_record.image.url}
         return JsonResponse(response_dict)
-
     return HttpResponseNotAllowed(["GET", "POST"])
-
 
 @require_GET
 def record_id_func(request, record_id):
@@ -323,7 +312,6 @@ def record_id_func(request, record_id):
                     'image' : matching_record.image.url}
     return JsonResponse(response_dict)
 
-
 @require_GET
 def record_user_id(request, user_id):
     ## If user is not signed in, respond with 401
@@ -338,9 +326,6 @@ def record_user_id(request, user_id):
         return HttpResponse(status = 404)
     ## else, return records
     return JsonResponse(all_record_list, safe = False)
-
-
-
 
 def review(request, review_record_id):
     ## if request method is not GET, POST, PUT, or DELETE, respond with 405
@@ -413,7 +398,6 @@ def review(request, review_record_id):
                         'date' : record_to_delete_review.date}
         return JsonResponse(response_dict)
 
-
 @require_GET
 def recipe_menu_name(request, menu_name_recipe):
     ## If user is not signed in, respond with 401
@@ -434,8 +418,6 @@ def recipe_menu_name(request, menu_name_recipe):
         return HttpResponse(status = 404)
     return JsonResponse({'recipe' : matching_recipe[0]["recipe"]})
 
-
-
 @require_GET
 def menu(request):
     ## If user is not signed in, respond with 401
@@ -445,8 +427,6 @@ def menu(request):
     ## return all menus
     all_menu_list = list(Menu.objects.all().values())
     return JsonResponse(all_menu_list, safe=False)
-
-
 
 @require_GET
 def menu_name(request, menuname):
@@ -464,9 +444,7 @@ def menu_name(request, menuname):
                     'carbs' : matching_menu.carbs, 'protein' : matching_menu.protein,
                     'fat' : matching_menu.fat, 'image' : matching_menu.image.url}
     return JsonResponse(response_dict)
-
-
-
+    
 @ensure_csrf_cookie
 @require_GET
 def token(request):
