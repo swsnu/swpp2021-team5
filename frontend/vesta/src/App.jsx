@@ -10,6 +10,9 @@ import Header from './component/Header/Header';
 import PastMealRecord from './pages/PastMealRecord/PastMealRecord';
 import Login from './pages/Login/Login';
 import PreviousMeal from './pages/PreviousMeal/PreviousMeal';
+import FoodRecord from './pages/Food_Record/FoodRecord';
+import ConfirmDetection from './pages/Confirm_Detection/ConfirmDetection';
+import Main from './pages/Main/Main';
 
 function App(props) {
   const { history } = props;
@@ -42,6 +45,21 @@ function App(props) {
             path="/history/:id"
             exact
             render={() => <PreviousMeal />}
+          />
+          <Route
+            path="/record"
+            exact
+            render={() => <FoodRecord />}
+          />
+          <Route
+            path="/confirm"
+            exact
+            render={() => <ConfirmDetection />}
+          />
+          <Route
+            path="/main"
+            exact
+            render={() => <Main />}
           />
           <Redirect exact from="/" to="/login" />
         </Switch>
