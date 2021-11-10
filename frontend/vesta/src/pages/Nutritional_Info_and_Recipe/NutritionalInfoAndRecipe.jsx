@@ -20,7 +20,7 @@ class NutritionalInfoAndRecipe extends PureComponent {
     let carbs = 0;
     let protein = 0;
     let fat = 0;
-    let recipe = 'Ways to make good sushi';
+    let recipe = '/DummyImages/';
     if (this.props.selectedMenu) {
       // eslint-disable-next-line
       console.log('updated');
@@ -31,7 +31,17 @@ class NutritionalInfoAndRecipe extends PureComponent {
       fat = this.props.selectedMenu.fat;
       recipe = this.props.selectedMenu.recipe;
     }
-    console.log(this.props.selectedMenu);
+    // console.log(this.props.selectedMenu);
+    let url = '/DummyImages/';
+    if (parseInt(this.props.match.params.when, 10)==0){
+      url += 'breakfast' + (parseInt(this.props.match.params.idx, 10)+1) + '_.jpeg';
+    } else if (parseInt(this.props.match.params.when, 10)==1){
+      url += 'lunch' + (parseInt(this.props.match.params.idx, 10)+1) + '_.jpeg';
+    } else {
+      if (parseInt(this.props.match.params.idx, 10)+1 != 3) url += 'dinner' + (parseInt(this.props.match.params.idx, 10)+1) +'_.jpeg';
+      else url += 'dinner'+(parseInt(this.props.match.params.idx, 10)+1) +'_.jpg';
+    }
+    console.log(url);
     return (
       <div className="NutritionalInfoAndRecipe">
         <Background>
@@ -41,6 +51,7 @@ class NutritionalInfoAndRecipe extends PureComponent {
             carbs={carbs}
             protein={protein}
             fat={fat}
+            src={url}
           />
           <Recipe
             recipe={recipe}

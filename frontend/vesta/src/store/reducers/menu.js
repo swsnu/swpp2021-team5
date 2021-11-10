@@ -7,13 +7,6 @@ const initialState = {
   recommendedMenus: [
     [
       {
-        name: 'Tomato Pasta',
-        calories: 300,
-        carbs: 7,
-        protein: 5,
-        fat: 30,
-        recipe: '1. Bring 4 quarts water to a boil and lightly salt. Prepare spaghetti following package directions.\n2. Remove 1/4 cup of the cooking water and reserve drain pasta.\n3. Meanwhile heat olive oil in large skillet over medium heat.'
-      }, {
         name: 'Oatmeal',
         calories: 404,
         carbs: 60,
@@ -41,16 +34,16 @@ const initialState = {
         protein: 85,
         fat: 16,
         recipe: '1. Put all ingredients except salmon in food processor.\n2. Blend ingredients together until well combined and basil is fine.\n3. Put some of the sauce in bottom of baking dish that has been lightly sprayed with Pam Cooking Spray.\n4. Place salmon in dish and mound rest of sauce over salmon.',
-      }
+      }, {
+        name: 'Tomato Pasta',
+        calories: 300,
+        carbs: 7,
+        protein: 5,
+        fat: 30,
+        recipe: '1. Bring 4 quarts water to a boil and lightly salt. Prepare spaghetti following package directions.\n2. Remove 1/4 cup of the cooking water and reserve drain pasta.\n3. Meanwhile heat olive oil in large skillet over medium heat.'
+      }, 
     ], [
       {
-        name: 'Vietnamese Pho',
-        calories: 400,
-        carbs: 20,
-        protein: 40,
-        fat: 15,
-        recipe: '1. Whisk soy sauce garlic Chinese 5spice sugar paprika and chicken bouillon together in a large glass or ceramic bowl. Add pork cubes and toss to evenly coat. Cover the bowl with plastic wrap and marinate in the refrigerator for at least 1 hour.\n2. Remove pork from marinade and shake off excess. Discard remaining marinade.',
-      }, {
         name: 'Chicken Teriyaki',
         calories: 300,
         carbs: 50,
@@ -78,22 +71,22 @@ const initialState = {
         protein: 1,
         fat: 8,
         recipe: '1. In a frying pan heat olive oil add onion and the garlic. Saute until brown and remove the garlic.\n2. Put the canned tomatoes and the liquid from the can in a blender and mix gently less than a minute.'
+      }, {
+        name: 'Vietnamese Pho',
+        calories: 400,
+        carbs: 20,
+        protein: 40,
+        fat: 15,
+        recipe: '1. Whisk soy sauce garlic Chinese 5spice sugar paprika and chicken bouillon together in a large glass or ceramic bowl. Add pork cubes and toss to evenly coat. Cover the bowl with plastic wrap and marinate in the refrigerator for at least 1 hour.\n2. Remove pork from marinade and shake off excess. Discard remaining marinade.',
       },
     ], [
       {
-        name: 'vegetable rice',
-        calories: 650,
-        carbs: 120,
-        protein: 40,
-        fat: 6,
-        recipe: '21',
-      }, {
         name: 'bibimbap',
         calories: 800,
         carbs: 150,
         protein: 45,
         fat: 15,
-        recipe: '20',
+        recipe: '1. Stir cucumber pieces with 1/4 cup gochujang paste in a bowl set aside.\\n2. Bring about 2 cups of water to a boil in a large nonstick skillet and stir in spinach cook until spinach is bright green and wilted 2 to 3 minutes. Drain spinach and squeeze out as much moisture as possible set spinach aside in a bowl and stir soy sauce into spinach.',
       }, {
         name: 'Chinese Noodle',
         calories: 900,
@@ -115,7 +108,14 @@ const initialState = {
         protein: 25,
         fat: 31,
         recipe: '1. Bring about 5 quarts of water to a boil with 3 teaspoons salt add in the spaghetti and cook only until firmtender drain but RESERVE 1/2 cup pasta water.\n2. Start this when you are boiling the pasta Heat about 4 tablespoons olive oil over mediumlow heat in a skillet.'
-      }
+      }, {
+        name: 'vegetable rice',
+        calories: 650,
+        carbs: 120,
+        protein: 40,
+        fat: 6,
+        recipe: '1. In a saucepan heat the oil over medium heat.\\n2. Cook the onion carrots thyme and salt stirring occasionally until the onion is softened about 5 minutes.',
+      }, 
     ],
   ],
 };
