@@ -25,6 +25,11 @@ padding-top:10px;
 padding-bottom:10px;
 `;
 
+export const OtherMealName = styled.div`
+font-family:'verveine';
+font-size:23px;
+`;
+
 export const Box = styled.div`
 background-color:#B3D962;
 border-radius: 10px;

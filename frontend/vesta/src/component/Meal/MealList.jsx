@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import Meal from './Meal';
 import {
-  Box, RecommendationHeader, OtherBreakfastBox, OtherLunchBox, OtherDinnerBox,
+  Box, RecommendationHeader, OtherBreakfastBox, OtherLunchBox, OtherDinnerBox, OtherMealName,
 } from '../../styles/Menu_Recommendation/Meals';
 
 class MealList extends Component {
@@ -25,14 +25,10 @@ class MealList extends Component {
     if (this.state.otherBreakfast) {
       this.setState({
         otherBreakfast: false,
-        // otherLunch: false,
-        // otherDinner: false,
       });
     } else {
       this.setState({
         otherBreakfast: true,
-        // otherLunch: false,
-        // otherDinner: false,
       });
     }
   };
@@ -40,15 +36,11 @@ class MealList extends Component {
   onClickedOtherLunch = () => {
     if (this.state.otherLunch) {
       this.setState({
-        // otherBreakfast: false,
         otherLunch: false,
-        // otherDinner: false,
       });
     } else {
       this.setState({
-        // otherBreakfast: false,
         otherLunch: true,
-        // otherDinner: false,
       });
     }
   };
@@ -56,14 +48,10 @@ class MealList extends Component {
   onClickedOtherDinner = () => {
     if (this.state.otherDinner) {
       this.setState({
-        // otherBreakfast: false,
-        // otherLunch: false,
         otherDinner: false,
       });
     } else {
       this.setState({
-        // otherBreakfast: false,
-        // otherLunch: false,
         otherDinner: true,
       });
     }
@@ -75,36 +63,48 @@ class MealList extends Component {
         <Grid>
           <Grid.Row columns={4}>
             <Grid.Column>
-              <Image
-                src="/sushi_example_image.jpeg"
-                size="medium"
-                alt="meal_one"
-                href="/recommendation/detail"
-              />
+              <a href="/recommendation/detail">
+                <img
+                  src="/DummyImages/breakfast1_.jpeg"
+                  alt="meal_one"
+                  height={160}
+                  width={210}
+                />
+              </a>
+              <OtherMealName>Oatmeal</OtherMealName>
             </Grid.Column>
             <Grid.Column>
-              <Image
-                src="/sushi_example_image.jpeg"
-                size="medium"
-                alt="meal_one"
-                href="/recommendation/detail"
-              />
+              <a href="/recommendation/detail">
+                <img
+                  src="/DummyImages/breakfast2_.jpeg"
+                  alt="meal_one"
+                  height={160}
+                  width={210}
+                />
+              </a>
+              <OtherMealName>Chicken Sandwich</OtherMealName>
             </Grid.Column>
             <Grid.Column>
-              <Image
-                src="/sushi_example_image.jpeg"
-                size="medium"
-                alt="meal_one"
-                href="/recommendation/detail"
-              />
+              <a href="/recommendation/detail">
+                <Image
+                  src="/DummyImages/breakfast3_.jpeg"
+                  alt="meal_one"
+                  height={160}
+                  width={210}
+                />
+              </a>
+              <OtherMealName>Salad</OtherMealName>
             </Grid.Column>
             <Grid.Column>
-              <Image
-                src="/sushi_example_image.jpeg"
-                size="medium"
-                alt="meal_one"
-                href="/recommendation/detail"
-              />
+              <a href="/recommendation/detail">
+                <img
+                  src="/DummyImages/breakfast4_.jpeg"
+                  alt="meal_one"
+                  height={160}
+                  width={210}
+                />
+              </a>
+              <OtherMealName>Baked Salmon</OtherMealName>
             </Grid.Column>
           </Grid.Row>
         </Grid>
@@ -115,36 +115,48 @@ class MealList extends Component {
         <Grid>
           <Grid.Row columns={4}>
             <Grid.Column>
-              <Image
-                src="/sushi_example_image.jpeg"
-                size="medium"
-                alt="meal_one"
-                href="/recommendation/detail"
-              />
+              <a href="/recommendation/detail">
+                <img
+                  src="/DummyImages/lunch1_.jpeg"
+                  alt="meal_one"
+                  height={160}
+                  width={210}
+                />
+              </a>
+              <OtherMealName>Chicken Teriyaki</OtherMealName>
             </Grid.Column>
             <Grid.Column>
-              <Image
-                src="/sushi_example_image.jpeg"
-                size="medium"
-                alt="meal_one"
-                href="/recommendation/detail"
-              />
+              <a href="/recommendation/detail">
+                <img
+                  src="/DummyImages/lunch2_.jpeg"
+                  alt="meal_one"
+                  height={160}
+                  width={210}
+                />
+              </a>
+              <OtherMealName>Pasta</OtherMealName>
             </Grid.Column>
             <Grid.Column>
-              <Image
-                src="/sushi_example_image.jpeg"
-                size="medium"
-                alt="meal_one"
-                href="/recommendation/detail"
-              />
+              <a href="/recommendation/detail">
+                <img
+                  src="/DummyImages/lunch3_.jpeg"
+                  alt="meal_one"
+                  height={160}
+                  width={210}
+                />
+              </a>
+              <OtherMealName>Steak</OtherMealName>
             </Grid.Column>
             <Grid.Column>
-              <Image
-                src="/sushi_example_image.jpeg"
-                size="medium"
-                alt="meal_one"
-                href="/recommendation/detail"
-              />
+              <a href="/recommendation/detail">
+                <img
+                  src="/DummyImages/lunch4_.jpeg"
+                  alt="meal_one"
+                  height={160}
+                  width={210}
+                />
+              </a>
+              <OtherMealName>Tomato Spaghetti</OtherMealName>
             </Grid.Column>
           </Grid.Row>
         </Grid>
@@ -155,36 +167,48 @@ class MealList extends Component {
         <Grid>
           <Grid.Row columns={4}>
             <Grid.Column>
-              <Image
-                src="/sushi_example_image.jpeg"
-                size="medium"
-                alt="meal_one"
-                href="/recommendation/detail"
-              />
+              <a href="/recommendation/detail">
+                <img
+                  src="/DummyImages/dinner1_.jpeg"
+                  height={160}
+                  width={210}
+                  alt="meal_one"
+                />
+              </a>
+              <OtherMealName>Bibimbap</OtherMealName>
             </Grid.Column>
             <Grid.Column>
-              <Image
-                src="/sushi_example_image.jpeg"
-                size="medium"
-                alt="meal_one"
-                href="/recommendation/detail"
-              />
+              <a href="/recommendation/detail">
+                <img
+                  src="/DummyImages/dinner2_.jpeg"
+                  height={160}
+                  width={210}
+                  alt="meal_one"
+                />
+              </a>
+              <OtherMealName>Chinese Noodle</OtherMealName>
             </Grid.Column>
             <Grid.Column>
-              <Image
-                src="/sushi_example_image.jpeg"
-                size="medium"
-                alt="meal_one"
-                href="/recommendation/detail"
-              />
+              <a href="/recommendation/detail">
+                <img
+                  src="/DummyImages/dinner3_.jpg"
+                  height={160}
+                  width={210}
+                  alt="meal_one"
+                />
+              </a>
+              <OtherMealName>Kimbap</OtherMealName>
             </Grid.Column>
             <Grid.Column>
-              <Image
-                src="/sushi_example_image.jpeg"
-                size="medium"
-                alt="meal_one"
-                href="/recommendation/detail"
-              />
+              <a href="/recommendation/detail">
+                <img
+                  src="/DummyImages/dinner4_.jpeg"
+                  height={160}
+                  width={210}
+                  alt="meal_one"
+                />
+              </a>
+              <OtherMealName>Aglio e Olio</OtherMealName>
             </Grid.Column>
           </Grid.Row>
         </Grid>
