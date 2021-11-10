@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
@@ -6,6 +8,7 @@ import {
 } from 'semantic-ui-react';
 
 import * as actionCreators from '../../store/actions/index';
+import * as Calculator from './Calculator';
 
 class Setting extends Component {
   constructor(props) {
@@ -65,15 +68,24 @@ class Setting extends Component {
 
   render() {
     /* User setting information from redux from backend */
-    const age = this.props.currUser.age
-      ? this.props.currUser.age : 'not set';
-    const sex = this.props.currUser.sex
-      ? this.props.currUser.sex : 'not set';
-    const height = this.props.currUser.height
-      ? this.props.currUser.height : 'not set';
-    const weight = this.props.currUser.weight
-      ? this.props.currUser.weight : 'not set';
+    const age = 25;
+    // this.props.currUser.age
+    //   ? this.props.currUser.age : 'not set';
+    const sex = 'M';
+    // this.props.currUser.sex
+    //   ? this.props.currUser.sex : 'not set';
+    const height = 176;
+    // this.props.currUser.height
+    //   ? this.props.currUser.height : 'not set';
+    const weight = 67;
+    // this.props.currUser.weight
+    //   ? this.props.currUser.weight : 'not set';
     const { preference } = this.props.currUser;
+
+    const recommendedCalorie = Calculator.recommendedCalorie(age, sex, height, weight);
+    const recommendedCarbs = Calculator.recommendedCarbs(age, sex, height, weight);
+    const recommendedProtein = Calculator.recommendedProtein(age, sex, height, weight);
+    const recommendedFat = Calculator.recommendedFat(age, sex, height, weight);
 
     return (
       <div className="Setting">
@@ -87,7 +99,7 @@ class Setting extends Component {
         <div className="current-setting-info">
           <Table setting>
             <Table.Header>
-              <Table.Row>
+              <Table.Row textAlign='center'>
                 <Table.HeaderCell>Category</Table.HeaderCell>
                 <Table.HeaderCell>Value</Table.HeaderCell>
                 <Table.HeaderCell>Edit</Table.HeaderCell>
@@ -95,21 +107,21 @@ class Setting extends Component {
             </Table.Header>
 
             <Table.Body>
-              <Table.Row>
+              <Table.Row textAlign='center'>
                 <Table.HeaderCell>Age</Table.HeaderCell>
                 <Table.Cell>{age}</Table.Cell>
                 <Table.Cell>
                   <Input onChange={(e) => this.onChangedUserAgeInput(e)} placeholder={age} />
                 </Table.Cell>
               </Table.Row>
-              <Table.Row>
+              <Table.Row textAlign='center'>
                 <Table.HeaderCell>Sex</Table.HeaderCell>
                 <Table.Cell>{sex}</Table.Cell>
                 <Table.Cell>
                   <Input onChange={(e) => this.onChangedUserSexInput(e)} placeholder={sex} />
                 </Table.Cell>
               </Table.Row>
-              <Table.Row>
+              <Table.Row textAlign='center'>
                 <Table.HeaderCell>height</Table.HeaderCell>
                 <Table.Cell>{height}</Table.Cell>
                 <Table.Cell>
@@ -119,7 +131,7 @@ class Setting extends Component {
                   />
                 </Table.Cell>
               </Table.Row>
-              <Table.Row>
+              <Table.Row textAlign='center'>
                 <Table.HeaderCell>weight</Table.HeaderCell>
                 <Table.Cell>{weight}</Table.Cell>
                 <Table.Cell>
@@ -129,7 +141,7 @@ class Setting extends Component {
                   />
                 </Table.Cell>
               </Table.Row>
-              <Table.Row>
+              <Table.Row textAlign='center'>
                 <Table.HeaderCell>Foods you don&apos;t eat</Table.HeaderCell>
                 <Table.Cell />
                 <Table.Cell>
@@ -141,7 +153,7 @@ class Setting extends Component {
             <Table.Footer>
               <Table.Row>
                 <Table.HeaderCell colSpan="3">
-                  <Button floated="left">Save</Button>
+                  <Button primary floated="right">Save</Button>
                 </Table.HeaderCell>
               </Table.Row>
             </Table.Footer>
@@ -149,7 +161,38 @@ class Setting extends Component {
           </Table>
         </div>
 
+        <div className="recommended-intake">
+          <Table recommended-intake>
+            <Table.Header>
+              <Table.Row>
+                <Table.HeaderCell textAlign='center'>Recommended Intake</Table.HeaderCell>
+                <Table.HeaderCell></Table.HeaderCell>
+              </Table.Row>
+            </Table.Header>
+
+            <Table.Body>
+              <Table.Row textAlign='center'>
+                <Table.HeaderCell>Calorie</Table.HeaderCell>
+                <Table.Cell>{`${recommendedCalorie} Kcal`}</Table.Cell>
+              </Table.Row>
+              <Table.Row textAlign='center'>
+                <Table.HeaderCell>Carbs</Table.HeaderCell>
+                <Table.Cell>{`${recommendedCarbs} grams`}</Table.Cell>
+              </Table.Row>
+              <Table.Row textAlign='center'>
+                <Table.HeaderCell>Protein</Table.HeaderCell>
+                <Table.Cell>{`${recommendedProtein} grams`}</Table.Cell>
+              </Table.Row>
+              <Table.Row textAlign='center'>
+                <Table.HeaderCell>Fat</Table.HeaderCell>
+                <Table.Cell>{`${recommendedFat} grams`}</Table.Cell>
+              </Table.Row>
+            </Table.Body>
+          </Table>
+        </div>
+
         <div className="resign">
+          <br />
           <br />
           <Button onClick={() => this.onClickedDeleteAccountButton()} floated="right">Delete Account</Button>
         </div>
