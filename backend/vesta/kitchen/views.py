@@ -424,6 +424,7 @@ def liked(request, liked_record_id):
                     'date' : record_to_toggle_liked.date}
     return JsonResponse(response_dict)
 
+
 @require_GET
 def recipe_menu_name(request, menu_name_recipe):
     ## If user is not signed in, respond with 401

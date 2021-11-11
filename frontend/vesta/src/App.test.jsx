@@ -1,12 +1,12 @@
 // import { render, screen } from '@testing-library/react';
-import App from './App';
 import { Provider } from 'react-redux';
+import { mount } from 'enzyme';
+import App from './App';
 import { history } from './store/store';
 import { getMockStore } from '../test-utils/mock';
-import { mount } from 'enzyme';
 
 const userInitialState = {
-  
+
 };
 const recordInitialState = {
 
@@ -20,21 +20,20 @@ const recipeInitialState = {
 
 const mockStore = getMockStore(userInitialState, recordInitialState, menuInitialState, recipeInitialState);
 
-describe('App' , () => {
+describe('App', () => {
   let app;
   beforeEach(() => {
     app = (
       <Provider store={mockStore}>
-        <App history={history}/>
+        <App history={history} />
       </Provider>
-    )
+    );
   });
 
-  it("should render correctly", () => {
+  it('should render correctly', () => {
     const component = mount(app);
     expect(component.find('.App').length).toBe(1);
   });
-
 });
 
 // test('renders learn react link', () => {
