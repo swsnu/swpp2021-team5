@@ -37,7 +37,7 @@ class Record extends Component {
             src={this.props.image}
             class="ui centered rounded image"
             verticalAlign="bottom"
-            style={{height:"600px", width:"600px", objectFit: "cover", padding: "20px"}}
+            style={{height:"600px", width:"600px", objectFit: "cover", padding: "10px", "border-radius": "20px"}}
           />
         </Link>
           </ImgWrapper>

@@ -86,18 +86,19 @@ class RecordDetail extends Component {
     return (
       <div className="RecordDetail">
           <Grid textAlign="center">
-            <Grid.Column width={10}>
-              <Div>
+            <Grid.Column width={10} alignItems="center">
+              <Div alignItems="center">
               <p>
                 <DateHeader>
                   {date}
                 </DateHeader>
               </p>
-              <p>
+              <p style={{"alignItems": "center"}}>
                 <Image
                 id="meal-image"
                 src="/sushi_example_image.jpeg"
-                class="ui centered fluid rounded image"
+                class="ui centered fluid image"
+                style={{"border-radius": "20px", align:"center", "align-items":"center"}}
               />
               </p>
               {/*
