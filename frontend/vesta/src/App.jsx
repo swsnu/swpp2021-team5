@@ -14,6 +14,9 @@ import FoodRecord from './pages/Food_Record/FoodRecord';
 import ConfirmDetection from './pages/Confirm_Detection/ConfirmDetection';
 import Main from './pages/Main/Main';
 
+import Setting from './pages/Setting/Setting';
+import Statistics from './pages/Statistics/Statistics';
+
 function App(props) {
   const { history } = props;
   return (
@@ -62,6 +65,16 @@ function App(props) {
             render={() => <Main />}
           />
           <Redirect exact from="/" to="/login" />
+          <Route
+            path="/setting"
+            exact
+            render={() => <Setting />}
+          />
+          <Route
+            path="/statistics"
+            exact
+            render={() => <Statistics />}
+          />
         </Switch>
       </div>
     </ConnectedRouter>
