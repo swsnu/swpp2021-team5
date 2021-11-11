@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {
   Button, Divider, Container, TextArea, Form,
 } from 'semantic-ui-react';
+import { withRouter } from 'react-router';
 import styled from 'styled-components';
 import Nutrient from '../../component/Nutrient/Nutrient';
 import Background from '../../styles/Nutritional_Info_and_Recipe/Background';
@@ -32,6 +33,10 @@ class ConfirmDetection extends Component {
     console.log(this.state.review);
   }
 
+  onClickedCancelButton = () => {
+    this.props.history.push('/main');
+  }
+
   render() {
     let calories = 2;
     let carbs = 2;
@@ -53,6 +58,7 @@ class ConfirmDetection extends Component {
               carbs={carbs}
               protein={protein}
               fat={fat}
+              src="/sushi_example_image.jpeg"
             />
             <Divider />
             <TextBox>
@@ -87,4 +93,4 @@ class ConfirmDetection extends Component {
     );
   }
 }
-export default ConfirmDetection;
+export default withRouter(ConfirmDetection);
