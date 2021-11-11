@@ -8,6 +8,7 @@
     "@testing-library/user-event": "^12.1.10",
     "axios": "^0.24.0",
     "chart.js": "^3.6.0",
+    "chartjs-plugin-datalabels": "^2.0.0",
     "connected-react-router": "^6.9.1",
     "history": "^4.10.1",
     "react": "^17.0.2",
@@ -70,5 +71,5 @@
       "!src/store/actions/index.js"
     ]
   },
-  "proxy": "http://localhost:8000"
+  "proxy": "http://localhost:8000/"
 }

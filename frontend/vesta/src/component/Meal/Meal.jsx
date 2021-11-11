@@ -1,123 +1,79 @@
+/* eslint-disable */
 import React, { Component } from 'react';
-import { Image, Button } from 'semantic-ui-react';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
+import { Image } from 'semantic-ui-react';
+import * as actionCreators from '../../store/actions/index';
 import {
   Breakfast, Lunch, Dinner, MealName,
 } from '../../styles/Menu_Recommendation/Meals';
 
 class Meal extends Component {
-  constructor() {
-    super();
-    this.state = {
-      otherBreakfast: false,
-      otherLunch: false,
-      otherDinner: false,
-    };
+  onMealDetail = (when, idx) => {
+    this.props.history.push('/recommendation/'+when+'/'+idx);
   }
 
-  onClickedOtherBreakfast = () => {
-    if (this.state.otherBreakfast) {
-      this.setState({
-        otherBreakfast: false,
-        otherLunch: false,
-        otherDinner: false,
-      });
-    } else {
-      this.setState({
-        otherBreakfast: true,
-        otherLunch: false,
-        otherDinner: false,
-      });
-    }
-  };
-
-  onClickedOtherLunch = () => {
-    if (this.state.otherLunch) {
-      this.setState({
-        otherBreakfast: false,
-        otherLunch: false,
-        otherDinner: false,
-      });
-    } else {
-      this.setState({
-        otherBreakfast: false,
-        otherLunch: true,
-        otherDinner: false,
-      });
-    }
-  };
-
-  onClickedOtherDinner = () => {
-    if (this.state.otherDinner) {
-      this.setState({
-        otherBreakfast: false,
-        otherLunch: false,
-        otherDinner: false,
-      });
-    } else {
-      this.setState({
-        otherBreakfast: false,
-        otherLunch: false,
-        otherDinner: true,
-      });
-    }
-  };
-
   render() {
+    // if (this.props.recommendedMenus) console.log(this.props.recommendedMenus[0]);
     if (this.props.time === 'breakfast') {
+      // let url = `/recommendation/${this.props.recommendedMenus[0][1].name}`
+      // console.log(url);
       return (
         <div>
           <Breakfast>
-            <Image
-              src="/sushi_example_image.jpeg"
-              size="medium"
-              alt="meal_one"
-              href="/recommendation/detail"
-            />
+            <a onClick={() => this.onMealDetail(0, 0)}>
+              <img
+                src="/DummyImages/breakfast1_.jpeg"
+                height={180}
+                width={270}
+                alt="meal_one"
+              />
+            </a>
             <MealName>Breakfast</MealName>
-            <Button className="other-meal-breakfast-button" onClick={() => this.onClickedOtherBreakfast()}>
-              Other
-            </Button>
           </Breakfast>
-          {this.state.otherBreakfast ? 'breakfast' : null}
         </div>
       );
     } if (this.props.time === 'lunch') {
       return (
         <div>
           <Lunch>
-            <Image
-              src="/sushi_example_image.jpeg"
-              size="medium"
-              alt="meal_one"
-              href="/recommendation/detail"
-            />
+            <a onClick={() => this.onMealDetail(1, 0)}>
+              <img
+                src="/DummyImages/lunch1_.jpeg"
+                height={180}
+                width={270}
+                alt="meal_one"
+              />
+            </a>
             <MealName>Lunch</MealName>
-            <Button className="other-meal-lunch-button" onClick={() => this.onClickedOtherLunch()}>
-              Other
-            </Button>
           </Lunch>
-          {this.state.otherLunch ? 'lunch' : null}
         </div>
       );
     }
     return (
       <div>
         <Dinner>
-          <Image
-            src="/sushi_example_image.jpeg"
-            size="medium"
-            alt="meal_one"
-            href="/recommendation/detail"
-          />
+          <a onClick={() => this.onMealDetail(2, 0)}>
+            <img
+              src="/DummyImages/dinner1_.jpeg"
+              height={180}
+              width={270}
+              alt="meal_one"
+            />
+          </a>
           <MealName>Dinner</MealName>
-          <Button className="other-meal-dinner-button" onClick={() => this.onClickedOtherDinner()}>
-            Other
-          </Button>
         </Dinner>
-        {this.state.otherDinner ? 'dinner' : null}
       </div>
     );
   }
 }
 
-export default Meal;
+const mapStateToProps = (state) => ({
+  recommendedMenus: state.menu.recommendedMenus,
+});
+
+// const mapDispatchToProps = (dispatch) => ({
+//   onUpdateSelectedMenu: (when, idx) => dispatch(actionCreators.updateSelectedMenu_(when, idx)),
+// });
+
+export default connect(mapStateToProps, null)(withRouter(Meal));

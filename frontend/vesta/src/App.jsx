@@ -10,6 +10,12 @@ import Header from './component/Header/Header';
 import PastMealRecord from './pages/PastMealRecord/PastMealRecord';
 import Login from './pages/Login/Login';
 import PreviousMeal from './pages/PreviousMeal/PreviousMeal';
+import FoodRecord from './pages/Food_Record/FoodRecord';
+import ConfirmDetection from './pages/Confirm_Detection/ConfirmDetection';
+import Main from './pages/Main/Main';
+
+import Setting from './pages/Setting/Setting';
+import Statistics from './pages/Statistics/Statistics';
 
 function App(props) {
   const { history } = props;
@@ -29,7 +35,7 @@ function App(props) {
             render={() => <MenuRecommendation />}
           />
           <Route
-            path="/recommendation/detail"
+            path="/recommendation/:when/:idx"
             exact
             render={() => <NutritionalInfoAndRecipe />}
           />
@@ -43,7 +49,32 @@ function App(props) {
             exact
             render={() => <PreviousMeal />}
           />
-          <Redirect exact from="/" to="/login" />
+          <Route
+            path="/record"
+            exact
+            render={() => <FoodRecord />}
+          />
+          <Route
+            path="/confirm"
+            exact
+            render={() => <ConfirmDetection />}
+          />
+          <Route
+            path="/main"
+            exact
+            render={() => <Main />}
+          />
+          <Redirect exact from="/" to="/main" />
+          <Route
+            path="/setting"
+            exact
+            render={() => <Setting />}
+          />
+          <Route
+            path="/statistics"
+            exact
+            render={() => <Statistics />}
+          />
         </Switch>
       </div>
     </ConnectedRouter>
