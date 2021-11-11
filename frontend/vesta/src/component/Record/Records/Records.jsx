@@ -73,7 +73,7 @@ class Records extends Component {
         </Sticky>
         <Segment>
           <Grid centered columns={3} textAlign="center" relaxed='very'>
-            <Grid.Column width={10}>
+            <Grid.Column width={9}>
               {records}
               {dd}
             </Grid.Column>

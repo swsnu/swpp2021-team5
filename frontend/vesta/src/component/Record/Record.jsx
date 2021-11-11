@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React, { Component } from 'react';
-import { Button, Grid, Image } from 'semantic-ui-react';
+import { Button, Divider, Grid, Image } from 'semantic-ui-react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import '../Record/Record.css';
@@ -11,19 +11,15 @@ border-radius: 10px;
 padding:10px;
 `;
 const ImgWrapper = styled.div`
-position: relative;
-width: 400px
-height: 400px
+// position: relative;
+// overflow: hidden;
+// width: 700px;
+// height: 700px;
 `;
-const Img = styled.img`
-top: 0;
-left: 0;
-transform: translate(50, 50);
-width: 100%;
-height: 100%;
-object-fit: cover;
-padding: 5px;
-`;
+// const Img = styled.img`
+// object-fit: 'cover';
+// padding: 5px;
+// `;
 
 class Record extends Component {
   render() {
@@ -35,25 +31,27 @@ class Record extends Component {
     }
     return (
       <Div className="Record">
-        <Link to={detailLink}>
-          <ImgWrapper>
-          <Img
+      <ImgWrapper>
+        <Link className="imgwrapper" to={detailLink}>
+          <img
             src={this.props.image}
             class="ui centered rounded image"
             verticalAlign="bottom"
+            style={{height:"600px", width:"600px", objectFit: "cover", padding: "20px"}}
           />
-          </ImgWrapper>
         </Link>
+          </ImgWrapper>
         {/*
         <Button onClick={this.props.clickDetail}>
           Detail
         </Button>
         */}
+        <Divider/>
         <Grid>
-          <Grid.Column width={3}textAlign="right">
+          <Grid.Column width={4}textAlign="right">
             <h3>{this.props.date}</h3>
           </Grid.Column>
-          <Grid.Column width={13} textAlign="right">
+          <Grid.Column width={11} textAlign="right">
             <Button onClick={this.props.toggleLiked}>
             <div className="liked" style={{color:color}}>&#9829;</div>
             </Button>
