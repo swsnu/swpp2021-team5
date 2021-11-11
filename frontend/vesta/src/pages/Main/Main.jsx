@@ -63,6 +63,10 @@ class Main extends Component {
     this.props.history.push('/history');
   }
 
+  onClickedNutritionAnalysisButton = () => {
+    this.props.history.push('/statistics');
+  }
+
   render() {
     return (
       <div>
