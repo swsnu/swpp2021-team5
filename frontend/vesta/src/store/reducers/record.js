@@ -8,15 +8,29 @@ const initialState = {
       image: "/sushi_example_image.jpeg",
       date: "2021/11/09",
       liked: true,
+      review: null,
     },
     {
       id: 2,
-      image: "/sushi_example_image.jpeg",
-      date: "2021/11/09",
+      image: "/chicken_sample_image.jpeg",
+      date: "2021/11/08",
       liked: false,
+      review: null,
+    },
+    {
+      id: 3,
+      image: "/pasta_sample_image.jpeg",
+      date: "2021/11/07",
+      liked: true,
+      review: null,
     },
   ],
-  selectedRecord: null,
+  selectedRecord: {
+    id: 1,
+    date: "2021/11/09",
+    liked: true,
+    review: "My favorite Dish",
+  },
   selectedReview: null,
 };
 const recordReducer = (state = initialState, action) => {
@@ -35,6 +49,18 @@ const recordReducer = (state = initialState, action) => {
     case actionTypes.GET_RECORD: {
       return { ...state, selectedRecord: action.record };
     }
+    case actionTypes.GET_REVIEW: {
+      return { ...state, selectedReview: action.selectedReview };
+    }
+    case actionTypes.CREATE_REVIEW: {
+      return { ...state, selectedReview: action.selectedReview };
+    }
+    case actionTypes.EDIT_REVIEW: {
+      return { ...state, selectedReview: action.selectedReview };
+    }
+    case actionTypes.DELETE_REVIEW: {
+      return { ...state, selectedReview: action.selectedReview };
+    };
     default: {
       break;
     }
