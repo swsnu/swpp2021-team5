@@ -23,7 +23,8 @@ export const toggleRecord_ = (id) => ({
 });
 
 export const toggleRecord = (id) => (dispatch) => axios.put(`/api/record/${id}/liked/`)
-  .then(() => dispatch(toggleRecord_(id)));
+  .then(() => dispatch(toggleRecord_(id)))
+  .catch(() => dispatch(toggleRecord_(id)));
 
 export const getReview_ = (review) => ({
   type: actionTypes.GET_REVIEW,
