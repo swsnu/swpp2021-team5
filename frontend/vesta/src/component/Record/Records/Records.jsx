@@ -40,9 +40,24 @@ class Records extends Component {
         />
       )
     });
-    const dd = (
-      <h1>no</h1>
-    )
+    const demoRecords_ = storedRecords.map(rec => {
+      return (
+        <a href={`/history/{rec.id}`} key={rec.id}>
+          <img
+            src={rec.image}
+            style={{
+              width:"200px",
+              height:"200px",
+              objectFit: "cover", padding: "10px", "border-radius": "20px"
+            }}
+          ></img>
+        </a>
+      )
+    });
+    const demoRecords = [[],[],[]];
+    for (var i=0; i<demoRecords_.length; i++) {
+      demoRecords[i%3].push(demoRecords_[i])
+    };
     return (
       <div className="Records" ref={this.contextRef}>
         <Sticky context={this.contextRef}>
@@ -71,11 +86,25 @@ class Records extends Component {
             />
           </Menu>
         </Sticky>
+        {/*
         <Segment>
           <Grid centered columns={3} textAlign="center" relaxed='very'>
             <Grid.Column width={9}>
               {records}
-              {dd}
+            </Grid.Column>
+          </Grid>
+        </Segment>
+        */}
+        <Segment>
+          <Grid centered columns={3} textAlign="center" relaxed='very'>
+            <Grid.Column width={2}>
+              {demoRecords[0]}
+            </Grid.Column>
+            <Grid.Column width={2}>
+              {demoRecords[1]}
+            </Grid.Column>
+            <Grid.Column width={2}>
+              {demoRecords[2]}
             </Grid.Column>
           </Grid>
         </Segment>
