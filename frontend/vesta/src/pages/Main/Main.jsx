@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import {
@@ -38,7 +39,7 @@ class Main extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      menu: 'Sushi',
+      menu: 'Oatmeal',
     };
   }
 
@@ -73,11 +74,13 @@ class Main extends Component {
               </NextMealHeader>
               <MealRecordArea>
                 <p>{this.state.menu}</p>
+                <a href='/recommendation/0/0'>
                 <Image
-                  src="/sushi_example_image.jpeg"
+                  src="/DummyImages/breakfast1_.jpeg"
                   alt="menu"
                   size="centered large"
                 />
+                </a>
                 <Button id="menu-recommendation-button" onClick={this.onClickedMenuRecButton}>
                   More Recommendations
                 </Button>

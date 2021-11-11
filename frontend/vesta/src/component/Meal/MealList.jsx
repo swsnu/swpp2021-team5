@@ -253,7 +253,7 @@ class MealList extends Component {
           {this.state.otherBreakfast ? otherBreakfast : null}
           {this.state.otherLunch ? otherLunch : null}
           {this.state.otherDinner ? otherDinner : null}
-          <Button className="main-button">Back</Button>
+          <Button className="main-button" onClick={() => this.props.history.push('/main')}>Back</Button>
         </Box>
       </div>
     );
