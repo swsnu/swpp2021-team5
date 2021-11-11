@@ -387,8 +387,41 @@ class KitchenTestClass(TestCase):
         nutrition.save()
 
         client = Client()
-        response = client.get('/api/user/nutrition/', '2021-11-11')
+        response = client.get('/api/nutrition/2021-11-11/')
         self.assertEqual(response.status_code, 401)
-        #response = c
+        response = client.post('/api/nutrition/2021-11-1/', json.dumps({
+            "calories": 1, "carbs": 1, "protein": 1, "fat": 1
+        }), content_type='application/json')
+        self.assertEqual(response.status_code, 401)
+        response = client.put('/api/nutrition/2021-11-11/', json.dumps({
+            "calories": 1, "carbs": 1, "protein": 1, "fat": 2
+        }), content_type='application/json')
+        self.assertEqual(response.status_code, 401)
 
+        
         client.login(username='testuser', password='testpassword')
+        response = client.get('/api/nutrition/2021-11-11/')
+        self.assertEqual(response.status_code, 200)
+
+        response = client.get('/api/nutrition/2021-11-12/')
+        self.assertEqual(response.status_code, 404)
+
+        response = client.post('/api/nutrition/2021-11-12/', json.dumps({
+            "calories": 1, "carbs": 1, "protein": 1, "fat": 1
+        }), content_type='application/json')
+        self.assertEqual(response.status_code, 201)
+
+        response = client.post('/api/nutrition/2021-11-1/', json.dumps({
+            "calories": 1, "carbs": 1, "protein": 1, "fat": 1
+        }), content_type='application/json')
+        self.assertEqual(response.status_code, 201)
+
+        response = client.put('/api/nutrition/2021-11-11/', json.dumps({
+            "calories": 2, "carbs": 2, "protein": 2, "fat": 2
+        }), content_type='application/json')
+        self.assertEqual(response.status_code, 200)
+
+        response = client.put('/api/nutrition/2021-11-10/', json.dumps({
+            "calories": 2, "carbs": 2, "protein": 2, "fat": 2
+        }), content_type='application/json')
+        self.assertEqual(response.status_code, 404)
