@@ -1,71 +1,79 @@
-import React, { PureComponent } from 'react';
-import { Image, Button } from 'semantic-ui-react';
-import styled from 'styled-components';
+/* eslint-disable */
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
+import { Image } from 'semantic-ui-react';
+import * as actionCreators from '../../store/actions/index';
+import {
+  Breakfast, Lunch, Dinner, MealName,
+} from '../../styles/Menu_Recommendation/Meals';
 
-const Breakfast = styled.div`
-background-color:#77ACF2;
-border-radius: 10px;
-padding:4%;
-`;
+class Meal extends Component {
+  onMealDetail = (when, idx) => {
+    this.props.history.push('/recommendation/'+when+'/'+idx);
+  }
 
-const Lunch = styled.div`
-background-color:#D95407;
-border-radius: 10px;
-padding:4%;
-`;
-
-const Dinner = styled.div`
-background-color:#BF7960;
-border-radius: 10px;
-padding:4%;
-`;
-
-const MealName = styled.div`
-font-family:'verveine';
-font-size:25px;
-padding-top:10px;
-padding-bottom:10px;
-`;
-
-class Meal extends PureComponent {
   render() {
+    // if (this.props.recommendedMenus) console.log(this.props.recommendedMenus[0]);
     if (this.props.time === 'breakfast') {
+      // let url = `/recommendation/${this.props.recommendedMenus[0][1].name}`
+      // console.log(url);
       return (
-        <Breakfast>
-          <Image
-            src="/sushi_example_image.jpeg"
-            size="medium"
-            alt="meal_one"
-          />
-          <MealName>Breakfast</MealName>
-          <Button className="other-meal-breakfast-button">Other</Button>
-        </Breakfast>
+        <div>
+          <Breakfast>
+            <a onClick={() => this.onMealDetail(0, 0)}>
+              <img
+                src="/DummyImages/breakfast1_.jpeg"
+                height={180}
+                width={270}
+                alt="meal_one"
+              />
+            </a>
+            <MealName>Breakfast</MealName>
+          </Breakfast>
+        </div>
       );
     } if (this.props.time === 'lunch') {
       return (
-        <Lunch>
-          <Image
-            src="/sushi_example_image.jpeg"
-            size="medium"
-            alt="meal_one"
-          />
-          <MealName>Lunch</MealName>
-          <Button className="other-meal-lunch-button">Other</Button>
-        </Lunch>
+        <div>
+          <Lunch>
+            <a onClick={() => this.onMealDetail(1, 0)}>
+              <img
+                src="/DummyImages/lunch1_.jpeg"
+                height={180}
+                width={270}
+                alt="meal_one"
+              />
+            </a>
+            <MealName>Lunch</MealName>
+          </Lunch>
+        </div>
       );
     }
     return (
-      <Dinner>
-        <Image
-          src="/sushi_example_image.jpeg"
-          size="medium"
-          alt="meal_one"
-        />
-        <MealName>Dinner</MealName>
-        <Button className="other-meal-dinner-button">Other</Button>
-      </Dinner>
+      <div>
+        <Dinner>
+          <a onClick={() => this.onMealDetail(2, 0)}>
+            <img
+              src="/DummyImages/dinner1_.jpeg"
+              height={180}
+              width={270}
+              alt="meal_one"
+            />
+          </a>
+          <MealName>Dinner</MealName>
+        </Dinner>
+      </div>
     );
   }
 }
 
-export default Meal;
+const mapStateToProps = (state) => ({
+  recommendedMenus: state.menu.recommendedMenus,
+});
+
+// const mapDispatchToProps = (dispatch) => ({
+//   onUpdateSelectedMenu: (when, idx) => dispatch(actionCreators.updateSelectedMenu_(when, idx)),
+// });
+
+export default connect(mapStateToProps, null)(withRouter(Meal));
