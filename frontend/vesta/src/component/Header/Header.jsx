@@ -7,6 +7,7 @@ import { NavLink } from 'react-router-dom';
 const HeaderBackground = styled.div`
 background-color:#F2CE1B;
 top:0;
+round:15px;
 width:100%;
 z-index:0.5;
 `;
