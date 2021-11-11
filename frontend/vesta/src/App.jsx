@@ -64,7 +64,7 @@ function App(props) {
             exact
             render={() => <Main />}
           />
-          <Redirect exact from="/" to="/login" />
+          <Redirect exact from="/" to="/main" />
           <Route
             path="/setting"
             exact
