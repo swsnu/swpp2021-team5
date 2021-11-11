@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 // import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import { Button, Grid, Image, Segment } from 'semantic-ui-react';
+import { Button, Grid, Image, Segment, Divider } from 'semantic-ui-react';
 import styled from 'styled-components';
 // import MealList from '../../component/Meal/MealList';
 // import Background from '../../styles/Nutritional_Info_and_Recipe/Background';
@@ -12,14 +12,48 @@ import Nutrient from '../../Nutrient/Nutrient';
 import Review from '../Review/Review';
 
 const Div = styled.div`
-background-color:#B3D962;
+background-color:#f2f2f2;
 border-radius: 10px;
-text-align:center;
+margin: 10px;
+padding: 15px;
+`;
+
+const DateHeader = styled.div`
+background-color:#77ACF2;
+font-size:40px;
+color:'black';
+text-align: center;
+vertical-align:bottom;
+font-family:'verveine';
+border-radius: 10px;
+padding:20px;
+margin-bottom: 20pxpx;
+`;
+
+const MenuNameHeader = styled.div`
+background-color:#B3D962;
+font-size:40px;
+color:#F28095;
+text-align: center;
+vertical-align:bottom;
+font-family:'verveine';
+border-radius: 10px;
+padding:20px;
+margin-bottom: 30px;
+`;
+
+const TextArea = styled.div`
+background-color:#F2BB16;
+border-radius: 10px;
+font-family:'verveine';
+font-size:25px;
+margin-bottom:30px;
 `;
 
 class RecordDetail extends Component {
   componentDidMount() {
-    this.props.onGetRecord(this.props.id);
+    this.props.onGetRecord(this.props.id)
+      .then(this.props.onGetMenu(this.props.record.menuName));
   }
   clickRecordsHandler = () => {
     this.props.history.push('/history/');
@@ -34,11 +68,12 @@ class RecordDetail extends Component {
       color='red'
     }
     let menuName = 'Sushi';
-    let calories = 0;
-    let carbs = 0;
-    let protein = 0;
-    let fat = 0;
+    let calories = 446;
+    let carbs = 93.29;
+    let protein = 13.42;
+    let fat = 1.31;
     let recipe = 'Ways to make good sushi';
+    let date = "2021/11/11";
     if (this.props.selectedMenu) {
       menuName = this.props.selectedMenu.name;
       calories = this.props.selectedMenu.calories;
@@ -46,16 +81,23 @@ class RecordDetail extends Component {
       protein = this.props.selectedMenu.protein;
       fat = this.props.selectedMenu.fat;
       recipe = this.props.selectedMenu.recipe;
+      date = this.props.record.date
     }
     return (
-      <Div className="RecordDetail">
+      <div className="RecordDetail">
           <Grid textAlign="center">
-            <Grid.Column width={7}>
+            <Grid.Column width={10}>
+              <Div>
+              <p>
+                <DateHeader>
+                  {date}
+                </DateHeader>
+              </p>
               <p>
                 <Image
                 id="meal-image"
                 src="/sushi_example_image.jpeg"
-                class="ui centered fluid image"
+                class="ui centered fluid rounded image"
               />
               </p>
               {/*
@@ -71,26 +113,53 @@ class RecordDetail extends Component {
               </p>
               */}
               <p>
-                <Nutrient
-                  menu_name={menuName}
-                  calories={calories}
-                  carbs={carbs}
-                  protein={protein}
-                  fat={fat}
-                />
+              <MenuNameHeader>{menuName}</MenuNameHeader>
+                <TextArea>
+                  <Grid>
+                    <Grid.Column width={8}>
+                      <p>
+                        Calories:&nbsp;
+                        {calories}
+                        &nbsp;
+                        kCal
+                      </p>
+                      <p>
+                        Carbohydrate:&nbsp;
+                        {carbs}
+                        &nbsp;
+                        g
+                      </p>
+                    </Grid.Column>
+                    <Grid.Column width={8}>
+                      <p>
+                        Protein:&nbsp;
+                        {protein}
+                        &nbsp;
+                        g
+                      </p>
+                      <p>
+                        Fat:&nbsp;
+                        {fat}
+                        &nbsp;
+                        g
+                      </p>
+                    </Grid.Column>
+                  </Grid>
+                </TextArea>
               </p>
               <Review />
               <p>
                 <Button id="back-to-recommendations"
                   onClick={() => this.props.history.push('/history')}
-                  >Records</Button>
+                  >Back</Button>
                 <Button onClick={this.props.onToggleRecord(this.props.id)}>
                   <div className="liked" style={{color:color}}>&#9829;</div>
                 </Button>
               </p>
+              </Div>
             </Grid.Column>
           </Grid>
-      </Div>
+      </div>
     )
   }
 }
@@ -98,7 +167,7 @@ class RecordDetail extends Component {
 const mapStateToProps = state => {
   return {
     record: state.record.selectedRecord,
-    menu: state.menu.selectedMenu
+    selectedMenu: state.menu.selectedMenu
   }
 }
 
