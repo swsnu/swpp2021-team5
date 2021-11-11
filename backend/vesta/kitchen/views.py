@@ -1,5 +1,6 @@
 import json
 import datetime
+from django.db.models.fields import NullBooleanField
 from django.http import HttpResponse, HttpResponseNotAllowed
 from django.http.response import JsonResponse
 from django.views.decorators.csrf import ensure_csrf_cookie
@@ -20,7 +21,7 @@ def signup(request):
         user = User.objects.create_user(username=username, password=password)
 
         # Model 'Profile' should be created simultaneously #
-        new_profile = Profile(user=user)
+        new_profile = Profile(user=user, age=None, sex=None, height=None, weight=None)
         new_profile.save()
 
         return HttpResponse(status=201)

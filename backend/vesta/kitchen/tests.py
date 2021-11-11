@@ -333,7 +333,7 @@ class KitchenTestClass(TestCase):
         user.set_password('testpassword')
         user.save()
 
-        profile = Profile(user=user, age=1, sex='M', height=1, weight=1)
+        profile = Profile(user=user, age=1, sex=True, height=1, weight=1)
         profile.save()
         menu = Menu.objects.create(name='testmenu', calories=1, carbs=1, protein=1, fat=1, image='./images/brownie.jpeg')
         menu.save()
@@ -347,7 +347,7 @@ class KitchenTestClass(TestCase):
         response = client.put('/api/user/profile/', json.dumps({
             'username': 'bang',
             'age': '5',
-            'sex': 'F',
+            'sex': False,
             'height': '5',
             'weight': '5',
             'preference': ['testmenu']
@@ -361,7 +361,7 @@ class KitchenTestClass(TestCase):
         response = client.put('/api/user/profile/', json.dumps({
             'username': 'bang',
             'age': '5',
-            'sex': 'F',
+            'sex': False,
             'height': '5',
             'weight': '5',
             'preference': ['testmenu']
@@ -371,7 +371,7 @@ class KitchenTestClass(TestCase):
         response = client.put('/api/user/profile/', json.dumps({
             'username': 'bang',
             'age': '5',
-            'sex': 'F',
+            'sex': False,
             'height': '5',
             'weight': '5',
             'preference': ['chicken']
