@@ -1,10 +1,11 @@
-import datetime
-from django.test import TestCase, Client
+import datetime, json
+from django.test import TestCase, Client, client
 from django.contrib.auth.models import User
-from .models import Menu, Recipe, Record
+from .models import Menu, Preference, Recipe, Record, Profile, UserNutrition
 
 # Create your tests here.
 class KitchenTestClass(TestCase):
+
     ## test api/record/
     def test_record(self):
         user = User.objects.create(username='testuser')
@@ -284,3 +285,110 @@ class KitchenTestClass(TestCase):
         response = client.post('/api/token/')
         self.assertEqual(response.status_code, 405)
         
+    def test_signup(self):
+        client = Client()
+        response = client.post('/api/user/signup/', json.dumps({'username': 'chris', 'password': 'chris'}), content_type='application/json')
+        self.assertEqual(response.status_code, 201)  
+
+    def test_signin(self):
+        user = User.objects.create(username='testuser')
+        user.set_password('testpassword')
+        user.save()
+
+        client = Client()
+        response = client.post('/api/user/signin/', json.dumps({'username': 'bang', 'password': 'testpassword'}), content_type='application/json')
+        self.assertEqual(response.status_code, 401)
+
+        response = client.post('/api/user/signin/', json.dumps({'username': 'testuser', 'password': 'testpassword'}), content_type='application/json')
+        self.assertEqual(response.status_code, 204)
+
+    def test_signout(self):
+        user = User.objects.create(username='testuser')
+        user.set_password('testpassword')
+        user.save()
+
+        client = Client()
+        response = client.get('/api/user/signout/')
+        self.assertEqual(response.status_code, 401)
+
+        client.login(username='testuser', password='testpassword')
+        response = client.get('/api/user/signout/')
+        self.assertEqual(response.status_code, 204)
+
+    def test_resign(self):
+        user = User.objects.create(username='testuser')
+        user.set_password('testpassword')
+        user.save()
+
+        client = Client()
+        response = client.delete('/api/user/resign/')
+        self.assertEqual(response.status_code, 401)
+
+        client.login(username='testuser', password='testpassword')
+        response = client.delete('/api/user/resign/')
+        self.assertEqual(response.status_code, 200)
+
+    def test_profile(self):
+        user = User.objects.create(username='testuser')
+        user.set_password('testpassword')
+        user.save()
+
+        profile = Profile(user=user, age=1, sex='M', height=1, weight=1)
+        profile.save()
+        menu = Menu.objects.create(name='testmenu', calories=1, carbs=1, protein=1, fat=1, image='./images/brownie.jpeg')
+        menu.save()
+
+        preference = Preference(user=user, menu=menu)
+        preference.save()
+
+        client = Client()
+        response = client.get('/api/user/profile/')
+        self.assertEqual(response.status_code, 401)
+        response = client.put('/api/user/profile/', json.dumps({
+            'username': 'bang',
+            'age': '5',
+            'sex': 'F',
+            'height': '5',
+            'weight': '5',
+            'preference': ['testmenu']
+        }), content_type='application/json')
+        self.assertEqual(response.status_code, 401)
+
+        client.login(username='testuser', password='testpassword')
+        response = client.get('/api/user/profile/')
+        self.assertEqual(response.status_code, 200)
+
+        response = client.put('/api/user/profile/', json.dumps({
+            'username': 'bang',
+            'age': '5',
+            'sex': 'F',
+            'height': '5',
+            'weight': '5',
+            'preference': ['testmenu']
+        }), content_type='application/json')
+        self.assertEqual(response.status_code, 200)
+
+        response = client.put('/api/user/profile/', json.dumps({
+            'username': 'bang',
+            'age': '5',
+            'sex': 'F',
+            'height': '5',
+            'weight': '5',
+            'preference': ['chicken']
+        }), content_type='application/json')
+        self.assertEqual(response.status_code, 404)
+    
+    def test_nutrition(self):
+        user = User.objects.create(username='testuser')
+        user.set_password('testpassword')
+        user.save()
+
+        nutrition = UserNutrition(user=user, date=datetime.date(2021,11,11), calories=1, carbs=1, protein=1, fat=1)
+        nutrition.save()
+
+        client = Client()
+        response = client.get('/api/user/nutrition/', '2021-11-11')
+        self.assertEqual(response.status_code, 401)
+        #response = c
+
+        client.login(username='testuser', password='testpassword')
