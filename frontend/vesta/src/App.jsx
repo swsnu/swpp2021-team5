@@ -35,7 +35,7 @@ function App(props) {
             render={() => <MenuRecommendation />}
           />
           <Route
-            path="/recommendation/detail"
+            path="/recommendation/:when/:idx"
             exact
             render={() => <NutritionalInfoAndRecipe />}
           />
