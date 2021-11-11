@@ -9,12 +9,13 @@ const HeaderBackground = styled.div`
 background-color:#F2CE1B;
 // height:190px;
 // width:900px;
-border-radius: 15px;
+border-radius: 20px;
 display: flex;
 position: relative;
 justify-content:center; // centers in the flex direction and the default flex-direction is row
 align-items:center;
 padding:10px;
+margin:15px;
 `;
 
 const Buttons = styled.div`

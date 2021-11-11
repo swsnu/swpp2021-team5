@@ -38,15 +38,15 @@ class ConfirmDetection extends Component {
   }
 
   render() {
-    let calories = 2;
-    let carbs = 2;
-    let protein = 2;
-    let fat = 2;
+    let calories = 560;
+    let carbs = 132.12;
+    let protein = 12.1;
+    let fat = 28.2;
     if (this.state.menuName.toLocaleLowerCase() === 'sushi') {
-      calories = 1;
-      carbs = 1;
-      protein = 1;
-      fat = 1;
+      calories = 446;
+      carbs = 93.29;
+      protein = 13.42;
+      fat = 1.31;
     }
     return (
       <div>
