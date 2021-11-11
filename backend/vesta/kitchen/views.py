@@ -1,6 +1,5 @@
 import json
 import datetime
-from django.db.models.fields import NullBooleanField
 from django.http import HttpResponse, HttpResponseNotAllowed
 from django.http.response import JsonResponse
 from django.views.decorators.csrf import ensure_csrf_cookie

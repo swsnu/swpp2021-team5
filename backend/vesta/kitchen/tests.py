@@ -1,5 +1,6 @@
-import datetime, json
-from django.test import TestCase, Client, client
+import datetime
+import json
+from django.test import TestCase, Client
 from django.contrib.auth.models import User
 from .models import Menu, Preference, Recipe, Record, Profile, UserNutrition
 
