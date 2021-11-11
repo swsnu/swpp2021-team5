@@ -83,11 +83,11 @@ def profile(request):
 
             user_profile = user.profile
             response_dict = {
-                'username': user_profile.username,
-                'age': user_profile.profile.age,
-                'sex': user_profile.profile.sex,
-                'height': user_profile.profile.height,
-                'weight': user_profile.profile.weight,
+                'username': user.username,
+                'age': user_profile.age,
+                'sex': user_profile.sex,
+                'height': user_profile.height,
+                'weight': user_profile.weight,
                 'preference': food_preference_list
             }
             return JsonResponse(response_dict, status=200, safe=False)
