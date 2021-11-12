@@ -127,21 +127,21 @@ class Setting extends Component {
                     <Table.HeaderCell>Age</Table.HeaderCell>
                     <Table.Cell>{age}</Table.Cell>
                     <Table.Cell>
-                      <Input onChange={(e) => this.onChangedUserAgeInput(e)} placeholder={age} />
+                      <Input id="user-age-input" onChange={(e) => this.onChangedUserAgeInput(e)} placeholder={age} />
                     </Table.Cell>
                   </Table.Row>
                   <Table.Row textAlign='center'>
                     <Table.HeaderCell>Sex</Table.HeaderCell>
                     <Table.Cell>{sex}</Table.Cell>
                     <Table.Cell>
-                      <Input onChange={(e) => this.onChangedUserSexInput(e)} placeholder={sex} />
+                      <Input id="user-sex-input" onChange={(e) => this.onChangedUserSexInput(e)} placeholder={sex} />
                     </Table.Cell>
                   </Table.Row>
                   <Table.Row textAlign='center'>
                     <Table.HeaderCell>height</Table.HeaderCell>
                     <Table.Cell>{height}</Table.Cell>
                     <Table.Cell>
-                      <Input
+                      <Input id="user-height-input"
                         onChange={(e) => { this.onChangedUserHeightInput(e); }}
                         placeholder={height}
                       />
@@ -151,7 +151,7 @@ class Setting extends Component {
                     <Table.HeaderCell>weight</Table.HeaderCell>
                     <Table.Cell>{weight}</Table.Cell>
                     <Table.Cell>
-                      <Input
+                      <Input id="user-weight-input"
                         onChange={(e) => { this.onChangedUserWeightInput(e); }}
                         placeholder={weight}
                       />
@@ -171,7 +171,9 @@ class Setting extends Component {
                 <Table.Footer>
                   <Table.Row>
                     <Table.HeaderCell colSpan="3">
-                      <Button primary floated="right">Save</Button>
+                      <Button primary floated="right"
+                       onClick={() => this.onClickedSaveButton()}>Save
+                      </Button>
                     </Table.HeaderCell>
                   </Table.Row>
                 </Table.Footer>
@@ -188,7 +190,8 @@ class Setting extends Component {
             <div text-align='left' className="resign">
               <br />
               <br />
-              <Button onClick={() => this.onClickedDeleteAccountButton()} floated="right">Delete Account</Button>
+              <Button id="user-resign-button" floated="right"
+              onClick={() => this.onClickedDeleteAccountButton()} >Delete Account</Button>
             </div>
           </GridRow>
         </Grid>
