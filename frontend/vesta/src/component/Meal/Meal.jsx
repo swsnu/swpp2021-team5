@@ -10,19 +10,18 @@ import {
 
 class Meal extends Component {
   onMealDetail = (when, idx) => {
+    console.log('here');
     this.props.history.push('/recommendation/'+when+'/'+idx);
   }
 
   render() {
-    // if (this.props.recommendedMenus) console.log(this.props.recommendedMenus[0]);
     if (this.props.time === 'breakfast') {
-      // let url = `/recommendation/${this.props.recommendedMenus[0][1].name}`
-      // console.log(url);
       return (
         <div>
           <Breakfast>
             <a onClick={() => this.onMealDetail(0, 0)}>
               <img
+                id="breakfast"
                 src="/DummyImages/breakfast1_.jpeg"
                 height={180}
                 width={270}
@@ -39,6 +38,7 @@ class Meal extends Component {
           <Lunch>
             <a onClick={() => this.onMealDetail(1, 0)}>
               <img
+                id="lunch"
                 src="/DummyImages/lunch1_.jpeg"
                 height={180}
                 width={270}
@@ -55,6 +55,7 @@ class Meal extends Component {
         <Dinner>
           <a onClick={() => this.onMealDetail(2, 0)}>
             <img
+              id="dinner"
               src="/DummyImages/dinner1_.jpeg"
               height={180}
               width={270}
