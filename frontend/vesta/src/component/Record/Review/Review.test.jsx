@@ -9,9 +9,7 @@ import { history } from '../../../store/store';
 import * as actionCreators from '../../../store/actions/Record/record';
 import Review from './Review';
 
-const userInitialState = {
-
-};
+const userInitialState = {};
 const recordInitialState = {
   userRecords: [
     {
@@ -44,50 +42,8 @@ const recordInitialState = {
   },
   selectedReview: null,
 };
-const stubMenuInitialState = {
-  selectedMenu: {
-    name: 'Oatmeal',
-    calories: 404,
-    carbs: 60,
-    protein: 22,
-    fat: 16,
-    recipe: '1. Preheat oven to 375F.\n2. In a large bowl cream together butter brown sugar vanilla and cinnamon until smooth.\n3. Add the two kinds of oats one at a time mixing well after each addition.', 
-  },
-  allMenus: null,
-  recommendedMenus: [
-    [
-      {
-        name: 'Oatmeal',
-        calories: 404,
-        carbs: 60,
-        protein: 22,
-        fat: 16,
-        recipe: '1. Preheat oven to 375F.\n2. In a large bowl cream together butter brown sugar vanilla and cinnamon until smooth.\n3. Add the two kinds of oats one at a time mixing well after each addition.',
-      }
-    ], [
-      {
-        name: 'Chicken Teriyaki',
-        calories: 300,
-        carbs: 50,
-        protein: 5,
-        fat: 2,
-        recipe: '1. Preheat an oven to 350 degrees F 175 degrees C.\n2. Stir the soy sauce sugar 1 teaspoon of black pepper cornstarch and 1/2 cup of the reserved pineapple juice together in a saucepan until the sugar is completely dissolved add the onion garlic and ginger. Bring the mixture to a boil and cook until the sauce thickens about 5 minutes.',
-      }
-    ], [
-      {
-        name: 'bibimbap',
-        calories: 800,
-        carbs: 150,
-        protein: 45,
-        fat: 15,
-        recipe: '1. Stir cucumber pieces with 1/4 cup gochujang paste in a bowl set aside.\\n2. Bring about 2 cups of water to a boil in a large nonstick skillet and stir in spinach cook until spinach is bright green and wilted 2 to 3 minutes. Drain spinach and squeeze out as much moisture as possible set spinach aside in a bowl and stir soy sauce into spinach.',
-      },
-    ],
-  ],
-};
-const recipeInitialState = {
-
-};
+const stubMenuInitialState = {};
+const recipeInitialState = {};
 const mockStore = getMockStore(userInitialState, recordInitialState, stubMenuInitialState, recipeInitialState);
 
 describe('<Review/>', () => {
@@ -109,9 +65,93 @@ describe('<Review/>', () => {
     .mockImplementation(() => (dispatch) => {});
   });
 
+  afterEach(() => jest.clearAllMocks());
+
   it('should render', () => {
     const component = mount(review);
     expect(component.length).toBe(1);
     expect(spyGetRecord).toBeCalledTimes(1);
   });
-})
+
+  it('should edit review button', () => {
+    let spyOnEditReview = jest.spyOn(actionCreators, 'editReview')
+      .mockImplementation(() => (dispatch) => {});
+    const component = mount(review);
+    component.find('button#edit-review-button').simulate('click');
+    const wrapper = component.find(Review.WrappedComponent).instance();
+    expect(wrapper.state.editing).toBe(true);
+    component.find('button#confirm-review-button').simulate('click');
+    expect(spyOnEditReview).toHaveBeenCalled();
+  });
+
+  it('should match state review when editing', () => {
+    const component = mount(review);
+    component.find('button#edit-review-button').simulate('click');
+    component.find('textarea#edit-review-text-area').simulate('change', { target: { value: 'test_review' } });
+    const wrapper = component.find(Review.WrappedComponent).instance();
+    expect(wrapper.state.review).toEqual('test_review');
+  });
+
+  it('should cancel editing review', () => {
+    const component = mount(review);
+    component.find('button#edit-review-button').simulate('click');
+    component.find('button#cancel-review-button').simulate('click');
+    const wrapper = component.find(Review.WrappedComponent).instance();
+    expect(wrapper.state.editing).toBe(false);
+  });
+
+  it('should delete review', () => {
+    window.confirm = jest.fn().mockImplementation(() => true);
+    let spyOnDeleteReview = jest.spyOn(actionCreators, 'deleteReview')
+      .mockImplementation(() => (dispatch) => {});
+    const component = mount(review);
+    const wrapper = component.find('button#delete-review-button').simulate('click');
+    expect(window.confirm).toHaveBeenCalled();
+    expect(spyOnDeleteReview).toBeCalled();
+  });
+});
+
+// const userInitialState = {};
+// const recordInitialState_ = {
+//   userRecords: null,
+//   selectedRecord: null,
+//   selectedReview: null,
+// };
+// const stubMenuInitialState = {};
+// const recipeInitialState = {};
+// const mockStore_ = getMockStore(userInitialState, recordInitialState_, stubMenuInitialState, recipeInitialState);
+
+// describe('<Review/> with null', () => {
+//   let review_;
+//   let spyGetRecord;
+
+//   beforeEach(() => {
+//     review_ = (
+//       <Provider store={mockStore_}>
+//         <ConnectedRouter history={history}>
+//           <Switch>
+//             <Route path='/' exact
+//               render={() => <Review />} />
+//           </Switch>
+//         </ConnectedRouter>
+//       </Provider>
+//     );
+//     spyGetRecord = jest.spyOn(actionCreators, 'getRecord')
+//     .mockImplementation(() => (dispatch) => {});
+//   });
+
+//   afterEach(() => jest.clearAllMocks());
+
+//   it('should render', () => {
+//     const component = mount(review_);
+//     expect(component.length).toBe(1);
+//     expect(spyGetRecord).toBeCalledTimes(1);
+//   });
+
+//   it('should create review', () => {
+//     const component = mount(review_);
+//     component.find('textarea#create-review-text-area').simulate('change', { target: { value: 'test_create_review' } });
+//     const wrapper = component.find(Review.WrappedComponent).instance();
+//     expect(wrapper.state.review).toEqual('test_create_review');
+//   });
+// });

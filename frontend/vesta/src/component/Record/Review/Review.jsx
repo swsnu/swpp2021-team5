@@ -52,8 +52,8 @@ class Review extends Component {
       <div>
         <h3>Your Review</h3>
         <p>{review}</p>
-        <Button onClick={() => this.setState({ editing: true })} size='mini'>Edit</Button>
-        <Button onClick={() => this.onClickedDeleteReview()} size='mini'>Delete</Button>
+        <Button id="edit-review-button" onClick={() => this.setState({ editing: true })} size='mini'>Edit</Button>
+        <Button id="delete-review-button" onClick={() => this.onClickedDeleteReview()} size='mini'>Delete</Button>
       </div>
     );
     let reviewEdit = (
@@ -61,11 +61,12 @@ class Review extends Component {
         <h3>Edit Review</h3>
         <Form>
           <TextArea
+            id="edit-review-text-area"
             value={this.state.review}
             onChange={(event) => this.setState({ review: event.target.value })}/>
         </Form>
-        <Button size='mini' onClick={() => this.onClickedEditReview()}>Confirm</Button>
-        <Button size='mini' onClick={() => this.setState({ editing: false })}>Back</Button>
+        <Button id="confirm-review-button" size='mini' onClick={() => this.onClickedEditReview()}>Confirm</Button>
+        <Button id="cancel-review-button" size='mini' onClick={() => this.setState({ editing: false })}>Back</Button>
       </div>
     );
     let reviewIsNull = (
@@ -73,11 +74,12 @@ class Review extends Component {
         <h3>No Reviews yet</h3>
         <Form>
           <TextArea
+            id="create-review-text-area"
             placeholder='Write your review here'
             value={this.state.review}
             onChange={(event) => this.setState({ review: event.target.value })}/>
         </Form>
-        <Button size='mini' onClick={() => this.onClickedCreateReview(this.state.review)}>Create</Button>
+        <Button id="create-review-button" size='mini' onClick={() => this.onClickedCreateReview(this.state.review)}>Create</Button>
       </div>
     );
     return (
@@ -99,8 +101,8 @@ const mapDispatchToProps = dispatch => {
   return {
     onGetRecord: (recordID) =>
       dispatch(actionCreators.getRecord(recordID)),
-    onToggleRecord: (recordID) =>
-      dispatch(actionCreators.toggleRecord(recordID)),
+    // onToggleRecord: (recordID) =>
+    //   dispatch(actionCreators.toggleRecord(recordID)),
     onCreateReview: (recordID, review) =>
       dispatch(actionCreators.createReview(recordID, review)),
     onDeleteReview: (recordID) =>
