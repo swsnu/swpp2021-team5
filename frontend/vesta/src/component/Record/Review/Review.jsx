@@ -26,9 +26,9 @@ class Review extends Component {
     }
   }
 
-  clickRecordsHandler = () => {
-    this.props.history.push('/history/');
-  }
+  // clickRecordsHandler = () => {
+  //   this.props.history.push('/history/');
+  // }
 
   onClickedCreateReview = (review) => {
     this.props.onCreateReview(parseInt(this.props.match.params.id, 10), review);

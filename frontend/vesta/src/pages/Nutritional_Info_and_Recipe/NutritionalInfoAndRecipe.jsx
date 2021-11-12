@@ -30,15 +30,15 @@ class NutritionalInfoAndRecipe extends Component {
       recipe = this.props.selectedMenu.recipe;
     }
     // console.log(this.props.selectedMenu);
-    let url = '/DummyImages/';
-    if (parseInt(this.props.match.params.when, 10)==0){
-      url += 'breakfast' + (parseInt(this.props.match.params.idx, 10)+1) + '_.jpeg';
-    } else if (parseInt(this.props.match.params.when, 10)==1){
-      url += 'lunch' + (parseInt(this.props.match.params.idx, 10)+1) + '_.jpeg';
-    } else {
-      if (parseInt(this.props.match.params.idx, 10)+1 != 3) url += 'dinner' + (parseInt(this.props.match.params.idx, 10)+1) +'_.jpeg';
-      else url += 'dinner'+(parseInt(this.props.match.params.idx, 10)+1) +'_.jpg';
-    }
+    let url = '/DummyImages/breakfast1_.jpeg';
+    // if (parseInt(this.props.match.params.when, 10)==0){
+    //   url += 'breakfast' + (parseInt(this.props.match.params.idx, 10)+1) + '_.jpeg';
+    // } else if (parseInt(this.props.match.params.when, 10)==1){
+    //   url += 'lunch' + (parseInt(this.props.match.params.idx, 10)+1) + '_.jpeg';
+    // } else {
+    //   if (parseInt(this.props.match.params.idx, 10)+1 != 3) url += 'dinner' + (parseInt(this.props.match.params.idx, 10)+1) +'_.jpeg';
+    //   else url += 'dinner'+(parseInt(this.props.match.params.idx, 10)+1) +'_.jpg';
+    // }
     // console.log(url);
     return (
       <div className="NutritionalInfoAndRecipe">
