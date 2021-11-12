@@ -84,7 +84,7 @@ class Review extends Component {
     );
     return (
       <ReviewBox className="RecordDetail">
-        {!this.props.record.review ? reviewIsNull : 
+        {!this.props.record ? reviewIsNull : 
                 this.state.editing ? reviewEdit : reviewNotNull}
       </ReviewBox>
     )
