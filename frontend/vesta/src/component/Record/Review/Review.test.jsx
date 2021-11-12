@@ -4,10 +4,10 @@ import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
 import { Switch } from 'react-router';
 import { Route, Link } from 'react-router-dom';
-import { getMockStore } from '../../../test-utils/mock';
-import { history } from '../../store/store';
-import * as actionCreators from '../../store/actions/Menu/menu';
-import MealList from './MealList';
+import { getMockStore } from '../../../../test-utils/mock';
+import { history } from '../../../store/store';
+import * as actionCreators from '../../../store/actions/Menu/menu';
+import Review from './Review';
 
 const userInitialState = {
 
@@ -61,34 +61,29 @@ const recipeInitialState = {
 };
 const mockStore = getMockStore(userInitialState, recordInitialState, stubMenuInitialState, recipeInitialState);
 
-describe('MealList', () => {
-  let mealList;
+describe('<Review/>', () => {
+  let review;
+  let spyGetRecord;
 
   beforeEach(() => {
-    mealList = (
+    review = (
       <Provider store={mockStore}>
         <ConnectedRouter history={history}>
           <Switch>
             <Route path='/' exact
-              render={() => <MealList title="Today's Recommendation" />} />
+              render={() => <Review />} />
           </Switch>
         </ConnectedRouter>
       </Provider>
     );
+    spyGetRecord = jest.spyOn(actionCreators, 'getRecord')
+    .mockImplementation(() => (dispatch) => {});
   });
 
-  afterEach(() => jest.clearAllMocks());
-
-  it('should render correctly', () => {
-    const component = mount(mealList);
-    expect(component.length).toBe(1);
-    component.unmount();
+  it('should render', () => {
+    const component = mount(review);
+    const wrapper = component.find('review');
+    expect(wrapper.length).toBe(1);
+    expect(spyGetRecord).toBeCalledTimes(1);
   });
-
-  it('should redirect to main', () => {
-    const component = mount(mealList);
-    const wrapper = component.find(".main-button").at(1).simulate('click');
-    expect(history.location.pathname).toBe('/main');
-    component.unmount();
-  })
 })
