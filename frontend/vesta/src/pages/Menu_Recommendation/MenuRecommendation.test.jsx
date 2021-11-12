@@ -5,7 +5,7 @@ import { ConnectedRouter } from 'connected-react-router';
 import { Switch } from 'react-router';
 import { Route } from 'react-router-dom';
 import { getMockStore } from '../../../test-utils/mock';
-import NutritionalInfoAndRecipe from './NutritionalInfoAndRecipe';
+import MenuRecommendation from './MenuRecommendation';
 import { history } from '../../store/store';
 import * as actionCreators from '../../store/actions/Menu/menu';
 
@@ -61,47 +61,29 @@ const recipeInitialState = {
 };
 const mockStore = getMockStore(userInitialState, recordInitialState, stubMenuInitialState, recipeInitialState);
 
-describe('<NutritionalInfoAndRecipe />', () => {
-  let nutritional; 
-  let spyUpdateSelectedMenu_;
+describe('MenuRecommenation', () => {
+  let menuRecommendation;
+  let spyGetRecommendedMenus;
+
   beforeEach(() => {
-    nutritional = (
+    menuRecommendation = (
       <Provider store={mockStore}>
         <ConnectedRouter history={history}>
           <Switch>
-            <Route path="/" exact component={NutritionalInfoAndRecipe} match={{params: {when:0, idx:0}}}/>
+            <Route path='/' exact
+              render={() => <MenuRecommendation />} />
           </Switch>
         </ConnectedRouter>
       </Provider>
     );
-    spyUpdateSelectedMenu_ = jest.spyOn(actionCreators, 'updateSelectedMenu_')
-      .mockImplementation(() => (dispatch) => {});
+    spyGetRecommendedMenus = jest.spyOn(actionCreators, 'getRecommendedMenus')
+    .mockImplementation(() => (dispatch) => {});
   });
 
-  afterEach(() => {
-    jest.clearAllMocks();
-  });
-
-  it('should render without errors', () => {
-    const component = mount(nutritional);
-    const wrapper = component.find('.NutritionalInfoAndRecipe');
+  it('should render correctly', () => {
+    const component = mount(menuRecommendation);
+    const wrapper = component.find('MenuRecommendation');
     expect(wrapper.length).toBe(1);
-    expect(spyUpdateSelectedMenu_).toBeCalledTimes(1);
   });
-
-  // fit('should return initialMenuState', () => {
-  // const component = mount(nutritional);
-  // const wrapper = component.find('.NutritionalInfoAndRecipe').props();
-  // // console.log(wrapper.props());
-  // const practice = {
-  //     name: 'Oatmeal',
-  //     calories: 404,
-  //     carbs: 60,
-  //     protein: 22,
-  //     fat: 16,
-  //     recipe: '1. Preheat oven to 375F.\n2. In a large bowl cream together butter brown sugar vanilla and cinnamon until smooth.\n3. Add the two kinds of oats one at a time mixing well after each addition.', 
-  //   };
-  //   console.log(wrapper.props());
-  //   expect(wrapper.selectedMenu).toEqual(practice);
-  // });
+  
 });
