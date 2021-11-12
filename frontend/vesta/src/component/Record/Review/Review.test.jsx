@@ -6,14 +6,43 @@ import { Switch } from 'react-router';
 import { Route, Link } from 'react-router-dom';
 import { getMockStore } from '../../../../test-utils/mock';
 import { history } from '../../../store/store';
-import * as actionCreators from '../../../store/actions/Menu/menu';
+import * as actionCreators from '../../../store/actions/Record/record';
 import Review from './Review';
 
 const userInitialState = {
 
 };
 const recordInitialState = {
-
+  userRecords: [
+    {
+      id: 1,
+      image: "/sushi_example_image.jpeg",
+      date: "2021/11/09",
+      liked: true,
+      review: null,
+    },
+    {
+      id: 2,
+      image: "/chicken_sample_image.jpeg",
+      date: "2021/11/08",
+      liked: false,
+      review: null,
+    },
+    {
+      id: 3,
+      image: "/pasta_sample_image.jpeg",
+      date: "2021/11/07",
+      liked: true,
+      review: null,
+    },
+  ],
+  selectedRecord: {
+    id: 1,
+    date: "2021/11/09",
+    liked: true,
+    review: "My favorite Dish",
+  },
+  selectedReview: null,
 };
 const stubMenuInitialState = {
   selectedMenu: {
@@ -82,8 +111,7 @@ describe('<Review/>', () => {
 
   it('should render', () => {
     const component = mount(review);
-    const wrapper = component.find('review');
-    expect(wrapper.length).toBe(1);
+    expect(component.length).toBe(1);
     expect(spyGetRecord).toBeCalledTimes(1);
   });
 })

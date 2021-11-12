@@ -88,20 +88,43 @@ describe('<NutritionalInfoAndRecipe />', () => {
     expect(wrapper.length).toBe(1);
     expect(spyUpdateSelectedMenu_).toBeCalledTimes(1);
   });
+  
+});
 
-  // fit('should return initialMenuState', () => {
-  // const component = mount(nutritional);
-  // const wrapper = component.find('.NutritionalInfoAndRecipe').props();
-  // // console.log(wrapper.props());
-  // const practice = {
-  //     name: 'Oatmeal',
-  //     calories: 404,
-  //     carbs: 60,
-  //     protein: 22,
-  //     fat: 16,
-  //     recipe: '1. Preheat oven to 375F.\n2. In a large bowl cream together butter brown sugar vanilla and cinnamon until smooth.\n3. Add the two kinds of oats one at a time mixing well after each addition.', 
-  //   };
-  //   console.log(wrapper.props());
-  //   expect(wrapper.selectedMenu).toEqual(practice);
-  // });
+const stubMenuInitialState_ = {
+  selectedMenu: null,
+  allMenus: null,
+  recommendedMenus: null,
+};
+
+const mockStore_ = getMockStore(userInitialState, recordInitialState, stubMenuInitialState_, recipeInitialState);
+
+describe('<NutritionalInfoAndRecipe />', () => {
+  let nutritional; 
+  let spyUpdateSelectedMenu_;
+  beforeEach(() => {
+    nutritional = (
+      <Provider store={mockStore_}>
+        <ConnectedRouter history={history}>
+          <Switch>
+            <Route path="/" exact component={NutritionalInfoAndRecipe} match={{params: {when:0, idx:0}}}/>
+          </Switch>
+        </ConnectedRouter>
+      </Provider>
+    );
+    spyUpdateSelectedMenu_ = jest.spyOn(actionCreators, 'updateSelectedMenu_')
+      .mockImplementation(() => (dispatch) => {});
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it('should render without errors', () => {
+    const component = mount(nutritional);
+    const wrapper = component.find('.NutritionalInfoAndRecipe');
+    expect(wrapper.length).toBe(1);
+    expect(spyUpdateSelectedMenu_).toBeCalledTimes(1);
+  });
+
 });
