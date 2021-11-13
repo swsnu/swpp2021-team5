@@ -63,7 +63,6 @@ describe('<Login />', () => {
     const component = mount(recordDetail);
     const wrapper = component.find('.Login');
     expect(wrapper.length).toBe(2);
-
     const inputs = component.find('input');
     expect(inputs.length).toBe(2);
 
