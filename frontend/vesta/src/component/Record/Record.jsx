@@ -26,9 +26,10 @@ class Record extends Component {
     const liked = this.props.liked;
     const detailLink = "/history/" + this.props.id;
     var color='black';
-    if (liked===true) {
-      color='red'
-    }
+    color='red';
+    // if (liked===true) {
+    //   color='red'
+    // }
     return (
       <Div className="Record">
       <ImgWrapper>
