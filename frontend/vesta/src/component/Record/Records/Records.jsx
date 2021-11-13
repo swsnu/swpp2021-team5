@@ -19,27 +19,27 @@ class Records extends Component {
     this.props.onGetRecords()
       .then(this.setState({ records: this.props.storedRecords }));
   }
-  clickRecordHandler = (rec) => {
-    this.props.history.push('/history/' + rec.id);
-  }
+  // clickRecordHandler = (rec) => {
+  //   this.props.history.push('/history/' + rec.id);
+  // }
   render() {
     let storedRecords = this.props.storedRecords;
     if (this.state.showLiked) {
       storedRecords = storedRecords.filter(rec => rec.liked === true);
     }
-    const records = storedRecords.map(rec => {
-      return (
-        <Record
-          key={rec.id}
-          id={rec.id}
-          image={rec.image}
-          liked={rec.liked}
-          date={rec.date}
-          clickDetail={() => this.clickRecordHandler(rec)}
-          toggleRecord={() => this.props.onToggleRecord(rec.id)}
-        />
-      )
-    });
+    // const records = storedRecords.map(rec => {
+    //   return (
+    //     <Record
+    //       key={rec.id}
+    //       id={rec.id}
+    //       image={rec.image}
+    //       liked={rec.liked}
+    //       date={rec.date}
+    //       clickDetail={() => this.clickRecordHandler(rec)}
+    //       toggleRecord={() => this.props.onToggleRecord(rec.id)}
+    //     />
+    //   )
+    // });
     const demoRecords_ = storedRecords.map(rec => {
       return (
         <a href={`/history/{rec.id}`} key={rec.id}>
@@ -48,7 +48,7 @@ class Records extends Component {
             style={{
               width:"200px",
               height:"200px",
-              objectFit: "cover", padding: "10px", "border-radius": "20px"
+              objectFit: "cover", padding: "10px", borderRadius: "20px"
             }}
           ></img>
         </a>
@@ -123,9 +123,11 @@ const mapDispatchToProps = dispatch => {
   return {
     onGetRecords: (userID) =>
       dispatch(actionCreators.getRecords(userID)),
-    onToggleRecord: (recordID) =>
-      dispatch(actionCreators.toggleRecord(recordID)),
+    // onToggleRecord: (recordID) =>
+    //   dispatch(actionCreators.toggleRecord(recordID)),
   }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Records))
+
+export {Image, Grid}
