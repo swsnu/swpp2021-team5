@@ -361,7 +361,8 @@ def review(request, review_record_id):
                         'recipe_id' : record_to_add_review.recipe.id,
                         'review' : record_to_add_review.review,
                         'liked' : record_to_add_review.liked,
-                        'date' : record_to_add_review.date}
+                        'date' : record_to_add_review.date,
+                        'image' : record_to_add_review.image.url}
         return JsonResponse(response_dict)
 
     if request.method == "PUT":
@@ -378,7 +379,8 @@ def review(request, review_record_id):
                         'recipe_id' : record_to_edit_review.recipe.id,
                         'review' : record_to_edit_review.review,
                         'liked' : record_to_edit_review.liked,
-                        'date' : record_to_edit_review.date}
+                        'date' : record_to_edit_review.date,
+                        'image' : record_to_edit_review.image.url}
         return JsonResponse(response_dict)
 
     if request.method == "DELETE":
@@ -394,7 +396,8 @@ def review(request, review_record_id):
                         'recipe_id' : record_to_delete_review.recipe.id,
                         'review' : record_to_delete_review.review,
                         'liked' : record_to_delete_review.liked,
-                        'date' : record_to_delete_review.date}
+                        'date' : record_to_delete_review.date,
+                        'image' : record_to_delete_review.image.url}
         return JsonResponse(response_dict)
 
 
@@ -421,7 +424,8 @@ def liked(request, liked_record_id):
                     'recipe_id' : record_to_toggle_liked.recipe.id,
                     'review' : record_to_toggle_liked.review,
                     'liked' : record_to_toggle_liked.liked,
-                    'date' : record_to_toggle_liked.date}
+                    'date' : record_to_toggle_liked.date,
+                    'image' : record_to_toggle_liked.image.url}
     return JsonResponse(response_dict)
 
 @require_GET
