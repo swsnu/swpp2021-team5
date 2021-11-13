@@ -234,7 +234,6 @@ def nutrition(request, date):
         return HttpResponseNotAllowed(['GET', 'POST', 'PUT'])
 
 
-# Create your views here.
 def record(request):
     if request.method == "GET":
         ## If user is not signed in, respond with 401
@@ -353,7 +352,8 @@ def review(request, review_record_id):
                         'recipe_id' : record_to_add_review.recipe.id,
                         'review' : record_to_add_review.review,
                         'liked' : record_to_add_review.liked,
-                        'date' : record_to_add_review.date}
+                        'date' : record_to_add_review.date,
+                        'image' : record_to_add_review.image.url}
         return JsonResponse(response_dict)
 
     if request.method == "PUT":
@@ -370,7 +370,8 @@ def review(request, review_record_id):
                         'recipe_id' : record_to_edit_review.recipe.id,
                         'review' : record_to_edit_review.review,
                         'liked' : record_to_edit_review.liked,
-                        'date' : record_to_edit_review.date}
+                        'date' : record_to_edit_review.date,
+                        'image' : record_to_edit_review.image.url}
         return JsonResponse(response_dict)
 
     if request.method == "DELETE":
@@ -386,8 +387,38 @@ def review(request, review_record_id):
                         'recipe_id' : record_to_delete_review.recipe.id,
                         'review' : record_to_delete_review.review,
                         'liked' : record_to_delete_review.liked,
-                        'date' : record_to_delete_review.date}
+                        'date' : record_to_delete_review.date,
+                        'image' : record_to_delete_review.image.url}
         return JsonResponse(response_dict)
+
+
+@require_http_methods(["PUT"])
+def liked(request, liked_record_id):
+    ## If user is not signed in, respond with 401
+    if not request.user.is_authenticated:
+        return HttpResponse(status = 401)
+
+    ## If record of liked_record_id does not exist, respond with 404
+    if not Record.objects.filter(id = liked_record_id).exists():
+        return HttpResponse(status = 404)
+
+    ## If request is not from the user of the record, respond with 403
+    if Record.objects.get(id = liked_record_id).user.id != request.user.id:
+        return HttpResponse(status = 403)
+
+    record_to_toggle_liked = Record.objects.get(id = liked_record_id)
+    record_to_toggle_liked.liked = not record_to_toggle_liked.liked
+
+    response_dict = {'id' : liked_record_id,
+                    'user_id' : record_to_toggle_liked.user.id,
+                    'menu_id' : record_to_toggle_liked.menu.id,
+                    'recipe_id' : record_to_toggle_liked.recipe.id,
+                    'review' : record_to_toggle_liked.review,
+                    'liked' : record_to_toggle_liked.liked,
+                    'date' : record_to_toggle_liked.date,
+                    'image' : record_to_toggle_liked.image.url}
+    return JsonResponse(response_dict)
+
 
 @require_GET
 def recipe_menu_name(request, menu_name_recipe):
