@@ -53,8 +53,8 @@ export const logIn_ = (user) => ({
   currentUser: user,
 });
 
-export const logIn = (info) => (dispatch) => axios.get('/api/signin/', info)
+export const logIn = (info) => (dispatch) => axios.post('/api/user/signin/', info)
   .then((res) => {
-    dispatch(logIn_(res.data));
-    dispatch(push('/history'));
-  }).catch(() => dispatch(push('/history')));
+    dispatch(logIn_(res.data))
+    .then(dispatch(push('/main')));
+  }).catch(() => dispatch(push('/login')));

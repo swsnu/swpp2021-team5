@@ -20,7 +20,7 @@ class Profile(models.Model):
         on_delete=models.CASCADE
     )
     age = IntegerField(null=True)
-    sex = CharField(max_length=1, null=True) # 'M' for Male, 'F' for Female
+    sex = BooleanField(null=True)# 'M' for Male, 'F' for Female
     height = IntegerField(null=True)
     weight = IntegerField(null=True)
 
