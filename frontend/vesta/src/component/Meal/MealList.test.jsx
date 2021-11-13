@@ -3,11 +3,11 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
 import { Switch } from 'react-router';
-import { Route } from 'react-router-dom';
+import { Route, Link } from 'react-router-dom';
 import { getMockStore } from '../../../test-utils/mock';
-import NutritionalInfoAndRecipe from './NutritionalInfoAndRecipe';
 import { history } from '../../store/store';
 import * as actionCreators from '../../store/actions/Menu/menu';
+import MealList from './MealList';
 
 const userInitialState = {
 
@@ -61,70 +61,34 @@ const recipeInitialState = {
 };
 const mockStore = getMockStore(userInitialState, recordInitialState, stubMenuInitialState, recipeInitialState);
 
-describe('<NutritionalInfoAndRecipe />', () => {
-  let nutritional; 
-  let spyUpdateSelectedMenu_;
+describe('MealList', () => {
+  let mealList;
+
   beforeEach(() => {
-    nutritional = (
+    mealList = (
       <Provider store={mockStore}>
         <ConnectedRouter history={history}>
           <Switch>
-            <Route path="/" exact component={NutritionalInfoAndRecipe} match={{params: {when:0, idx:0}}}/>
+            <Route path='/' exact
+              render={() => <MealList title="Today's Recommendation" />} />
           </Switch>
         </ConnectedRouter>
       </Provider>
     );
-    spyUpdateSelectedMenu_ = jest.spyOn(actionCreators, 'updateSelectedMenu_')
-      .mockImplementation(() => (dispatch) => {});
   });
 
-  afterEach(() => {
-    jest.clearAllMocks();
+  afterEach(() => jest.clearAllMocks());
+
+  it('should render correctly', () => {
+    const component = mount(mealList);
+    expect(component.length).toBe(1);
+    component.unmount();
   });
 
-  it('should render without errors', () => {
-    const component = mount(nutritional);
-    const wrapper = component.find('.NutritionalInfoAndRecipe');
-    expect(wrapper.length).toBe(1);
-    expect(spyUpdateSelectedMenu_).toBeCalledTimes(1);
-  });
-  
-});
-
-const stubMenuInitialState_ = {
-  selectedMenu: null,
-  allMenus: null,
-  recommendedMenus: null,
-};
-
-const mockStore_ = getMockStore(userInitialState, recordInitialState, stubMenuInitialState_, recipeInitialState);
-
-describe('<NutritionalInfoAndRecipe />', () => {
-  let nutritional; 
-  let spyUpdateSelectedMenu_;
-  beforeEach(() => {
-    nutritional = (
-      <Provider store={mockStore_}>
-        <ConnectedRouter history={history}>
-          <Switch>
-            <Route path="/" exact component={NutritionalInfoAndRecipe} match={{params: {when:0, idx:0}}}/>
-          </Switch>
-        </ConnectedRouter>
-      </Provider>
-    );
-    spyUpdateSelectedMenu_ = jest.spyOn(actionCreators, 'updateSelectedMenu_')
-      .mockImplementation(() => (dispatch) => {});
-  });
-
-  afterEach(() => {
-    jest.clearAllMocks();
-  });
-
-  it('should render without errors', () => {
-    const component = mount(nutritional);
-    const wrapper = component.find('.NutritionalInfoAndRecipe');
-    expect(wrapper.length).toBe(1);
-    expect(spyUpdateSelectedMenu_).toBeCalledTimes(1);
-  });
-
-});
+  it('should redirect to main', () => {
+    const component = mount(mealList);
+    const wrapper = component.find(".main-button").at(1).simulate('click');
+    expect(history.location.pathname).toBe('/main');
+    component.unmount();
+  })
+})

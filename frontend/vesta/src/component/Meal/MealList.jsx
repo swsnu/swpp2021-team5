@@ -68,6 +68,7 @@ class MealList extends Component {
             <Grid.Column>
               <a onClick={() => this.onMealDetail(0, 1)}>
                 <img
+                  id="otherBreakfast"
                   src="/DummyImages/breakfast2_.jpeg"
                   alt="meal_one"
                   height={160}
