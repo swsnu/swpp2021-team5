@@ -37,7 +37,7 @@ class ConfirmDetection extends Component {
     let carbs = 2;
     let protein = 2;
     let fat = 2;
-    if (this.state.menuName.toLocaleLowerCase() === 'sushi') {
+    if (this.state.menuName.toLowerCase() === 'sushi') {
       calories = 1;
       carbs = 1;
       protein = 1;
