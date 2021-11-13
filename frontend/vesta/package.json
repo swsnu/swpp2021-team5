@@ -71,5 +71,5 @@
       "!src/store/actions/index.js"
     ]
   },
-  "proxy": "http://localhost:8000"
+  "proxy": "http://localhost:8000/"
 }
