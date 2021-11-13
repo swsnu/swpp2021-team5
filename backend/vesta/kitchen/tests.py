@@ -165,17 +165,17 @@ class KitchenTestClass(TestCase):
         
         response = client2.post('/api/record/1/review/', {'review': 'newReview'}, content_type='application/json')
         self.assertEqual(response.status_code, 200)
-        self.assertEqual('{"id": 1, "user_id": 1, "menu_id": 1, "recipe_id": 1, "review": "newReview", "liked": true, "date": "2021-11-01"}', response.content.decode())
+        self.assertEqual('{"id": 1, "user_id": 1, "menu_id": 1, "recipe_id": 1, "review": "newReview", "liked": true, "date": "2021-11-01", "image": "/record_images/brownie.jpeg"}', response.content.decode())
 
         ## PUT TEST
         response = client2.put('/api/record/1/review/', {'review': 'editReview'}, content_type='application/json')
         self.assertEqual(response.status_code, 200)
-        self.assertEqual('{"id": 1, "user_id": 1, "menu_id": 1, "recipe_id": 1, "review": "editReview", "liked": true, "date": "2021-11-01"}', response.content.decode())
+        self.assertEqual('{"id": 1, "user_id": 1, "menu_id": 1, "recipe_id": 1, "review": "editReview", "liked": true, "date": "2021-11-01", "image": "/record_images/brownie.jpeg"}', response.content.decode())
 
         ## DELETE TEST
         response = client2.delete('/api/record/1/review/')
         self.assertEqual(response.status_code, 200)
-        self.assertEqual('{"id": 1, "user_id": 1, "menu_id": 1, "recipe_id": 1, "review": "", "liked": true, "date": "2021-11-01"}', response.content.decode())
+        self.assertEqual('{"id": 1, "user_id": 1, "menu_id": 1, "recipe_id": 1, "review": "", "liked": true, "date": "2021-11-01", "image": "/record_images/brownie.jpeg"}', response.content.decode())
 
 
     ## test api/record/<int:liked_record_id>/liked/
@@ -219,7 +219,7 @@ class KitchenTestClass(TestCase):
         ## correct response test
         response = client2.put('/api/record/1/liked/')
         self.assertEqual(response.status_code, 200)
-        self.assertEqual('{"id": 1, "user_id": 1, "menu_id": 1, "recipe_id": 1, "review": "review1", "liked": false, "date": "2021-11-01"}', response.content.decode())
+        self.assertEqual('{"id": 1, "user_id": 1, "menu_id": 1, "recipe_id": 1, "review": "review1", "liked": false, "date": "2021-11-01", "image": "/record_images/brownie.jpeg"}', response.content.decode())
 
     ## test api/recipe/<str:menu_name_recipe>/
     def test_recipe_menu_name(self):
