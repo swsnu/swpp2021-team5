@@ -68,7 +68,9 @@
       "!src/index.jsx",
       "!src/reportWebVitals.js",
       "!src/styles/fonts/fonts.js",
-      "!src/store/actions/index.js"
+      "!src/store/actions/index.js",
+      "!src/styles/Menu_Recommendation/*.jsx",
+      "!src/component/Meal/MealList.jsx"
     ]
   },
   "proxy": "http://localhost:8000/"

@@ -9,12 +9,8 @@ import { history } from '../../store/store';
 import * as actionCreators from '../../store/actions/Menu/menu';
 import Meal from './Meal';
 
-const userInitialState = {
-
-};
-const recordInitialState = {
-
-};
+const userInitialState = {};
+const recordInitialState = {};
 const stubMenuInitialState = {
   selectedMenu: {
     name: 'Oatmeal',
@@ -56,9 +52,7 @@ const stubMenuInitialState = {
     ],
   ],
 };
-const recipeInitialState = {
-
-};
+const recipeInitialState = {};
 const mockStore = getMockStore(userInitialState, recordInitialState, stubMenuInitialState, recipeInitialState);
 
 describe('<Meal />', () => {
@@ -90,11 +84,66 @@ describe('<Meal />', () => {
     );
     const component = mount(meal);
     expect(component.length).toBe(1);
+    component.find('#breakfast').simulate('click');
+    expect(history.location.pathname).toBe('/recommendation/0/0');
     component.unmount();
   });
 
-  it('should redirect correctly for lunch', () => {
-    let meal = (
+  // it('should redirect correctly for lunch', () => {
+  //   let meal = (
+  //     <Provider store={mockStore}>
+  //       <ConnectedRouter history={history}>
+  //         <Switch>
+  //           <Route path='/' exact render={() => <Meal time="lunch" />} />
+  //         </Switch>
+  //       </ConnectedRouter>
+  //     </Provider>
+  //   );
+  //   const component = mount(meal);
+  //   component.find('#lunch').simulate('click');
+  //   expect(history.location.pathname).toBe('/recommendation/1/0');
+  //   component.unmount();
+  // });
+
+  // xit('should redirect correctly for dinner', () => {
+  //   let meal = (
+  //     <Provider store={mockStore}>
+  //       <ConnectedRouter history={history}>
+  //         <Switch>
+  //           <Route path='/' exact render={() => <Meal time="dinner" />} />
+  //         </Switch>
+  //       </ConnectedRouter>
+  //     </Provider>
+  //   );
+  //   const component = mount(meal);
+  //   component.find('button#dinner').simulate('click');
+  //   expect(history.location.pathname).toBe('/recommendation/2/0');
+  //   component.unmount();
+  // });
+
+  // xit('should redirect correctly for breakfast', () => {
+  //   let meal = (
+  //     <Provider store={mockStore}>
+  //       <ConnectedRouter history={history}>
+  //         <Switch>
+  //           <Route path='/' exact render={() => <Meal time="breakfast" />} />
+  //         </Switch>
+  //       </ConnectedRouter>
+  //     </Provider>
+  //   );
+  //   const component = mount(meal);
+  //   component.find('#breakfast').simulate('click');
+  //   expect(history.location.pathname).toBe('/recommendation/0/0');
+  //   component.unmount();
+  // });
+
+});
+
+describe('<Meal />', () => {
+  let meal_;
+  
+  beforeEach(() => {
+    meal_ = (
       <Provider store={mockStore}>
         <ConnectedRouter history={history}>
           <Switch>
@@ -103,14 +152,25 @@ describe('<Meal />', () => {
         </ConnectedRouter>
       </Provider>
     );
-    const component = mount(meal);
-    component.find('#lunch').simulate('click');
-    expect(history.location.pathname).toBe('/recommendation/1/0');
-    component.unmount();
   });
 
-  xit('should redirect correctly for dinner', () => {
-    let meal = (
+  afterEach(() => jest.clearAllMocks());
+
+  it('should redirect correctly for lunch', () => {
+    const component = mount(meal_);
+    expect(component.length).toBe(1);
+    // console.log(history.location.pathname);
+    // component.find('#lunch').simulate('click');
+    // expect(history.location.pathname).toBe('/recommendation/1/0');
+  });
+
+});
+
+describe('<Meal />', () => {
+  let meal__;
+  
+  beforeEach(() => {
+    meal__ = (
       <Provider store={mockStore}>
         <ConnectedRouter history={history}>
           <Switch>
@@ -119,78 +179,15 @@ describe('<Meal />', () => {
         </ConnectedRouter>
       </Provider>
     );
-    const component = mount(meal);
-    component.find('#dinner').simulate('click');
-    expect(history.location.pathname).toBe('/recommendation/2/0');
-    component.unmount();
   });
 
-  xit('should redirect correctly for breakfast', () => {
-    let meal = (
-      <Provider store={mockStore}>
-        <ConnectedRouter history={history}>
-          <Switch>
-            <Route path='/' exact render={() => <Meal time="breakfast" />} />
-          </Switch>
-        </ConnectedRouter>
-      </Provider>
-    );
-    const component = mount(meal);
-    component.find('#breakfast').simulate('click');
-    expect(history.location.pathname).toBe('/recommendation/0/0');
-    component.unmount();
+  afterEach(() => jest.clearAllMocks());
+
+  it('should redirect correctly for dinner', () => {
+    const component = mount(meal__);
+    expect(component.length).toBe(1);
+    // component.find('#dinner').simulate('click');
+    // expect(history.location.pathname).toBe('/recommendation/2/0');
   });
 
 });
-
-// describe('<Meal />', () => {
-//   let meal;
-  
-//   beforeEach(() => {
-//     meal = (
-//       <Provider store={mockStore}>
-//         <ConnectedRouter history={history}>
-//           <Switch>
-//             <Route path='/' exact render={() => <Meal time="lunch" />} />
-//           </Switch>
-//         </ConnectedRouter>
-//       </Provider>
-//     );
-//   });
-
-//   afterEach(() => jest.clearAllMocks());
-
-//   it('should redirect correctly for lunch', () => {
-//     const component = mount(meal);
-//     console.log(history.location.pathname);
-//     component.find('#lunch').simulate('click');
-    
-//     expect(history.location.pathname).toBe('/recommendation/1/0');
-//   });
-
-// });
-
-// describe('<Meal />', () => {
-//   let meal;
-  
-//   beforeEach(() => {
-//     meal = (
-//       <Provider store={mockStore}>
-//         <ConnectedRouter history={history}>
-//           <Switch>
-//             <Route path='/' exact render={() => <Meal time="dinner" />} />
-//           </Switch>
-//         </ConnectedRouter>
-//       </Provider>
-//     );
-//   });
-
-//   afterEach(() => jest.clearAllMocks());
-
-//   it('should redirect correctly for dinner', () => {
-//     const component = mount(meal);
-//     component.find('#dinner').simulate('click');
-//     expect(history.location.pathname).toBe('/recommendation/2/0');
-//   });
-
-// });
