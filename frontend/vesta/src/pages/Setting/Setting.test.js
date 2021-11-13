@@ -23,6 +23,19 @@ const userInitialState = {
     },
     userNutrition: null,
 };
+const userInitialState_ = {
+    user: null,
+    currentUser: {
+      userID: 1,
+      username: 'testname',
+      age: 1,
+      sex: null,
+      height: 1,
+      weight: 1,
+      preference: ['banana', 'apple'],
+    },
+    userNutrition: null,
+};
 const recordInitialState = {
 
 };
@@ -102,15 +115,8 @@ describe('Setting', () => {
     it('should dispatch resign correctly', () => {
         const spyOnSaveUserSetting = jest.spyOn(actionCreators, 'saveUserSetting').mockImplementation(({}) => { return dispatch => {}; });
         const component = mount(setting);
-        console.log(component.debug());
         const wrap = component.find('button').at(0);
         wrap.simulate('click');
         expect(spyOnSaveUserSetting).toHaveBeenCalledTimes(1);
-    })
-
-    it('should dispatch resign correctly', () => {
-        const spyOnGetUserSetting = jest.spyOn(actionCreators, 'getUserSetting').mockImplementation((userID) => { return dispatch => {}; });
-        const component = mount(setting);
-        expect(spyOnGetUserSetting).toHaveBeenCalledTimes(1);
     })
 })
