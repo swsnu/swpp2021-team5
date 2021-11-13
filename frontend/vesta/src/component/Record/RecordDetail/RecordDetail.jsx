@@ -60,7 +60,7 @@ class RecordDetail extends Component {
   // }
   render() {
     var liked = false;
-    if (this.props.record !== null) {
+    if (this.props.record) {
       liked = this.props.record.liked;
     }
     var color='black';
@@ -103,7 +103,7 @@ class RecordDetail extends Component {
                 />
               </div>
               <div>
-                <MenuNameHeader>{menuName}</MenuNameHeader>
+                <MenuNameHeader className="menuName">{menuName}</MenuNameHeader>
                 <TextArea>
                   <Grid>
                     <Grid.Column width={8}>
@@ -143,7 +143,7 @@ class RecordDetail extends Component {
                   onClick={() => this.props.history.push('/history')}
                   >Back</Button>
                 <Button onClick={this.props.onToggleRecord(this.props.id)}>
-                  <div className="liked" style={{color:color}}>&#9829;</div>
+                  <h4 className="liked" style={{color:color}}>&#9829;</h4>
                 </Button>
               </div>
             </Div>
