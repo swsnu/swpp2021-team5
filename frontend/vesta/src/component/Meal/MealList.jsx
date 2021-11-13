@@ -68,6 +68,7 @@ class MealList extends Component {
             <Grid.Column>
               <a onClick={() => this.onMealDetail(0, 1)}>
                 <img
+                  id="otherBreakfast"
                   src="/DummyImages/breakfast2_.jpeg"
                   alt="meal_one"
                   height={160}
@@ -218,8 +219,8 @@ class MealList extends Component {
       </OtherDinnerBox>
     );
     return (
-      <div>
-        <Box className="MenuRecommendation">
+      <div className="MenuRecommendation">
+        <Box>
           <RecommendationHeader>{this.props.title}</RecommendationHeader>
           <Divider />
           <Grid>
@@ -228,7 +229,9 @@ class MealList extends Component {
                 <Meal
                   time="breakfast"
                 />
-                <Button size="mini" className="other-meal-breakfast-button" onClick={() => this.onClickedOtherBreakfast()}>
+                <Button
+                  id="other-meal-breakfast-button" size="mini" 
+                  onClick={() => this.onClickedOtherBreakfast()}>
                   Other
                 </Button>
               </Grid.Column>
@@ -236,7 +239,9 @@ class MealList extends Component {
                 <Meal
                   time="lunch"
                 />
-                <Button size="mini" className="other-meal-lunch-button" onClick={() => this.onClickedOtherLunch()}>
+                <Button 
+                  size="mini" id="other-meal-lunch-button"
+                  onClick={() => this.onClickedOtherLunch()}>
                   Other
                 </Button>
               </Grid.Column>
@@ -244,7 +249,9 @@ class MealList extends Component {
                 <Meal
                   time="dinner"
                 />
-                <Button size="mini" className="other-meal-dinner-button" onClick={() => this.onClickedOtherDinner()}>
+                <Button 
+                  size="mini" id="other-meal-dinner-button" 
+                  onClick={() => this.onClickedOtherDinner()}>
                   Other
                 </Button>
               </Grid.Column>

@@ -1,33 +1,48 @@
+/* eslint-disable */
 import React from 'react';
 import styled from 'styled-components';
-import { Button, Image } from 'semantic-ui-react';
+import { Button, Image, Icon } from 'semantic-ui-react';
 import '../../styles/Header/header.css';
 import { NavLink } from 'react-router-dom';
 
 const HeaderBackground = styled.div`
 background-color:#F2CE1B;
-top:0;
-width:100%;
-z-index:0.5;
+// height:190px;
+// width:900px;
+border-radius: 20px;
+display: flex;
+position: relative;
+justify-content:center; // centers in the flex direction and the default flex-direction is row
+align-items:center;
+padding:10px;
+margin:15px;
+`;
+
+const Buttons = styled.div`
+position: absolute;
+top: 0;
+right: 0;
 `;
 
 const Header = () => (
   <HeaderBackground>
     <a href="/main">
-      <Image
+      <img
         className="logo-image"
-        centered
         src="/kitchenVestaLogo.png"
         alt="logo"
-        size="small"
+        width={170}
+        height={170}
       />
     </a>
-    <Button.Group className="header-buttons">
+    <Buttons>
       <a href="/setting">
-        <Button className="setting button">setting</Button>
+        <Icon circular name='settings' size='large' color='black'></Icon>
       </a>
-      <Button className="logout button">logout</Button>
-    </Button.Group>
+      <a href="/login">
+        <Icon circular name='user close' size='large' color='black'></Icon>
+      </a>
+    </Buttons>
   </HeaderBackground>
 );
 
