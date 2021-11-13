@@ -8,13 +8,10 @@ import { getMockStore } from '../../../test-utils/mock';
 import { history } from '../../store/store';
 import * as actionCreators from '../../store/actions/Menu/menu';
 import MealList from './MealList';
+import { Button, Grid } from 'semantic-ui-react';
 
-const userInitialState = {
-
-};
-const recordInitialState = {
-
-};
+const userInitialState = {};
+const recordInitialState = {};
 const stubMenuInitialState = {
   selectedMenu: {
     name: 'Oatmeal',
@@ -56,9 +53,7 @@ const stubMenuInitialState = {
     ],
   ],
 };
-const recipeInitialState = {
-
-};
+const recipeInitialState = {};
 const mockStore = getMockStore(userInitialState, recordInitialState, stubMenuInitialState, recipeInitialState);
 
 describe('MealList', () => {
@@ -90,5 +85,19 @@ describe('MealList', () => {
     const wrapper = component.find(".main-button").at(1).simulate('click');
     expect(history.location.pathname).toBe('/main');
     component.unmount();
-  })
-})
+  });
+
+  it('should click other breakfast correctly', () => {
+    const component = mount(mealList);
+    // expect(component.find('MenuRecommendation').find(Grid).find('button#other-meal-breakfast-button').length).toBe(1);
+    // component.find('button').at(1).simulate('click');
+    component.find('button#other-meal-breakfast-button').simulate('click');
+    const wrapper = component.find(MealList.WrappedComponent).instance();
+    expect(wrapper.state.otherBreakfast).toBe(true);
+    component.find('button').at(1).simulate('click');
+    // component.find('button#other-meal-breakfast-button').simulate('click');
+    const wrapper_ = component.find(MealList.WrappedComponent).instance();
+    expect(wrapper_.state.otherBreakfast).toBe(false);
+    // component.unmount();
+  });
+});
