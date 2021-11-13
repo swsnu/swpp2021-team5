@@ -167,18 +167,61 @@ class KitchenTestClass(TestCase):
         
         response = client2.post('/api/record/1/review/', {'review': 'newReview'}, content_type='application/json')
         self.assertEqual(response.status_code, 200)
-        self.assertEqual('{"id": 1, "user_id": 1, "menu_id": 1, "recipe_id": 1, "review": "newReview", "liked": true, "date": "2021-11-01"}', response.content.decode())
+        self.assertEqual('{"id": 1, "user_id": 1, "menu_id": 1, "recipe_id": 1, "review": "newReview", "liked": true, "date": "2021-11-01", "image": "/record_images/brownie.jpeg"}', response.content.decode())
 
         ## PUT TEST
         response = client2.put('/api/record/1/review/', {'review': 'editReview'}, content_type='application/json')
         self.assertEqual(response.status_code, 200)
-        self.assertEqual('{"id": 1, "user_id": 1, "menu_id": 1, "recipe_id": 1, "review": "editReview", "liked": true, "date": "2021-11-01"}', response.content.decode())
+        self.assertEqual('{"id": 1, "user_id": 1, "menu_id": 1, "recipe_id": 1, "review": "editReview", "liked": true, "date": "2021-11-01", "image": "/record_images/brownie.jpeg"}', response.content.decode())
 
         ## DELETE TEST
         response = client2.delete('/api/record/1/review/')
         self.assertEqual(response.status_code, 200)
-        self.assertEqual('{"id": 1, "user_id": 1, "menu_id": 1, "recipe_id": 1, "review": "", "liked": true, "date": "2021-11-01"}', response.content.decode())
+        self.assertEqual('{"id": 1, "user_id": 1, "menu_id": 1, "recipe_id": 1, "review": "", "liked": true, "date": "2021-11-01", "image": "/record_images/brownie.jpeg"}', response.content.decode())
 
+
+    ## test api/record/<int:liked_record_id>/liked/
+    def test_liked(self):
+        user = User.objects.create(username='testuser')
+        user.set_password('testpassword')
+        user.save()
+        user2 = User.objects.create(username='testuser2')
+        user2.set_password('testpassword2')
+        user2.save()
+
+        client1 = Client()
+        client2 = Client()
+        client2.login(username='testuser', password='testpassword')
+
+        menu1 = Menu.objects.create(name='testmenu', calories=1, carbs=1, protein=1,
+                                    fat=1, image='./images/brownie.jpeg')
+        recipe1 = Recipe.objects.create(menu=menu1, recipe='recipe1')
+        Record.objects.create(user=user, menu=menu1, recipe=recipe1,
+                            review='review1', liked=True,
+                            date=datetime.date(2021,11,1),
+                            image='./record_images/brownie.jpeg')
+        Record.objects.create(user=user2, menu=menu1, recipe=recipe1,
+                            review='review1', liked=True,
+                            date=datetime.date(2021,11,1),
+                            image='./record_images/brownie.jpeg')
+
+        ## PUT TEST
+        ## if client is not signed in, response should be 401
+        response = client1.put('/api/record/1/liked/')
+        self.assertEqual(response.status_code, 401)
+
+        ## if record of id liked_record_id does not exist, response should be 404
+        response = client2.put('/api/record/3/liked/')
+        self.assertEqual(response.status_code, 404)
+
+        ## if request is not from the author of record, response should be 403
+        response = client2.put('/api/record/2/liked/')
+        self.assertEqual(response.status_code, 403)
+
+        ## correct response test
+        response = client2.put('/api/record/1/liked/')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual('{"id": 1, "user_id": 1, "menu_id": 1, "recipe_id": 1, "review": "review1", "liked": false, "date": "2021-11-01", "image": "/record_images/brownie.jpeg"}', response.content.decode())
 
     ## test api/recipe/<str:menu_name_recipe>/
     def test_recipe_menu_name(self):

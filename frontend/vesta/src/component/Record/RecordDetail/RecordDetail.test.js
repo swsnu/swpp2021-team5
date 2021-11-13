@@ -47,7 +47,7 @@ describe('<RecordDetail />', () => {
         <ConnectedRouter history={history}>
           <Switch>
             <Route path='/' exact
-              render={() => <RecordDetail/>} />
+              render={() => <RecordDetail />} />
           </Switch>
         </ConnectedRouter>
       </Provider>
@@ -62,8 +62,16 @@ describe('<RecordDetail />', () => {
     const wrapper = component.find('.RecordDetail');
     expect(wrapper.length).toBe(1);
 
+    const header = component.find(".menuName");
+    expect(header.length).toBe(2);
+    expect(header.at(1).text()).toEqual("1");
+
     const buttons = component.find('button');
     expect(buttons.length).toBe(2);
     buttons.at(0).simulate('click');
+
+    buttons.at(1).simulate('click');
+    const liked = buttons.find("h4");
+    expect(liked.text()).toEqual("♥");
   })
 })
