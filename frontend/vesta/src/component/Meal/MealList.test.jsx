@@ -3,18 +3,15 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
 import { Switch } from 'react-router';
-import { Route } from 'react-router-dom';
+import { Route, Link } from 'react-router-dom';
 import { getMockStore } from '../../../test-utils/mock';
-import NutritionalInfoAndRecipe from './NutritionalInfoAndRecipe';
 import { history } from '../../store/store';
 import * as actionCreators from '../../store/actions/Menu/menu';
+import MealList from './MealList';
+import { Button, Grid } from 'semantic-ui-react';
 
-const userInitialState = {
-
-};
-const recordInitialState = {
-
-};
+const userInitialState = {};
+const recordInitialState = {};
 const stubMenuInitialState = {
   selectedMenu: {
     name: 'Oatmeal',
@@ -56,75 +53,51 @@ const stubMenuInitialState = {
     ],
   ],
 };
-const recipeInitialState = {
-
-};
+const recipeInitialState = {};
 const mockStore = getMockStore(userInitialState, recordInitialState, stubMenuInitialState, recipeInitialState);
 
-describe('<NutritionalInfoAndRecipe />', () => {
-  let nutritional; 
-  let spyUpdateSelectedMenu_;
+describe('MealList', () => {
+  let mealList;
+
   beforeEach(() => {
-    nutritional = (
+    mealList = (
       <Provider store={mockStore}>
         <ConnectedRouter history={history}>
           <Switch>
-            <Route path="/" exact component={NutritionalInfoAndRecipe} match={{params: {when:0, idx:0}}}/>
+            <Route path='/' exact
+              render={() => <MealList title="Today's Recommendation" />} />
           </Switch>
         </ConnectedRouter>
       </Provider>
     );
-    spyUpdateSelectedMenu_ = jest.spyOn(actionCreators, 'updateSelectedMenu_')
-      .mockImplementation(() => (dispatch) => {});
   });
 
-  afterEach(() => {
-    jest.clearAllMocks();
+  afterEach(() => jest.clearAllMocks());
+
+  it('should render correctly', () => {
+    const component = mount(mealList);
+    expect(component.length).toBe(1);
+    component.unmount();
   });
 
-  it('should render without errors', () => {
-    const component = mount(nutritional);
-    const wrapper = component.find('.NutritionalInfoAndRecipe');
-    expect(wrapper.length).toBe(1);
-    expect(spyUpdateSelectedMenu_).toBeCalledTimes(1);
-  });
-  
-});
-
-const stubMenuInitialState_ = {
-  selectedMenu: null,
-  allMenus: null,
-  recommendedMenus: null,
-};
-
-const mockStore_ = getMockStore(userInitialState, recordInitialState, stubMenuInitialState_, recipeInitialState);
-
-describe('<NutritionalInfoAndRecipe />', () => {
-  let nutritional; 
-  let spyUpdateSelectedMenu_;
-  beforeEach(() => {
-    nutritional = (
-      <Provider store={mockStore_}>
-        <ConnectedRouter history={history}>
-          <Switch>
-            <Route path="/" exact component={NutritionalInfoAndRecipe} match={{params: {when:0, idx:0}}}/>
-          </Switch>
-        </ConnectedRouter>
-      </Provider>
-    );
-    spyUpdateSelectedMenu_ = jest.spyOn(actionCreators, 'updateSelectedMenu_')
-      .mockImplementation(() => (dispatch) => {});
+  it('should redirect to main', () => {
+    const component = mount(mealList);
+    const wrapper = component.find(".main-button").at(1).simulate('click');
+    expect(history.location.pathname).toBe('/main');
+    component.unmount();
   });
 
-  afterEach(() => {
-    jest.clearAllMocks();
+  it('should click other breakfast correctly', () => {
+    const component = mount(mealList);
+    // expect(component.find('MenuRecommendation').find(Grid).find('button#other-meal-breakfast-button').length).toBe(1);
+    // component.find('button').at(1).simulate('click');
+    component.find('button#other-meal-breakfast-button').simulate('click');
+    const wrapper = component.find(MealList.WrappedComponent).instance();
+    expect(wrapper.state.otherBreakfast).toBe(true);
+    component.find('button').at(1).simulate('click');
+    // component.find('button#other-meal-breakfast-button').simulate('click');
+    const wrapper_ = component.find(MealList.WrappedComponent).instance();
+    expect(wrapper_.state.otherBreakfast).toBe(false);
+    // component.unmount();
   });
-
-  it('should render without errors', () => {
-    const component = mount(nutritional);
-    const wrapper = component.find('.NutritionalInfoAndRecipe');
-    expect(wrapper.length).toBe(1);
-    expect(spyUpdateSelectedMenu_).toBeCalledTimes(1);
-  });
-
 });
