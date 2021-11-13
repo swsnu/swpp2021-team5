@@ -26,7 +26,7 @@ const Nutrient = (props) => (
     <Grid>
       <Grid.Column width={9}>
         <Image
-          src="/sushi_example_image.jpeg"
+          src={props.src}
           alt="menu"
           size="large"
         />
