@@ -24,6 +24,27 @@ const initialState = {
       liked: true,
       review: null,
     },
+    {
+      id: 4,
+      image: "/DummyImages/dinner5_.jpeg",
+      date: "2021/11/07",
+      liked: true,
+      review: null,
+    },
+    {
+      id: 5,
+      image: "/DummyImages/breakfast3_.jpeg",
+      date: "2021/11/07",
+      liked: false,
+      review: null,
+    },
+    {
+      id: 6,
+      image: "/DummyImages/dinner1_.jpeg",
+      date: "2021/11/07",
+      liked: true,
+      review: null,
+    },
   ],
   selectedRecord: {
     id: 1,
