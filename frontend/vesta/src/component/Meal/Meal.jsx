@@ -32,7 +32,7 @@ class Meal extends Component {
           </Breakfast>
         </div>
       );
-    } if (this.props.time === 'lunch') {
+    } else if (this.props.time === 'lunch') {
       return (
         <div>
           <Lunch>
