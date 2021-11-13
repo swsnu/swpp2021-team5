@@ -26,9 +26,10 @@ class Record extends Component {
     const liked = this.props.liked;
     const detailLink = "/history/" + this.props.id;
     var color='black';
-    if (liked===true) {
-      color='red'
-    }
+    color='red';
+    // if (liked===true) {
+    //   color='red'
+    // }
     return (
       <Div className="Record">
       <ImgWrapper>
@@ -37,7 +38,7 @@ class Record extends Component {
             src={this.props.image}
             class="ui centered rounded image"
             verticalAlign="bottom"
-            style={{height:"600px", width:"600px", objectFit: "cover", padding: "20px"}}
+            style={{height:"600px", width:"600px", objectFit: "cover", padding: "10px", "border-radius": "20px"}}
           />
         </Link>
           </ImgWrapper>
