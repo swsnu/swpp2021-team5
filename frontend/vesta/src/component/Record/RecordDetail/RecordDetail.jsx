@@ -53,14 +53,14 @@ margin-bottom:30px;
 class RecordDetail extends Component {
   componentDidMount() {
     this.props.onGetRecord(this.props.id)
-      .then(this.props.onGetMenu(this.props.record.menuName));
+      // .then(this.props.onGetMenu(this.props.record.menuName));
   }
-  clickRecordsHandler = () => {
-    this.props.history.push('/history/');
-  }
+  // clickRecordsHandler = () => {
+  //   this.props.history.push('/history/');
+  // }
   render() {
     var liked = false;
-    if (this.props.record) {
+    if (this.props.record !== null) {
       liked = this.props.record.liked;
     }
     var color='black';
@@ -74,7 +74,7 @@ class RecordDetail extends Component {
     let fat = 1.31;
     let recipe = 'Ways to make good sushi';
     let date = "2021/11/11";
-    if (this.props.selectedMenu) {
+    if (this.props.selectedMenu !== null) {
       menuName = this.props.selectedMenu.name;
       calories = this.props.selectedMenu.calories;
       carbs = this.props.selectedMenu.carbs;
@@ -83,47 +83,36 @@ class RecordDetail extends Component {
       recipe = this.props.selectedMenu.recipe;
       date = this.props.record.date
     }
+
     return (
       <div className="RecordDetail">
-          <Grid textAlign="center">
-            <Grid.Column width={10} alignItems="center">
-              <Div alignItems="center">
-              <p>
+        <Grid textAlign="center">
+          <Grid.Column width={10} style={{alignItems:"center"}}>
+            <Div style={{alignItems:"center"}}>
+              <div>
                 <DateHeader>
                   {date}
                 </DateHeader>
-              </p>
-              <p style={{"alignItems": "center"}}>
+              </div>
+              <div style={{"alignItems": "center"}}>
                 <Image
-                id="meal-image"
-                src="/sushi_example_image.jpeg"
-                class="ui centered fluid image"
-                style={{"border-radius": "20px", align:"center", "align-items":"center"}}
-              />
-              </p>
-              {/*
-              <p>
-                <div id="nutrition-into">
-                nutrion info
+                  id="meal-image"
+                  src="/sushi_example_image.jpeg"
+                  className="ui centered fluid image"
+                  style={{borderRadius: "20px", align:"center", alignItems:"center"}}
+                />
               </div>
-              </p>
-              <p>
-                <div id="date">
-                date
-              </div>
-              </p>
-              */}
-              <p>
-              <MenuNameHeader>{menuName}</MenuNameHeader>
+              <div>
+                <MenuNameHeader>{menuName}</MenuNameHeader>
                 <TextArea>
                   <Grid>
                     <Grid.Column width={8}>
-                      <p>
+                      <div>
                         Calories:&nbsp;
                         {calories}
                         &nbsp;
                         kCal
-                      </p>
+                      </div>
                       <p>
                         Carbohydrate:&nbsp;
                         {carbs}
@@ -147,21 +136,21 @@ class RecordDetail extends Component {
                     </Grid.Column>
                   </Grid>
                 </TextArea>
-              </p>
-              <Review />
-              <p>
+              </div>
+              {/* <Review /> */}
+              <div>
                 <Button id="back-to-recommendations"
                   onClick={() => this.props.history.push('/history')}
                   >Back</Button>
                 <Button onClick={this.props.onToggleRecord(this.props.id)}>
                   <div className="liked" style={{color:color}}>&#9829;</div>
                 </Button>
-              </p>
-              </Div>
-            </Grid.Column>
-          </Grid>
+              </div>
+            </Div>
+          </Grid.Column>
+        </Grid>
       </div>
-    )
+    );
   }
 }
 
@@ -175,11 +164,13 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     onGetRecord: (recordID) =>
-      dispatch(actionCreators.getRecord(recordID)),
+      dispatch(
+        actionCreators.getRecord(
+          recordID)),
     onToggleRecord: (recordID) =>
       dispatch(actionCreators.toggleRecord(recordID)),
-    onGetMenu: (menuName) => 
-      dispatch(actionCreators.getMenu(menuName)),
+    // onGetMenu: (menuName) => 
+    //   dispatch(actionCreators.getMenu(menuName)),
   }
 }
 
