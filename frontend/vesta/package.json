@@ -73,6 +73,7 @@
       "!src/component/Meal/MealList.jsx",
       "!src/pages/Setting/Calculator.js",
       "!src/store/reducers/user.js",
+      "!src/store/reducers/menu.js"
     ]
   },
   "proxy": "http://localhost:8000/"
