@@ -20,7 +20,7 @@ def signup(request):
         user = User.objects.create_user(username=username, password=password)
 
         # Model 'Profile' should be created simultaneously #
-        new_profile = Profile(user=user)
+        new_profile = Profile(user=user, age=None, sex=None, height=None, weight=None)
         new_profile.save()
 
         return HttpResponse(status=201)
@@ -83,11 +83,11 @@ def profile(request):
 
             user_profile = user.profile
             response_dict = {
-                'username': user_profile.username,
-                'age': user_profile.profile.age,
-                'sex': user_profile.profile.sex,
-                'height': user_profile.profile.height,
-                'weight': user_profile.profile.weight,
+                'username': user.username,
+                'age': user_profile.age,
+                'sex': user_profile.sex,
+                'height': user_profile.height,
+                'weight': user_profile.weight,
                 'preference': food_preference_list
             }
             return JsonResponse(response_dict, status=200, safe=False)
@@ -145,13 +145,12 @@ def profile(request):
         return HttpResponseNotAllowed(['GET', 'PUT'])
 
 
-def nutrition(request):
+def nutrition(request, date):
     if request.method == 'GET':
         if request.user.is_authenticated:
-            req_data = json.loads(request.body.decode())
             # req_data['date'] comes in YYYY-MM-DD form, transform the string
             # into datetime object
-            date_list = req_data['date'].split('-')
+            date_list = date.split('-')
             today = datetime.date(int(date_list[0]), int(
                 date_list[1]), int(date_list[2]))
             try:
@@ -160,9 +159,7 @@ def nutrition(request):
             except UserNutrition.DoesNotExist:      # User.DoesNotExist?
                 return HttpResponse(status=404)
             response_dict = {
-                'user_id': today_nutrition.user_id,
-                # is it okay?
-                'date': today_nutrition.date.strftime('%Y-%m-%d'),
+                #'date': today_nutrition.date.strftime('%Y-%m-%d'),
                 'calories': today_nutrition.calories,
                 'carbs': today_nutrition.carbs,
                 'protein': today_nutrition.protein,
@@ -173,10 +170,10 @@ def nutrition(request):
             return HttpResponse(status=401)
     elif request.method == 'POST':
         if request.user.is_authenticated:
-            req_data = json.loads(request.body.decode())
-            date_list = req_data['date'].split('-')
+            date_list = date.split('-')
             today = datetime.date(int(date_list[0]), int(
                 date_list[1]), int(date_list[2]))
+            req_data = json.loads(request.body.decode())
             calories = int(req_data['calories'])
             carbs = int(req_data['carbs'])
             protein = int(req_data['protein'])
@@ -192,9 +189,6 @@ def nutrition(request):
             new_record.save()
 
             response_dict = {
-                'id': new_record.id,
-                'user_id': new_record.user_id,
-                'date': new_record.date.strftime('%Y-%m-%d'),  # is it okay?
                 'calories': new_record.calories,
                 'carbs': new_record.carbs,
                 'protein': new_record.protein,
@@ -206,7 +200,7 @@ def nutrition(request):
     elif request.method == 'PUT':
         if request.user.is_authenticated:
             req_data = json.loads(request.body.decode())
-            date_list = req_data['date'].split('-')
+            date_list = date.split('-')
             today = datetime.date(int(date_list[0]), int(
                 date_list[1]), int(date_list[2]))
             try:
@@ -228,9 +222,6 @@ def nutrition(request):
             today_nutrition.save()
 
             response_dict = {
-                'id': today_nutrition.id,
-                'user_id': today_nutrition.user_id,
-                'date': today_nutrition.date.strftime('%Y-%m-%d'),
                 'calories': today_nutrition.calories,
                 'carbs': today_nutrition.carbs,
                 'protein': today_nutrition.protein,
