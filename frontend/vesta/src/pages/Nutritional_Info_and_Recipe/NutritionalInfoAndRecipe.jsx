@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { Button } from 'semantic-ui-react';
@@ -9,7 +9,7 @@ import * as actionCreators from '../../store/actions/index';
 import Background from '../../styles/Nutritional_Info_and_Recipe/Background';
 import Recipe from '../../component/Recipe/Recipe';
 
-class NutritionalInfoAndRecipe extends PureComponent {
+class NutritionalInfoAndRecipe extends Component {
   componentDidMount() {
     this.props.onUpdateSelectedMenu(parseInt(this.props.match.params.when, 10), parseInt(this.props.match.params.idx, 10));
   }
@@ -22,8 +22,6 @@ class NutritionalInfoAndRecipe extends PureComponent {
     let fat = 0;
     let recipe = '/DummyImages/';
     if (this.props.selectedMenu) {
-      // eslint-disable-next-line
-      console.log('updated');
       menuName = this.props.selectedMenu.name;
       calories = this.props.selectedMenu.calories;
       carbs = this.props.selectedMenu.carbs;
@@ -32,16 +30,16 @@ class NutritionalInfoAndRecipe extends PureComponent {
       recipe = this.props.selectedMenu.recipe;
     }
     // console.log(this.props.selectedMenu);
-    let url = '/DummyImages/';
-    if (parseInt(this.props.match.params.when, 10)==0){
-      url += 'breakfast' + (parseInt(this.props.match.params.idx, 10)+1) + '_.jpeg';
-    } else if (parseInt(this.props.match.params.when, 10)==1){
-      url += 'lunch' + (parseInt(this.props.match.params.idx, 10)+1) + '_.jpeg';
-    } else {
-      if (parseInt(this.props.match.params.idx, 10)+1 != 3) url += 'dinner' + (parseInt(this.props.match.params.idx, 10)+1) +'_.jpeg';
-      else url += 'dinner'+(parseInt(this.props.match.params.idx, 10)+1) +'_.jpg';
-    }
-    console.log(url);
+    let url = '/DummyImages/breakfast1_.jpeg';
+    // if (parseInt(this.props.match.params.when, 10)==0){
+    //   url += 'breakfast' + (parseInt(this.props.match.params.idx, 10)+1) + '_.jpeg';
+    // } else if (parseInt(this.props.match.params.when, 10)==1){
+    //   url += 'lunch' + (parseInt(this.props.match.params.idx, 10)+1) + '_.jpeg';
+    // } else {
+    //   if (parseInt(this.props.match.params.idx, 10)+1 != 3) url += 'dinner' + (parseInt(this.props.match.params.idx, 10)+1) +'_.jpeg';
+    //   else url += 'dinner'+(parseInt(this.props.match.params.idx, 10)+1) +'_.jpg';
+    // }
+    // console.log(url);
     return (
       <div className="NutritionalInfoAndRecipe">
         <Background>
