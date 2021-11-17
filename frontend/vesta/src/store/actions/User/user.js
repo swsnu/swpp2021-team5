@@ -58,3 +58,8 @@ export const logIn = (info) => (dispatch) => axios.post('/api/user/signin/', inf
     dispatch(logIn_(res.data))
     .then(dispatch(push('/main')));
   }).catch(() => dispatch(push('/login')));
+
+export const signUp = (username, password) => dispatch => axios.post('/api/user/signup/', {username: username, password: password})
+  .then((res) => {
+    dispatch(push('/login'))
+  })
