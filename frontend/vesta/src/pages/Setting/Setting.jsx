@@ -109,6 +109,11 @@ class Setting extends Component {
     this.setState({ ...thisState, weight: e.target.value });
   }
 
+  onChangedTargetCalorieInput = (e) => {
+    const thisState = this.state;
+    this.setState({ ...thisState, targetCalories: e.target.value });
+  }
+
   onClickedUserPreferenceDeleteButton = (target) => {
     const thisState = this.state;
     const newPreference = this.state.preference.filter((menu) => {
@@ -126,8 +131,6 @@ class Setting extends Component {
     const thisState = this.state;
     this.setState({...thisState, confirmOpen: false});
   }
-
-
 
   onClickedSaveButton = () => {
     if (this.state.age < 5 && this.state.age !== null) {
@@ -157,13 +160,15 @@ class Setting extends Component {
     /* User setting information from redux from backend */
     let age = this.props.currUser.age ?
       this.props.currUser.age : 'not set';
-    let sex;
-    let sexEditButton = sexToggleButtons(this.props.currUser.sex, this.onClickedUserSexMaleButton, this.onClickedUserSexFemaleButton)
+    let sex = this.props.currUser.sex;
+    let sexEditButton = sexToggleButtons(this.state.sex, this.onClickedUserSexMaleButton, this.onClickedUserSexFemaleButton)
     let height = this.props.currUser.height ?
       this.props.currUser.height : 'not set';
     let weight = this.props.currUser.weight ?
       this.props.currUser.weight : 'not set';
-    let preference = preferenceButtonList(this.props.currUser.preference, this.state.confirmOpen, this.onClickedUserPreferenceDeleteButton, this.onConfirmOpen, this.onConfirmClose)
+    let targetCalories = this.props.currUser.targetCalories ?
+      this.props.currUser.targetCalories : 'not set';
+    let preference = preferenceButtonList(this.state.preference, this.state.confirmOpen, this.onClickedUserPreferenceDeleteButton, this.onConfirmOpen, this.onConfirmClose)
 
     const recommendedCalorie = Calculator.recommendedCalorie(age, sex, height, weight);
     const recommendedCarbs = Calculator.recommendedCarbs(age, sex, height, weight);
@@ -227,6 +232,16 @@ class Setting extends Component {
                     </Table.Cell>
                   </Table.Row>
                   <Table.Row textAlign='center'>
+                    <Table.HeaderCell>Target Calories</Table.HeaderCell>
+                    <Table.Cell>{targetCalories}</Table.Cell>
+                    <Table.Cell>
+                      <Input id="user-target-calorie-input"
+                        onChange={(e) => { this.onChangedUserTargetCalorieInput(e); }}
+                        placeholder={weight}
+                      />
+                    </Table.Cell>
+                  </Table.Row>
+                  <Table.Row textAlign='center'>
                     <Table.HeaderCell>Foods you don&apos;t eat</Table.HeaderCell>
                     <Table.Cell>
                       {preference}
@@ -250,7 +265,7 @@ class Setting extends Component {
             </GridColumn>
 
             <GridColumn width={2} className="recommended-intake">
-              <RecommendedIntake recommendedCalorie={recommendedCalorie} recommendedCarbs={recommendedCarbs} recommendedProtein={recommendedProtein} recommendedFat={recommendedFat} targetCalories={this.state.targetCalories}
+              <RecommendedIntake recommendedCalorie={recommendedCalorie} recommendedCarbs={recommendedCarbs} recommendedProtein={recommendedProtein} recommendedFat={recommendedFat}
               />
             </GridColumn>
           </GridRow>
