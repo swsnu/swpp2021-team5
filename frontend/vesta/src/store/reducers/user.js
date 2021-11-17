@@ -1,7 +1,6 @@
 import * as actionTypes from '../actions/actionType';
 
 const initialState = {
-  user: null,
   currentUser: {
     userID: null,
     username: null,
