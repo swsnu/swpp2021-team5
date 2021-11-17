@@ -35,6 +35,10 @@ const RecommendedIntake = (props) => {
                     <Table.HeaderCell>Fat</Table.HeaderCell>
                     <Table.Cell>{`${props.recommendedFat} grams`}</Table.Cell>
                   </Table.Row>
+                  <Table.Row textAlign='center'>
+                    <Table.HeaderCell>My Target Calorie</Table.HeaderCell>
+                    <Table.Cell>{`${props.targetCalories} grams`}</Table.Cell>
+                  </Table.Row>
                 </Table.Body>
               </Table>
     )

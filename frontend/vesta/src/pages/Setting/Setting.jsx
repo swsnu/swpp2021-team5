@@ -66,7 +66,7 @@ class Setting extends Component {
       height: null,
       weight: null,
       preference: [],
-      target_calories: null,
+      targetCalories: null,
       confirmOpen: false,
     };
   }
@@ -250,7 +250,7 @@ class Setting extends Component {
             </GridColumn>
 
             <GridColumn width={2} className="recommended-intake">
-              <RecommendedIntake recommendedCalorie={recommendedCalorie} recommendedCarbs={recommendedCarbs} recommendedProtein={recommendedProtein} recommendedFat={recommendedFat}
+              <RecommendedIntake recommendedCalorie={recommendedCalorie} recommendedCarbs={recommendedCarbs} recommendedProtein={recommendedProtein} recommendedFat={recommendedFat} targetCalories={this.state.targetCalories}
               />
             </GridColumn>
           </GridRow>
