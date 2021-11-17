@@ -19,6 +19,7 @@ export const saveUserSetting_ = (user) => ({
   height: user.height,
   weight: user.weight,
   preference: user.preference,
+  target_calories: user.target_calories,
 });
 
 export const saveUserSetting = (user) => (dispatch) => axios.put('/api/user/profile/',
@@ -29,21 +30,18 @@ export const saveUserSetting = (user) => (dispatch) => axios.put('/api/user/prof
     height: user.height,
     weight: user.weight,
     preference: user.preference,
+    target_calories: user.target_calories,
   })
   .then((res) => {
-    dispatch(saveUserSetting_(user));
+    dispatch(saveUserSetting_({...res.data}));
   });
 
-// json format of this request ?? //
-export const getUserSetting = (userID) => (dispatch) => axios.get('/api/user/profile/')
+export const getUserSetting = () => (dispatch) => axios.get('/api/user/profile/')
   .then((res) => {
-    dispatch(saveUserSetting_({
-      ...res.data,
-      userId: userID,
-    }));
+    dispatch(saveUserSetting_({...res.data}));
   });
 
-export const deleteUserAccount = (userID) => (dispatch) => axios.delete('/api/user/resign/')
+export const deleteUserAccount = () => (dispatch) => axios.delete('/api/user/resign/')
   .then((res) => {
     dispatch({ /*logout action */ })
   })

@@ -65,14 +65,14 @@ class Setting extends Component {
       sex: null,
       height: null,
       weight: null,
-      preference: ['fish', 'apple', 'banana'],
+      preference: [],
+      target_calories: null,
       confirmOpen: false,
     };
   }
  
   componentDidMount() {
-    const currentUserID = this.props.currUser.userID;
-    this.props.onGetUserSetting(currentUserID);
+    this.setState({...this.props.currUser, confirmOpen: false})
   }
 
   onChangedUserAgeInput = (e) => {
@@ -143,6 +143,7 @@ class Setting extends Component {
         this.state.height,
         this.state.weight,
         this.state.preference,
+        this.state.target_calories,
       );
     } 
   }
@@ -162,7 +163,7 @@ class Setting extends Component {
       this.props.currUser.height : 'not set';
     let weight = this.props.currUser.weight ?
       this.props.currUser.weight : 'not set';
-    let preference = preferenceButtonList(this.state.preference, this.state.confirmOpen, this.onClickedUserPreferenceDeleteButton, this.onConfirmOpen, this.onConfirmClose)
+    let preference = preferenceButtonList(this.props.currUser.preference, this.state.confirmOpen, this.onClickedUserPreferenceDeleteButton, this.onConfirmOpen, this.onConfirmClose)
 
     const recommendedCalorie = Calculator.recommendedCalorie(age, sex, height, weight);
     const recommendedCarbs = Calculator.recommendedCarbs(age, sex, height, weight);
@@ -284,8 +285,9 @@ const mapDispatchToProps = (dispatch) => ({
     height,
     weight,
     preference,
+    target_calories,
   ) => dispatch(actionCreators.saveUserSetting({
-    userID, username, age, sex, height, weight, preference,
+    userID, username, age, sex, height, weight, preference, target_calories
   })),
   onGetUserSetting: (userID) => dispatch(actionCreators.getUserSetting(userID)),
   onDeleteUserAccount: (userID) => dispatch(actionCreators.deleteUserAccount(userID)),
