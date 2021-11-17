@@ -9,7 +9,7 @@ const initialState = {
     height: 170,
     weight: 65,
     preference: ['banana', 'apple', 'fish'],
-    target_calories: 2000,
+    targetCalories: 2000,
   },
   userNutrition: null,
 };
@@ -26,7 +26,7 @@ const userReducer = (state = initialState, action) => {
           height: action.height,
           weight: action.weight,
           preference: action.preference,
-          target_calories: action.target_calories,
+          targetCalories: action.targetCalories,
         },
       };
 

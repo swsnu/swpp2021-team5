@@ -19,7 +19,7 @@ export const saveUserSetting_ = (user) => ({
   height: user.height,
   weight: user.weight,
   preference: user.preference,
-  target_calories: user.target_calories,
+  targetCalories: user.targetCalories,
 });
 
 export const saveUserSetting = (user) => (dispatch) => axios.put('/api/user/profile/',
@@ -30,7 +30,7 @@ export const saveUserSetting = (user) => (dispatch) => axios.put('/api/user/prof
     height: user.height,
     weight: user.weight,
     preference: user.preference,
-    target_calories: user.target_calories,
+    targetCalories: user.targetCalories,
   })
   .then((res) => {
     dispatch(saveUserSetting_({...res.data}));

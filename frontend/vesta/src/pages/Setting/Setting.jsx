@@ -143,7 +143,7 @@ class Setting extends Component {
         this.state.height,
         this.state.weight,
         this.state.preference,
-        this.state.target_calories,
+        this.state.targetCalories,
       );
     } 
   }
@@ -285,9 +285,9 @@ const mapDispatchToProps = (dispatch) => ({
     height,
     weight,
     preference,
-    target_calories,
+    targetCalories,
   ) => dispatch(actionCreators.saveUserSetting({
-    userID, username, age, sex, height, weight, preference, target_calories
+    userID, username, age, sex, height, weight, preference, targetCalories
   })),
   onGetUserSetting: (userID) => dispatch(actionCreators.getUserSetting(userID)),
   onDeleteUserAccount: (userID) => dispatch(actionCreators.deleteUserAccount(userID)),
