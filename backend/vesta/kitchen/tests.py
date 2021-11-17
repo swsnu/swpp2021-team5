@@ -394,7 +394,8 @@ class KitchenTestClass(TestCase):
             'sex': False,
             'height': '5',
             'weight': '5',
-            'preference': ['testmenu']
+            'preference': ['testmenu'],
+            'target_calories': '5',
         }), content_type='application/json')
         self.assertEqual(response.status_code, 401)
 
@@ -408,7 +409,8 @@ class KitchenTestClass(TestCase):
             'sex': False,
             'height': '5',
             'weight': '5',
-            'preference': ['testmenu']
+            'preference': ['testmenu'],
+            'target_calories': '5',
         }), content_type='application/json')
         self.assertEqual(response.status_code, 200)
 
@@ -418,7 +420,8 @@ class KitchenTestClass(TestCase):
             'sex': False,
             'height': '5',
             'weight': '5',
-            'preference': ['chicken']
+            'preference': ['chicken'],
+            'target_calories': '5',
         }), content_type='application/json')
         self.assertEqual(response.status_code, 404)
     
