@@ -1,16 +1,22 @@
 import csv
 import re
-import urllib
-from urllib.request import urlopen
-from bs4 import BeautifulSoup
+import urllib.request
+# from urllib import request
+# from urllib.request import urlopen
+# from bs4 import BeautifulSoup
+import selenium
+from selenium import webdriver
 
-def get_image_(url):
-  # context = ssl._create_unverified_context()
-  html_text = urlopen(url)
-  bs = BeautifulSoup(html_text, 'html.parser')  # BeautifulSoup variable
-  bs.find_all("img", class_="recipe-image__img")
-  print(bs)
-  # div = list(bs.find())
+def get_image_(url, image_name):
+  options = webdriver.ChromeOptions()
+  options.add_argument('headless')
+  driver = webdriver.Chrome('/Users/youngsuh-hong/SWPP/Project/swpp2021-team5/chromedriver')
+  driver.get(url=url)
+  element = driver.find_element_by_xpath('//*[@id="__layout"]/div/div[2]/div/div/div[7]/div/div/div[1]/div/div/img')
+  print(element)
+  image = element.get_attribute("src")
+  print(image)
+  urllib.request.urlretrieve(image, image_name+".jpg")
 
 
 if __name__ == "__main__":
@@ -28,5 +34,5 @@ if __name__ == "__main__":
         id = row[1]
         name = re.sub(' +','-', name)
         url = "https://www.food.com/recipe/"+name+"-"+id
-        print(url)
-        get_image_(url)
+        image_name = name+"-"+id
+        get_image_(url, image_name=image_name)
