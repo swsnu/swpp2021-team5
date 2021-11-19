@@ -331,7 +331,7 @@ class KitchenTestClass(TestCase):
         
     def test_signup(self):
         client = Client()
-        response = client.post('/api/user/signup/', json.dumps({'username': 'chris', 'password': 'chris'}), content_type='application/json')
+        response = client.post('/api/user/signup/', json.dumps({'username': 'chris', 'password': 'chris', 'age': 5, 'sex': True, 'height': 160, 'weight': 60, 'target_calories': 2000 }), content_type='application/json')
         self.assertEqual(response.status_code, 201)  
 
     def test_signin(self):

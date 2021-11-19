@@ -20,7 +20,12 @@ def signup(request):
         user = User.objects.create_user(username=username, password=password)
 
         # Model 'Profile' should be created simultaneously #
-        new_profile = Profile(user=user, age=None, sex=None, height=None, weight=None)
+        age = int(req_data['age'])
+        sex = bool(req_data['sex'])
+        height = int(req_data['height'])
+        weight = int(req_data['weight'])
+        target_calories = int(req_data['targetCalories'])
+        new_profile = Profile(user=user, age=age, sex=sex, height=height, weight=weight, target_calories=target_calories)
         new_profile.save()
 
         return HttpResponse(status=201)
