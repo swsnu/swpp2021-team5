@@ -61,12 +61,12 @@ class Setting extends Component {
     this.state = {
       userID: null,
       username: null,
-      age: null,
+      age: '',
       sex: null,
-      height: null,
+      height: '',
       weight: null,
       preference: [],
-      targetCalories: null,
+      targetCalories: '',
       confirmOpen: false,
     };
   }
@@ -139,7 +139,6 @@ class Setting extends Component {
     }
     else  {
       this.props.onSaveUserSetting(
-        this.state.userID,
         this.state.username,
         this.state.age,
         this.state.sex,
@@ -158,16 +157,12 @@ class Setting extends Component {
 
   render() {
     /* User setting information from redux from backend */
-    let age = this.props.currUser.age ?
-      this.props.currUser.age : 'not set';
+    let age = this.props.currUser.age;
     let sex = this.props.currUser.sex;
     let sexEditButton = sexToggleButtons(this.state.sex, this.onClickedUserSexMaleButton, this.onClickedUserSexFemaleButton)
-    let height = this.props.currUser.height ?
-      this.props.currUser.height : 'not set';
-    let weight = this.props.currUser.weight ?
-      this.props.currUser.weight : 'not set';
-    let targetCalories = this.props.currUser.targetCalories ?
-      this.props.currUser.targetCalories : 'not set';
+    let height = this.props.currUser.height;
+    let weight = this.props.currUser.weight;
+    let targetCalories = this.props.currUser.targetCalories;
     let preference = preferenceButtonList(this.state.preference, this.state.confirmOpen, this.onClickedUserPreferenceDeleteButton, this.onConfirmOpen, this.onConfirmClose)
 
     const recommendedCalorie = Calculator.recommendedCalorie(age, sex, height, weight);
@@ -201,13 +196,13 @@ class Setting extends Component {
                     <Table.HeaderCell>Age</Table.HeaderCell>
                     <Table.Cell>{age}</Table.Cell>
                     <Table.Cell>
-                      <Input id="user-age-input" onChange={(e) => this.onChangedUserAgeInput(e)} placeholder={age} />
+                      <Input id="user-age-input" onChange={(e) => this.onChangedUserAgeInput(e)} placeholder={'Edit'} />
                     </Table.Cell>
                   </Table.Row>
                   <Table.Row textAlign='center'>
                     <Table.HeaderCell>Sex</Table.HeaderCell>
-                    <Table.Cell>{sex}</Table.Cell>
-                    <Table.Cell>
+                    {/*<--Table.Cell>{sex}</Table.Cell>*/}
+                    <Table.Cell colSpan='2'>
                       {sexEditButton}
                     </Table.Cell>
                   </Table.Row>
@@ -217,7 +212,7 @@ class Setting extends Component {
                     <Table.Cell>
                       <Input id="user-height-input"
                         onChange={(e) => { this.onChangedUserHeightInput(e); }}
-                        placeholder={height}
+                        placeholder={'Edit'}
                       />
                     </Table.Cell>
                   </Table.Row>
@@ -227,7 +222,7 @@ class Setting extends Component {
                     <Table.Cell>
                       <Input id="user-weight-input"
                         onChange={(e) => { this.onChangedUserWeightInput(e); }}
-                        placeholder={weight}
+                        placeholder={'Edit'}
                       />
                     </Table.Cell>
                   </Table.Row>
@@ -237,7 +232,7 @@ class Setting extends Component {
                     <Table.Cell>
                       <Input id="user-target-calorie-input"
                         onChange={(e) => { this.onChangedUserTargetCalorieInput(e); }}
-                        placeholder={weight}
+                        placeholder={'Edit'}
                       />
                     </Table.Cell>
                   </Table.Row>
@@ -293,7 +288,6 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   onSaveUserSetting: (
-    userID,
     username,
     age,
     sex,
@@ -302,7 +296,7 @@ const mapDispatchToProps = (dispatch) => ({
     preference,
     targetCalories,
   ) => dispatch(actionCreators.saveUserSetting({
-    userID, username, age, sex, height, weight, preference, targetCalories
+    username, age, sex, height, weight, preference, targetCalories
   })),
   onGetUserSetting: (userID) => dispatch(actionCreators.getUserSetting(userID)),
   onDeleteUserAccount: (userID) => dispatch(actionCreators.deleteUserAccount(userID)),
