@@ -1,12 +1,32 @@
+/* eslint-disable */
+
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import {
-  Header, Table, Input, Button,
+  Header, Table, Input, Button, Grid
 } from 'semantic-ui-react';
-import { Bar } from 'react-chartjs-2';
+import styled from 'styled-components';
 
 import * as actionCreators from '../../store/actions/index';
+import StatsDaily from '../../component/Statistics/StatsDaily';
+
+const StatisticsHeader = styled.div`
+font-family:'verveine';
+font-size:65px;
+color:#F28095;
+text-align: center;
+vertical-align: middle;
+line-height: 80px;
+`;
+
+const Box = styled.div`
+background-color:#B3D962;
+border-radius: 10px;
+width: 950px;
+height: 80px;
+margin:0 auto;
+`;
 
 class Statistics extends Component {
   constructor(props) {
@@ -16,42 +36,24 @@ class Statistics extends Component {
   }
 
   render() {
-    const data = {
-      labels: [
-        'Calorie',
-        'Carbs',
-        'Protein',
-        'Fat',
-      ],
-      datasets: [{
-        // label: "Today's My Nutrient Intake",
-        data: [10, 10, 10, 10],
-        backgroundColor: [
-          'green',
-          'rgb(255, 99, 132)',
-          'rgb(54, 162, 235)',
-          'rgb(255, 205, 86)',
-        ],
-      }],
-    };
-
     return (
       <div className="Statistics">
 
+        
         <div className="Header">
-          <Header as="h1">Statistics Page</Header>
+          <StatisticsHeader>Your Nutritional Statistics</StatisticsHeader>
         </div>
 
-        <div className="chart" style={{ width: 300, height: 150, }}>
-          <Bar data={data} width={30} height={30} />
-        </div>
-
-        <div className="day-week-month-button">
-          <Button>Today</Button>
-          <Button>Weekly</Button>
-          <Button>Monthly</Button>
-        </div>
-
+        <Grid column={1} textAlign="center">
+          <Grid.Column width={5}>
+            <StatsDaily data={[72, 64, 57, 80]} />
+            <br/>
+            <br/>
+            <Button size='large'>Today</Button>
+            <Button size='large'>Weekly</Button>
+            <Button size='large'>Monthly</Button>
+          </Grid.Column>
+        </Grid>
       </div>
     );
   }

@@ -8,6 +8,7 @@
     "@testing-library/user-event": "^12.1.10",
     "axios": "^0.24.0",
     "chart.js": "^3.6.0",
+    "chartjs-plugin-datalabels": "^2.0.0",
     "connected-react-router": "^6.9.1",
     "history": "^4.10.1",
     "react": "^17.0.2",
@@ -28,7 +29,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint": "eslint --fix --ext .js,.jsx ."
   },
   "eslintConfig": {
     "extends": [
@@ -49,6 +51,7 @@
     ]
   },
   "devDependencies": {
+    "babel-eslint": "^10.1.0",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-17-updated": "^1.0.2",
     "enzyme-to-json": "^3.6.2",
@@ -65,8 +68,14 @@
       "!src/index.jsx",
       "!src/reportWebVitals.js",
       "!src/styles/fonts/fonts.js",
-      "!src/store/actions/index.js"
+      "!src/store/actions/index.js",
+      "!src/styles/Menu_Recommendation/*.jsx",
+      "!src/component/Meal/MealList.jsx",
+      "!src/pages/Setting/Calculator.js",
+      "!src/store/reducers/user.js",
+      "!src/store/reducers/menu.js",
+      "!src/component/Record/RecordDetail/RecordDetail.jsx"
     ]
   },
-  "proxy": "http://localhost:8000"
+  "proxy": "http://localhost:8000/"
 }

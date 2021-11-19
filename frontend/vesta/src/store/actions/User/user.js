@@ -1,4 +1,7 @@
+/* eslint-disable */
 import axios from 'axios';
+import { push } from 'connected-react-router';
+
 import * as actionTypes from '../actionType';
 
 /*                <<Backend API>>                  */
@@ -16,6 +19,7 @@ export const saveUserSetting_ = (user) => ({
   height: user.height,
   weight: user.weight,
   preference: user.preference,
+  targetCalories: user.targetCalories,
 });
 
 export const saveUserSetting = (user) => (dispatch) => axios.put('/api/user/profile/',
@@ -26,15 +30,41 @@ export const saveUserSetting = (user) => (dispatch) => axios.put('/api/user/prof
     height: user.height,
     weight: user.weight,
     preference: user.preference,
+    targetCalories: user.targetCalories,
   })
   .then((res) => {
-    dispatch(saveUserSetting_(user));
+    dispatch(saveUserSetting_({...res.data}));
   });
 
-// json format of this request ?? //
-export const getUserSetting = (userID) => (dispatch) => axios.get('/api/user/profile/')
+export const getUserSetting = () => (dispatch) => axios.get('/api/user/profile/')
   .then((res) => {
-    dispatch(saveUserSetting_(
-      res.data,
-    ));
+    dispatch(saveUserSetting_({...res.data}));
   });
+
+export const deleteUserAccount = () => (dispatch) => axios.delete('/api/user/resign/')
+  .then((res) => {
+    dispatch({ /*logout action */ })
+  })
+
+export const logIn_ = (user) => ({
+  type: actionTypes.LOGIN,
+  currentUser: user,
+});
+
+export const logIn = (info) => (dispatch) => axios.post('/api/user/signin/', info)
+  .then((res) => {
+    dispatch(logIn_(res.data))
+    .then(dispatch(push('/main')));
+  }).catch(() => dispatch(push('/login')));
+
+export const signUp = (username, password, age, sex, height, weight, targetCalories) => dispatch => axios.post('/api/user/signup/', {
+  username: username,
+  password: password,
+  age: age,
+  sex: sex,
+  height: height,
+  weight: weight,
+  targetCalories: targetCalories})
+  .then((res) => {
+    dispatch(push('/login'))
+  })
