@@ -1,15 +1,15 @@
 import * as actionTypes from '../actions/actionType';
 
 const initialState = {
-  user: null,
   currentUser: {
-    userID: null,
-    username: null,
-    age: null,
-    sex: null,
-    height: null,
-    weight: null,
-    preference: [],
+    userID: 1,
+    username: 'team5',
+    age: 23,
+    sex: true,
+    height: 170,
+    weight: 65,
+    preference: ['banana', 'apple', 'fish'],
+    targetCalories: 2000,
   },
   userNutrition: null,
 };
@@ -26,6 +26,7 @@ const userReducer = (state = initialState, action) => {
           height: action.height,
           weight: action.weight,
           preference: action.preference,
+          targetCalories: action.targetCalories,
         },
       };
 
