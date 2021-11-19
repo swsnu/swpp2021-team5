@@ -57,7 +57,14 @@ export const logIn = (info) => (dispatch) => axios.post('/api/user/signin/', inf
     .then(dispatch(push('/main')));
   }).catch(() => dispatch(push('/login')));
 
-export const signUp = (username, password) => dispatch => axios.post('/api/user/signup/', {username: username, password: password})
+export const signUp = (username, password, age, sex, height, weight, targetCalories) => dispatch => axios.post('/api/user/signup/', {
+  username: username,
+  password: password,
+  age: age,
+  sex: sex,
+  height: height,
+  weight: weight,
+  targetCalories: targetCalories})
   .then((res) => {
     dispatch(push('/login'))
   })

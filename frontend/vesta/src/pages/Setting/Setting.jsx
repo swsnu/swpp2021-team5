@@ -21,7 +21,7 @@ vertical-align: middle;
 line-height: 80px;
 `;
 
-const sexToggleButtons = (isMale=true, clickedMaleHandler, clickedFemaleHandler) => {
+export const sexToggleButtons = (isMale=true, clickedMaleHandler, clickedFemaleHandler) => {
   if (isMale) {
     return (
       <Button.Group >
