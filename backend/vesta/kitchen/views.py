@@ -20,7 +20,12 @@ def signup(request):
         user = User.objects.create_user(username=username, password=password)
 
         # Model 'Profile' should be created simultaneously #
-        new_profile = Profile(user=user, age=None, sex=None, height=None, weight=None)
+        age = int(req_data['age'])
+        sex = bool(req_data['sex'])
+        height = int(req_data['height'])
+        weight = int(req_data['weight'])
+        target_calories = int(req_data['targetCalories'])
+        new_profile = Profile(user=user, age=age, sex=sex, height=height, weight=weight, target_calories=target_calories)
         new_profile.save()
 
         return HttpResponse(status=201)
@@ -88,7 +93,8 @@ def profile(request):
                 'sex': user_profile.sex,
                 'height': user_profile.height,
                 'weight': user_profile.weight,
-                'preference': food_preference_list
+                'preference': food_preference_list,
+                'targetCalories': user_profile.target_calories
             }
             return JsonResponse(response_dict, status=200, safe=False)
         else:
@@ -109,6 +115,7 @@ def profile(request):
             user_profile.sex = req_data['sex']
             user_profile.height = int(req_data['height'])
             user_profile.weight = int(req_data['weight'])
+            user_profile.target_calories = int(req_data['targetCalories'])
             user.save()
             user_profile.save()
 
@@ -136,7 +143,8 @@ def profile(request):
                 'sex': user_profile.sex,
                 'height': user_profile.height,
                 'weight': user_profile.weight,
-                'preference': food_preference_list_response
+                'preference': food_preference_list_response,
+                'targetCalories': user_profile.target_calories
             }
             return JsonResponse(response_dict, status=200)
         else:
