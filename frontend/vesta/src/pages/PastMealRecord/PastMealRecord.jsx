@@ -17,9 +17,9 @@ import Records from '../../component/Record/Records/Records';
 // `;
 
 class PastMealRecord extends Component {
-  componentDidMount() {
-    this.props.getRecords();
-  }
+  // componentDidMount() {
+  //   this.props.getRecords();
+  // }
 
   render() {
     return (
@@ -30,12 +30,12 @@ class PastMealRecord extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  userRecords: state.record.userRecords,
-});
+// const mapStateToProps = (state) => ({
+//   userRecords: state.record.userRecords,
+// });
 
-const mapDispatchToProps = (dispatch) => ({
-  getRecords: () => dispatch(actionCreators.getRecords()),
-});
+// const mapDispatchToProps = (dispatch) => ({
+//   getRecords: () => dispatch(actionCreators.getRecords()),
+// });
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(PastMealRecord));
+export default connect(null, null)(withRouter(PastMealRecord));
