@@ -11,7 +11,12 @@ const initialState = {
     preference: ['banana', 'apple', 'fish'],
     targetCalories: 2000,
   },
-  userNutrition: null,
+  userNutrition: {
+    calories: 1231,
+    carbs: 121,
+    protein: 92,
+    fat: 23,
+  },
 };
 const userReducer = (state = initialState, action) => {
   switch (action.type) {

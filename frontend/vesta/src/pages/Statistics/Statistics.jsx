@@ -28,6 +28,15 @@ height: 80px;
 margin:0 auto;
 `;
 
+const Div = styled.div`
+background-color:#B3D962;
+color:#F28095;
+align-items:center;
+vertical-align: middle;
+line-height: 80px;
+margin:8;
+`;
+
 class Statistics extends Component {
   constructor(props) {
     super(props);
@@ -36,27 +45,37 @@ class Statistics extends Component {
   }
 
   render() {
+    let todayNutritionIntake = [
+      this.props.currUserNutritionIntake.calories,
+      this.props.currUserNutritionIntake.carbs,
+      this.props.currUserNutritionIntake.protein,
+      this.props.curr.currUserNutritionIntake.fat,
+    ]
+        
     return (
       <div className="Statistics">
 
-        
         <div className="Header">
           <StatisticsHeader>Your Nutritional Statistics</StatisticsHeader>
         </div>
 
-        <Grid column={1} textAlign="center">
-          <Grid.Column width={5}>
-            <StatsDaily data={[72, 64, 57, 80]} />
+        <Div className="body" class="ui one column stackable center aligned page grid">
+            <StatsDaily data={todayNutritionIntake} />
             <br/>
             <br/>
             <Button size='large'>Today</Button>
             <Button size='large'>Weekly</Button>
             <Button size='large'>Monthly</Button>
-          </Grid.Column>
-        </Grid>
+          
+        </Div>
       </div>
     );
   }
 }
 
-export default Statistics;
+const mapStateToProps = state => ({
+  currUser: state.user.currentUser,
+  currUserNutritionIntake: state.user.userNutrition,
+});
+
+export default connect(mapStateToProps, null)(Statistics);
