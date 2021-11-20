@@ -10,6 +10,7 @@ import styled from 'styled-components';
 
 import * as actionCreators from '../../store/actions/index';
 import StatsDaily from '../../component/Statistics/StatsDaily';
+import * as Calculator from '../Setting/Calculator';
 
 const StatisticsHeader = styled.div`
 font-family:'verveine';
@@ -45,13 +46,27 @@ class Statistics extends Component {
   }
 
   render() {
-    let todayNutritionIntake = [
-      this.props.currUserNutritionIntake.calories,
-      this.props.currUserNutritionIntake.carbs,
-      this.props.currUserNutritionIntake.protein,
-      this.props.curr.currUserNutritionIntake.fat,
-    ]
-        
+    let todayNutritionIntake = {
+      calories: this.props.currUserNutrition.calories,
+      carbs: this.props.currUserNutrition.carbs,
+      protein: this.props.currUserNutrition.protein,
+      fat: this.props.currUserNutrition.fat,
+    }
+    let age = this.props.currUser.age;
+    let sex = this.props.currUser.sex;
+    let height = this.props.currUser.height;
+    let weight = this.props.currUser.weight;
+    let recommendedCarbs = Calculator.recommendedCarbs(age, sex, height, weight);
+    let recommendedProtein = Calculator.recommendedProtein(age, sex, height, weight);
+    let recommendedFat = Calculator.recommendedFat(age, sex, height, weight);
+    let recommendedCalorie = this.props.currUser.targetCalories;
+    let recommendedIntake = {
+      calories: recommendedCalorie,
+      carbs: recommendedCarbs,
+      protein: recommendedProtein,
+      fat: recommendedFat,
+    }
+    
     return (
       <div className="Statistics">
 
@@ -60,7 +75,7 @@ class Statistics extends Component {
         </div>
 
         <Div className="body" class="ui one column stackable center aligned page grid">
-            <StatsDaily data={todayNutritionIntake} />
+            <StatsDaily intake={todayNutritionIntake} recommendedIntake={recommendedIntake} />
             <br/>
             <br/>
             <Button size='large'>Today</Button>
@@ -75,7 +90,7 @@ class Statistics extends Component {
 
 const mapStateToProps = state => ({
   currUser: state.user.currentUser,
-  currUserNutritionIntake: state.user.userNutrition,
+  currUserNutrition: state.user.userNutrition,
 });
 
 export default connect(mapStateToProps, null)(Statistics);

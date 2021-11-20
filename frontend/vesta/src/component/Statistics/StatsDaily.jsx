@@ -1,37 +1,36 @@
 /* eslint-disable */
-
 import React from 'react';
 
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { Bar } from 'react-chartjs-2';
-import { options } from './GraphConfig';
+import { todayOptions, todayData } from './GraphConfig';
 
 
 const StatsDaily = (props) => {
 
-    const data = {
-        labels: [
-          'Calorie',
-          'Carbs',
-          'Protein',
-          'Fat',
-        ],
-        datasets: [{
-          // label: "Today's My Nutrient Intake",
-          data: props.data,
-          backgroundColor: [
-            'green',
-            'rgb(255, 99, 132)',
-            'rgb(54, 162, 235)',
-            'rgb(255, 205, 86)',
-          ],
-        },
-        ],
-      };
+  const barData = todayData;
+  barData.datasets[0].data = [
+    Math.round(100*props.intake.calories/props.recommendedIntake.calories),
+    Math.round(100*props.intake.carbs/props.recommendedIntake.carbs),
+    Math.round(100*props.intake.protein/props.recommendedIntake.protein),
+    Math.round(100*props.intake.fat/props.recommendedIntake.fat)
+  ]
+  barData.datasets[1].data = [
+    Math.round(props.intake.calories),
+    Math.round(props.intake.carbs),
+    Math.round(props.intake.protein),
+    Math.round(props.intake.fat)
+  ]
+  barData.datasets[2].data = [
+    Math.round(props.recommendedIntake.calories),
+    Math.round(props.recommendedIntake.carbs),
+    Math.round(props.recommendedIntake.protein),
+    Math.round(props.recommendedIntake.fat),
+  ]
 
-    return (
-        <Bar data={data} redraw plugins={[ChartDataLabels]} options={options} width={3} height={3} />
-    )
+  return (
+    <Bar data={barData} redraw plugins={[ChartDataLabels]} options={todayOptions} width={3} height={3} />
+  )
 }
 
 export default StatsDaily;
