@@ -68,17 +68,13 @@
       "!src/index.jsx",
       "!src/reportWebVitals.js",
       "!src/styles/fonts/fonts.js",
-      "!src/test-utils/**/*",
       "!src/store/actions/index.js",
-      "!src/store/actions/{User,Menu}/*.js",
-      "!src/store/reducers/{menu,user}.js",
-      "!src/styles/**/*.jsx",
-      "!src/component/{Meal,PastNutritionInfo,Recipe,Nutrient}/*.jsx",
-      "!src/component/Record/Review/Review.jsx",
-      "!src/store/reducers/{menu,recipe}.js",
-      "!src/pages/Main/*",
-      "!src/App.jsx",
-      "!src/pages/{Nutritional_Info_and_Recipe,Menu_Recommendation,Setting,Statistics,Confirm_Detection,Food_Record}/**/*.{js,jsx}"
+      "!src/styles/Menu_Recommendation/*.jsx",
+      "!src/component/Meal/MealList.jsx",
+      "!src/pages/Setting/Calculator.js",
+      "!src/store/reducers/user.js",
+      "!src/store/reducers/menu.js",
+      "!src/component/Record/RecordDetail/RecordDetail.jsx"
     ]
   },
   "proxy": "http://localhost:8000/"

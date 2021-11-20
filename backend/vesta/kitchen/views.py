@@ -20,7 +20,7 @@ def signup(request):
         user = User.objects.create_user(username=username, password=password)
 
         # Model 'Profile' should be created simultaneously #
-        new_profile = Profile(user=user)
+        new_profile = Profile(user=user, age=None, sex=None, height=None, weight=None)
         new_profile.save()
 
         return HttpResponse(status=201)
@@ -83,11 +83,11 @@ def profile(request):
 
             user_profile = user.profile
             response_dict = {
-                'username': user_profile.username,
-                'age': user_profile.profile.age,
-                'sex': user_profile.profile.sex,
-                'height': user_profile.profile.height,
-                'weight': user_profile.profile.weight,
+                'username': user.username,
+                'age': user_profile.age,
+                'sex': user_profile.sex,
+                'height': user_profile.height,
+                'weight': user_profile.weight,
                 'preference': food_preference_list
             }
             return JsonResponse(response_dict, status=200, safe=False)
@@ -145,13 +145,12 @@ def profile(request):
         return HttpResponseNotAllowed(['GET', 'PUT'])
 
 
-def nutrition(request):
+def nutrition(request, date):
     if request.method == 'GET':
         if request.user.is_authenticated:
-            req_data = json.loads(request.body.decode())
             # req_data['date'] comes in YYYY-MM-DD form, transform the string
             # into datetime object
-            date_list = req_data['date'].split('-')
+            date_list = date.split('-')
             today = datetime.date(int(date_list[0]), int(
                 date_list[1]), int(date_list[2]))
             try:
@@ -160,9 +159,7 @@ def nutrition(request):
             except UserNutrition.DoesNotExist:      # User.DoesNotExist?
                 return HttpResponse(status=404)
             response_dict = {
-                'user_id': today_nutrition.user_id,
-                # is it okay?
-                'date': today_nutrition.date.strftime('%Y-%m-%d'),
+                #'date': today_nutrition.date.strftime('%Y-%m-%d'),
                 'calories': today_nutrition.calories,
                 'carbs': today_nutrition.carbs,
                 'protein': today_nutrition.protein,
@@ -173,10 +170,10 @@ def nutrition(request):
             return HttpResponse(status=401)
     elif request.method == 'POST':
         if request.user.is_authenticated:
-            req_data = json.loads(request.body.decode())
-            date_list = req_data['date'].split('-')
+            date_list = date.split('-')
             today = datetime.date(int(date_list[0]), int(
                 date_list[1]), int(date_list[2]))
+            req_data = json.loads(request.body.decode())
             calories = int(req_data['calories'])
             carbs = int(req_data['carbs'])
             protein = int(req_data['protein'])
@@ -192,9 +189,6 @@ def nutrition(request):
             new_record.save()
 
             response_dict = {
-                'id': new_record.id,
-                'user_id': new_record.user_id,
-                'date': new_record.date.strftime('%Y-%m-%d'),  # is it okay?
                 'calories': new_record.calories,
                 'carbs': new_record.carbs,
                 'protein': new_record.protein,
@@ -206,7 +200,7 @@ def nutrition(request):
     elif request.method == 'PUT':
         if request.user.is_authenticated:
             req_data = json.loads(request.body.decode())
-            date_list = req_data['date'].split('-')
+            date_list = date.split('-')
             today = datetime.date(int(date_list[0]), int(
                 date_list[1]), int(date_list[2]))
             try:
@@ -228,9 +222,6 @@ def nutrition(request):
             today_nutrition.save()
 
             response_dict = {
-                'id': today_nutrition.id,
-                'user_id': today_nutrition.user_id,
-                'date': today_nutrition.date.strftime('%Y-%m-%d'),
                 'calories': today_nutrition.calories,
                 'carbs': today_nutrition.carbs,
                 'protein': today_nutrition.protein,
@@ -243,7 +234,6 @@ def nutrition(request):
         return HttpResponseNotAllowed(['GET', 'POST', 'PUT'])
 
 
-# Create your views here.
 def record(request):
     if request.method == "GET":
         ## If user is not signed in, respond with 401
@@ -362,7 +352,8 @@ def review(request, review_record_id):
                         'recipe_id' : record_to_add_review.recipe.id,
                         'review' : record_to_add_review.review,
                         'liked' : record_to_add_review.liked,
-                        'date' : record_to_add_review.date}
+                        'date' : record_to_add_review.date,
+                        'image' : record_to_add_review.image.url}
         return JsonResponse(response_dict)
 
     if request.method == "PUT":
@@ -379,7 +370,8 @@ def review(request, review_record_id):
                         'recipe_id' : record_to_edit_review.recipe.id,
                         'review' : record_to_edit_review.review,
                         'liked' : record_to_edit_review.liked,
-                        'date' : record_to_edit_review.date}
+                        'date' : record_to_edit_review.date,
+                        'image' : record_to_edit_review.image.url}
         return JsonResponse(response_dict)
 
     if request.method == "DELETE":
@@ -395,8 +387,38 @@ def review(request, review_record_id):
                         'recipe_id' : record_to_delete_review.recipe.id,
                         'review' : record_to_delete_review.review,
                         'liked' : record_to_delete_review.liked,
-                        'date' : record_to_delete_review.date}
+                        'date' : record_to_delete_review.date,
+                        'image' : record_to_delete_review.image.url}
         return JsonResponse(response_dict)
+
+
+@require_http_methods(["PUT"])
+def liked(request, liked_record_id):
+    ## If user is not signed in, respond with 401
+    if not request.user.is_authenticated:
+        return HttpResponse(status = 401)
+
+    ## If record of liked_record_id does not exist, respond with 404
+    if not Record.objects.filter(id = liked_record_id).exists():
+        return HttpResponse(status = 404)
+
+    ## If request is not from the user of the record, respond with 403
+    if Record.objects.get(id = liked_record_id).user.id != request.user.id:
+        return HttpResponse(status = 403)
+
+    record_to_toggle_liked = Record.objects.get(id = liked_record_id)
+    record_to_toggle_liked.liked = not record_to_toggle_liked.liked
+
+    response_dict = {'id' : liked_record_id,
+                    'user_id' : record_to_toggle_liked.user.id,
+                    'menu_id' : record_to_toggle_liked.menu.id,
+                    'recipe_id' : record_to_toggle_liked.recipe.id,
+                    'review' : record_to_toggle_liked.review,
+                    'liked' : record_to_toggle_liked.liked,
+                    'date' : record_to_toggle_liked.date,
+                    'image' : record_to_toggle_liked.image.url}
+    return JsonResponse(response_dict)
+
 
 @require_GET
 def recipe_menu_name(request, menu_name_recipe):
