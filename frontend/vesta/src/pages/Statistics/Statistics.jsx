@@ -10,6 +10,9 @@ import styled from 'styled-components';
 
 import * as actionCreators from '../../store/actions/index';
 import StatsDaily from '../../component/Statistics/StatsDaily';
+import StatsWeekly from '../../component/Statistics/StatsWeekly';
+import StatsMonthly from '../../component/Statistics/StatsMonthly';
+import * as Calculator from '../Setting/Calculator';
 
 const StatisticsHeader = styled.div`
 font-family:'verveine';
@@ -28,35 +31,114 @@ height: 80px;
 margin:0 auto;
 `;
 
+const Div = styled.div`
+background-color:#B3D962;
+color:#F28095;
+align-items:center;
+vertical-align: middle;
+line-height: 80px;
+margin:8;
+`;
+
+const TODAY = 'TODAY';
+const WEEKLY = 'WEEKLY';
+const MONTHLY = 'MONTHLY';
+
 class Statistics extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      selected: TODAY,
     };
   }
 
+  onClickedTodayButton = () => {
+    const thisState = this.state;
+    if (!(this.state.selected === TODAY))
+      this.setState({...thisState, selected: TODAY})
+  }
+
+  onClickedWeeklyButton = () => {
+    const thisState = this.state;
+    if (!(this.state.selected === WEEKLY))
+      this.setState({...thisState, selected: WEEKLY})
+  }
+
+  onClickedMonthlyButton = () => {
+    const thisState = this.state;
+    if (!(this.state.selected === MONTHLY))
+      this.setState({...thisState, selected: MONTHLY})
+  }
+  
+
   render() {
+    let todayNutritionIntake = {
+      calories: this.props.currUserNutrition.calories,
+      carbs: this.props.currUserNutrition.carbs,
+      protein: this.props.currUserNutrition.protein,
+      fat: this.props.currUserNutrition.fat,
+    }
+    let age = this.props.currUser.age;
+    let sex = this.props.currUser.sex;
+    let height = this.props.currUser.height;
+    let weight = this.props.currUser.weight;
+    let recommendedCarbs = Calculator.recommendedCarbs(age, sex, height, weight);
+    let recommendedProtein = Calculator.recommendedProtein(age, sex, height, weight);
+    let recommendedFat = Calculator.recommendedFat(age, sex, height, weight);
+    let recommendedCalorie = this.props.currUser.targetCalories;
+    let recommendedIntake = {
+      calories: recommendedCalorie,
+      carbs: recommendedCarbs,
+      protein: recommendedProtein,
+      fat: recommendedFat,
+    }
+
+    let selectedComponent;
+    switch (this.state.selected) {
+      case TODAY:
+        selectedComponent = <StatsDaily intake={todayNutritionIntake} recommendedIntake={recommendedIntake} />;
+        break;
+      case WEEKLY:
+        selectedComponent = <StatsWeekly recommendedIntake={recommendedIntake} />
+        break;
+      case MONTHLY:
+        selectedComponent = <StatsMonthly recommendedIntake={recommendedIntake}/>
+        break;
+    }
+    
     return (
       <div className="Statistics">
 
-        
         <div className="Header">
           <StatisticsHeader>Your Nutritional Statistics</StatisticsHeader>
         </div>
 
-        <Grid column={1} textAlign="center">
-          <Grid.Column width={5}>
-            <StatsDaily data={[72, 64, 57, 80]} />
+        <Div className="body" class="ui one column stackable center aligned page grid">
+            {selectedComponent}
             <br/>
             <br/>
-            <Button size='large'>Today</Button>
-            <Button size='large'>Weekly</Button>
-            <Button size='large'>Monthly</Button>
-          </Grid.Column>
-        </Grid>
+            <Button.Group>
+              <Button size='large' onClick={() => this.onClickedTodayButton()}>Today</Button>
+              <Button size='large' onClick={() => this.onClickedWeeklyButton()}>Weekly</Button>
+              <Button size='large' onClick={() => this.onClickedMonthlyButton()}>Monthly</Button>
+            </Button.Group>
+        </Div>
       </div>
     );
   }
 }
 
-export default Statistics;
+const mapStateToProps = state => {
+  return {
+    currUser: state.user.currentUser,
+    currUserNutrition: state.user.userNutrition,
+  }
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onGetUserNutrition: (userID) => dispatch(actionCreators.GetUserNutrition(userID)) 
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Statistics);
