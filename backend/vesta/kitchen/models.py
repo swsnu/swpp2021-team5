@@ -13,6 +13,7 @@ class Menu(models.Model):
     fat = FloatField()
     image = models.ImageField(upload_to = 'menu_images', blank = True)
     recipe = TextField(default="")
+    ingredient = TextField(default="")
 
 class Profile(models.Model):
     user = OneToOneField(
@@ -47,10 +48,10 @@ class UserNutrition(models.Model):
         on_delete=models.CASCADE
     )
     date = DateField()
-    calories = IntegerField()
-    carbs = IntegerField()
-    protein = IntegerField()
-    fat = IntegerField()
+    calories = FloatField()
+    carbs = FloatField()
+    protein = FloatField()
+    fat = FloatField()
 
 class Recipe(models.Model):
     menu = ForeignKey(Menu, on_delete = models.CASCADE, related_name = 'menu_of_recipe')

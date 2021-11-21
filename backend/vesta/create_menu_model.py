@@ -3,6 +3,7 @@ import django
 import re
 import os
 
+# path needs to be changed
 CSV_PATH = '/Users/youngsuh-hong/SWPP/Project/swpp2021-team5/database/RAW_recipes.csv'
 IMAGE_PATH = '/Users/youngsuh-hong/SWPP/Project/swpp2021-team5/database/images/'
 
@@ -17,6 +18,10 @@ def organize_recipe(recipe):
     idx += 1
     result.append(str(idx) +". " + p)
   return result
+
+def organize_ingredient(ingredient):
+  pattern = re.findall("'(.*?)'", ingredient)
+  return pattern
 
 if __name__ == "__main__":
   os.environ.setdefault("DJANGO_SETTINGS_MODULE", "vesta.settings")
@@ -39,21 +44,23 @@ if __name__ == "__main__":
         if os.path.exists(IMAGE_PATH+image_name):
           nutrition = row[6]
           recipe = organize_recipe(row[8])
-          # print(recipe)
+          ingredient = organize_ingredient(row[10])
           pattern = parse_nutrition(nutrition)
           calories = float(pattern[0])
           carbs = float(pattern[6])
           protein = float(pattern[4])
           fat = float(pattern[1])
-          Menu.objects.create(
+          menu = Menu.objects.create(
             name = name,
             calories = calories,
             carbs = carbs,
             protein = protein,
             fat = fat,
             # image = 
-            recipe = recipe
+            recipe = recipe,
+            ingredient = ingredient
           )
+          menu.save()
         else:
           continue
         # print(calories, carbs, protein, fat)
