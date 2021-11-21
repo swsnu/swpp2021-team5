@@ -42,7 +42,26 @@ def signin(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return HttpResponse(status=204)
+            try:
+                user = User.objects.get(id=user.id)
+            except User.DoesNotExist:      # Profile.DoesNotExist?
+                return HttpResponse(status=404)
+
+            food_preference_list = []
+            for item in Preference.objects.filter(user_id=request.user.id):
+                food_preference_list.append(str(item.menu.name))
+
+            user_profile = user.profile
+            response_dict = {
+                'username': user.username,
+                'age': user_profile.age,
+                'sex': user_profile.sex,
+                'height': user_profile.height,
+                'weight': user_profile.weight,
+                'preference': food_preference_list,
+                'targetCalories': user_profile.target_calories
+            }
+            return JsonResponse(response_dict, status=200, safe=False)
         else:
             return HttpResponse(status=401)
     else:

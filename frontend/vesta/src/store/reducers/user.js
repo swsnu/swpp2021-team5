@@ -36,6 +36,7 @@ const userReducer = (state = initialState, action) => {
       };
 
     case actionTypes.LOGIN:
+      // console.log('[USER]reducer:login');
       return { ...state, currentUser: action.currentUser };
 
     default:
