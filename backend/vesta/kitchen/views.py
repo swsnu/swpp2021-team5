@@ -53,6 +53,7 @@ def signin(request):
 
             user_profile = user.profile
             response_dict = {
+                'userID': user.id,
                 'username': user.username,
                 'age': user_profile.age,
                 'sex': user_profile.sex,
