@@ -53,6 +53,7 @@ class UserNutrition(models.Model):
     protein = FloatField()
     fat = FloatField()
 
+
 class Recipe(models.Model):
     menu = ForeignKey(Menu, on_delete = models.CASCADE, related_name = 'menu_of_recipe')
     recipe = TextField()
