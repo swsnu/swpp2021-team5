@@ -5,7 +5,7 @@ import re
 import os
 
 # path needs to be changed
-CSV_PATH = '/Users/youngsuh-hong/SWPP/Project/swpp2021-team5/database/RAW_recipes.csv'
+CSV_PATH = '/Users/youngsuh-hong/Downloads/RAW_recipes 2.csv'
 IMAGE_PATH = '/Users/youngsuh-hong/SWPP/Project/swpp2021-team5/database/images/'
 
 def parse_nutrition(nutrition):
