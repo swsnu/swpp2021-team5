@@ -53,15 +53,9 @@ class UserNutrition(models.Model):
     protein = FloatField()
     fat = FloatField()
 
-
-class Recipe(models.Model):
-    menu = ForeignKey(Menu, on_delete = models.CASCADE, related_name = 'menu_of_recipe')
-    recipe = TextField()
-
 class Record(models.Model):
     user = ForeignKey(User, on_delete = models.CASCADE, related_name = 'creator_of')
     menu = ForeignKey(Menu, on_delete = models.CASCADE, related_name = 'menu_of_record')
-    recipe = ForeignKey(Recipe, on_delete = models.CASCADE, related_name = 'recipe_of')
     review = TextField()
     liked = BooleanField()
     date = DateField()
