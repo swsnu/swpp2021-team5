@@ -27,7 +27,7 @@ def organize_ingredient(ingredient):
 if __name__ == "__main__":
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "vesta.settings")
     django.setup()
-    from kitchen.models import *
+    from kitchen.models import Menu
 
     with open(CSV_PATH, newline='') as raw_data:
         csv_reader = csv.reader(raw_data)
