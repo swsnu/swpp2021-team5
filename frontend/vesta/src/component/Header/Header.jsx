@@ -7,7 +7,6 @@ import { Button, Image, Icon } from 'semantic-ui-react';
 import '../../styles/Header/header.css';
 import { Component } from 'react';
 import * as actionCreators from '../../store/actions/index';
-import { NavLink } from 'react-router-dom';
 
 const HeaderBackground = styled.div`
 background-color:#F2CE1B;
@@ -47,10 +46,10 @@ class Header extends Component {
           />
         </a>
         <Buttons>
-          <a href="/setting">
+          <a className='setting' href="/setting">
             <Icon circular name='settings' size='large' color='black'></Icon>
           </a>
-          <a onClick={() => this.onLogout()}>
+          <a className='logout' onClick={() => this.onLogout()}>
             <Icon circular name='user close' size='large' color='black'></Icon>
           </a>
         </Buttons>
