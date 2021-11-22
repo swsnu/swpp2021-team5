@@ -49,7 +49,15 @@ class Statistics extends Component {
     super(props);
     this.state = {
       selected: TODAY,
+      userNutritions: [],
     };
+  }
+
+  componentDidMount() {
+    axios.get('/api/nutrition/').then((res) => {
+      this.setState({...this.state, userNutritions: res.data})
+      // res.data : list of objects ?
+    })
   }
 
   onClickedTodayButton = () => {
