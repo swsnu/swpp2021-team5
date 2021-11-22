@@ -2,7 +2,7 @@ import datetime
 import json
 from django.test import TestCase, Client
 from django.contrib.auth.models import User
-from .models import Menu, Preference, Recipe, Record, Profile, UserNutrition
+from .models import Menu, Preference, Record, Profile, UserNutrition
 
 # Create your tests here.
 class KitchenTestClass(TestCase):
