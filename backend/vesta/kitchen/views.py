@@ -436,10 +436,19 @@ def menu_name(request, menuname):
     matching_menu = Menu.objects.get(name = menuname)
     response_dict = {'id' : matching_menu.id, 'name' : menuname, 'calories' : matching_menu.calories,
                     'carbs' : matching_menu.carbs, 'protein' : matching_menu.protein,
-                    'fat' : matching_menu.fat, 'image' : matching_menu.image.url}
+                    'fat' : matching_menu.fat, 'image' : matching_menu.image.url,
+                    'recipe': matching_menu.recipe, 'ingredient': matching_menu.ingredient }
     return JsonResponse(response_dict)
     
 @ensure_csrf_cookie
 @require_GET
 def token(request):
     return HttpResponse(status=204)
+
+## recommend 15 menus total(5 for each meal)
+@require_GET
+def recommend(request):
+    # in unauthenticated
+    # find the user's nutritional info
+    # choose 5 for each meal +-10%
+    return JsonResponse()

@@ -16,4 +16,5 @@ urlpatterns = [
     path('menu/', views.menu, name='menu'),
     path('menu/<str:menuname>/', views.menu_name, name='menuName'),
     path('token/', views.token, name='token'),
+    path('recommend/', views.recommend, name='recommend'),
 ]

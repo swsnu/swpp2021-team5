@@ -22,8 +22,8 @@ margin:15px;
 `;
 
 export const MealName = styled.div`
-font-family:'verveine';
-font-size:25px;
+font-family:'arvo';
+font-size:17px;
 padding-top:10px;
 padding-bottom:10px;
 `;
