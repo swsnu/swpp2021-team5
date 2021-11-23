@@ -68,7 +68,7 @@ export const todayOptions = {
     ],
     datasets: [
       {
-      // label: "Today's My Nutrient Intake",
+      // label: "",
       data: [],
       backgroundColor: [
         'green',
@@ -87,3 +87,18 @@ export const todayOptions = {
       }
     ],
   };
+
+  export const weeklyOptions = {
+    scales: {
+      y: {
+        display: true,
+        min: 0,
+        max: 200,
+        ticks: {
+          callback: function (value) {
+            return value + '%'; // convert it to percentage
+          }
+        },
+      },
+    }
+  }
