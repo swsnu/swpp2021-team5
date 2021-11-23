@@ -4,11 +4,11 @@ import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
 import { Switch } from 'react-router';
 import { Route, Link } from 'react-router-dom';
+import { Button, Grid } from 'semantic-ui-react';
 import { getMockStore } from '../../../test-utils/mock';
 import { history } from '../../store/store';
 import * as actionCreators from '../../store/actions/Menu/menu';
 import MealList from './MealList';
-import { Button, Grid } from 'semantic-ui-react';
 
 const userInitialState = {};
 const recordInitialState = {};
@@ -19,7 +19,7 @@ const stubMenuInitialState = {
     carbs: 60,
     protein: 22,
     fat: 16,
-    recipe: '1. Preheat oven to 375F.\n2. In a large bowl cream together butter brown sugar vanilla and cinnamon until smooth.\n3. Add the two kinds of oats one at a time mixing well after each addition.', 
+    recipe: '1. Preheat oven to 375F.\n2. In a large bowl cream together butter brown sugar vanilla and cinnamon until smooth.\n3. Add the two kinds of oats one at a time mixing well after each addition.',
   },
   allMenus: null,
   recommendedMenus: [
@@ -64,8 +64,11 @@ describe('MealList', () => {
       <Provider store={mockStore}>
         <ConnectedRouter history={history}>
           <Switch>
-            <Route path='/' exact
-              render={() => <MealList title="Today's Recommendation" />} />
+            <Route
+              path="/"
+              exact
+              render={() => <MealList title="Today's Recommendation" />}
+            />
           </Switch>
         </ConnectedRouter>
       </Provider>
@@ -82,7 +85,7 @@ describe('MealList', () => {
 
   it('should redirect to main', () => {
     const component = mount(mealList);
-    const wrapper = component.find(".main-button").at(1).simulate('click');
+    const wrapper = component.find('.main-button').at(1).simulate('click');
     expect(history.location.pathname).toBe('/main');
     component.unmount();
   });

@@ -13,7 +13,6 @@ const recordInitialState = {};
 const menuInitialState = {};
 const recipeInitialState = {};
 
-
 let foodRecord;
 let file;
 const mockStore = getMockStore(userInitialState, recordInitialState, menuInitialState, recipeInitialState);
@@ -50,4 +49,4 @@ describe('<FoodRecord />', () => {
     component.find('button#upload-photo-button').simulate('click');
     expect(history.location.pathname).toBe('/confirm');
   });
-})
+});

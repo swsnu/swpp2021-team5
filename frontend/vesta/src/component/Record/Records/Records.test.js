@@ -1,44 +1,38 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
-import Records from './Records';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
 import { Route, Switch } from 'react-router';
+import Records, { Grid, Image } from './Records';
 import { history } from '../../../store/store';
 import { getMockStore } from '../../../test-utils/mock';
 import * as actionCreators from '../../../store/actions/Record/record';
-import { Grid, Image } from './Records';
 
 const stubInitialState = {
   user: null,
   userRecords: [
     {
       id: 1,
-      image: "/sushi_example_image.jpeg",
-      date: "2021/11/09",
+      image: '/sushi_example_image.jpeg',
+      date: '2021/11/09',
       liked: true,
       review: null,
     },
     {
       id: 2,
-      image: "/chicken_sample_image.jpeg",
-      date: "2021/11/08",
+      image: '/chicken_sample_image.jpeg',
+      date: '2021/11/08',
       liked: false,
       review: null,
     },
   ],
-}
+};
 
-jest.mock('../Review/Review', () => {
-  return jest.fn(props => {
-    return (
-      <div className="spyReview">
-        spyReview
-      </div>
-    )
-  })
-})
-
+jest.mock('../Review/Review', () => jest.fn((props) => (
+  <div className="spyReview">
+    spyReview
+  </div>
+)));
 
 // const spyGrid = jest.spyOn(Grid, 'Column').mockImplementation(()=>{return (<div></div>)})
 // jest.mock('semantic-ui-react', () => {
@@ -48,7 +42,7 @@ jest.mock('../Review/Review', () => {
 //         return (
 //           <div className="spyGrid"></div>
 //         )
-//       }), 
+//       }),
 //     Button: jest.fn(),
 //     Menu: jest.fn(),
 //     Segment: jest.fn(),
@@ -67,16 +61,19 @@ describe('<Records />', () => {
       <Provider store={mockStore}>
         <ConnectedRouter history={history}>
           <Switch>
-            <Route path='/' exact
-              render={() => <Records />} />
+            <Route
+              path="/"
+              exact
+              render={() => <Records />}
+            />
           </Switch>
         </ConnectedRouter>
       </Provider>
-    )
-  })
+    );
+  });
   it('should be rendered properly', () => {
     const spyToggle = jest.spyOn(actionCreators, 'toggleRecord').mockImplementation(
-      (id) => { return; } 
+      (id) => { }
     );
     const component = mount(recordDetail);
     const wrapper = component.find('.Records');
@@ -85,5 +82,5 @@ describe('<Records />', () => {
     records.at(0).simulate('click');
     records.at(1).simulate('click');
     records.at(2).simulate('click');
-  })
-})
+  });
+});
