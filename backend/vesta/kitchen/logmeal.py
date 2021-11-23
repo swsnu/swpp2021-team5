@@ -8,6 +8,8 @@ from PIL import Image
 api_company_token = '08c17275a67ca0d8c1fc40f4ec776884d10a41dd'
 api_user_token = '0ce3203ec3f4906581d6ee835e08eafb4e10264e'
 api_url = 'https://api.logmeal.es/v2/'
+dirname = os.path.dirname
+images_path = os.path.join(dirname(dirname(__file__)), 'images')
 #
 #################
 

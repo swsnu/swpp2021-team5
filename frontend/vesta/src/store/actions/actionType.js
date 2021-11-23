@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 export const GET_MENU = 'GET_MENU';
 export const SAVE_USER_SETTING = 'SAVE_USER_SETTING';
 export const GET_USER_SETTING = 'GET_USER_SETTING';
@@ -14,4 +12,5 @@ export const EDIT_REVIEW = 'EDIT_REVIEW';
 export const DELETE_REVIEW = 'DELETE_REVIEW';
 export const CREATE_REVIEW = 'CREATE_REVIEW';
 export const UPDATE_SELECTED_MENU = 'UPDATE_SELECTED_MENU';
-export const SIGNUP = 'SIGNUP'
+export const SIGNUP = 'SIGNUP';
+export const DETECT = 'DETECT';
