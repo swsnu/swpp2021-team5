@@ -152,6 +152,23 @@ def profile(request):
     else:
         return HttpResponseNotAllowed(['GET', 'PUT'])
 
+@require_http_methods(["GET"])
+def nutrition_all(request):
+    if not request.user.is_authenticated:
+        return HttpResponse(status=401)
+    else:
+        nutrition_objects = UserNutrition.objects.filter(user=request.user).order_by('-date')
+        response_list = []
+        for row in nutrition_objects:
+            response_list.append({
+                'date': row.date.strftime('%Y-%m-%d'),
+                'calories': row.calories,
+                'carbs': row.carbs,
+                'protein': row.protein,
+                'fat': row.fat
+            })
+        return JsonResponse(response_list, status=200, safe=False)
+
 
 def nutrition(request, date):
     if request.method == 'GET':

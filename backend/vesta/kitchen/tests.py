@@ -331,7 +331,7 @@ class KitchenTestClass(TestCase):
         
     def test_signup(self):
         client = Client()
-        response = client.post('/api/user/signup/', json.dumps({'username': 'chris', 'password': 'chris', 'age': 5, 'sex': True, 'height': 160, 'weight': 60, 'target_calories': 2000 }), content_type='application/json')
+        response = client.post('/api/user/signup/', json.dumps({'username': 'chris', 'password': 'chris', 'age': 5, 'sex': True, 'height': 160, 'weight': 60, 'targetCalories': 2000 }), content_type='application/json')
         self.assertEqual(response.status_code, 201)  
 
     def test_signin(self):
@@ -395,7 +395,7 @@ class KitchenTestClass(TestCase):
             'height': '5',
             'weight': '5',
             'preference': ['testmenu'],
-            'target_calories': '5',
+            'targetCalories': '5',
         }), content_type='application/json')
         self.assertEqual(response.status_code, 401)
 
@@ -410,7 +410,7 @@ class KitchenTestClass(TestCase):
             'height': '5',
             'weight': '5',
             'preference': ['testmenu'],
-            'target_calories': '5',
+            'targetCalories': '5',
         }), content_type='application/json')
         self.assertEqual(response.status_code, 200)
 
@@ -421,9 +421,31 @@ class KitchenTestClass(TestCase):
             'height': '5',
             'weight': '5',
             'preference': ['chicken'],
-            'target_calories': '5',
+            'targetCalories': '5',
         }), content_type='application/json')
         self.assertEqual(response.status_code, 404)
+    
+    def test_nutrition_all(self):
+        user = User.objects.create(username='testuser')
+        user.set_password('testpassword')
+        user.save()
+
+        nutrition = UserNutrition(user=user, date=datetime.date(2021,11,11), calories=1, carbs=1, protein=1, fat=1)
+        nutrition.save()
+
+        nutrition = UserNutrition(user=user, date=datetime.date(2021,11,13), calories=1, carbs=1, protein=1, fat=1)
+        nutrition.save()
+
+        nutrition = UserNutrition(user=user, date=datetime.date(2021,11,9), calories=1, carbs=1, protein=1, fat=1)
+        nutrition.save()
+
+        client = Client()
+        response = client.get('/api/nutrition/')
+        self.assertEqual(response.status_code, 401)
+
+        client.login(username='testuser', password='testpassword')
+        response = client.get('/api/nutrition/')
+        self.assertEqual(response.status_code, 200)
     
     def test_nutrition(self):
         user = User.objects.create(username='testuser')
