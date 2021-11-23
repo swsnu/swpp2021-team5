@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 
 import { Button } from 'semantic-ui-react';
 
+import StatsWeeklyChart from './StatsWeeklyChart';
+
 class StatsWeekly extends Component {
   constructor(props) {
     super(props)
@@ -26,16 +28,18 @@ class StatsWeekly extends Component {
   }
 
   render() {
-    const selectedWeekSun = this.state.selected;
-    selectedWeek.setDate(selectedWeek.getDate() - selectedWeek.getDay());
-    const selectedWeekSat = this.state.selected;
-    selectedWeek.setDate(selectedWeek.getDate() + (7 - selectedWeek.getDay()));
+    const selectedWeekSun = new Date(this.state.selected.getTime());
+    selectedWeekSun.setDate(selectedWeekSun.getDate() - selectedWeekSun.getDay());
+    const selectedWeekSat = new Date(this.state.selected.getTime());
+    selectedWeekSat.setDate(selectedWeekSat.getDate() + (6 - selectedWeekSat.getDay()));
     const userNutritions = this.props.userNutritions;
     const recommendedIntake = this.props.recommendedIntake;
 
+    console.log(userNutritions);
     let selectedWeekNutritions = userNutritions.filter((nutrition) => {
-      return nutrition.date >= selectedWeekSun && nutrition.date <= selectedWeekSat;
+      return +nutrition.date >= +selectedWeekSun && +nutrition.date <= +selectedWeekSat;
     });
+    console.log(selectedWeekNutritions);
     
     return (
       <div className="StatsWeekly">

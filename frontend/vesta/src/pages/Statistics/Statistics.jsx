@@ -108,7 +108,7 @@ class Statistics extends Component {
     let processedUserNutritions = this.state.userNutritions.map((nutrition) => {
       return {...nutrition, date: new Date(nutrition.date)}
     });
-    const today = new Date();
+    const today = new Date(); // must be today
 
     let selectedComponent;
     switch (this.state.selected) {
