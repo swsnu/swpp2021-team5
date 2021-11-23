@@ -14,6 +14,8 @@ import StatsWeekly from '../../component/Statistics/StatsWeekly';
 import StatsMonthly from '../../component/Statistics/StatsMonthly';
 import * as Calculator from '../Setting/Calculator';
 
+import { nutrtionsProcessor, dummyUserNutritions } from './util';
+
 const StatisticsHeader = styled.div`
 font-family:'verveine';
 font-size:65px;
@@ -54,10 +56,12 @@ class Statistics extends Component {
   }
 
   componentDidMount() {
-    axios.get('/api/nutrition/').then((res) => {
+    /*axios.get('/api/nutrition/').then((res) => {
       this.setState({...this.state, userNutritions: res.data})
       // res.data : list of objects ?
     })
+    */
+   this.setState({...this.state, userNutritions: dummyUserNutritions});
   }
 
   onClickedTodayButton = () => {
@@ -101,16 +105,21 @@ class Statistics extends Component {
       fat: recommendedFat,
     }
 
+    let processedUserNutritions = this.state.userNutritions.map((nutrition) => {
+      return {...nutrition, date: new Date(nutrition.date)}
+    });
+    const today = new Date();
+
     let selectedComponent;
     switch (this.state.selected) {
       case TODAY:
         selectedComponent = <StatsDaily intake={todayNutritionIntake} recommendedIntake={recommendedIntake} />;
         break;
       case WEEKLY:
-        selectedComponent = <StatsWeekly recommendedIntake={recommendedIntake} />
+        selectedComponent = <StatsWeekly today={today} userNutritions={processedUserNutritions} recommendedIntake={recommendedIntake} />
         break;
       case MONTHLY:
-        selectedComponent = <StatsMonthly recommendedIntake={recommendedIntake}/>
+        selectedComponent = <StatsMonthly today={today} userNutritions={processedUserNutritions} recommendedIntake={recommendedIntake}/>
         break;
     }
     
