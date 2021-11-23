@@ -1,7 +1,3 @@
-export const nutrtionsProcessor = (nutritions) => {
-  today = new Date();
-}
-
 export const dummyUserNutritions = [
   {
     date: '2021-11-23',
@@ -52,4 +48,4 @@ export const dummyUserNutritions = [
     protein: 50,
     fat: 30
   }
-]
+];

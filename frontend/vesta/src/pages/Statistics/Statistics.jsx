@@ -14,7 +14,7 @@ import StatsWeekly from '../../component/Statistics/StatsWeekly';
 import StatsMonthly from '../../component/Statistics/StatsMonthly';
 import * as Calculator from '../Setting/Calculator';
 
-import { nutrtionsProcessor, dummyUserNutritions } from './util';
+import { dummyUserNutritions } from './util';
 
 const StatisticsHeader = styled.div`
 font-family:'verveine';
@@ -154,7 +154,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onGetUserNutrition: (userID) => dispatch(actionCreators.GetUserNutrition(userID)) 
+    onGetUserNutrition: (userID) => dispatch(actionCreators.getUserNutrition(userID)) 
   }
 }
 

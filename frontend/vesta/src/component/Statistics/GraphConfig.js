@@ -59,46 +59,84 @@ export const todayOptions = {
     maintainAspectRatio: true,
   };
 
-  export const todayData = {
-    labels: [
-      'Calorie',
-      'Carbs',
-      'Protein',
-      'Fat',
+export const todayData = {
+  labels: [
+    'Calorie',
+    'Carbs',
+    'Protein',
+    'Fat',
+  ],
+  datasets: [
+    {
+    // label: "",
+    data: [],
+    backgroundColor: [
+      'green',
+      'rgb(255, 99, 132)',
+      'rgb(54, 162, 235)',
+      'rgb(255, 205, 86)',
     ],
-    datasets: [
-      {
-      // label: "",
+    },
+    {
       data: [],
-      backgroundColor: [
-        'green',
-        'rgb(255, 99, 132)',
-        'rgb(54, 162, 235)',
-        'rgb(255, 205, 86)',
-      ],
-      },
-      {
-        data: [],
-        hidden: true,
-      },
-      {
-        data: [],
-        hidden: true,
-      }
-    ],
-  };
-
-  export const weeklyOptions = {
-    scales: {
-      y: {
-        display: true,
-        min: 0,
-        max: 200,
-        ticks: {
-          callback: function (value) {
-            return value + '%'; // convert it to percentage
-          }
-        },
-      },
+      hidden: true,
+    },
+    {
+      data: [],
+      hidden: true,
     }
-  }
+  ],
+};
+
+export const weeklyOptions = {
+  scales: {
+    y: {
+      display: true,
+      min: 0,
+      max: 200,
+      ticks: {
+        callback: function (value) {
+          return value + '%'; // convert it to percentage
+        }
+      },
+    },
+  },
+}
+
+export const weeklyData = {
+  labels: [
+    'Sun',
+    'Mon',
+    'Tue',
+    'Wed',
+    'Thu',
+    'Fri',
+    'Sat',
+  ],
+  datasets: [
+    {
+      label: 'Calorie',
+      data: new Array(7).fill(0),
+      borderColor: 'green',
+      tension: 0.1
+    },
+    {
+      label: 'Carbs',
+      data: new Array(7).fill(0),
+      borderColor: 'rgb(255, 99, 132)',
+      tension: 0.1
+    },
+    {
+      label: 'Protein',
+      data: new Array(7).fill(0),
+      borderColor: 'rgb(54, 162, 235)',
+      tension: 0.1
+    },
+    {
+      label: 'Fat',
+      data: new Array(7).fill(0),
+      borderColor: 'rgb(255, 205, 86)',
+      tension: 0.1
+    }
+  ],
+};

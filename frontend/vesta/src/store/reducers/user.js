@@ -38,6 +38,17 @@ const userReducer = (state = initialState, action) => {
     case actionTypes.LOGIN:
       return { ...state, currentUser: action.currentUser };
 
+    case actionTypes.GET_USER_NUTRITION:
+      return {
+        ...state,
+        userNutrition: {
+          calories: action.calories,
+          carbs: action.carbs,
+          protein: action.protein,
+          fat: action.fat,
+        }
+      };
+
     default:
       break;
   }

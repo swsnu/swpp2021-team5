@@ -68,3 +68,18 @@ export const signUp = (username, password, age, sex, height, weight, targetCalor
   .then((res) => {
     dispatch(push('/login'))
   })
+
+export const getUserNutrition_ = (userNutrition) => ({
+  type: actionTypes.GET_USER_NUTRITION,
+  calories: userNutrition.calories,
+  carbs: userNutrition.carbs,
+  protein: userNutrition.protein,
+  fat: userNutrition.fat,
+})
+
+export const getUserNutrition = (userID) => (dispatch) => {
+  const today = (new Date()).toISOString().split('T')[0];
+  axios.get(`/api/nutrition/${today}/`).then((res) => {
+    dispatch(getUserNutrition_(res.data));
+  })
+};
