@@ -31,7 +31,12 @@ color:#F28095;
 align-items:center;
 vertical-align: middle;
 line-height: 10px;
-margin:8;
+margin: 0 auto;
+width: 70%;
+text-align: center;
+background-color:#F2F2F2;
+border-radius: 20px;
+padding: 3%;
 `;
 
 const TODAY = 'TODAY';

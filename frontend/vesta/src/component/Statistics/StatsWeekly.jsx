@@ -1,32 +1,20 @@
 /* eslint-disable */
 import React, { Component } from 'react';
 
-import { Button } from 'semantic-ui-react';
+import { Button, Grid, GridRow, Header } from 'semantic-ui-react';
+import styled from 'styled-components';
 
 import StatsWeeklyChart from './StatsWeeklyChart';
+
+const Div = styled.div`
+margin: 5% auto;
+background-color:#CCEEFF;
+`;
 
 class StatsWeekly extends Component {
   constructor(props) {
     super(props)
   }
-
-  /*
-  onClickedPrevButton = () => {
-    console.log('hi');
-    const thisState = this.state;
-    const newSelected = new Date(this.state.selected);
-    newSelected.setDate(newSelected.getDate() - 7);
-    this.setState({...thisState, selected: newSelected});
-  }
-
-  onClickedNextButton = () => {
-    console.log('hi');
-    const thisState = this.state;
-    const newSelected = new Date(this.state.selected);
-    newSelected.setDate(newSelected.getDate() + 7);
-    this.setState({...thisState, selected: newSelected});
-  }
-  */
 
   render() {
     const selectedWeekSun = new Date(this.props.selectedWeek.getTime());
@@ -43,13 +31,24 @@ class StatsWeekly extends Component {
     console.log(selectedWeekNutritions);
     
     return (
-      <div className="StatsWeekly">
-        <div className="prev-next-buttons">
-          <Button id="prev-button" onClick={() => this.props.onClickedWeeklyPrevButton()}>Prev</Button>
-          <Button id="next-button" onClick={() => this.props.onClickedWeeklyNextButton()}>Next</Button>
-        </div>
-        <StatsWeeklyChart selectedWeekNutritions={selectedWeekNutritions} recommendedIntake={recommendedIntake}/>
-      </div>
+      <Div className="StatsWeekly">
+        <Grid>
+          <Grid.Row columns={3}>
+            <Grid.Column class="left floated column">
+              <Button id="prev-button" onClick={() => this.props.onClickedWeeklyPrevButton()} primary >Prev</Button>
+            </Grid.Column>
+            <Grid.Column>
+              <Header as='h2'>11-1 Week</Header>
+            </Grid.Column>
+            <Grid.Column>
+              <Button id="next-button" onClick={() => this.props.onClickedWeeklyNextButton()} secondary >Next</Button>
+            </Grid.Column>
+          </Grid.Row>
+          <Grid.Row>
+            <StatsWeeklyChart selectedWeekNutritions={selectedWeekNutritions} recommendedIntake={recommendedIntake}/>
+          </Grid.Row>
+        </Grid>
+      </Div>
     )
   }
 }

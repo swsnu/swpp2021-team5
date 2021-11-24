@@ -11,8 +11,8 @@ color:#F28095;
 align-items:center;
 vertical-align: middle;
 line-height: 10px;
-margin: 10px;
-width: 80%;
+margin: 0 auto  ;
+width: 90%;
 height: 500px;
 `;
 

@@ -5,7 +5,7 @@ export const todayOptions = {
     y: {
       display: true,
       min: 0,
-      max: 200,
+      max: 140,
       ticks: {
         callback: function (value) {
           return value + '%'; // convert it to percentage
@@ -94,7 +94,7 @@ export const weeklyOptions = {
     y: {
       display: true,
       min: 0,
-      max: 200,
+      max: 140,
       ticks: {
         callback: function (value) {
           return value + '%'; // convert it to percentage
@@ -103,48 +103,16 @@ export const weeklyOptions = {
     },
   },
   plugins: {
+    title: {
+      display: false,
+      text: "Weekly Stats",
+    },
     datalabels: {
       display: false,
+    },
+    legend: {
+      display: true,
+      position: 'bottom',
     }
   },
 }
-
-/*
-export const weeklyData = {
-  labels: [
-    'Sun',
-    'Mon',
-    'Tue',
-    'Wed',
-    'Thu',
-    'Fri',
-    'Sat',
-  ],
-  datasets: [
-    {
-      label: 'Calorie',
-      data: new Array(7).fill(0),
-      borderColor: 'green',
-      tension: 0.1
-    },
-    {
-      label: 'Carbs',
-      data: new Array(7).fill(0),
-      borderColor: 'rgb(255, 99, 132)',
-      tension: 0.1
-    },
-    {
-      label: 'Protein',
-      data: new Array(7).fill(0),
-      borderColor: 'rgb(54, 162, 235)',
-      tension: 0.1
-    },
-    {
-      label: 'Fat',
-      data: new Array(7).fill(0),
-      borderColor: 'rgb(255, 205, 86)',
-      tension: 0.1
-    }
-  ],
-};
-*/
