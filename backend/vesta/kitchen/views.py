@@ -2,6 +2,7 @@ import json
 import datetime
 from django.db.models.fields import NullBooleanField
 from django.http import HttpResponse, HttpResponseNotAllowed
+from django.http import response
 from django.http.response import JsonResponse
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.contrib.auth import authenticate, login, logout
@@ -465,36 +466,63 @@ def recommend(request, date):
         today_nutrition = UserNutrition.objects.get(
             user_id=request.user.id, date=today)
     except UserNutrition.DoesNotExist:     
-        today_nutrition = UserNutrition.objects.create(
+        today_nutrition = UserNutrition(
             user_id=request.user.id,
             date=today,
             calories=0,
             carbs=0,
             protein=0,
-            fat=0,
-            ingredient="",
-            recipe="",
+            fat=0
         )
     # left meal times 
     times = 3   # TODO
+
+    # target calories, carbs, protein, fat 
+    # profile = Profile.objects.get(user_id=request.user.id)
+    # age = profile.age
+    # sex = profile.sex
+    # height = profile.height
+    # weight = profile.weight
+    
+    # if sex == True:
+    #     target_cal = 66.47 + 13.75 * weight + 5 * height - 6.76 * age
+    #     target_carbs = 350
+    #     target_protein = 100
+    #     target_fat = 30
+    # else:
+    #     target_cal = 65.51 + 9.56 * weight + 1.85 * height - 4.68 * age
+    #     target_carbs = 300
+    #     target_protein = 50
+    #     target_fat = 15
+    target_cal = 2000
+    target_carbs = 300
+    target_protein = 50
+    target_fat = 15
+
     # allowed calories, carbs, protein, fat per meal
-    allowed_cal = float(today_nutrition.calories / times)
-    allowed_carbs = float(today_nutrition.carbs / times)
-    allowed_protein = float(today_nutrition.protein / times)
-    allowed_fat = float(today_nutrition.fat / times)
-    min_cal = allowed_cal*0.9
-    min_carbs = allowed_carbs*0.9
-    min_protein = allowed_protein*0.9
-    min_fat = allowed_fat*0.9
+    allowed_cal = (target_cal - float(today_nutrition.calories)) / times
+    allowed_carbs = (target_carbs - float(today_nutrition.carbs)) / times
+    allowed_protein = (target_protein - float(today_nutrition.protein)) / times
+    allowed_fat = (target_fat - float(today_nutrition.fat)) / times
+    min_cal = allowed_cal*0.5
+    min_carbs = allowed_carbs*0.5
+    min_protein = allowed_protein*0.5
+    min_fat = allowed_fat*0.5
     # get all menus
     menus = Menu.objects.all()
     candidates = []
+    print('calories:', allowed_cal, ', ', min_cal)
+    print('carbs:', allowed_carbs, ', ', min_carbs)
+    print('protein:', allowed_protein, ', ', min_protein)
+    print('fat:', allowed_fat, ', ', min_fat)
     # choose all candidates
     for m in menus:
-        if m.calories > min_cal and m.calories < allowed_cal and m.carbs > min_carbs and m.carbs < allowed_carbs and m.protein > min_protein and m.protein < allowed_protein and m.fat > min_fat and m.fat < allowed_fat:
+        if m.calories < allowed_cal and m.carbs < allowed_carbs and m.protein < allowed_protein and m.fat < allowed_fat:
+        #if m.calories > min_cal and m.calories < allowed_cal: #and m.carbs > min_carbs: #and m.carbs < allowed_carbs and m.protein > min_protein and m.protein < allowed_protein and m.fat > min_fat and m.fat < allowed_fat:
             # check ingredients
-            preference = Preference.objects.filter(user_id=request.user.id)
-            ingredient = re.findall("", m.ingredient)
+            print('here')
+            preference = Preference.objects.filter(user_id=request.user.id) # list
+            ingredient = re.findall("'(.*?)'", m.ingredient)  # list
             intersect = set(preference) & set(ingredient)
             if intersect:   # if there is intersection, do not include
                 continue
@@ -504,8 +532,19 @@ def recommend(request, date):
             continue
     # random select 15 of them, return
     if len(candidates) > 15:
-        response_dict = random.sample(candidates, 15)
-    else:
-        response_dict = candidates
-
-    return JsonResponse(response_dict)
+        candidates = random.sample(candidates, 15)
+    # print(candidates)
+    response_dict = []
+    for c in candidates:
+        response_dict.append({
+            'id': c.id,
+            'name': c.name,
+            'calories': c.calories,
+            'protein': c.protein,
+            'fat': c.fat,
+            # 'image': c.image,  # TODO
+            'recipe': c.recipe,
+            'ingredient': c.ingredient
+        })
+    print(len(response_dict))
+    return JsonResponse(response_dict, safe=False)
