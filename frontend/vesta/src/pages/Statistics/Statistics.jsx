@@ -98,9 +98,12 @@ class Statistics extends Component {
     }
 
     let processedUserNutritions = this.state.userNutritions.map((nutrition) => {
-      return {...nutrition, date: new Date(nutrition.date)}
+      const dateObject = new Date(nutrition.date);
+      dateObject.setHours(0,0,0,0);
+      return {...nutrition, date: dateObject};
     });
     const today = new Date(); // must be today
+    today.setHours(0,0,0,0);
 
     let selectedComponent;
     switch (this.state.selected) {
@@ -124,14 +127,12 @@ class Statistics extends Component {
 
         <Div className="body">
             {selectedComponent}
-            <br/>
-            <br/>
-            <Button.Group>
-              <Button size='large' onClick={() => this.onClickedTodayButton()}>Today</Button>
-              <Button size='large' onClick={() => this.onClickedWeeklyButton()}>Weekly</Button>
-              <Button size='large' onClick={() => this.onClickedMonthlyButton()}>Monthly</Button>
-            </Button.Group>
         </Div>
+        <Button.Group>
+          <Button size='large' onClick={() => this.onClickedTodayButton()}>Today</Button>
+          <Button size='large' onClick={() => this.onClickedWeeklyButton()}>Weekly</Button>
+          <Button size='large' onClick={() => this.onClickedMonthlyButton()}>Monthly</Button>
+        </Button.Group>
       </div>
     );
   }

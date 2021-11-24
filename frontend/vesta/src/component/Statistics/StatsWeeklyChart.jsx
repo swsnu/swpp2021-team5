@@ -13,12 +13,12 @@ vertical-align: middle;
 line-height: 10px;
 margin:8;
 width: 80%;
+height: 500px;
 `;
 
 function StatsWeeklyChart(props) {
   const barData = weeklyData;
   const { selectedWeekNutritions } = props;
-  console.log(props.selectedWeekNutritions[0].date.getDay());
   let i;
   for (i = 0; i < selectedWeekNutritions.length; i += 1) {
     const day = selectedWeekNutritions[i].date.getDay(); // Sun ~ Mon (0 ~ 6)

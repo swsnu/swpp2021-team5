@@ -14,15 +14,17 @@ class StatsWeekly extends Component {
   }
 
   onClickedPrevButton = () => {
+    console.log('hi');
     const thisState = this.state;
-    const newSelected = this.state.selected;
+    const newSelected = new Date(this.state.selected);
     newSelected.setDate(newSelected.getDate() - 7);
     this.setState({...thisState, selected: newSelected});
   }
 
   onClickedNextButton = () => {
+    console.log('hi');
     const thisState = this.state;
-    const newSelected = this.state.selected;
+    const newSelected = new Date(this.state.selected);
     newSelected.setDate(newSelected.getDate() + 7);
     this.setState({...thisState, selected: newSelected});
   }
