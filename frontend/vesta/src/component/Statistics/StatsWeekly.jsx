@@ -8,11 +8,9 @@ import StatsWeeklyChart from './StatsWeeklyChart';
 class StatsWeekly extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-      selected: props.today,
-    }
   }
 
+  /*
   onClickedPrevButton = () => {
     console.log('hi');
     const thisState = this.state;
@@ -28,11 +26,12 @@ class StatsWeekly extends Component {
     newSelected.setDate(newSelected.getDate() + 7);
     this.setState({...thisState, selected: newSelected});
   }
+  */
 
   render() {
-    const selectedWeekSun = new Date(this.state.selected.getTime());
+    const selectedWeekSun = new Date(this.props.selectedWeek.getTime());
     selectedWeekSun.setDate(selectedWeekSun.getDate() - selectedWeekSun.getDay());
-    const selectedWeekSat = new Date(this.state.selected.getTime());
+    const selectedWeekSat = new Date(this.props.selectedWeek.getTime());
     selectedWeekSat.setDate(selectedWeekSat.getDate() + (6 - selectedWeekSat.getDay()));
     const userNutritions = this.props.userNutritions;
     const recommendedIntake = this.props.recommendedIntake;
@@ -46,8 +45,8 @@ class StatsWeekly extends Component {
     return (
       <div className="StatsWeekly">
         <div className="prev-next-buttons">
-          <Button id="prev-button" onclick={() => this.onClickedPrevButton()}>Prev</Button>
-          <Button id="next-button" onclick={() => this.onClickedNextButton()}>Next</Button>
+          <Button id="prev-button" onClick={() => this.props.onClickedWeeklyPrevButton()}>Prev</Button>
+          <Button id="next-button" onClick={() => this.props.onClickedWeeklyNextButton()}>Next</Button>
         </div>
         <StatsWeeklyChart selectedWeekNutritions={selectedWeekNutritions} recommendedIntake={recommendedIntake}/>
       </div>

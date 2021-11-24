@@ -102,8 +102,14 @@ export const weeklyOptions = {
       },
     },
   },
+  plugins: {
+    datalabels: {
+      display: false,
+    }
+  },
 }
 
+/*
 export const weeklyData = {
   labels: [
     'Sun',
@@ -141,3 +147,4 @@ export const weeklyData = {
     }
   ],
 };
+*/

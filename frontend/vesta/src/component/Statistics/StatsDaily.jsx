@@ -12,7 +12,7 @@ color:#F28095;
 align-items:center;
 vertical-align: middle;
 line-height: 10px;
-margin:8;
+margin: 10px;
 height: 500px;
 width: 50%;
 `;

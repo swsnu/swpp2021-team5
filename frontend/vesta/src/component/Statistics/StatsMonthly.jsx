@@ -7,7 +7,7 @@ import { Bar } from 'react-chartjs-2';
 const StatsMonthly = (props) => {
 
   return (
-    <Bar />
+    <h3>Monthly Chart!</h3>
   )
 }
 
