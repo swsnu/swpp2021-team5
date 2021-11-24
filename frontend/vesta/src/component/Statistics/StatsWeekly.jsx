@@ -24,11 +24,17 @@ class StatsWeekly extends Component {
     const userNutritions = this.props.userNutritions;
     const recommendedIntake = this.props.recommendedIntake;
 
-    console.log(userNutritions);
+    // console.log(userNutritions);
     let selectedWeekNutritions = userNutritions.filter((nutrition) => {
       return +nutrition.date >= +selectedWeekSun && +nutrition.date <= +selectedWeekSat;
     });
-    console.log(selectedWeekNutritions);
+    // console.log(selectedWeekNutritions);
+
+    const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    let title, from, to;
+    from = `${selectedWeekSun.getMonth() + 1}/${selectedWeekSun.getDate()}`;
+    to = `${selectedWeekSat.getMonth() + 1}/${selectedWeekSat.getDate()}`;
+    title = `${from} - ${to}`;
     
     return (
       <Div className="StatsWeekly">
@@ -38,7 +44,9 @@ class StatsWeekly extends Component {
               <Button id="prev-button" onClick={() => this.props.onClickedWeeklyPrevButton()} primary >Prev</Button>
             </Grid.Column>
             <Grid.Column>
-              <Header as='h2'>11-1 Week</Header>
+              <Header as='h2'>
+                {title}
+              </Header>
             </Grid.Column>
             <Grid.Column>
               <Button id="next-button" onClick={() => this.props.onClickedWeeklyNextButton()} secondary >Next</Button>

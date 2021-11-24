@@ -64,7 +64,6 @@ function StatsWeeklyChart(props) {
     barData.datasets[2].data[day] = Math.round((selectedWeekNutritions[i].protein / props.recommendedIntake.protein) * 10000) / 100;
     barData.datasets[3].data[day] = Math.round((selectedWeekNutritions[i].fat / props.recommendedIntake.fat) * 10000) / 100;
   }
-  console.log(barData);
 
   return (
     <Div className="StatsWeeklyChart">
