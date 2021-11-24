@@ -22,7 +22,7 @@ margin:15px;
 `;
 
 export const MealName = styled.div`
-font-family:'arvo';
+font-family:'arciform';
 font-size:17px;
 padding-top:10px;
 padding-bottom:10px;
@@ -42,7 +42,7 @@ margin:0 auto;
 `;
 
 export const RecommendationHeader = styled.div`
-font-family:'arvo';
+font-family:'arciform';
 font-size:65px;
 // color:#F28095;
 text-align: center;

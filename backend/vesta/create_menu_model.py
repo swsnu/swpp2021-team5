@@ -3,10 +3,11 @@ import csv
 import django
 import re
 import os
+from django.conf import settings
 
 # path needs to be changed
 CSV_PATH = '/Users/youngsuh-hong/Downloads/RAW_recipes 2.csv'
-IMAGE_PATH = '/Users/youngsuh-hong/SWPP/Project/swpp2021-team5/database/images/'
+IMAGE_PATH = '/Users/youngsuh-hong/SWPP/Project/swpp2021-team5/backend/vesta/menu_images/'
 
 def parse_nutrition(nutrition):
     return re.findall("(\d+\.\d+)", nutrition)
@@ -57,7 +58,7 @@ if __name__ == "__main__":
                         carbs = carbs,
                         protein = protein,
                         fat = fat,
-                        # image = 
+                        image = settings.MEDIA_ROOT+image_name,
                         recipe = recipe,
                         ingredient = ingredient
                     )

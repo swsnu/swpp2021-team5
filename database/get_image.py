@@ -30,16 +30,16 @@ def get_image_(url, image_name):
 
 
 if __name__ == "__main__":
-  with open("/Users/youngsuh-hong/SWPP/Project/swpp2021-team5/database/RAW_recipes.csv", newline='') as raw_data:
+  with open("/Users/youngsuh-hong/Downloads/RAW_recipes 2.csv", newline='') as raw_data:
     csv_reader = csv.reader(raw_data)
     idx = 0
     start = datetime.now()
     print(start)
     for row in csv_reader:
       idx+=1
-      if idx < 1002:
+      if idx < 1464:
         continue
-      elif idx == 1001:   # collect 1000 menus
+      elif idx == 2001:   # collect 2000 menus
         end = datetime.now()
         diff = end - start
         print('diff: ', diff)
