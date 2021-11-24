@@ -31,7 +31,8 @@ const userReducer = (state = initialState, action) => {
 
     case actionTypes.LOGIN:
       return { ...state, currentUser: action.currentUser };
-
+    case actionTypes.LOGOUT:
+      return { ...state, currentUser: action.currentUser };
     default:
       break;
   }

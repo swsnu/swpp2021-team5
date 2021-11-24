@@ -58,3 +58,13 @@ export const logIn = (info) => (dispatch) => axios.post('/api/user/signin/', inf
     dispatch(logIn_(res.data))
     .then(dispatch(push('/main')));
   }).catch(() => dispatch(push('/login')));
+
+export const logout_ = () => ({
+  type: actionTypes.LOGOUT,
+  currentUser: null,
+});
+
+export const logout = () => (dispatch) => axios.get('/api/user/signout/')
+  .then((res) => {
+    dispatch(logout_())
+});
