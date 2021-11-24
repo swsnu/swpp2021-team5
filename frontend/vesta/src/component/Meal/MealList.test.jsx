@@ -87,7 +87,7 @@ describe('MealList', () => {
     component.unmount();
   });
 
-  it('should click other breakfast correctly', () => {
+  xit('should click other breakfast correctly', () => {
     const component = mount(mealList);
     // expect(component.find('MenuRecommendation').find(Grid).find('button#other-meal-breakfast-button').length).toBe(1);
     // component.find('button').at(1).simulate('click');
