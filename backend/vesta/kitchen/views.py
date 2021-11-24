@@ -448,7 +448,22 @@ def token(request):
 ## recommend 15 menus total(5 for each meal)
 @require_GET
 def recommend(request):
-    # in unauthenticated
+    # if unauthenticated
+    if not request.user.is_authenticated:
+        return HttpResponse(status = 401)
+
     # find the user's nutritional info
+
+    # date_list = date.split('-')
+    # today = datetime.date(int(date_list[0]), 
+    #         int(date_list[1]), int(date_list[2]))
+    # try:
+    #     today_nutrition = UserNutrition.objects.get(
+    #         user_id=request.user.id, date=today)
+    # except UserNutrition.DoesNotExist:      # User.DoesNotExist?
+    #     return HttpResponse(status=404)
+
     # choose 5 for each meal +-10%
-    return JsonResponse()
+    # check if it does not preserve user preference
+
+    # return JsonResponse()

@@ -230,7 +230,7 @@ class MealList extends Component {
                   id="breakfast"
                   src="/DummyImages/breakfast1_.jpeg"
                   height={240}
-                  width={360}
+                  width={400}
                   alt="meal_one"
                 />
               </a>
@@ -250,7 +250,7 @@ class MealList extends Component {
                   id="lunch"
                   src="/DummyImages/lunch1_.jpeg"
                   height={240}
-                  width={360}
+                  width={400}
                   alt="meal_one"
                 />
               </a>
@@ -270,7 +270,7 @@ class MealList extends Component {
                   id="dinner"
                   src="/DummyImages/dinner1_.jpeg"
                   height={240}
-                  width={360}
+                  width={400}
                   alt="meal_one"
                 />
               </a>
