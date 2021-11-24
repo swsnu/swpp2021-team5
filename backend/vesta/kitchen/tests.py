@@ -219,7 +219,7 @@ class KitchenTestClass(TestCase):
         self.assertEqual('{"id": 1, "user_id": 1, "menu_id": 1, "review": "review1", "liked": false, "date": "2021-11-01", "image": "/record_images/brownie.jpeg"}', response.content.decode())
 
     ## test api/menu/
-    def _test_menu(self):  ## error in this test, please correct its name and make it pass
+    def test_menu(self): 
         user = User.objects.create(username='testuser')
         user.set_password('testpassword')
         user.save()
@@ -229,7 +229,7 @@ class KitchenTestClass(TestCase):
         client2.login(username='testuser', password='testpassword')
 
         Menu.objects.create(name='testmenu', calories=1, carbs=1, protein=1,
-                            fat=1, image='./images/brownie.jpeg')
+                            fat=1, image='./images/brownie.jpeg', recipe="1. make brownie", ingredient="chocolate")
 
         
         ## GET TEST
@@ -240,11 +240,11 @@ class KitchenTestClass(TestCase):
         ## correct response test
         response = client2.get('/api/menu/')
         self.assertEqual(response.status_code, 200)
-        self.assertEqual('[{"id": 1, "name": "testmenu", "calories": 1, "carbs": 1, "protein": 1, "fat": 1, "image": "./images/brownie.jpeg"}]', response.content.decode())
+        self.assertEqual('[{"id": 1, "name": "testmenu", "calories": 1.0, "carbs": 1.0, "protein": 1.0, "fat": 1.0, "image": "./images/brownie.jpeg", "recipe": "1. make brownie", "ingredient": "chocolate"}]', response.content.decode())
 
 
     ## test api/menu/<str:menuname>/
-    def _test_menu_name(self):  ## error in this test, please correct its name and make it pass
+    def test_menu_name(self):
         user = User.objects.create(username='testuser')
         user.set_password('testpassword')
         user.save()
@@ -254,7 +254,7 @@ class KitchenTestClass(TestCase):
         client2.login(username='testuser', password='testpassword')
 
         Menu.objects.create(name='testmenu', calories=1, carbs=1, protein=1,
-                            fat=1, image='./images/brownie.jpeg')
+                            fat=1, image='./images/brownie.jpeg', recipe="1. make brownie", ingredient="chocolate")
 
         ## GET TEST
         ## if client is not signed in, response to GET request should be 401
@@ -268,7 +268,7 @@ class KitchenTestClass(TestCase):
         ## correct response test
         response = client2.get('/api/menu/testmenu/')
         self.assertEqual(response.status_code, 200)
-        self.assertEqual('{"id": 1, "name": "testmenu", "calories": 1, "carbs": 1, "protein": 1, "fat": 1, "image": "/images/brownie.jpeg"}', response.content.decode())
+        self.assertEqual('{"id": 1, "name": "testmenu", "calories": 1.0, "carbs": 1.0, "protein": 1.0, "fat": 1.0, "image": "/images/brownie.jpeg", "recipe": "1. make brownie", "ingredient": "chocolate"}', response.content.decode())
 
 
     ## test api/token/
