@@ -60,10 +60,10 @@ export const sexToggleButtons = (isMale=true, clickedMaleHandler, clickedFemaleH
 }
 
 const preferenceButtonList = (preference, isOpen, clickedMenuHandler, open, close) => {
-  return preference.map((menu) => {
+  const list = preference.map((menu) => {
     return (
       <div>
-        <Button Mini style={{backgroundColor: '#CCEECC', margin: '2px', height: '26px', padding: '10%', fontSize: '13px'}} onClick={() => open()}>{`${menu} X`}</Button>
+        <Button Mini style={{backgroundColor: '#CCEECC', margin: '2px', height: '26px', padding: '4%', fontSize: '13px'}} onClick={() => open()}>{`${menu} X`}</Button>
         <Confirm
           open={isOpen}
           onCancel={() => close()}
@@ -71,7 +71,8 @@ const preferenceButtonList = (preference, isOpen, clickedMenuHandler, open, clos
         />
       </div>
     )
-  })
+  });
+  return list;
 }
 
 class Setting extends Component {
@@ -131,6 +132,16 @@ class Setting extends Component {
   onChangedUserTargetCalorieInput = (e) => {
     const thisState = this.state;
     this.setState({ ...thisState, targetCalories: e.target.value });
+  }
+
+  onClickedAddPreferenceButton = () => {
+    let result = prompt('Enter the ingredient to add to the list', '');
+    if(result === null) {
+      return;
+    }
+    const thisState = this.state;
+    thisState.preference.push(result);
+    this.setState({...thisState});
   }
 
   onClickedUserPreferenceDeleteButton = (target) => {
@@ -202,7 +213,6 @@ class Setting extends Component {
     const recommendedCarbs = Calculator.recommendedCarbs(age, sex, height, weight);
     const recommendedProtein = Calculator.recommendedProtein(age, sex, height, weight);
     const recommendedFat = Calculator.recommendedFat(age, sex, height, weight);
-    console.log(recommendedCalorie);
 
     return (
       <div className="Setting">
@@ -218,11 +228,11 @@ class Setting extends Component {
             <Grid.Row>
             <Grid.Column width={10}>
             
-            <Table style={{width: '60%', marginLeft: 'auto', marginRight: '0px'}}>
+            <Table style={{width: '80%', marginLeft: 'auto', marginRight: '0px'}}>
               <Table.Header>
                 <Table.Row textAlign='center'>
                   <Table.HeaderCell>Category</Table.HeaderCell>
-                  <Table.HeaderCell>Value</Table.HeaderCell>
+                  <Table.HeaderCell style={{width: '150px'}}>Value</Table.HeaderCell>
                   <Table.HeaderCell>Edit</Table.HeaderCell>
                 </Table.Row>
               </Table.Header>
@@ -232,7 +242,7 @@ class Setting extends Component {
                   <Table.HeaderCell>Age</Table.HeaderCell>
                   <Table.Cell>{age}</Table.Cell>
                   <Table.Cell>
-                    <Input id="user-age-input" onChange={(e) => this.onChangedUserAgeInput(e)} placeholder={'Edit'} />
+                    <Input id="user-age-input" onChange={(e) => this.onChangedUserAgeInput(e)} placeholder={'Edit'} style={{width: '100px'}}/>
                   </Table.Cell>
                 </Table.Row>
                 <Table.Row textAlign='center'>
@@ -248,7 +258,7 @@ class Setting extends Component {
                   <Table.Cell>
                     <Input id="user-height-input"
                       onChange={(e) => { this.onChangedUserHeightInput(e); }}
-                      placeholder={'Edit'}
+                      placeholder={'Edit'} style={{width: '100px'}}
                     />
                   </Table.Cell>
                 </Table.Row>
@@ -258,7 +268,7 @@ class Setting extends Component {
                   <Table.Cell>
                     <Input id="user-weight-input"
                       onChange={(e) => { this.onChangedUserWeightInput(e); }}
-                      placeholder={'Edit'}
+                      placeholder={'Edit'} style={{width: '100px'}}
                     />
                   </Table.Cell>
                 </Table.Row>
@@ -268,7 +278,7 @@ class Setting extends Component {
                   <Table.Cell>
                     <Input id="user-target-calorie-input"
                       onChange={(e) => { this.onChangedUserTargetCalorieInput(e); }}
-                      placeholder={'Edit'}
+                      placeholder={'Edit'} style={{width: '100px'}} 
                     />
                   </Table.Cell>
                 </Table.Row>
@@ -278,7 +288,9 @@ class Setting extends Component {
                     {preference}
                   </Table.Cell>
                   <Table.Cell>
-                    <Input placeholder="Add.." />
+                    <Button id='add-preferece-button' onClick={() => this.onClickedAddPreferenceButton()} style={{padding: '4%'}}>
+                      Click to Add..
+                    </Button>
                   </Table.Cell>
                 </Table.Row>
               </Table.Body>
