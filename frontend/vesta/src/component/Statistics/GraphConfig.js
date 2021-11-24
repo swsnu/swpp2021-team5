@@ -56,7 +56,7 @@ export const todayOptions = {
         }
       }
     },
-    maintainAspectRatio: true,
+    maintainAspectRatio: false,
   };
 
 export const todayData = {

@@ -3,8 +3,19 @@ import React from 'react';
 
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { Bar } from 'react-chartjs-2';
+import styled from 'styled-components';
+
 import { todayOptions, todayData } from './GraphConfig';
 
+const Div = styled.div`
+color:#F28095;
+align-items:center;
+vertical-align: middle;
+line-height: 10px;
+margin:8;
+height: 500px;
+width: 50%;
+`;
 
 const StatsDaily = (props) => {
 
@@ -29,7 +40,9 @@ const StatsDaily = (props) => {
   ]
 
   return (
-    <Bar data={barData} redraw plugins={[ChartDataLabels]} options={todayOptions} width={3} height={3} />
+    <Div>
+      <Bar data={barData} redraw plugins={[ChartDataLabels]} options={todayOptions} width={3} height={3} />
+    </Div>
   )
 }
 

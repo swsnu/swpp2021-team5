@@ -25,20 +25,12 @@ vertical-align: middle;
 line-height: 80px;
 `;
 
-const Box = styled.div`
-background-color:#B3D962;
-border-radius: 10px;
-width: 950px;
-height: 80px;
-margin:0 auto;
-`;
-
 const Div = styled.div`
-background-color:#B3D962;
+display: block;
 color:#F28095;
 align-items:center;
 vertical-align: middle;
-line-height: 80px;
+line-height: 10px;
 margin:8;
 `;
 
@@ -130,7 +122,7 @@ class Statistics extends Component {
           <StatisticsHeader>Your Nutritional Statistics</StatisticsHeader>
         </div>
 
-        <Div className="body" class="ui one column stackable center aligned page grid">
+        <Div className="body">
             {selectedComponent}
             <br/>
             <br/>

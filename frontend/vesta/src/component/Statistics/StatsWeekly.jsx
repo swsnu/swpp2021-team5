@@ -47,7 +47,7 @@ class StatsWeekly extends Component {
           <Button id="prev-button" onclick={() => this.onClickedPrevButton()}>Prev</Button>
           <Button id="next-button" onclick={() => this.onClickedNextButton()}>Next</Button>
         </div>
-        <StatsWeeklyChart selectedWeekNutritions={selectedWeekNutritions}/>
+        <StatsWeeklyChart selectedWeekNutritions={selectedWeekNutritions} recommendedIntake={recommendedIntake}/>
       </div>
     )
   }
