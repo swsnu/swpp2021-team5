@@ -28,6 +28,12 @@ margin: 5% 15%
 const TableDiv = styled.div`
 `;
 
+const isNumeric = (str) => {
+  if (typeof str != "string") return false // we only process strings!  
+  return !isNaN(str) && // use type coercion to parse the _entirety_ of the string (`parseFloat` alone does not do this)...
+         !isNaN(parseFloat(str)) // ...and ensure strings of whitespace fail
+}
+
 export const sexToggleButtons = (isMale=true, clickedMaleHandler, clickedFemaleHandler) => {
   if (isMale) {
     return (
@@ -51,7 +57,7 @@ const preferenceButtonList = (preference, isOpen, clickedMenuHandler, open, clos
   return preference.map((menu) => {
     return (
       <div>
-        <Button small onClick={() => open()}>{`${menu}`}</Button>
+        <Button Mini style={{backgroundColor: '#CCEECC', margin: '2px', height: '26px', padding: '10%', fontSize: '13px'}} onClick={() => open()}>{`${menu} X`}</Button>
         <Confirm
           open={isOpen}
           onCancel={() => close()}
@@ -116,7 +122,7 @@ class Setting extends Component {
     this.setState({ ...thisState, weight: e.target.value });
   }
 
-  onChangedTargetCalorieInput = (e) => {
+  onChangedUserTargetCalorieInput = (e) => {
     const thisState = this.state;
     this.setState({ ...thisState, targetCalories: e.target.value });
   }
@@ -140,19 +146,33 @@ class Setting extends Component {
   }
 
   onClickedSaveButton = () => {
-    if (this.state.age < 5 && this.state.age !== null) {
+    if (!isNumeric(this.state.age)) {
+      alert('Age should be a number');
+      return;
+    } else if (!isNumeric(this.state.height)) {
+      alert('Height should be a number');
+      return;
+    } else if (!isNumeric(this.state.weight)) {
+      alert('Weight should be a number');
+      return;
+    } else if (!isNumeric(this.state.targetCalories)) {
+      alert('Target Calorie should be a number');
+      return;
+    }
+
+    if (parseInt(this.state.age) < 5 && this.state.age !== '') {
       alert('The lowest age that can use our service normally is Five')
       return;
     }
     else  {
       this.props.onSaveUserSetting(
         this.state.username,
-        this.state.age,
+        parseInt(this.state.age),
         this.state.sex,
-        this.state.height,
-        this.state.weight,
+        parseInt(this.state.height),
+        parseInt(this.state.weight),
         this.state.preference,
-        this.state.targetCalories,
+        parseInt(this.state.targetCalories),
       );
     } 
   }
