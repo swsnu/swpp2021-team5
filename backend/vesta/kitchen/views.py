@@ -1,5 +1,6 @@
 import json
 import datetime
+from django.db.models.fields import NullBooleanField
 from django.http import HttpResponse, HttpResponseNotAllowed
 from django.http.response import JsonResponse
 from django.views.decorators.csrf import ensure_csrf_cookie
@@ -8,6 +9,8 @@ from django.views.decorators.http import require_http_methods, require_GET
 
 from django.contrib.auth.models import User
 from .models import Profile, UserNutrition, Preference, Menu, Record
+import re
+import random
 
 # Create your views here.
 
@@ -79,7 +82,7 @@ def profile(request):
 
             food_preference_list = []
             for item in Preference.objects.filter(user_id=request.user.id):
-                food_preference_list.append(str(item.menu.name))
+                food_preference_list.append(item.ingredient)
 
             user_profile = user.profile
             response_dict = {
@@ -114,21 +117,23 @@ def profile(request):
 
             # lines below should be refactored so that pk of row could be keep
             new_food_preference_list = req_data['preference']
-            for food in new_food_preference_list:
-                try:
-                    Menu.objects.get(name=food)
-                except Menu.DoesNotExist:
-                    return HttpResponse(status=404)
+            # for food in new_food_preference_list:
+            #     try:
+            #         Menu.objects.get(name=food)
+            #     except Menu.DoesNotExist:
+            #         return HttpResponse(status=404)
 
             Preference.objects.filter(user_id=request.user.id).delete()
             for food in new_food_preference_list:
-                new_menu = Menu.objects.get(name=food)
-                new_preference_item = Preference(
-                    user=request.user, menu=new_menu)
+                # new_menu = Menu.objects.get(name=food)
+                # new_preference_item = Preference(
+                #     user=request.user, menu=new_menu)
+                # new_preference_item.save()
+                new_preference_item = Preference(user=request.user, ingredient=food)
                 new_preference_item.save()
             food_preference_list_response = []
             for item in Preference.objects.filter(user_id=request.user.id):
-                food_preference_list_response.append(str(item.menu.name))
+                food_preference_list_response.append(item.ingredient)
 
             response_dict = {
                 'username': user.username,
@@ -174,10 +179,10 @@ def nutrition(request, date):
             today = datetime.date(int(date_list[0]), int(
                 date_list[1]), int(date_list[2]))
             req_data = json.loads(request.body.decode())
-            calories = int(req_data['calories'])
-            carbs = int(req_data['carbs'])
-            protein = int(req_data['protein'])
-            fat = int(req_data['fat'])
+            calories = float(req_data['calories'])
+            carbs = float(req_data['carbs'])
+            protein = float(req_data['protein'])
+            fat = float(req_data['fat'])
 
             new_record = UserNutrition(
                 user=request.user,
@@ -210,10 +215,10 @@ def nutrition(request, date):
                 return HttpResponse(status=404)
 
             # should add checking Forbidden(403)
-            new_calories = int(req_data['calories'])
-            new_carbs = int(req_data['carbs'])
-            new_protein = int(req_data['protein'])
-            new_fat = int(req_data['fat'])
+            new_calories = float(req_data['calories'])
+            new_carbs = float(req_data['carbs'])
+            new_protein = float(req_data['protein'])
+            new_fat = float(req_data['fat'])
 
             today_nutrition.calories = new_calories
             today_nutrition.carbs = new_carbs
@@ -447,23 +452,60 @@ def token(request):
 
 ## recommend 15 menus total(5 for each meal)
 @require_GET
-def recommend(request):
+def recommend(request, date):
     # if unauthenticated
     if not request.user.is_authenticated:
         return HttpResponse(status = 401)
 
     # find the user's nutritional info
+    date_list = date.split('-')
+    today = datetime.date(int(date_list[0]), 
+            int(date_list[1]), int(date_list[2]))
+    try:
+        today_nutrition = UserNutrition.objects.get(
+            user_id=request.user.id, date=today)
+    except UserNutrition.DoesNotExist:     
+        today_nutrition = UserNutrition.objects.create(
+            user_id=request.user.id,
+            date=today,
+            calories=0,
+            carbs=0,
+            protein=0,
+            fat=0,
+            ingredient="",
+            recipe="",
+        )
+    # left meal times 
+    times = 3   # TODO
+    # allowed calories, carbs, protein, fat per meal
+    allowed_cal = float(today_nutrition.calories / times)
+    allowed_carbs = float(today_nutrition.carbs / times)
+    allowed_protein = float(today_nutrition.protein / times)
+    allowed_fat = float(today_nutrition.fat / times)
+    min_cal = allowed_cal*0.9
+    min_carbs = allowed_carbs*0.9
+    min_protein = allowed_protein*0.9
+    min_fat = allowed_fat*0.9
+    # get all menus
+    menus = Menu.objects.all()
+    candidates = []
+    # choose all candidates
+    for m in menus:
+        if m.calories > min_cal and m.calories < allowed_cal and m.carbs > min_carbs and m.carbs < allowed_carbs and m.protein > min_protein and m.protein < allowed_protein and m.fat > min_fat and m.fat < allowed_fat:
+            # check ingredients
+            preference = Preference.objects.filter(user_id=request.user.id)
+            ingredient = re.findall("", m.ingredient)
+            intersect = set(preference) & set(ingredient)
+            if intersect:   # if there is intersection, do not include
+                continue
+            else:  # no intersection
+                candidates.append(m)
+        else:
+            continue
+    # random select 15 of them, return
+    if len(candidates) > 15:
+        response_dict = random.sample(candidates, 15)
+    else:
+        response_dict = candidates
 
-    # date_list = date.split('-')
-    # today = datetime.date(int(date_list[0]), 
-    #         int(date_list[1]), int(date_list[2]))
-    # try:
-    #     today_nutrition = UserNutrition.objects.get(
-    #         user_id=request.user.id, date=today)
-    # except UserNutrition.DoesNotExist:      # User.DoesNotExist?
-    #     return HttpResponse(status=404)
-
-    # choose 5 for each meal +-10%
-    # check if it does not preserve user preference
-
-    # return JsonResponse()
+    return JsonResponse(response_dict)
