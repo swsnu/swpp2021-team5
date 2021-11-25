@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React, { Component } from 'react';
 
-import { Button, Grid, GridRow, Header } from 'semantic-ui-react';
+import { Button, Grid, Header } from 'semantic-ui-react';
 import styled from 'styled-components';
 
 import StatsWeeklyChart from './StatsWeeklyChart';
@@ -30,7 +30,7 @@ class StatsWeekly extends Component {
     });
     // console.log(selectedWeekNutritions);
 
-    const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    //const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     let title, from, to;
     from = `${selectedWeekSun.getMonth() + 1}/${selectedWeekSun.getDate()}`;
     to = `${selectedWeekSat.getMonth() + 1}/${selectedWeekSat.getDate()}`;

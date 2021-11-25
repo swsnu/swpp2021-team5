@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import {
-  Header, Table, Input, Button, Grid, GridColumn, GridRow, Confirm
+  Table, Input, Button, Grid, GridRow, Confirm
 } from 'semantic-ui-react';
 import styled from 'styled-components';
 
@@ -40,7 +40,7 @@ const isNumeric = (str) => {
          !isNaN(parseFloat(str)) // ...and ensure strings of whitespace fail
 }
 
-export const sexToggleButtons = (isMale=true, clickedMaleHandler, clickedFemaleHandler) => {
+export const sexToggleButtons = (isMale, clickedMaleHandler, clickedFemaleHandler) => {
   if (isMale) {
     return (
       <Button.Group >

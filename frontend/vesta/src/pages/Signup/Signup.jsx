@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import {
-    Header, Input, Button, Form
+    Button, Form
   } from 'semantic-ui-react';
 import styled from 'styled-components';
 

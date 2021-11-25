@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import {
-  Header, Table, Input, Button, Grid, Tab
+  Tab
 } from 'semantic-ui-react';
 import styled from 'styled-components';
 
@@ -62,24 +62,23 @@ class Statistics extends Component {
 
   onClickedTodayButton = () => {
     const thisState = this.state;
-    if (!(this.state.selected === TODAY))
+    if (this.state.selected !== TODAY)
       this.setState({...thisState, selected: TODAY})
   }
 
   onClickedWeeklyButton = () => {
     const thisState = this.state;
-    if (!(this.state.selected === WEEKLY))
+    if (this.state.selected !== WEEKLY)
       this.setState({...thisState, selected: WEEKLY})
   }
 
   onClickedMonthlyButton = () => {
     const thisState = this.state;
-    if (!(this.state.selected === MONTHLY))
+    if (this.state.selected !== MONTHLY)
       this.setState({...thisState, selected: MONTHLY})
   }
 
   onClickedWeeklyPrevButton = () => {
-    console.log('hi');
     const thisState = this.state;
     const newSelected = new Date(this.state.selectedWeek);
     newSelected.setDate(newSelected.getDate() - 7);
@@ -87,7 +86,6 @@ class Statistics extends Component {
   }
 
   onClickedWeeklyNextButton = () => {
-    console.log('hi');
     const thisState = this.state;
     const newSelected = new Date(this.state.selectedWeek);
     newSelected.setDate(newSelected.getDate() + 7);
