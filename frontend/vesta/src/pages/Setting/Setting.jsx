@@ -21,6 +21,25 @@ vertical-align: middle;
 line-height: 80px;
 `;
 
+const Div = styled.div`
+width: 80%;
+align-items:center;
+vertical-align: middle;
+margin: 0 auto;
+`;
+
+const TableDiv = styled.div`
+margin: 0 auto;
+align-items:center;
+vertical-align: middle;
+`;
+
+const isNumeric = (str) => {
+  if (typeof str != "string") return false // we only process strings!  
+  return !isNaN(str) && // use type coercion to parse the _entirety_ of the string (`parseFloat` alone does not do this)...
+         !isNaN(parseFloat(str)) // ...and ensure strings of whitespace fail
+}
+
 export const sexToggleButtons = (isMale=true, clickedMaleHandler, clickedFemaleHandler) => {
   if (isMale) {
     return (
@@ -41,10 +60,10 @@ export const sexToggleButtons = (isMale=true, clickedMaleHandler, clickedFemaleH
 }
 
 const preferenceButtonList = (preference, isOpen, clickedMenuHandler, open, close) => {
-  return preference.map((menu) => {
+  const list = preference.map((menu) => {
     return (
       <div>
-        <Button onClick={() => open()}>{`${menu}`}</Button>
+        <Button Mini style={{backgroundColor: '#CCEECC', margin: '2px', height: '26px', padding: '4%', fontSize: '13px'}} onClick={() => open()}>{`${menu} X`}</Button>
         <Confirm
           open={isOpen}
           onCancel={() => close()}
@@ -52,7 +71,8 @@ const preferenceButtonList = (preference, isOpen, clickedMenuHandler, open, clos
         />
       </div>
     )
-  })
+  });
+  return list;
 }
 
 class Setting extends Component {
@@ -64,7 +84,7 @@ class Setting extends Component {
       age: '',
       sex: null,
       height: '',
-      weight: null,
+      weight: '',
       preference: [],
       targetCalories: '',
       confirmOpen: false,
@@ -109,9 +129,19 @@ class Setting extends Component {
     this.setState({ ...thisState, weight: e.target.value });
   }
 
-  onChangedTargetCalorieInput = (e) => {
+  onChangedUserTargetCalorieInput = (e) => {
     const thisState = this.state;
     this.setState({ ...thisState, targetCalories: e.target.value });
+  }
+
+  onClickedAddPreferenceButton = () => {
+    let result = prompt('Enter the ingredient to add to the list', '');
+    if(result === null) {
+      return;
+    }
+    const thisState = this.state;
+    thisState.preference.push(result);
+    this.setState({...thisState});
   }
 
   onClickedUserPreferenceDeleteButton = (target) => {
@@ -133,19 +163,33 @@ class Setting extends Component {
   }
 
   onClickedSaveButton = () => {
-    if (this.state.age < 5 && this.state.age !== null) {
+    if (!isNumeric(this.state.age)) {
+      alert('Age should be a number');
+      return;
+    } else if (!isNumeric(this.state.height)) {
+      alert('Height should be a number');
+      return;
+    } else if (!isNumeric(this.state.weight)) {
+      alert('Weight should be a number');
+      return;
+    } else if (!isNumeric(this.state.targetCalories)) {
+      alert('Target Calorie should be a number');
+      return;
+    }
+
+    if (parseInt(this.state.age) < 5 && this.state.age !== '') {
       alert('The lowest age that can use our service normally is Five')
       return;
     }
     else  {
       this.props.onSaveUserSetting(
         this.state.username,
-        this.state.age,
+        parseInt(this.state.age),
         this.state.sex,
-        this.state.height,
-        this.state.weight,
+        parseInt(this.state.height),
+        parseInt(this.state.weight),
         this.state.preference,
-        this.state.targetCalories,
+        parseInt(this.state.targetCalories),
       );
     } 
   }
@@ -179,104 +223,105 @@ class Setting extends Component {
           <br />
         </div>
 
-        <Grid column={2}  textAlign='center' className="current-setting-info">
-          <GridRow>
-            <GridColumn width={5}>
-              <Table setting>
-                <Table.Header>
-                  <Table.Row textAlign='center'>
-                    <Table.HeaderCell>Category</Table.HeaderCell>
-                    <Table.HeaderCell>Value</Table.HeaderCell>
-                    <Table.HeaderCell>Edit</Table.HeaderCell>
-                  </Table.Row>
-                </Table.Header>
+        <Div>
+          <Grid style={{margin: '0 auto'}} column={16}>
+            <Grid.Row>
+            <Grid.Column width={10}>
+            
+            <Table style={{width: '80%', marginLeft: 'auto', marginRight: '0px'}}>
+              <Table.Header>
+                <Table.Row textAlign='center'>
+                  <Table.HeaderCell>Category</Table.HeaderCell>
+                  <Table.HeaderCell style={{width: '150px'}}>Value</Table.HeaderCell>
+                  <Table.HeaderCell>Edit</Table.HeaderCell>
+                </Table.Row>
+              </Table.Header>
 
-                <Table.Body>
-                  <Table.Row textAlign='center'>
-                    <Table.HeaderCell>Age</Table.HeaderCell>
-                    <Table.Cell>{age}</Table.Cell>
-                    <Table.Cell>
-                      <Input id="user-age-input" onChange={(e) => this.onChangedUserAgeInput(e)} placeholder={'Edit'} />
-                    </Table.Cell>
-                  </Table.Row>
-                  <Table.Row textAlign='center'>
-                    <Table.HeaderCell>Sex</Table.HeaderCell>
-                    {/*<--Table.Cell>{sex}</Table.Cell>*/}
-                    <Table.Cell colSpan='2'>
-                      {sexEditButton}
-                    </Table.Cell>
-                  </Table.Row>
-                  <Table.Row textAlign='center'>
-                    <Table.HeaderCell>height</Table.HeaderCell>
-                    <Table.Cell>{height}</Table.Cell>
-                    <Table.Cell>
-                      <Input id="user-height-input"
-                        onChange={(e) => { this.onChangedUserHeightInput(e); }}
-                        placeholder={'Edit'}
-                      />
-                    </Table.Cell>
-                  </Table.Row>
-                  <Table.Row textAlign='center'>
-                    <Table.HeaderCell>weight</Table.HeaderCell>
-                    <Table.Cell>{weight}</Table.Cell>
-                    <Table.Cell>
-                      <Input id="user-weight-input"
-                        onChange={(e) => { this.onChangedUserWeightInput(e); }}
-                        placeholder={'Edit'}
-                      />
-                    </Table.Cell>
-                  </Table.Row>
-                  <Table.Row textAlign='center'>
-                    <Table.HeaderCell>Target Calories</Table.HeaderCell>
-                    <Table.Cell>{targetCalories}</Table.Cell>
-                    <Table.Cell>
-                      <Input id="user-target-calorie-input"
-                        onChange={(e) => { this.onChangedUserTargetCalorieInput(e); }}
-                        placeholder={'Edit'}
-                      />
-                    </Table.Cell>
-                  </Table.Row>
-                  <Table.Row textAlign='center'>
-                    <Table.HeaderCell>Foods you don&apos;t eat</Table.HeaderCell>
-                    <Table.Cell>
-                      {preference}
-                    </Table.Cell>
-                    <Table.Cell>
-                      <Input placeholder="Add.." />
-                    </Table.Cell>
-                  </Table.Row>
-                </Table.Body>
+              <Table.Body>
+                <Table.Row textAlign='center'>
+                  <Table.HeaderCell>Age</Table.HeaderCell>
+                  <Table.Cell>{age}</Table.Cell>
+                  <Table.Cell>
+                    <Input id="user-age-input" onChange={(e) => this.onChangedUserAgeInput(e)} placeholder={'Edit'} style={{width: '100px'}}/>
+                  </Table.Cell>
+                </Table.Row>
+                <Table.Row textAlign='center'>
+                  <Table.HeaderCell>Sex</Table.HeaderCell>
+                  {/*<--Table.Cell>{sex}</Table.Cell>*/}
+                  <Table.Cell colSpan='2'>
+                    {sexEditButton}
+                  </Table.Cell>
+                </Table.Row>
+                <Table.Row textAlign='center'>
+                  <Table.HeaderCell>height</Table.HeaderCell>
+                  <Table.Cell>{height}</Table.Cell>
+                  <Table.Cell>
+                    <Input id="user-height-input"
+                      onChange={(e) => { this.onChangedUserHeightInput(e); }}
+                      placeholder={'Edit'} style={{width: '100px'}}
+                    />
+                  </Table.Cell>
+                </Table.Row>
+                <Table.Row textAlign='center'>
+                  <Table.HeaderCell>weight</Table.HeaderCell>
+                  <Table.Cell>{weight}</Table.Cell>
+                  <Table.Cell>
+                    <Input id="user-weight-input"
+                      onChange={(e) => { this.onChangedUserWeightInput(e); }}
+                      placeholder={'Edit'} style={{width: '100px'}}
+                    />
+                  </Table.Cell>
+                </Table.Row>
+                <Table.Row textAlign='center'>
+                  <Table.HeaderCell>Target Calories</Table.HeaderCell>
+                  <Table.Cell>{targetCalories}</Table.Cell>
+                  <Table.Cell>
+                    <Input id="user-target-calorie-input"
+                      onChange={(e) => { this.onChangedUserTargetCalorieInput(e); }}
+                      placeholder={'Edit'} style={{width: '100px'}} 
+                    />
+                  </Table.Cell>
+                </Table.Row>
+                <Table.Row textAlign='center'>
+                  <Table.HeaderCell>Ingredients you don&apos;t eat</Table.HeaderCell>
+                  <Table.Cell>
+                    {preference}
+                  </Table.Cell>
+                  <Table.Cell>
+                    <Button id='add-preferece-button' onClick={() => this.onClickedAddPreferenceButton()} style={{padding: '4%'}}>
+                      Click to Add..
+                    </Button>
+                  </Table.Cell>
+                </Table.Row>
+              </Table.Body>
 
-                <Table.Footer>
-                  <Table.Row>
-                    <Table.HeaderCell colSpan="3">
-                      <Button primary floated="right"
-                       onClick={() => this.onClickedSaveButton()}>Save
-                      </Button>
-                    </Table.HeaderCell>
-                  </Table.Row>
-                </Table.Footer>
-              </Table>
-            </GridColumn>
-
-            <GridColumn width={2} className="recommended-intake">
-              <RecommendedIntake recommendedCalorie={recommendedCalorie} recommendedCarbs={recommendedCarbs} recommendedProtein={recommendedProtein} recommendedFat={recommendedFat}
-              />
-            </GridColumn>
-          </GridRow>
-
-          <GridRow>
-            <div text-align='left' className="resign">
-              <br />
-              <br />
-              <Button id="user-resign-button" floated="right"
-              onClick={() => this.onClickedDeleteAccountButton()} >Delete Account</Button>
-            </div>
-          </GridRow>
-        </Grid>
-
-        
-
+              <Table.Footer>
+                <Table.Row>
+                  <Table.HeaderCell colSpan="3">
+                    <Button primary floated="right"
+                     onClick={() => this.onClickedSaveButton()}>Save
+                    </Button>
+                  </Table.HeaderCell>
+                </Table.Row>
+              </Table.Footer>
+            </Table>
+            </Grid.Column>
+            <Grid.Column width={6}>
+            <RecommendedIntake recommendedCalorie={recommendedCalorie} recommendedCarbs={recommendedCarbs} recommendedProtein={recommendedProtein} recommendedFat={recommendedFat}
+            />
+            </Grid.Column>
+          </Grid.Row>
+          
+            <GridRow>
+              <Grid.Column width={10}>
+                <div text-align='left' className="resign">
+                  <Button id="user-resign-button" floated="right"
+                  onClick={() => this.onClickedDeleteAccountButton()} >Delete Account</Button>
+                </div>
+              </Grid.Column>
+            </GridRow>
+          </Grid>
+        </Div>
       </div>
     );
   }
