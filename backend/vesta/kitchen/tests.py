@@ -41,9 +41,9 @@ class KitchenTestClass(TestCase):
         self.assertEqual(response.status_code, 401)
 
         ## if client is signed in, response to POST request should be 200 with correct content
-        response = client2.post('/api/record/', {'menu_id': 1, 'review': 'review2', 'liked': 'False', 'date': '2021-11-11', 'image': './record_images/brownie.jpeg'}, content_type='application/json')
+        response = client2.post('/api/record/', {'menu': 'testmenu', 'review': 'review2', 'liked': 'False', 'date': '2021-11-11', 'image': './record_images/brownie.jpeg'}, content_type='application/json')
         self.assertEqual(response.status_code, 200)
-        self.assertEqual('{"id": 2, "user_id": 1, "menu_id": 1, "review": "review2", "liked": false, "date": "2021-11-11", "image": "/record_images/brownie.jpeg"}', response.content.decode())
+        self.assertEqual('{"id": 2, "user_id": 1, "menu_id": 1, "review": "review2", "liked": false, "date": "'+ datetime.date.today().strftime("%Y-%m-%d")+'", "image": "/record_images/brownie.jpeg"}', response.content.decode())
 
 
         ## NOT GET, POST TEST

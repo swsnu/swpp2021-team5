@@ -259,7 +259,7 @@ def record(request):
                                 menu = Menu.objects.get(name = menu_name),
                                 review = review_text,
                                 liked = liked,
-                                date = datetime.now(),
+                                date = datetime.date.today(),
                                 image = req_data['image'])
         new_record.save()
 
@@ -269,7 +269,7 @@ def record(request):
                             'menu_id' : new_record.menu.id,
                             'review' : new_record.review,
                             'liked' : new_record.liked,
-                            'date' : new_record.date,
+                            'date' : new_record.date.strftime("%Y-%m-%d"),
                             'image' : new_record.image.url}
         return JsonResponse(response_dict)
     return HttpResponseNotAllowed(["GET", "POST"])
