@@ -28,18 +28,14 @@ class Profile(models.Model):
     target_calories = IntegerField(null=True)
 
 #### model 'Preference' consists of two foreign key field ####
-####                  : User, Menu                        ####
+####                  : User, ingredient                  ####
 class Preference(models.Model):
     user = ForeignKey(
         User,
         on_delete=models.CASCADE,
         related_name='preference_list'
     )
-    menu = ForeignKey(
-        Menu,
-        null=True,                  # should be revised to => 'null=False'
-        on_delete=models.CASCADE    # is it also should be delete
-    )                               # when the related menu has been deleted?
+    ingredient = TextField(default="")
 
 #### it must be better to rename this Model
 #### EX) DateNutrition, Nutrition
