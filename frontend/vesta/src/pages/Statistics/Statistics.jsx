@@ -1,10 +1,9 @@
 /* eslint-disable */
-
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import {
-  Header, Table, Input, Button, Grid
+  Tab
 } from 'semantic-ui-react';
 import styled from 'styled-components';
 
@@ -13,6 +12,8 @@ import StatsDaily from '../../component/Statistics/StatsDaily';
 import StatsWeekly from '../../component/Statistics/StatsWeekly';
 import StatsMonthly from '../../component/Statistics/StatsMonthly';
 import * as Calculator from '../Setting/Calculator';
+
+import { dummyUserNutritions } from './util';
 
 const StatisticsHeader = styled.div`
 font-family:'verveine';
@@ -23,21 +24,18 @@ vertical-align: middle;
 line-height: 80px;
 `;
 
-const Box = styled.div`
-background-color:#B3D962;
-border-radius: 10px;
-width: 950px;
-height: 80px;
-margin:0 auto;
-`;
-
 const Div = styled.div`
-background-color:#B3D962;
+display: block;
 color:#F28095;
 align-items:center;
 vertical-align: middle;
-line-height: 80px;
-margin:8;
+line-height: 10px;
+margin: 0 auto;
+width: 70%;
+text-align: center;
+background-color:#F2F2F2;
+border-radius: 20px;
+padding: 3%;
 `;
 
 const TODAY = 'TODAY';
@@ -48,30 +46,55 @@ class Statistics extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selected: TODAY,
+      selectedWeek: new Date(),
+      userNutritions: [],
     };
+  }
+
+  componentDidMount() {
+    /*axios.get('/api/nutrition/').then((res) => {
+      this.setState({...this.state, userNutritions: res.data})
+      // res.data : list of objects ?
+    })
+    */
+   this.setState({...this.state, userNutritions: dummyUserNutritions});
   }
 
   onClickedTodayButton = () => {
     const thisState = this.state;
-    if (!(this.state.selected === TODAY))
+    if (this.state.selected !== TODAY)
       this.setState({...thisState, selected: TODAY})
   }
 
   onClickedWeeklyButton = () => {
     const thisState = this.state;
-    if (!(this.state.selected === WEEKLY))
+    if (this.state.selected !== WEEKLY)
       this.setState({...thisState, selected: WEEKLY})
   }
 
   onClickedMonthlyButton = () => {
     const thisState = this.state;
-    if (!(this.state.selected === MONTHLY))
+    if (this.state.selected !== MONTHLY)
       this.setState({...thisState, selected: MONTHLY})
+  }
+
+  onClickedWeeklyPrevButton = () => {
+    const thisState = this.state;
+    const newSelected = new Date(this.state.selectedWeek);
+    newSelected.setDate(newSelected.getDate() - 7);
+    this.setState({...thisState, selectedWeek: newSelected});
+  }
+
+  onClickedWeeklyNextButton = () => {
+    const thisState = this.state;
+    const newSelected = new Date(this.state.selectedWeek);
+    newSelected.setDate(newSelected.getDate() + 7);
+    this.setState({...thisState, selectedWeek: newSelected});
   }
   
 
   render() {
+    console.log('Parent rendered');
     let todayNutritionIntake = {
       calories: this.props.currUserNutrition.calories,
       carbs: this.props.currUserNutrition.carbs,
@@ -93,18 +116,33 @@ class Statistics extends Component {
       fat: recommendedFat,
     }
 
+    let processedUserNutritions = this.state.userNutritions.map((nutrition) => {
+      const dateObject = new Date(nutrition.date);
+      dateObject.setHours(0,0,0,0);
+      return {...nutrition, date: dateObject};
+    });
+    const selectedWeek = this.state.selectedWeek; // must be today
+    selectedWeek.setHours(0,0,0,0);
+
+    /*
     let selectedComponent;
     switch (this.state.selected) {
       case TODAY:
         selectedComponent = <StatsDaily intake={todayNutritionIntake} recommendedIntake={recommendedIntake} />;
         break;
       case WEEKLY:
-        selectedComponent = <StatsWeekly recommendedIntake={recommendedIntake} />
+        selectedComponent = <StatsWeekly today={today} userNutritions={processedUserNutritions} recommendedIntake={recommendedIntake} />
         break;
       case MONTHLY:
-        selectedComponent = <StatsMonthly recommendedIntake={recommendedIntake}/>
+        selectedComponent = <StatsMonthly today={today} userNutritions={processedUserNutritions} recommendedIntake={recommendedIntake}/>
         break;
     }
+    */
+    const panes=[
+       { menuItem: 'Today', render: () => <StatsDaily intake={todayNutritionIntake} recommendedIntake={recommendedIntake} /> },
+       { menuItem: 'Weekly', render: () => <StatsWeekly selectedWeek={selectedWeek} userNutritions={processedUserNutritions} recommendedIntake={recommendedIntake} onClickedWeeklyPrevButton={this.onClickedWeeklyPrevButton} onClickedWeeklyNextButton={this.onClickedWeeklyNextButton}/> },
+       { menuItem: 'Monthly', render: () => <StatsMonthly userNutritions={processedUserNutritions} recommendedIntake={recommendedIntake}/> }
+    ]
     
     return (
       <div className="Statistics">
@@ -113,15 +151,8 @@ class Statistics extends Component {
           <StatisticsHeader>Your Nutritional Statistics</StatisticsHeader>
         </div>
 
-        <Div className="body" class="ui one column stackable center aligned page grid">
-            {selectedComponent}
-            <br/>
-            <br/>
-            <Button.Group>
-              <Button size='large' onClick={() => this.onClickedTodayButton()}>Today</Button>
-              <Button size='large' onClick={() => this.onClickedWeeklyButton()}>Weekly</Button>
-              <Button size='large' onClick={() => this.onClickedMonthlyButton()}>Monthly</Button>
-            </Button.Group>
+        <Div className="body">
+          <Tab panes={panes} />
         </Div>
       </div>
     );

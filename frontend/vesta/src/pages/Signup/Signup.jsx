@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import {
-    Header, Input, Button, Form
+    Button, Form
   } from 'semantic-ui-react';
 import styled from 'styled-components';
 
@@ -29,6 +29,12 @@ vertical-align: middle;
 line-height: 80px;
 margin:8;
 `;
+
+const isNumeric = (str) => {
+  if (typeof str != "string") return false // we only process strings!  
+  return !isNaN(str) && // use type coercion to parse the _entirety_ of the string (`parseFloat` alone does not do this)...
+         !isNaN(parseFloat(str)) // ...and ensure strings of whitespace fail
+}
 
 class Signup extends Component {
   constructor(props) {
@@ -101,34 +107,34 @@ class Signup extends Component {
       alert('Two value of password are not consistent');
       return;
     }
-    else if (this.state.age == ''
-      || this.state.height == '' || this.state.weight == '') {
-      alert(`You didn't enter your body information`)
-      return;        
-    }
-    else if (parseInt(this.state.age) < 5) {
-      alert('The lowest age that can use our service normally is Five')
+
+    if (!isNumeric(this.state.age) || this.state.age == '' || parseInt(this.state.age) < 5) {
+      alert('Age should be a number larger than 4');
+      return;
+    } else if (!isNumeric(this.state.height) || this.state.height == '') {
+      alert('Height should be entered as a number');
+      return;
+    } else if (!isNumeric(this.state.weight || this.state.weight == '')) {
+      alert('Weight should be enterend as a number');
       return;
     }
-    else {
-      console.log(this.state.age);
-      const targetCalories = recommendedCalorie(
-        parseInt(this.state.age),
-        this.state.sex,
-        parseInt(this.state.height),
-        parseInt(this.state.weight)
-      )
-      this.props.onRegister(
-        this.state.username,
-        this.state.password,
-        this.state.age,
-        this.state.sex,
-        this.state.height,
-        this.state.weight,
-        targetCalories,
-      )
-      alert('Succesfully Registered!')
-    }
+
+    const targetCalories = recommendedCalorie(
+      parseInt(this.state.age),
+      this.state.sex,
+      parseInt(this.state.height),
+      parseInt(this.state.weight)
+    )
+    this.props.onRegister(
+      this.state.username,
+      this.state.password,
+      this.state.age,
+      this.state.sex,
+      this.state.height,
+      this.state.weight,
+      targetCalories,
+    )
+    alert(`Succesfully Registered!\nYour Target Calorie is set to ${targetCalories}Kcal as recommended generally for your body profile.\nYou can customize your target calorie at the setting page after login.\nWelcome!`);
   }
 
   render() {

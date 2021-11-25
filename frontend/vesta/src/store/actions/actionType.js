@@ -13,4 +13,9 @@ export const DELETE_REVIEW = 'DELETE_REVIEW';
 export const CREATE_REVIEW = 'CREATE_REVIEW';
 export const UPDATE_SELECTED_MENU = 'UPDATE_SELECTED_MENU';
 export const SIGNUP = 'SIGNUP';
+<<<<<<< HEAD
 export const DETECT = 'DETECT';
+=======
+export const GET_USER_NUTRITION = 'GET_USER_NUTRITION';
+export const LOGOUT = 'LOGOUT';
+>>>>>>> 83e1fe3a74ff9be70c1cec7f568748db8c401dad
