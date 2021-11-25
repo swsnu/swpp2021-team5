@@ -48,11 +48,13 @@ class ConfirmDetection extends Component {
 
   componentDidMount() {
     this.props.onGetMenu(this.state.menuName);
+    this.setState({ image: this.props.location });
   }
 
   onClickedEditResultButton = () => {
     const correctName = prompt('Please enter correct meal name');
     this.setState({ menuName: correctName });
+    this.props.onGetMenu(correctName);
   }
 
   onChangedReviewInput = (event) => {
@@ -84,9 +86,6 @@ class ConfirmDetection extends Component {
       protein = this.props.selectedMenu.protein;
       fat = this.props.selectedMenu.fat;
     }
-
-    const { inputImage } = this.props.location;
-    this.setState({ image: inputImage });
 
     return (
       <div>
