@@ -1,17 +1,19 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.fields.related import ForeignKey, OneToOneField
-from django.db.models.fields import BooleanField, CharField, DateField, IntegerField, TextField
+from django.db.models.fields import BooleanField, CharField, DateField, IntegerField, TextField, FloatField
 
 # Create your models here.
 
 class Menu(models.Model):
-    name = CharField(max_length = 32)
-    calories = IntegerField()
-    carbs = IntegerField()
-    protein = IntegerField()
-    fat = IntegerField()
+    name = CharField(max_length = 150)
+    calories = FloatField()
+    carbs = FloatField()
+    protein = FloatField()
+    fat = FloatField()
     image = models.ImageField(upload_to = 'menu_images', blank = True)
+    recipe = TextField(default="")
+    ingredient = TextField(default="")
 
 class Profile(models.Model):
     user = OneToOneField(
@@ -47,19 +49,14 @@ class UserNutrition(models.Model):
         on_delete=models.CASCADE
     )
     date = DateField()
-    calories = IntegerField()
-    carbs = IntegerField()
-    protein = IntegerField()
-    fat = IntegerField()
-
-class Recipe(models.Model):
-    menu = ForeignKey(Menu, on_delete = models.CASCADE, related_name = 'menu_of_recipe')
-    recipe = TextField()
+    calories = FloatField()
+    carbs = FloatField()
+    protein = FloatField()
+    fat = FloatField()
 
 class Record(models.Model):
     user = ForeignKey(User, on_delete = models.CASCADE, related_name = 'creator_of')
     menu = ForeignKey(Menu, on_delete = models.CASCADE, related_name = 'menu_of_record')
-    recipe = ForeignKey(Recipe, on_delete = models.CASCADE, related_name = 'recipe_of')
     review = TextField()
     liked = BooleanField()
     date = DateField()

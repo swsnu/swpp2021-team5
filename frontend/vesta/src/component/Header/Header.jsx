@@ -1,9 +1,12 @@
 /* eslint-disable */
 import React from 'react';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 import styled from 'styled-components';
 import { Button, Image, Icon } from 'semantic-ui-react';
 import '../../styles/Header/header.css';
-import { NavLink } from 'react-router-dom';
+import { Component } from 'react';
+import * as actionCreators from '../../store/actions/index';
 
 const HeaderBackground = styled.div`
 background-color:#F2CE1B;
@@ -24,26 +27,39 @@ top: 0;
 right: 0;
 `;
 
-const Header = () => (
-  <HeaderBackground>
-    <a href="/main">
-      <img
-        className="logo-image"
-        src="/kitchenVestaLogo.png"
-        alt="logo"
-        width={170}
-        height={170}
-      />
-    </a>
-    <Buttons>
-      <a href="/setting">
-        <Icon circular name='settings' size='large' color='black'></Icon>
-      </a>
-      <a href="/login">
-        <Icon circular name='user close' size='large' color='black'></Icon>
-      </a>
-    </Buttons>
-  </HeaderBackground>
-);
+class Header extends Component {
+  onLogout = () => {
+    this.props.onLogout();
+    this.props.history.push('/login')
+  }
+  
+  render () {
+    return (
+      <HeaderBackground>
+        <a href="/main">
+          <img
+            className="logo-image"
+            src="/kitchenVestaLogo.png"
+            alt="logo"
+            width={170}
+            height={170}
+          />
+        </a>
+        <Buttons>
+          <a className='setting' href="/setting">
+            <Icon circular name='settings' size='large' color='black'></Icon>
+          </a>
+          <a className='logout' onClick={() => this.onLogout()}>
+            <Icon circular name='user close' size='large' color='black'></Icon>
+          </a>
+        </Buttons>
+      </HeaderBackground>
+    )
+  }
+}
 
-export default Header;
+const mapDispatchToProps = (dispatch) => ({
+  onLogout: () => dispatch(actionCreators.logout()),
+});
+
+export default connect(null, mapDispatchToProps)(withRouter(Header));

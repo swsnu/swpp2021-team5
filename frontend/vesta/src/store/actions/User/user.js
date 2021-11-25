@@ -84,3 +84,13 @@ export const getUserNutrition = (userID) => (dispatch) => {
     dispatch(getUserNutrition_(res.data));
   })
 };
+
+export const logout_ = () => ({
+  type: actionTypes.LOGOUT,
+  currentUser: null,
+});
+
+export const logout = () => (dispatch) => axios.get('/api/user/signout/')
+  .then((res) => {
+    dispatch(logout_())
+});

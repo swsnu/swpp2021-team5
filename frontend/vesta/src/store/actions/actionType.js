@@ -16,3 +16,4 @@ export const CREATE_REVIEW = 'CREATE_REVIEW';
 export const UPDATE_SELECTED_MENU = 'UPDATE_SELECTED_MENU';
 export const SIGNUP = 'SIGNUP';
 export const GET_USER_NUTRITION = 'GET_USER_NUTRITION';
+export const LOGOUT = 'LOGOUT';

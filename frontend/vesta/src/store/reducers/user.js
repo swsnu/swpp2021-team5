@@ -49,6 +49,9 @@ const userReducer = (state = initialState, action) => {
         }
       };
 
+    case actionTypes.LOGOUT:
+      return { ...state, currentUser: action.currentUser };
+      
     default:
       break;
   }

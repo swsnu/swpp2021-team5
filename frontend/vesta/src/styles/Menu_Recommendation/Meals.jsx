@@ -4,23 +4,26 @@ export const Breakfast = styled.div`
 background-color:#77ACF2;
 border-radius: 10px;
 padding:4%;
+margin:15px;
 `;
 
 export const Lunch = styled.div`
 background-color:#D95407;
 border-radius: 10px;
 padding:4%;
+margin:15px;
 `;
 
 export const Dinner = styled.div`
 background-color:#BF7960;
 border-radius: 10px;
 padding:4%;
+margin:15px;
 `;
 
 export const MealName = styled.div`
-font-family:'verveine';
-font-size:25px;
+font-family:'arciform';
+font-size:17px;
 padding-top:10px;
 padding-bottom:10px;
 `;
@@ -39,12 +42,20 @@ margin:0 auto;
 `;
 
 export const RecommendationHeader = styled.div`
-font-family:'verveine';
+font-family:'arciform';
 font-size:65px;
-color:#F28095;
+// color:#F28095;
 text-align: center;
 vertical-align: middle;
-line-height: 80px;
+line-height: 120px;
+`;
+
+export const RecommendationBody = styled.div`
+font-family: 'opensans';
+text-align: center;
+font-size: 18px;
+line-height: 22px;
+white-space: pre-wrap;
 `;
 
 export const OtherBreakfastBox = styled.div`
