@@ -37,9 +37,9 @@ if __name__ == "__main__":
     print(start)
     for row in csv_reader:
       idx+=1
-      if idx < 1464:
+      if idx < 1530:
         continue
-      elif idx == 2001:   # collect 2000 menus
+      elif idx == 5001:   # collect 2000 menus
         end = datetime.now()
         diff = end - start
         print('diff: ', diff)
