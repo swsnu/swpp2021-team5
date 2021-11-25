@@ -20,12 +20,7 @@ def signup(request):
         user = User.objects.create_user(username=username, password=password)
 
         # Model 'Profile' should be created simultaneously #
-        age = int(req_data['age'])
-        sex = bool(req_data['sex'])
-        height = int(req_data['height'])
-        weight = int(req_data['weight'])
-        target_calories = int(req_data['targetCalories'])
-        new_profile = Profile(user=user, age=age, sex=sex, height=height, weight=weight, target_calories=target_calories)
+        new_profile = Profile(user=user, age=None, sex=None, height=None, weight=None)
         new_profile.save()
 
         return HttpResponse(status=201)
@@ -93,8 +88,7 @@ def profile(request):
                 'sex': user_profile.sex,
                 'height': user_profile.height,
                 'weight': user_profile.weight,
-                'preference': food_preference_list,
-                'targetCalories': user_profile.target_calories
+                'preference': food_preference_list
             }
             return JsonResponse(response_dict, status=200, safe=False)
         else:
@@ -115,7 +109,6 @@ def profile(request):
             user_profile.sex = req_data['sex']
             user_profile.height = int(req_data['height'])
             user_profile.weight = int(req_data['weight'])
-            user_profile.target_calories = int(req_data['targetCalories'])
             user.save()
             user_profile.save()
 
@@ -143,31 +136,13 @@ def profile(request):
                 'sex': user_profile.sex,
                 'height': user_profile.height,
                 'weight': user_profile.weight,
-                'preference': food_preference_list_response,
-                'targetCalories': user_profile.target_calories
+                'preference': food_preference_list_response
             }
             return JsonResponse(response_dict, status=200)
         else:
             return HttpResponse(status=401)
     else:
         return HttpResponseNotAllowed(['GET', 'PUT'])
-
-@require_http_methods(["GET"])
-def nutrition_all(request):
-    if not request.user.is_authenticated:
-        return HttpResponse(status=401)
-    else:
-        nutrition_objects = UserNutrition.objects.filter(user=request.user).order_by('-date')
-        response_list = []
-        for row in nutrition_objects:
-            response_list.append({
-                'date': row.date.strftime('%Y-%m-%d'),
-                'calories': row.calories,
-                'carbs': row.carbs,
-                'protein': row.protein,
-                'fat': row.fat
-            })
-        return JsonResponse(response_list, status=200, safe=False)
 
 
 def nutrition(request, date):
@@ -276,18 +251,15 @@ def record(request):
 
         ## decode request
         req_data = json.loads(request.body.decode())
-        menu_id = int(req_data['menu_id'])
+        menu_name = req_data['menu']
         review_text = req_data['review']
         liked = req_data['liked'] == "True"
-        ## req_data['date'] comes in YYYY-MM-DD form, transform the string into datetime object
-        date_list = req_data['date'].split('-')
-        date = datetime.date(int(date_list[0]), int(date_list[1]), int(date_list[2]))
 
         new_record = Record(user = request.user,
-                                menu = Menu.objects.get(id = menu_id),
+                                menu = Menu.objects.get(name = menu_name),
                                 review = review_text,
                                 liked = liked,
-                                date = date,
+                                date = datetime.now(),
                                 image = req_data['image'])
         new_record.save()
 

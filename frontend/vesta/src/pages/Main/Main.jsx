@@ -103,8 +103,9 @@ class Main extends Component {
                 <p>
                   If you want to record a meal,
                   please tell us if you followed our recommendation.
+                  Or you can record a snack.
                 </p>
-                <Grid columns={3}>
+                <Grid columns={4}>
                   <Grid.Column>
                     <p>skip</p>
                     <Icon circular name="x icon" onClick={this.onClickedSkipButton}></Icon>
@@ -117,17 +118,17 @@ class Main extends Component {
                     <p>alternative</p>
                     <Icon circular name="edit icon" onClick={this.onClickedNotFollowedButton}></Icon>
                   </Grid.Column>
-                </Grid>
-              </MealRecordArea>
-              <MealRecordArea style={{backgroundColor: "#E17E76", color:"#F2F2F2"}}>
-                <p>
-                  Or if you just want to record a snack, press Record Snack.
-                </p>
-                <Grid columns={2}>
                   <Grid.Column>
                     <p>record</p>
                     <Icon circular name="camera icon" onClick={this.onClickedRecordSnackButton}></Icon>
                   </Grid.Column>
+                </Grid>
+              </MealRecordArea>
+              <MealRecordArea style={{backgroundColor: "#E17E76", color:"#F2F2F2"}}>
+                <p>
+                  Click here to view your previous records.
+                </p>
+                <Grid columns={1}>
                   <Grid.Column>
                     <p>list</p>
                     <Icon circular name="list icon" onClick={this.onClickedPastMealRecordButton}></Icon>

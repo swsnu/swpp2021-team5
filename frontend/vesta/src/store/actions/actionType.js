@@ -7,6 +7,7 @@ export const DELETE_USER_ACCOUNT = 'DELETE_USER_ACCOUNT';
 export const GET_RECOMMENDED_MENUS = 'GET_RECOMMENDED_MENUS';
 export const GET_RECORD = "GET_RECORD";
 export const GET_RECORDS = 'GET_RECORDS';
+export const ADD_RECORD = 'ADD_RECORD';
 export const TOGGLE_LIKED = 'TOGGLE_LIKED';
 export const LOGIN = 'LOGIN';
 export const GET_REVIEW = 'GET_REVIEW';

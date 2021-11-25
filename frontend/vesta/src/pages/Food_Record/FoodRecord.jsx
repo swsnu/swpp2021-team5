@@ -27,7 +27,12 @@ class FoodRecord extends Component {
   }
 
   onClickedUploadButton = () => {
-    this.props.history.push('/confirm');
+    if (this.state.image != null) {
+      this.props.history.push({
+        pathname: '/confirm',
+        state: this.state.image,
+      });
+    }
   }
 
   render() {
@@ -41,6 +46,7 @@ class FoodRecord extends Component {
             src={this.state.image}
             alt=""
             size="centered large"
+            bordered="true"
           />
           <Divider />
           <Button id="upload-photo-button" onClick={this.onClickedUploadButton}>Upload</Button>
