@@ -13,7 +13,7 @@ from .models import Profile, UserNutrition, Preference, Menu, Record
 import re
 import random
 
-import logmeal as api
+from . import logmeal as api
 import os
 
 # Create your views here.
@@ -32,7 +32,21 @@ def signup(request):
         height = int(req_data['height'])
         weight = int(req_data['weight'])
         target_calories = int(req_data['targetCalories'])
-        new_profile = Profile(user=user, age=age, sex=sex, height=height, weight=weight, target_calories=target_calories)
+
+        api_name = "APIUser_namKim"+username
+        userdict = api.signup(api_name)
+
+        new_profile = Profile(
+            user=user, 
+            age=age, 
+            sex=sex, 
+            height=height, 
+            weight=weight, 
+            target_calories=target_calories,
+            api_name = api_name,
+            api_id = userdict["id"],
+            api_token = userdict["token"]
+        )
         new_profile.save()
 
         return HttpResponse(status=201)
@@ -91,6 +105,7 @@ def resign(request):
     if request.method == 'DELETE':
         print(request.user)
         if request.user.is_authenticated:
+
             user = User.objects.get(id=request.user.id)
             user.delete()
             logout(request)

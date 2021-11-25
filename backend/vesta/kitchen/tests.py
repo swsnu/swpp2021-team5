@@ -355,12 +355,7 @@ class KitchenTestClass(TestCase):
             'sex': False,
             'height': '5',
             'weight': '5',
-<<<<<<< HEAD
-            'preference': ['testmenu'],
-            'targetCalories': '5',
-=======
             'preference': ['chocolate']
->>>>>>> a808667160ccb201d9d6dbd2373a763d28f202be
         }), content_type='application/json')
         self.assertEqual(response.status_code, 401)
 
@@ -374,23 +369,6 @@ class KitchenTestClass(TestCase):
             'sex': False,
             'height': '5',
             'weight': '5',
-<<<<<<< HEAD
-            'preference': ['testmenu'],
-            'targetCalories': '5',
-        }), content_type='application/json')
-        self.assertEqual(response.status_code, 200)
-
-        response = client.put('/api/user/profile/', json.dumps({
-            'username': 'bang',
-            'age': '5',
-            'sex': False,
-            'height': '5',
-            'weight': '5',
-            'preference': ['chicken'],
-            'targetCalories': '5',
-        }), content_type='application/json')
-        self.assertEqual(response.status_code, 404)
-=======
             'preference': ['chocolate']
         }), content_type='application/json')
         self.assertEqual(response.status_code, 200)
@@ -404,7 +382,6 @@ class KitchenTestClass(TestCase):
         #     'preference': ['chicken']
         # }), content_type='application/json')
         # self.assertEqual(response.status_code, 404)
->>>>>>> a808667160ccb201d9d6dbd2373a763d28f202be
     
     def test_nutrition_all(self):
         user = User.objects.create(username='testuser')

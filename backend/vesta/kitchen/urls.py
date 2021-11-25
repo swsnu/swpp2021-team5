@@ -17,13 +17,6 @@ urlpatterns = [
     path('menu/', views.menu, name='menu'),
     path('menu/<str:menuname>/', views.menu_name, name='menuName'),
     path('token/', views.token, name='token'),
-<<<<<<< HEAD
-<<<<<<< HEAD
     path('ml/detection/', views.detection, name='detection'),
-=======
     path('recommend/', views.recommend, name='recommend'),
->>>>>>> 83e1fe3a74ff9be70c1cec7f568748db8c401dad
-=======
-    path('recommend/<str:date>/', views.recommend, name='recommend'),
->>>>>>> a808667160ccb201d9d6dbd2373a763d28f202be
 ]
