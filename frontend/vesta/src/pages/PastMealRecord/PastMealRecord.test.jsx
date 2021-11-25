@@ -52,11 +52,7 @@ describe('<PastMealRecord />', () => {
       </Provider>
     );
   });
-<<<<<<< HEAD:frontend/vesta/src/pages/PastMealRecord/PastMealRecord.test.js
   it('should be rendered properly', () => {
-=======
-  xit('should be rendered properly', () => {
->>>>>>> 83e1fe3a74ff9be70c1cec7f568748db8c401dad:frontend/vesta/src/pages/PastMealRecord/PastMealRecord.test.jsx
     const component = mount(recordDetail);
     const wrapper = component.find('.Records');
     expect(wrapper.length).toBe(1);
