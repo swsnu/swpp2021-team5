@@ -37,6 +37,8 @@ module.exports = {
         }
     ],
     "comma-dangle": "off",
+    "object-curly-newline": "off",
+    "max-len": "off",
   },
   "parser": "babel-eslint"
 };
