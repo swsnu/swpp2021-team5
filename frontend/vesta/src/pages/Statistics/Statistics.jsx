@@ -126,20 +126,6 @@ class Statistics extends Component {
     const selectedWeek = this.state.selectedWeek; // must be today
     selectedWeek.setHours(0,0,0,0);
 
-    /*
-    let selectedComponent;
-    switch (this.state.selected) {
-      case TODAY:
-        selectedComponent = <StatsDaily intake={todayNutritionIntake} recommendedIntake={recommendedIntake} />;
-        break;
-      case WEEKLY:
-        selectedComponent = <StatsWeekly today={today} userNutritions={processedUserNutritions} recommendedIntake={recommendedIntake} />
-        break;
-      case MONTHLY:
-        selectedComponent = <StatsMonthly today={today} userNutritions={processedUserNutritions} recommendedIntake={recommendedIntake}/>
-        break;
-    }
-    */
     const panes=[
        { menuItem: 'Today', render: () => <StatsDaily intake={todayNutritionIntake} recommendedIntake={recommendedIntake} /> },
        { menuItem: 'Weekly', render: () => <StatsWeekly selectedWeek={selectedWeek} userNutritions={processedUserNutritions} recommendedIntake={recommendedIntake} onClickedWeeklyPrevButton={this.onClickedWeeklyPrevButton} onClickedWeeklyNextButton={this.onClickedWeeklyNextButton}/> },
