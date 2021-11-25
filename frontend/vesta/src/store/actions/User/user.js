@@ -66,8 +66,9 @@ export const signUp = (username, password, age, sex, height, weight, targetCalor
   weight: weight,
   targetCalories: targetCalories})
   .then((res) => {
-    dispatch(push('/login'))
-  })
+  /*alert(`Succesfully Registered!\nYour Target Calorie is set to ${targetCalories}Kcal as recommended generally for your body profile.\nYou can customize your target calorie at the setting page after login.\nWelcome!`);*/
+    dispatch(push('/login'));
+  });
 
 export const getUserNutrition_ = (userNutrition) => ({
   type: actionTypes.GET_USER_NUTRITION,
