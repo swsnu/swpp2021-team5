@@ -6,7 +6,7 @@ import Header from './Header';
 import { ConnectedRouter } from 'connected-react-router';
 import { Switch } from 'react-router';
 import { history } from '../../store/store';
-import { getMockStore } from '../../../test-utils/mock';
+import { getMockStore } from '../../test-utils/mock';
 import * as actionCreators from '../../store/actions/User/user';
 
 const userInitialState = {};
