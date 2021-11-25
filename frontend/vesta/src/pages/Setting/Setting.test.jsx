@@ -11,7 +11,6 @@ import { history } from '../../store/store';
 import * as actionCreators from '../../store/actions/User/user';
 
 const userInitialState = {
-  user: null,
   currentUser: {
     userID: 1,
     username: 'testname',
@@ -19,12 +18,12 @@ const userInitialState = {
     sex: true,
     height: 1,
     weight: 1,
+    targetCalories: 1,
     preference: ['banana', 'apple'],
   },
   userNutrition: null,
 };
 const userInitialState_ = {
-  user: null,
   currentUser: {
     userID: 1,
     username: 'testname',
@@ -32,6 +31,7 @@ const userInitialState_ = {
     sex: null,
     height: 1,
     weight: 1,
+    targetCalories: 1,
     preference: ['banana', 'apple'],
   },
   userNutrition: null,

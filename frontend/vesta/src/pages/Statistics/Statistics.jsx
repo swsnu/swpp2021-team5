@@ -38,10 +38,6 @@ border-radius: 20px;
 padding: 3%;
 `;
 
-const TODAY = 'TODAY';
-const WEEKLY = 'WEEKLY';
-const MONTHLY = 'MONTHLY';
-
 class Statistics extends Component {
   constructor(props) {
     super(props);
@@ -58,24 +54,7 @@ class Statistics extends Component {
     })
     */
    this.setState({...this.state, userNutritions: dummyUserNutritions});
-  }
-
-  onClickedTodayButton = () => {
-    const thisState = this.state;
-    if (this.state.selected !== TODAY)
-      this.setState({...thisState, selected: TODAY})
-  }
-
-  onClickedWeeklyButton = () => {
-    const thisState = this.state;
-    if (this.state.selected !== WEEKLY)
-      this.setState({...thisState, selected: WEEKLY})
-  }
-
-  onClickedMonthlyButton = () => {
-    const thisState = this.state;
-    if (this.state.selected !== MONTHLY)
-      this.setState({...thisState, selected: MONTHLY})
+   this.props.onGetUserNutrition(this.props.currUser.userID);
   }
 
   onClickedWeeklyPrevButton = () => {
@@ -91,10 +70,8 @@ class Statistics extends Component {
     newSelected.setDate(newSelected.getDate() + 7);
     this.setState({...thisState, selectedWeek: newSelected});
   }
-  
 
   render() {
-    console.log('Parent rendered');
     let todayNutritionIntake = {
       calories: this.props.currUserNutrition.calories,
       carbs: this.props.currUserNutrition.carbs,
@@ -124,20 +101,6 @@ class Statistics extends Component {
     const selectedWeek = this.state.selectedWeek; // must be today
     selectedWeek.setHours(0,0,0,0);
 
-    /*
-    let selectedComponent;
-    switch (this.state.selected) {
-      case TODAY:
-        selectedComponent = <StatsDaily intake={todayNutritionIntake} recommendedIntake={recommendedIntake} />;
-        break;
-      case WEEKLY:
-        selectedComponent = <StatsWeekly today={today} userNutritions={processedUserNutritions} recommendedIntake={recommendedIntake} />
-        break;
-      case MONTHLY:
-        selectedComponent = <StatsMonthly today={today} userNutritions={processedUserNutritions} recommendedIntake={recommendedIntake}/>
-        break;
-    }
-    */
     const panes=[
        { menuItem: 'Today', render: () => <StatsDaily intake={todayNutritionIntake} recommendedIntake={recommendedIntake} /> },
        { menuItem: 'Weekly', render: () => <StatsWeekly selectedWeek={selectedWeek} userNutritions={processedUserNutritions} recommendedIntake={recommendedIntake} onClickedWeeklyPrevButton={this.onClickedWeeklyPrevButton} onClickedWeeklyNextButton={this.onClickedWeeklyNextButton}/> },
@@ -152,7 +115,7 @@ class Statistics extends Component {
         </div>
 
         <Div className="body">
-          <Tab panes={panes} />
+          <Tab id='chart-tab' panes={panes} />
         </Div>
       </div>
     );

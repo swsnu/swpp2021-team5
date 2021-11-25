@@ -7,7 +7,9 @@ import React from 'react';
 const StatsMonthly = (props) => {
 
   return (
-    <h3>Monthly Chart!</h3>
+    <div className='StatsMonthly'>
+      <h3>Monthly Chart!</h3>
+    </div>
   )
 }
 
