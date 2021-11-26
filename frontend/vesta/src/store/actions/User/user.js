@@ -37,8 +37,8 @@ export const getUserSetting = () => (dispatch) => axios.get('/api/user/profile/'
 
 export const deleteUserAccount = () => (dispatch) => axios.delete('/api/user/resign/')
   .then((res) => {
-    dispatch({ /*logout action */ })
-  })
+    dispatch(logout());
+  });
 
 export const logIn_ = (user) => ({
   type: actionTypes.LOGIN,
@@ -70,13 +70,15 @@ export const getUserNutrition_ = (userNutrition) => ({
   carbs: userNutrition.carbs,
   protein: userNutrition.protein,
   fat: userNutrition.fat,
-})
+});
 
-export const getUserNutrition = (userID) => (dispatch) => {
+export const getUserNutrition = () => (dispatch) => {
+  console.log('herwaekrnakljsdfns\n\n\n\n\n\n\nkajkjalsdfj');
   const today = (new Date()).toISOString().split('T')[0];
   axios.get(`/api/nutrition/${today}/`).then((res) => {
     dispatch(getUserNutrition_(res.data));
-  })
+    console.log('herwaekrnakljsdfns\n\n\n\n\n\n\nkajkjalsdfj');
+  });
 };
 
 export const logout_ = () => ({
