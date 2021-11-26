@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import Meal from './Meal';
 import {
-  RecommendationBody, RecommendationHeader, OtherBreakfastBox, OtherLunchBox, OtherDinnerBox, OtherMealName,
+  RecommendationBody, RecommendationHeader, OtherMealName,
 } from '../../styles/Menu_Recommendation/Meals';
 import '../../styles/Menu_Recommendation/MealList.css';
 import {
@@ -24,10 +24,10 @@ class MealList extends Component {
     };
   }
 
-  onMealDetail = (menuName) => {
+  onMealDetail = (menuName, idx) => {
     menuName = String(menuName).replace(/\s/gi, '-');
     console.log(menuName);
-    this.props.history.push(`/recommendation/${menuName}`);
+    this.props.history.push(`/recommendation/${menuName}/${idx}`);
   }
 
   onClickedOtherBreakfast = () => {
@@ -67,15 +67,15 @@ class MealList extends Component {
   };
 
   render() {
-    // console.log(this.props.recommendedMenus);
     let otherBreakfast = null;
     let otherLunch = null;
     let otherDinner = null;
     if(this.props.recommendedMenus) {
+      console.log(this.props.recommendedMenus);
       otherBreakfast = (
         <div class="container_other_breakfast">
           <div class="item_other_breakfast">
-            <a onClick={() => this.onMealDetail(this.props.recommendedMenus[3].name)}>
+            <a onClick={() => this.onMealDetail(this.props.recommendedMenus[3].name, 3)}>
               <img
                 id="otherBreakfast"
                 src={this.props.recommendedMenus[3].image}
@@ -87,7 +87,7 @@ class MealList extends Component {
             <OtherMealName>{this.props.recommendedMenus[3].name}</OtherMealName>
           </div>
           <div class="item_other_breakfast">
-            <a onClick={() => this.onMealDetail(this.props.recommendedMenus[4].name)}>
+            <a onClick={() => this.onMealDetail(this.props.recommendedMenus[4].name, 4)}>
               <img
                 src={this.props.recommendedMenus[4].image}
                 alt="meal_one"
@@ -98,7 +98,7 @@ class MealList extends Component {
             <OtherMealName>{this.props.recommendedMenus[4].name}</OtherMealName>
           </div>
           <div class="item_other_breakfast">
-            <a onClick={() => this.onMealDetail(this.props.recommendedMenus[5])}>
+            <a onClick={() => this.onMealDetail(this.props.recommendedMenus[5], 5)}>
               <img
                 src={this.props.recommendedMenus[5].image}
                 alt="meal_one"
@@ -109,7 +109,7 @@ class MealList extends Component {
             <OtherMealName>{this.props.recommendedMenus[5].name}</OtherMealName>
           </div>
           <div class="item_other_breakfast">
-            <a onClick={() => this.onMealDetail(this.props.recommendedMenus[6].name)}>
+            <a onClick={() => this.onMealDetail(this.props.recommendedMenus[6].name, 6)}>
               <img
                 src={this.props.recommendedMenus[6].image}
                 alt="meal_one"
@@ -124,7 +124,7 @@ class MealList extends Component {
       otherLunch = (
         <div class="container_other_lunch">
         <div class="item_other_lunch">
-          <a onClick={() => this.onMealDetail(this.props.recommendedMenus[7].name)}>
+          <a onClick={() => this.onMealDetail(this.props.recommendedMenus[7].name, 7)}>
             <img
               src={this.props.recommendedMenus[7].image}
               alt="meal_one"
@@ -135,7 +135,7 @@ class MealList extends Component {
           <OtherMealName>{this.props.recommendedMenus[7].name}</OtherMealName>
           </div>
           <div class="item_other_lunch">
-          <a onClick={() => this.onMealDetail(this.props.recommendedMenus[8].name)}>
+          <a onClick={() => this.onMealDetail(this.props.recommendedMenus[8].name, 8)}>
             <img
               src={this.props.recommendedMenus[8].image}
               alt="meal_one"
@@ -146,7 +146,7 @@ class MealList extends Component {
           <OtherMealName>{this.props.recommendedMenus[8].name}</OtherMealName>
           </div>
           <div class="item_other_lunch">
-          <a onClick={() => this.onMealDetail(this.props.recommendedMenus[9].name)}>
+          <a onClick={() => this.onMealDetail(this.props.recommendedMenus[9].name, 9)}>
             <img
               src={this.props.recommendedMenus[9].image}
               alt="meal_one"
@@ -157,7 +157,7 @@ class MealList extends Component {
           <OtherMealName>{this.props.recommendedMenus[9].name}</OtherMealName>
           </div>
           <div class="item_other_lunch">
-          <a onClick={() => this.onMealDetail(this.props.recommendedMenus[10].name)}>
+          <a onClick={() => this.onMealDetail(this.props.recommendedMenus[10].name, 10)}>
             <img
               src={this.props.recommendedMenus[10].image}
               alt="meal_one"
@@ -172,7 +172,7 @@ class MealList extends Component {
       otherDinner = (
         <div class="container_other_dinner">
           <div class="item_other_dinner">
-          <a onClick={() => this.onMealDetail(this.props.recommendedMenus[11].name)}>
+          <a onClick={() => this.onMealDetail(this.props.recommendedMenus[11].name, 11)}>
             <img
               src={this.props.recommendedMenus[11].image}
               height={160}
@@ -183,7 +183,7 @@ class MealList extends Component {
           <OtherMealName>{this.props.recommendedMenus[11].name}</OtherMealName>
           </div>
           <div class="item_other_dinner">
-          <a onClick={() => this.onMealDetail(this.props.recommendedMenus[12].name)}>
+          <a onClick={() => this.onMealDetail(this.props.recommendedMenus[12].name, 12)}>
             <img
               src={this.props.recommendedMenus[12].image}
               height={160}
@@ -194,7 +194,7 @@ class MealList extends Component {
           <OtherMealName>{this.props.recommendedMenus[12].name}</OtherMealName>
           </div>
           <div class="item_other_dinner">
-          <a onClick={() => this.onMealDetail(this.props.recommendedMenus[13].name)}>
+          <a onClick={() => this.onMealDetail(this.props.recommendedMenus[13].name, 13)}>
             <img
               src={this.props.recommendedMenus[13].image}
               height={160}
@@ -205,7 +205,7 @@ class MealList extends Component {
           <OtherMealName>{this.props.recommendedMenus[13].name}</OtherMealName>
           </div>
           <div class="item_other_dinner">
-          <a onClick={() => this.onMealDetail(this.props.recommendedMenus[14].name)}>
+          <a onClick={() => this.onMealDetail(this.props.recommendedMenus[14].name, 14)}>
             <img
               src={this.props.recommendedMenus[14].image}
               height={160}
@@ -229,7 +229,7 @@ class MealList extends Component {
         <div class="container">
           <div class="item">
             <Breakfast>
-              <a onClick={() => this.onMealDetail(0, 0)}>
+              <a onClick={() => this.onMealDetail(this.props.recommendedMenus[0].name, 0)}>
                 <img
                   id="breakfast"
                   src={this.props.recommendedMenus[0].image}
@@ -246,7 +246,7 @@ class MealList extends Component {
           </div>
           <div class="item">
             <Lunch>
-              <a onClick={() => this.onMealDetail(1, 0)}>
+              <a onClick={() => this.onMealDetail(this.props.recommendedMenus[1].name, 1)}>
                 <img
                   id="lunch"
                   src={this.props.recommendedMenus[1].image}
@@ -263,7 +263,7 @@ class MealList extends Component {
           </div>
           <div class="item">
             <Dinner>
-              <a onClick={() => this.onMealDetail(2, 0)}>
+              <a onClick={() => this.onMealDetail(this.props.recommendedMenus[2].name, 2)}>
                 <img
                   id="dinner"
                   src={this.props.recommendedMenus[2].image}

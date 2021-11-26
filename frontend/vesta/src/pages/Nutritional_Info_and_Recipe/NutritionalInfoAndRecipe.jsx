@@ -10,9 +10,6 @@ import Background from '../../styles/Nutritional_Info_and_Recipe/Background';
 import Recipe from '../../component/Recipe/Recipe';
 
 class NutritionalInfoAndRecipe extends Component {
-  // componentDidMount() {
-  //   this.props.onUpdateSelectedMenu(parseInt(this.props.match.params.when, 10), parseInt(this.props.match.params.idx, 10));
-  // }
 
   render() {
     let menuName = '';
@@ -20,17 +17,17 @@ class NutritionalInfoAndRecipe extends Component {
     let carbs = 0;
     let protein = 0;
     let fat = 0;
-    let recipe = '/DummyImages/';
-    if (this.props.selectedMenu) {
-      menuName = this.props.selectedMenu.name;
-      calories = this.props.selectedMenu.calories;
-      carbs = this.props.selectedMenu.carbs;
-      protein = this.props.selectedMenu.protein;
-      fat = this.props.selectedMenu.fat;
-      recipe = this.props.selectedMenu.recipe;
+    let recipe = '';
+    let image = '';
+    if (this.props.recommendedMenus) {
+      menuName = this.props.recommendedMenus[parseInt(this.props.match.params.idx)].name;
+      calories = this.props.recommendedMenus[parseInt(this.props.match.params.idx)].calories;
+      carbs = this.props.recommendedMenus[parseInt(this.props.match.params.idx)].carbs;
+      protein = this.props.recommendedMenus[parseInt(this.props.match.params.idx)].protein;
+      fat = this.props.recommendedMenus[parseInt(this.props.match.params.idx)].fat;
+      recipe = this.props.recommendedMenus[parseInt(this.props.match.params.idx)].recipe;
+      image = this.props.recommendedMenus[parseInt(this.props.match.params.idx)].image;
     }
-    // console.log(this.props.selectedMenu);
-    let url = '/DummyImages/breakfast1_.jpeg';
     // if (parseInt(this.props.match.params.when, 10)==0){
     //   url += 'breakfast' + (parseInt(this.props.match.params.idx, 10)+1) + '_.jpeg';
     // } else if (parseInt(this.props.match.params.when, 10)==1){
@@ -49,7 +46,7 @@ class NutritionalInfoAndRecipe extends Component {
             carbs={carbs}
             protein={protein}
             fat={fat}
-            src={url}
+            src={image}
           />
           <Recipe
             recipe={recipe}
@@ -64,7 +61,7 @@ class NutritionalInfoAndRecipe extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  selectedMenu: state.menu.selectedMenu,
+  recommendedMenus: state.menu.recommendedMenus,
 });
 
 const mapDispatchToProps = (dispatch) => ({
