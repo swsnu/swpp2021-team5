@@ -67,17 +67,17 @@ describe('Statistics', () => {
 
   it('should render all tabs well', () => {
     const component = mount(statistics);
-    const wrapper_week = component.find('.item').at(1);
+    const wrapper_week = component.find('a').at(1);
     wrapper_week.simulate('click');
     expect(wrapper_week.length).toBe(1);
-    const wrapper_month = component.find('.item').at(2);
+    const wrapper_month = component.find('a').at(2);
     wrapper_month.simulate('click');
     expect(wrapper_month.length).toBe(1);
   });
 
-  xit('should handler on button click', () => {
+  it('should handler on button click', () => {
     const component = mount(statistics);
-    const wrapper_week = component.find('.item').at(1);
+    const wrapper_week = component.find('a').at(1);
     wrapper_week.simulate('click');
     const prevButton = component.find('button#weekly-prev-button');
     prevButton.simulate('click');
