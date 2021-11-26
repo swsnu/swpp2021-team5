@@ -1,3 +1,4 @@
+/* eslint-disable */
 export const recommendedCalorie = (age, sex, height, weight) => {
   if (sex === true) {
     return 66.47 + 13.75 * weight + 5 * height - 6.76 * age;
@@ -7,15 +8,8 @@ export const recommendedCalorie = (age, sex, height, weight) => {
   }
   return undefined; // value of sex is invalid
 };
+export const recommendedCarbs = (recommendedCalorie) => ((recommendedCalorie * 0.5) / 4); // carbs: 4 kcal per 1g
 
-export const recommendedCarbs = (recommendedCalorie) => {
-  return ((recommendedCalorie*0.5) / 4)  // carbs: 4 kcal per 1g
-};
+export const recommendedProtein = (recommendedCalorie) => ((recommendedCalorie * 0.3) / 4); // protein: 4 kcal per 1g
 
-export const recommendedProtein = (recommendedCalorie) => {
-  return ((recommendedCalorie*0.3) / 4)  // protein: 4 kcal per 1g
-};
-
-export const recommendedFat = (recommendedCalorie) => {
-  return ((recommendedCalorie*0.2) / 9)  // fat: 9 kcal per 1g
-};
+export const recommendedFat = (recommendedCalorie) => ((recommendedCalorie * 0.2) / 9);

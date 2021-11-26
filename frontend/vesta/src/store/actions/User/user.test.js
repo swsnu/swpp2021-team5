@@ -11,14 +11,14 @@ const stubUser = {
   weight: 1,
   preference: ['test'],
   targetCalories: 1,
-}
+};
 
 const stubUserNutrition = {
   calories: 1,
   carbs: 1,
   protein: 1,
   fat: 1,
-}
+};
 
 describe('User actions', () => {
   afterEach(() => {
@@ -39,7 +39,7 @@ describe('User actions', () => {
         expect(newState.user.currentUser).toEqual(stubUserNutrition);
         expect(axios.get).toHaveBeenCalledTimes(1);
         done();
-    })
+      });
   });
 
   it('should save user setting correctly', (done) => {
@@ -52,7 +52,7 @@ describe('User actions', () => {
     store.dispatch(actionCreators.saveUserSetting(stubUser))
       .then(() => {
         const newState = store.getState();
-        expect(newState.user.currentUser).toEqual(stubUser)
+        expect(newState.user.currentUser).toEqual(stubUser);
         expect(axios.put).toHaveBeenCalledTimes(1);
         done();
       });
@@ -62,45 +62,45 @@ describe('User actions', () => {
     axios.get = jest.fn((url) => new Promise((resolve, reject) => {
       const result = {
         status: 200, data: stubUser,
-      }
+      };
       resolve(result);
     }));
     store.dispatch(actionCreators.getUserSetting())
       .then(() => {
         const newState = store.getState();
-        expect(newState.user.currentUser).toEqual(stubUser)
+        expect(newState.user.currentUser).toEqual(stubUser);
         expect(axios.get).toHaveBeenCalledTimes(1);
         done();
-    })
-  })
+      });
+  });
 
   it('should delete user account correctly', (done) => {
     axios.delete = jest.fn((url) => new Promise((resolve, reject) => {
       const result = {
         status: 200, data: stubUser,
-      }
+      };
       resolve(result);
     }));
     axios.get = jest.fn((url) => new Promise((resolve, reject) => {
       const result = {
         status: 200, data: stubUser,
-      }
+      };
       resolve(result);
     }));
     store.dispatch(actionCreators.deleteUserAccount())
       .then(() => {
         const newState = store.getState();
-        expect(newState.user.currentUser).toEqual(null)
+        expect(newState.user.currentUser).toEqual(null);
         expect(axios.delete).toHaveBeenCalledTimes(1);
         done();
-    })
+      });
   });
 
   it('should register new account correctly', (done) => {
     axios.post = jest.fn((url) => new Promise((resolve, reject) => {
       const result = {
         status: 200, data: stubUser,
-      }
+      };
       resolve(result);
     }));
     store.dispatch(actionCreators.signUp())
@@ -108,6 +108,6 @@ describe('User actions', () => {
         const newState = store.getState();
         expect(axios.post).toHaveBeenCalledTimes(1);
         done();
-    })
+      });
   });
-})
+});
