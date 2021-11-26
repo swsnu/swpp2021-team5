@@ -37,7 +37,7 @@ describe('User actions', () => {
       .then(() => {
         const newState = store.getState();
         expect(newState.user.userNutrition).toEqual(stubUserNutrition);
-        expect(axios.get).toHaveBeenCalledTimes(1);
+        expect(spy).toHaveBeenCalledTimes(1);
         done();
       });
   });
@@ -105,7 +105,6 @@ describe('User actions', () => {
     }));
     store.dispatch(actionCreators.signUp())
       .then(() => {
-        const newState = store.getState();
         expect(axios.post).toHaveBeenCalledTimes(1);
         done();
       });
