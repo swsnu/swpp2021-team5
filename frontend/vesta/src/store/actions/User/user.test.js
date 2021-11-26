@@ -25,7 +25,7 @@ describe('User actions', () => {
     jest.clearAllMocks();
   });
 
-  xit('should get userNutrition correctly', (done) => {
+  it('should get userNutrition correctly', (done) => {
     const spy = jest.spyOn(axios, 'get').mockImplementation(() => new Promise((resolve) => {
       const result = {
         status: 200,
@@ -36,7 +36,7 @@ describe('User actions', () => {
     store.dispatch(actionCreators.getUserNutrition())
       .then(() => {
         const newState = store.getState();
-        expect(newState.user.currentUser).toEqual(stubUserNutrition);
+        expect(newState.user.userNutrition).toEqual(stubUserNutrition);
         expect(axios.get).toHaveBeenCalledTimes(1);
         done();
       });
@@ -106,6 +106,22 @@ describe('User actions', () => {
     store.dispatch(actionCreators.signUp())
       .then(() => {
         const newState = store.getState();
+        expect(axios.post).toHaveBeenCalledTimes(1);
+        done();
+      });
+  });
+
+  it('should login correctly', (done) => {
+    axios.post = jest.fn((url) => new Promise((resolve, reject) => {
+      const result = {
+        status: 200, data: stubUser,
+      };
+      resolve(result);
+    }));
+    store.dispatch(actionCreators.logIn())
+      .then(() => {
+        const newState = store.getState();
+        expect(newState.user.currentUser).toEqual(stubUser);
         expect(axios.post).toHaveBeenCalledTimes(1);
         done();
       });

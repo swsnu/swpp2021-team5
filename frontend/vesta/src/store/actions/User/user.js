@@ -72,14 +72,11 @@ export const getUserNutrition_ = (userNutrition) => ({
   fat: userNutrition.fat,
 });
 
-export const getUserNutrition = () => (dispatch) => {
-  console.log('herwaekrnakljsdfns\n\n\n\n\n\n\nkajkjalsdfj');
-  const today = (new Date()).toISOString().split('T')[0];
-  axios.get(`/api/nutrition/${today}/`).then((res) => {
+export const getUserNutrition = (date) => (dispatch) => axios.get(`/api/nutrition/${date}/`)
+  .then((res) => {
     dispatch(getUserNutrition_(res.data));
-    console.log('herwaekrnakljsdfns\n\n\n\n\n\n\nkajkjalsdfj');
   });
-};
+
 
 export const logout_ = () => ({
   type: actionTypes.LOGOUT,
