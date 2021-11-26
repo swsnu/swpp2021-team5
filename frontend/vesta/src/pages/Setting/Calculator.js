@@ -10,14 +10,8 @@ export const recommendedCalorie = (age, sex, height, weight) => {
 };
 export const recommendedCarbs = (recommendedCalorie) => ((recommendedCalorie * 0.5) / 4); // carbs: 4 kcal per 1g
 
-<<<<<<< HEAD
 export const recommendedCarbs = (recommendedCalorie_) => ((recommendedCalorie_ * 0.5) / 4); // carbs: 4 kcal per 1g
 
 export const recommendedProtein = (recommendedCalorie_) => ((recommendedCalorie_ * 0.3) / 4); // protein: 4 kcal per 1g
 
 export const recommendedFat = (recommendedCalorie_) => ((recommendedCalorie_ * 0.2) / 9);
-=======
-export const recommendedProtein = (recommendedCalorie) => ((recommendedCalorie * 0.3) / 4); // protein: 4 kcal per 1g
-
-export const recommendedFat = (recommendedCalorie) => ((recommendedCalorie * 0.2) / 9);
->>>>>>> develop
