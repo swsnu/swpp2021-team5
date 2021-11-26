@@ -8,7 +8,6 @@ export const recommendedCalorie = (age, sex, height, weight) => {
   }
   return undefined; // value of sex is invalid
 };
-export const recommendedCarbs = (recommendedCalorie) => ((recommendedCalorie * 0.5) / 4); // carbs: 4 kcal per 1g
 
 export const recommendedCarbs = (recommendedCalorie_) => ((recommendedCalorie_ * 0.5) / 4); // carbs: 4 kcal per 1g
 
