@@ -253,8 +253,6 @@ describe('Signup', () => {
   })
 
   it('should set state.sex stay on clicked', () => {
-    const spyOnRegister = jest.spyOn(actionCreators, 'signUp')
-      .mockImplementation(() => dispatch => {});
     const component = mount(signup);
     const maleButtonWrapper = component.find('button#male-button');
 
@@ -264,8 +262,6 @@ describe('Signup', () => {
   })
 
   it('should alter state.sex on clicked', () => {
-    const spyOnRegister = jest.spyOn(actionCreators, 'signUp')
-      .mockImplementation(() => dispatch => {});
     const component = mount(signup);
     const femaleButtonWrapper = component.find('button#female-button');
 
@@ -275,8 +271,6 @@ describe('Signup', () => {
   })
 
   it('should alter state.sex on clicked again', () => {
-    const spyOnRegister = jest.spyOn(actionCreators, 'signUp')
-      .mockImplementation(() => dispatch => {});
     const component = mount(signup);
     const maleButtonWrapper = component.find('button#male-button');
     const femaleButtonWrapper = component.find('button#female-button');
