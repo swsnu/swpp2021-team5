@@ -75,11 +75,10 @@ describe('Statistics', () => {
     expect(wrapper_month.length).toBe(1);
   });
 
-  it('should handler on button click', () => {
+  xit('should handler on button click', () => {
     const component = mount(statistics);
     const wrapper_week = component.find('.item').at(1);
     wrapper_week.simulate('click');
-    console.log(component.debug());
     const prevButton = component.find('button#weekly-prev-button');
     prevButton.simulate('click');
     expect(prevButton.length).toBe(1);
