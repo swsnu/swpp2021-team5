@@ -44,16 +44,16 @@ export const sexToggleButtons = (isMale, clickedMaleHandler, clickedFemaleHandle
   if (isMale) {
     return (
       <Button.Group >
-        <Button primary onClick={() => clickedMaleHandler()}>Male</Button>
-        <Button onClick={() => clickedFemaleHandler()}>Female</Button>
+        <Button id='male-button' primary onClick={() => clickedMaleHandler()}>Male</Button>
+        <Button id='female-button' onClick={() => clickedFemaleHandler()}>Female</Button>
       </Button.Group>
     )
   }
   else {
     return (
       <Button.Group>
-        <Button onClick={() => clickedMaleHandler()}>Male</Button>
-        <Button primary onClick={() => clickedFemaleHandler()}>Female</Button>
+        <Button id='male-button' onClick={() => clickedMaleHandler()}>Male</Button>
+        <Button id='female-button' primary onClick={() => clickedFemaleHandler()}>Female</Button>
       </Button.Group>
     )
   }
