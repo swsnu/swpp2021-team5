@@ -13,12 +13,19 @@ export const getRecommendedMenus_ = (menu) => ({
   type: actionTypes.GET_RECOMMENDED_MENUS,
   recommendedMenus: menu,
 });
-// TODO
-export const getRecommendedMenus = (date) => (dispatch) => axios.get(`/api/recommend/${date}`)
+
+export const getRecommendedMenus = (date) => (dispatch) => axios.get(`/api/recommend/${date}/`)
   .then((res) => dispatch(getRecommendedMenus_(res.data)));
 
-export const updateSelectedMenu_ = (when, idx) => ({
-  type: actionTypes.UPDATE_SELECTED_MENU,
-  when,
-  idx,
+export const getCountAll_ = (res) => ({
+  type: actionTypes.GET_COUNT_ALL,
+  countAll: res.data,
+});
+
+export const getCountAll = (date) => (dispatch) => axios.get(`/api/nutrition/${date}/count/`)
+  .then((res) => dispatch(getCountAll_(res)));
+
+export const changeCount_ = (count) => ({
+  type: actionTypes.CHANGE_COUNT,
+  cnt: count,
 });

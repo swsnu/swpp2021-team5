@@ -15,3 +15,5 @@ export const DELETE_REVIEW = 'DELETE_REVIEW';
 export const CREATE_REVIEW = 'CREATE_REVIEW';
 export const UPDATE_SELECTED_MENU = 'UPDATE_SELECTED_MENU';
 export const LOGOUT = 'LOGOUT';
+export const GET_COUNT_ALL = 'GET_COUNT_ALL';
+export const CHANGE_COUNT = 'CHANGE_COUNT';

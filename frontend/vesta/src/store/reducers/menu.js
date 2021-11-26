@@ -5,6 +5,8 @@ const initialState = {
   selectedMenu: null,
   allMenus: null,
   recommendedMenus: null,
+  count: 0,
+  countAll: 0,
 };
 const menuReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -12,10 +14,10 @@ const menuReducer = (state = initialState, action) => {
       return { ...state, selectedMenu: action.selectedMenu };
     case actionTypes.GET_RECOMMENDED_MENUS:
       return { ...state, recommendedMenus: action.recommendedMenus };
-    case actionTypes.UPDATE_SELECTED_MENU: {
-      const selected = state.recommendedMenus[action.when][action.idx];
-      return { ...state, selectedMenu: selected };
-    }
+    case actionTypes.GET_COUNT_ALL:
+      return { ...state, numCountAll: action.countAll };
+    case actionTypes.CHANGE_COUNT:
+      return { ...state, count: action.count };
     default:
       break;
   }

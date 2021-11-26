@@ -231,6 +231,30 @@ def nutrition(request, date):
         return HttpResponseNotAllowed(['GET', 'POST', 'PUT'])
 
 
+def nutrition_count(request, date):   ## used for recommendation page
+    if not request.user.is_authenticated:
+        HttpResponse(status=401)
+    if request.method == 'GET':
+        req_data = json.loads(request.body.decode())
+        date_list = date.split('-')
+        today = datetime.date(int(date_list[0]), int(
+            date_list[1]), int(date_list[2]))
+        try:
+            today_nutrition = UserNutrition.objects.get(
+                user_id=request.user.id, date=today)
+        except UserNutrition.DoesNotExist:
+            response_dict = {
+                'count_all': 0
+            }
+            return JsonResponse(response_dict, status=200)
+        response_dict = {
+            'count_all': today_nutrition.count_all
+        }
+        return JsonResponse(response_dict, status=200)
+    else:
+        return HttpResponseNotAllowed(['GET'])
+
+
 def record(request):
     if request.method == "GET":
         ## If user is not signed in, respond with 401
