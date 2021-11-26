@@ -4,12 +4,6 @@ import { push } from 'connected-react-router';
 
 import * as actionTypes from '../actionType';
 
-/*                <<Backend API>>                  */
-/*            URL:  /api/user/profile/   */
-/*            json body: like below                */
-/*                                                 */
-/*                                                 */
-
 export const saveUserSetting_ = (user) => ({
   type: actionTypes.SAVE_USER_SETTING,
   userID: user.userID,
@@ -43,8 +37,8 @@ export const getUserSetting = () => (dispatch) => axios.get('/api/user/profile/'
 
 export const deleteUserAccount = () => (dispatch) => axios.delete('/api/user/resign/')
   .then((res) => {
-    dispatch({ /*logout action */ })
-  })
+    dispatch(logout());
+  });
 
 export const logIn_ = (user) => ({
   type: actionTypes.LOGIN,
@@ -76,14 +70,13 @@ export const getUserNutrition_ = (userNutrition) => ({
   carbs: userNutrition.carbs,
   protein: userNutrition.protein,
   fat: userNutrition.fat,
-})
+});
 
-export const getUserNutrition = (userID) => (dispatch) => {
-  const today = (new Date()).toISOString().split('T')[0];
-  axios.get(`/api/nutrition/${today}/`).then((res) => {
+export const getUserNutrition = (date) => (dispatch) => axios.get(`/api/nutrition/${date}/`)
+  .then((res) => {
     dispatch(getUserNutrition_(res.data));
-  })
-};
+  });
+
 
 export const logout_ = () => ({
   type: actionTypes.LOGOUT,
