@@ -14,8 +14,6 @@ const menuReducer = (state = initialState, action) => {
       return { ...state, recommendedMenus: action.recommendedMenus };
     case actionTypes.UPDATE_SELECTED_MENU: {
       const selected = state.recommendedMenus[action.when][action.idx];
-      // eslint-disable-next-line
-      console.log(selected);
       return { ...state, selectedMenu: selected };
     }
     default:

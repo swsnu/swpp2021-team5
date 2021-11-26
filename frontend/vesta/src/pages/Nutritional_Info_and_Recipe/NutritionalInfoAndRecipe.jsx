@@ -28,15 +28,6 @@ class NutritionalInfoAndRecipe extends Component {
       recipe = this.props.recommendedMenus[parseInt(this.props.match.params.idx)].recipe;
       image = this.props.recommendedMenus[parseInt(this.props.match.params.idx)].image;
     }
-    // if (parseInt(this.props.match.params.when, 10)==0){
-    //   url += 'breakfast' + (parseInt(this.props.match.params.idx, 10)+1) + '_.jpeg';
-    // } else if (parseInt(this.props.match.params.when, 10)==1){
-    //   url += 'lunch' + (parseInt(this.props.match.params.idx, 10)+1) + '_.jpeg';
-    // } else {
-    //   if (parseInt(this.props.match.params.idx, 10)+1 != 3) url += 'dinner' + (parseInt(this.props.match.params.idx, 10)+1) +'_.jpeg';
-    //   else url += 'dinner'+(parseInt(this.props.match.params.idx, 10)+1) +'_.jpg';
-    // }
-    // console.log(url);
     return (
       <div className="NutritionalInfoAndRecipe">
         <Background>

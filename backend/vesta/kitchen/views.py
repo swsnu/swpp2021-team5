@@ -492,10 +492,10 @@ def recommend(request, date):
     allowed_carbs = (target_carbs - float(today_nutrition.carbs)) / times
     allowed_protein = (target_protein - float(today_nutrition.protein)) / times
     allowed_fat = (target_fat - float(today_nutrition.fat)) / times
-    min_cal = allowed_cal*0.5
-    min_carbs = allowed_carbs*0.5
-    min_protein = allowed_protein*0.5
-    min_fat = allowed_fat*0.5
+    min_cal = allowed_cal-150
+    min_carbs = allowed_carbs-50
+    min_protein = allowed_protein-30
+    min_fat = allowed_fat-20
     # get all menus
     menus = Menu.objects.all()
     candidates = []
@@ -505,8 +505,8 @@ def recommend(request, date):
     print('fat:', allowed_fat, ', ', min_fat)
     # choose all candidates
     for m in menus:
-        if m.calories < allowed_cal and m.carbs < allowed_carbs: #and m.protein < allowed_protein and m.fat < allowed_fat:
-        # if m.calories > min_cal and m.calories < allowed_cal*1.5 and m.carbs > min_carbs and m.carbs < allowed_carbs*1.5 and m.protein > min_protein and m.protein < allowed_protein*1.5: #and m.fat > min_fat and m.fat < allowed_fat*1.5:
+        if m.calories < allowed_cal and m.carbs < allowed_carbs and m.protein < allowed_protein and m.fat < allowed_fat:
+        # if m.calories > min_cal and m.calories < allowed_cal and m.carbs > min_carbs and m.carbs < allowed_carbs and m.protein > min_protein and m.protein < allowed_protein and m.fat > min_fat and m.fat < allowed_fat:
             # check ingredients
             preference = Preference.objects.filter(user_id=request.user.id) # list
             ingredient = re.findall("'(.*?)'", m.ingredient)  # list
