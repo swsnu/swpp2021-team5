@@ -10,9 +10,9 @@ import Background from '../../styles/Nutritional_Info_and_Recipe/Background';
 import Recipe from '../../component/Recipe/Recipe';
 
 class NutritionalInfoAndRecipe extends Component {
-  componentDidMount() {
-    this.props.onUpdateSelectedMenu(parseInt(this.props.match.params.when, 10), parseInt(this.props.match.params.idx, 10));
-  }
+  // componentDidMount() {
+  //   this.props.onUpdateSelectedMenu(parseInt(this.props.match.params.when, 10), parseInt(this.props.match.params.idx, 10));
+  // }
 
   render() {
     let menuName = '';
@@ -68,7 +68,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onUpdateSelectedMenu: (when, idx) => dispatch(actionCreators.updateSelectedMenu_(when, idx)),
+  // onUpdateSelectedMenu: (when, idx) => dispatch(actionCreators.updateSelectedMenu_(when, idx)),
   // onGetMenu: (menuName) => dispatch(actionCreators.getMenu(menuName)),
 });
 

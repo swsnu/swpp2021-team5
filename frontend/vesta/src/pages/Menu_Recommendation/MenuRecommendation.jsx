@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
-// import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-// import { Button } from 'semantic-ui-react';
 import MealList from '../../component/Meal/MealList';
 import Background from '../../styles/Nutritional_Info_and_Recipe/Background';
 import * as actionCreators from '../../store/actions/index';
 
 class MenuRecommendation extends Component {
   componentDidMount() {
+    console.log('here');
     const date = new Date();
     const year = date.getFullYear();
     const month = date.getMonth();
@@ -17,7 +16,7 @@ class MenuRecommendation extends Component {
   }
 
   render() {
-    // console.log(this.props.recommendedMenus);
+    console.log('HERRE');
     return (
       <div className="MenuRecommendation">
         <MealList
