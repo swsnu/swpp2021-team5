@@ -11,6 +11,7 @@ import styled from 'styled-components';
 import * as actionCreators from '../../store/actions/index';
 import { sexToggleButtons } from '../Setting/Setting';
 import { recommendedCalorie } from '../Setting/Calculator';
+import axios from 'axios';
 
 const SignupHeader = styled.div`
 font-family:'verveine';
@@ -53,6 +54,17 @@ class Signup extends Component {
   onChangedUsername = (e) => {
     const thisState = this.state;
     this.setState({ ...thisState, username: e.target.value });
+  }
+
+  onClickedCheckAvailabilityButton = () => {
+    axios.get('/api/user/signup/availability/')
+      .then((res) => {
+        if(response === 1) {
+          alert('This Username is available');
+        } else if(response === 0) {
+          alert('This Username is Not available.\n Please choose another one');
+        }
+      });
   }
 
   onChangedPassword = (e) => {
@@ -159,6 +171,7 @@ class Signup extends Component {
                 placeholder='Username'
                 onChange={(e) => this.onChangedUsername(e)}
               />
+              <Button id='availability-button' onClick={() => this.onClickedCheckAvailabilityButton()}>Check Availability</Button>
             </Form.Field>
             <Form.Field>
               <label>Password</label>
