@@ -12,6 +12,8 @@ import * as actionCreators from '../../store/actions/index';
 import * as Calculator from './Calculator';
 import RecommendedIntake from '../../component/Setting/RecommendedIntake';
 
+import { isNumeric } from '../Signup/Signup';
+
 const SettingHeader = styled.div`
 font-family:'verveine';
 font-size:65px;
@@ -27,18 +29,6 @@ align-items:center;
 vertical-align: middle;
 margin: 0 auto;
 `;
-
-const TableDiv = styled.div`
-margin: 0 auto;
-align-items:center;
-vertical-align: middle;
-`;
-
-const isNumeric = (str) => {
-  if (typeof str != "string") return false // we only process strings!  
-  return !isNaN(str) && // use type coercion to parse the _entirety_ of the string (`parseFloat` alone does not do this)...
-         !isNaN(parseFloat(str)) // ...and ensure strings of whitespace fail
-}
 
 export const sexToggleButtons = (isMale, clickedMaleHandler, clickedFemaleHandler) => {
   if (isMale) {
@@ -63,8 +53,9 @@ const preferenceButtonList = (preference, isOpen, clickedMenuHandler, open, clos
   const list = preference.map((menu) => {
     return (
       <div>
-        <Button Mini style={{backgroundColor: '#CCEECC', margin: '2px', height: '26px', padding: '4%', fontSize: '13px'}} onClick={() => open()}>{`${menu} X`}</Button>
+        <Button id='ingredient-button' Mini style={{backgroundColor: '#CCEECC', margin: '2px', height: '26px', padding: '4%', fontSize: '13px'}} onClick={() => open()}>{`${menu} X`}</Button>
         <Confirm
+          id='confirm-button'
           open={isOpen}
           onCancel={() => close()}
           onConfirm={() => clickedMenuHandler(menu)}
@@ -92,17 +83,13 @@ class Setting extends Component {
   }
  
   componentDidMount() {
-    this.setState({...this.props.currUser, confirmOpen: false})
+    this.props.onGetUserSetting();
+    this.setState({...this.props.currUser, confirmOpen: false});
   }
 
   onChangedUserAgeInput = (e) => {
     const thisState = this.state;
     this.setState({ ...thisState, age: e.target.value });
-  }
-
-  onChangedUserSexInput = (e) => {
-    const thisState = this.state;
-    this.setState({ ...thisState, sex: e.target.value });
   }
 
   onClickedUserSexMaleButton = (e) => {
@@ -177,7 +164,7 @@ class Setting extends Component {
       return;
     }
 
-    if (parseInt(this.state.age) < 5 && this.state.age !== '') {
+    if (parseInt(this.state.age) < 5) {
       alert('The lowest age that can use our service normally is Five')
       return;
     }
@@ -298,7 +285,7 @@ class Setting extends Component {
               <Table.Footer>
                 <Table.Row>
                   <Table.HeaderCell colSpan="3">
-                    <Button primary floated="right"
+                    <Button id='save-button' primary floated="right"
                      onClick={() => this.onClickedSaveButton()}>Save
                     </Button>
                   </Table.HeaderCell>
@@ -343,7 +330,7 @@ const mapDispatchToProps = (dispatch) => ({
   ) => dispatch(actionCreators.saveUserSetting({
     username, age, sex, height, weight, preference, targetCalories
   })),
-  onGetUserSetting: (userID) => dispatch(actionCreators.getUserSetting(userID)),
+  onGetUserSetting: () => dispatch(actionCreators.getUserSetting()),
   onDeleteUserAccount: (userID) => dispatch(actionCreators.deleteUserAccount(userID)),
 });
 
