@@ -1,4 +1,4 @@
-export { 
+export {
   saveUserSetting, getUserSetting, deleteUserAccount, signUp, getUserNutrition,
 } from './User/user';
 export {

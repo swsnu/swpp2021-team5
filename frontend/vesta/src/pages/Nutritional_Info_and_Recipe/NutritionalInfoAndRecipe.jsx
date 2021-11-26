@@ -21,7 +21,6 @@ class NutritionalInfoAndRecipe extends Component {
     let image = '';
     console.log(parseInt(this.props.match.params.idx));
     if (this.props.recommendedMenus) {
-      console.log(parseInt(this.props.match.params.idx));
       menuName = this.props.recommendedMenus[parseInt(this.props.match.params.idx)].name;
       calories = this.props.recommendedMenus[parseInt(this.props.match.params.idx)].calories;
       carbs = this.props.recommendedMenus[parseInt(this.props.match.params.idx)].carbs;
