@@ -7,6 +7,7 @@ urlpatterns = [
     path('user/signout/', views.signout, name='signout'),
     path('user/resign/', views.resign, name='resign'),
     path('user/profile/', views.profile, name='profile'),
+    path('nutrition/', views.nutrition_all, name='nutrition_all'),
     path('nutrition/<str:date>/', views.nutrition, name='nutrition'),
     path('nutrition/<str:date>/count/', views.nutrition_count, name='nutrition_count'),
     path('record/', views.record, name='record'),

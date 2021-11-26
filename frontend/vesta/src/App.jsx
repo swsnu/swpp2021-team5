@@ -16,6 +16,7 @@ import Main from './pages/Main/Main';
 
 import Setting from './pages/Setting/Setting';
 import Statistics from './pages/Statistics/Statistics';
+import Signup from './pages/Signup/Signup';
 
 function App(props) {
   const { history } = props;
@@ -28,6 +29,11 @@ function App(props) {
             path="/login"
             exact
             render={() => <Login />}
+          />
+          <Route
+            path="/signup"
+            exact
+            render={() => <Signup />}
           />
           <Route
             path="/recommendation"

@@ -1,4 +1,6 @@
-export { saveUserSetting, getUserSetting, deleteUserAccount } from './User/user';
+export { 
+  saveUserSetting, getUserSetting, deleteUserAccount, signUp, getUserNutrition,
+} from './User/user';
 export {
   getMenu, getRecommendedMenus, getCountAll,
 } from './Menu/menu';
