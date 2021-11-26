@@ -4,12 +4,6 @@ import { push } from 'connected-react-router';
 
 import * as actionTypes from '../actionType';
 
-/*                <<Backend API>>                  */
-/*            URL:  /api/user/profile/   */
-/*            json body: like below                */
-/*                                                 */
-/*                                                 */
-
 export const saveUserSetting_ = (user) => ({
   type: actionTypes.SAVE_USER_SETTING,
   userID: user.userID,
