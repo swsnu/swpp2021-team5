@@ -116,7 +116,7 @@ class Statistics extends Component {
         </div>
 
         <Div className="body">
-          <Tab id='chart-tab' panes={panes} />
+          <Tab id='chart-tab' menu={{ widths: panes.length}} panes={panes} />
         </Div>
       </div>
     );
