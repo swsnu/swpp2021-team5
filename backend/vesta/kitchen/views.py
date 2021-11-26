@@ -505,8 +505,8 @@ def recommend(request, date):
     print('fat:', allowed_fat, ', ', min_fat)
     # choose all candidates
     for m in menus:
-        #if m.calories < allowed_cal and m.carbs < allowed_carbs: #and m.protein < allowed_protein and m.fat < allowed_fat:
-        if m.calories > min_cal and m.calories < allowed_cal*1.5 and m.carbs > min_carbs and m.carbs < allowed_carbs*1.5 and m.protein > min_protein and m.protein < allowed_protein*1.5: #and m.fat > min_fat and m.fat < allowed_fat*1.5:
+        if m.calories < allowed_cal and m.carbs < allowed_carbs: #and m.protein < allowed_protein and m.fat < allowed_fat:
+        # if m.calories > min_cal and m.calories < allowed_cal*1.5 and m.carbs > min_carbs and m.carbs < allowed_carbs*1.5 and m.protein > min_protein and m.protein < allowed_protein*1.5: #and m.fat > min_fat and m.fat < allowed_fat*1.5:
             # check ingredients
             preference = Preference.objects.filter(user_id=request.user.id) # list
             ingredient = re.findall("'(.*?)'", m.ingredient)  # list
