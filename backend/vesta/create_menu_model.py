@@ -37,7 +37,7 @@ if __name__ == "__main__":
             idx += 1
             if idx == 1:
                 continue
-            elif idx == 1001:
+            elif idx == 3316:
                 break
             else:
                 name = re.sub(' +', ' ', row[0])

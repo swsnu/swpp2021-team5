@@ -14,7 +14,7 @@ export const getRecommendedMenus_ = (menu) => ({
   recommendedMenus: menu,
 });
 // TODO
-export const getRecommendedMenus = () => (dispatch) => axios.get('/api/menu/')
+export const getRecommendedMenus = (date) => (dispatch) => axios.get(`/api/recommend/${date}`)
   .then((res) => dispatch(getRecommendedMenus_(res.data)));
 
 export const updateSelectedMenu_ = (when, idx) => ({

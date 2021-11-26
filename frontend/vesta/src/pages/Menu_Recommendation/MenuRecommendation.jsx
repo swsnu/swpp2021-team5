@@ -6,28 +6,23 @@ import { withRouter } from 'react-router';
 import MealList from '../../component/Meal/MealList';
 import Background from '../../styles/Nutritional_Info_and_Recipe/Background';
 import * as actionCreators from '../../store/actions/index';
-// import { AlignMiddle } from '../../styles/Menu_Recommendation/AlignMiddle';
-
-// const RecommendationHeader = styled.div`
-// font-family:'verveine';
-// font-size:65px;
-// color:#F28095;
-// background-color:#B3D962;
-// `;
 
 class MenuRecommendation extends Component {
   componentDidMount() {
-    this.props.getRecommendedMenus();
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = date.getMonth();
+    const day = date.getDay();
+    this.props.getRecommendedMenus(String(`${year}-${month}-${day}`));
   }
 
   render() {
+    // console.log(this.props.recommendedMenus);
     return (
       <div className="MenuRecommendation">
-        {/* <RecommendationHeader>Today&apos;s Recommendation</RecommendationHeader> */}
         <MealList
           title="Today's Recommendation"
         />
-        {/* <Button className="main-button">Back</Button> */}
       </div>
     );
   }
@@ -38,7 +33,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  getRecommendedMenus: () => dispatch(actionCreators.getRecommendedMenus()),
+  getRecommendedMenus: (date) => dispatch(actionCreators.getRecommendedMenus(date)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(MenuRecommendation));

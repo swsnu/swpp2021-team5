@@ -4,7 +4,7 @@ from django.db.models.fields import NullBooleanField
 from django.http import HttpResponse, HttpResponseNotAllowed
 from django.http import response
 from django.http.response import JsonResponse
-from django.views.decorators.csrf import ensure_csrf_cookie
+from django.views.decorators.csrf import csrf_exempt, ensure_csrf_cookie
 from django.contrib.auth import authenticate, login, logout
 from django.views.decorators.http import require_http_methods, require_GET
 
@@ -118,18 +118,9 @@ def profile(request):
 
             # lines below should be refactored so that pk of row could be keep
             new_food_preference_list = req_data['preference']
-            # for food in new_food_preference_list:
-            #     try:
-            #         Menu.objects.get(name=food)
-            #     except Menu.DoesNotExist:
-            #         return HttpResponse(status=404)
 
             Preference.objects.filter(user_id=request.user.id).delete()
             for food in new_food_preference_list:
-                # new_menu = Menu.objects.get(name=food)
-                # new_preference_item = Preference(
-                #     user=request.user, menu=new_menu)
-                # new_preference_item.save()
                 new_preference_item = Preference(user=request.user, ingredient=food)
                 new_preference_item.save()
             food_preference_list_response = []
@@ -421,8 +412,8 @@ def liked(request, liked_record_id):
 @require_GET
 def menu(request):
     ## If user is not signed in, respond with 401
-    if not request.user.is_authenticated:
-        return HttpResponse(status = 401)
+    # if not request.user.is_authenticated:
+    #     return HttpResponse(status = 401)
 
     ## return all menus
     all_menu_list = list(Menu.objects.all().values())
@@ -455,8 +446,8 @@ def token(request):
 @require_GET
 def recommend(request, date):
     # if unauthenticated
-    if not request.user.is_authenticated:
-        return HttpResponse(status = 401)
+    # if not request.user.is_authenticated:
+    #     return HttpResponse(status = 401)
 
     # find the user's nutritional info
     date_list = date.split('-')
@@ -486,18 +477,15 @@ def recommend(request, date):
     
     # if sex == True:
     #     target_cal = 66.47 + 13.75 * weight + 5 * height - 6.76 * age
-    #     target_carbs = 350
-    #     target_protein = 100
-    #     target_fat = 30
     # else:
-    #     target_cal = 65.51 + 9.56 * weight + 1.85 * height - 4.68 * age
-    #     target_carbs = 300
-    #     target_protein = 50
-    #     target_fat = 15
+    #     target_cal = 655.1 + 9.56 * weight + 1.85 * height - 4.68 * age
+    # target_carbs = ((target_cal*0.5)/4)
+    # target_protein = ((target_cal*0.3)/4)
+    # target_fat = ((target_cal*0.2)/4)
     target_cal = 2000
-    target_carbs = 300
-    target_protein = 50
-    target_fat = 15
+    target_carbs = ((target_cal*0.5)/4)
+    target_protein = ((target_cal*0.3)/4)
+    target_fat = ((target_cal*0.2)/4)
 
     # allowed calories, carbs, protein, fat per meal
     allowed_cal = (target_cal - float(today_nutrition.calories)) / times
@@ -517,10 +505,9 @@ def recommend(request, date):
     print('fat:', allowed_fat, ', ', min_fat)
     # choose all candidates
     for m in menus:
-        # if m.calories < allowed_cal and m.carbs < allowed_carbs and m.protein < allowed_protein and m.fat < allowed_fat:
-        if m.calories > min_cal and m.calories < allowed_cal*1.5 and m.carbs > min_carbs and m.carbs < allowed_carbs*1.5: #and m.protein > min_protein and m.protein < allowed_protein*1.5 and m.fat > min_fat and m.fat < allowed_fat*1.5:
+        #if m.calories < allowed_cal and m.carbs < allowed_carbs: #and m.protein < allowed_protein and m.fat < allowed_fat:
+        if m.calories > min_cal and m.calories < allowed_cal*1.5 and m.carbs > min_carbs and m.carbs < allowed_carbs*1.5 and m.protein > min_protein and m.protein < allowed_protein*1.5: #and m.fat > min_fat and m.fat < allowed_fat*1.5:
             # check ingredients
-            print('here')
             preference = Preference.objects.filter(user_id=request.user.id) # list
             ingredient = re.findall("'(.*?)'", m.ingredient)  # list
             intersect = set(preference) & set(ingredient)
@@ -532,17 +519,18 @@ def recommend(request, date):
             continue
     # random select 15 of them, return
     if len(candidates) > 15:
+        # select the ones with like TODO
         candidates = random.sample(candidates, 15)
-    # print(candidates)
     response_dict = []
     for c in candidates:
         response_dict.append({
             'id': c.id,
             'name': c.name,
             'calories': c.calories,
+            'carbs': c.carbs,
             'protein': c.protein,
             'fat': c.fat,
-            # 'image': c.image,  # TODO
+            'image': "http://localhost:8000/media/"+str(c.image).split('/')[-1],
             'recipe': c.recipe,
             'ingredient': c.ingredient
         })

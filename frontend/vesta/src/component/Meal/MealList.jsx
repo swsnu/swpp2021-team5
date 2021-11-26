@@ -215,20 +215,20 @@ class MealList extends Component {
     let breakfast_ = "Breakfast  ";
     let lunch_ = "Lunch  ";
     let dinner_ = "Dinner  ";
+    console.log(this.props.recommendedMenus[0].image);
+    // let src = this.props.recommendedMenus[0].image;
+    // import * as url from src;
     return (
       <div className="MenuRecommendation">
         <RecommendationHeader>{this.props.title}</RecommendationHeader>
         <RecommendationBody>{recommendationBody}</RecommendationBody>
         <div class="container">
           <div class="item">
-            {/* <Meal
-              time="breakfast"
-            /> */}
             <Breakfast>
               <a onClick={() => this.onMealDetail(0, 0)}>
                 <img
                   id="breakfast"
-                  src="/DummyImages/breakfast1_.jpeg"
+                  src={this.props.recommendedMenus[0].image}
                   height={240}
                   width={400}
                   alt="meal_one"
@@ -241,14 +241,11 @@ class MealList extends Component {
             </Breakfast>
           </div>
           <div class="item">
-            {/* <Meal
-              time="lunch"
-            /> */}
             <Lunch>
               <a onClick={() => this.onMealDetail(1, 0)}>
                 <img
                   id="lunch"
-                  src="/DummyImages/lunch1_.jpeg"
+                  src={this.props.recommendedMenus[1].image}
                   height={240}
                   width={400}
                   alt="meal_one"
@@ -261,14 +258,11 @@ class MealList extends Component {
             </Lunch>
           </div>
           <div class="item">
-            {/* <Meal
-              time="dinner"
-            /> */}
             <Dinner>
               <a onClick={() => this.onMealDetail(2, 0)}>
                 <img
                   id="dinner"
-                  src="/DummyImages/dinner1_.jpeg"
+                  src={this.props.recommendedMenus[2].image}
                   height={240}
                   width={400}
                   alt="meal_one"
