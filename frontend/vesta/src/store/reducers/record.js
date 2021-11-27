@@ -1,4 +1,5 @@
 /* eslint-disable */
+import { toggleRecord } from '../actions';
 import * as actionTypes from '../actions/actionType';
 
 const initialState = {
@@ -51,6 +52,7 @@ const initialState = {
     date: "2021/11/09",
     liked: true,
     review: "My favorite Dish",
+    menu: "sushi"
   },
   selectedReview: null,
 };
@@ -65,7 +67,11 @@ const recordReducer = (state = initialState, action) => {
           return { ...rec, liked: !rec.liked };
         } return { ...rec };
       });
-      return { ...state, userRecords: toggledRecords };
+      let toggledRecord = state.selectedRecord;
+      // if (state.selectedRecord !== null && action.targetID === state.selectedRecord.id) {
+      //   toggledRecord = state.userRecords.find((rec) => rec.id === action.targetID);
+      // }
+      return { ...state, userRecords: toggledRecords, selectedRecord: toggledRecord };
     }
     case actionTypes.ADD_RECORD: {
       const newRecord = {

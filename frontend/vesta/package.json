@@ -67,14 +67,24 @@
       "src/**/*.{js,jsx}",
       "!src/index.jsx",
       "!src/reportWebVitals.js",
-      "!src/styles/fonts/fonts.js",
+      "!src/styles/**/*.{js,jsx}",
       "!src/store/actions/index.js",
       "!src/styles/Menu_Recommendation/*.jsx",
-      "!src/component/Meal/MealList.jsx",
-      "!src/pages/Setting/Calculator.js",
+      "!src/component/Meal/Meal.jsx",
       "!src/store/reducers/user.js",
       "!src/store/reducers/menu.js",
-      "!src/component/Record/RecordDetail/RecordDetail.jsx"
+      "!src/store/actions/User/user.js",
+      "!src/pages/Setting/Calculator.js",
+      "!src/pages/Setting/*.{js,jsx}",
+      "!src/pages/Signup/*.{js,jsx}",
+      "!src/pages/Main/*.{js,jsx}",
+      "!src/pages/Confirm_Detection/*.{js,jsx}",
+      "!src/pages/Statistics/**/*.{js,jsx}",
+      "!src/component/Statistics/**/*.{js,jsx}",
+      "!src/component/Meal/**/*.{js,jsx}",
+      "!src/component/PastNutritionInfo/**/*.{js,jsx}",
+      "!src/component/Header/Header.test.jsx",
+      "!src/component/Record/Review/Review.test.jsx"
     ]
   },
   "proxy": "http://localhost:8000/"

@@ -37,6 +37,9 @@ const userReducer = (state = initialState, action) => {
       };
 
     case actionTypes.LOGIN:
+      // console.log('[USER]reducer:login');
+      console.log('[USER]');
+      console.log(action.currentUser);
       return { ...state, currentUser: action.currentUser };
 
     case actionTypes.GET_USER_NUTRITION:

@@ -6,9 +6,12 @@ import { Route, Switch } from 'react-router';
 import PastMealRecord from './PastMealRecord';
 import { history } from '../../store/store';
 import { getMockStore } from '../../test-utils/mock';
+import RecordDetail from '../../component/Record/RecordDetail/RecordDetail';
 
 const stubInitialState = {
-  user: null,
+  user: {
+    userID: 1
+  },
   userRecords: [
     {
       id: 1,
@@ -39,7 +42,7 @@ describe('<PastMealRecord />', () => {
   let recordDetail;
   beforeEach(() => {
     recordDetail = (
-      <Provider store={mockStore}>
+      <Provider>
         <ConnectedRouter history={history}>
           <Switch>
             <Route
@@ -52,9 +55,19 @@ describe('<PastMealRecord />', () => {
       </Provider>
     );
   });
-  xit('should be rendered properly', () => {
+<<<<<<< HEAD
+<<<<<<< HEAD
+  it('should be rendered properly', () => {
+    const component = shallow(< PastMealRecord />);
+    const wrapper = component.find('.PastMealRecord');
+=======
+<<<<<<< HEAD:frontend/vesta/src/pages/PastMealRecord/PastMealRecord.test.js
+=======
+>>>>>>> 237e60ef531261c6ac3f1be226be940896e061c3
+  it('should be rendered properly', () => {
     const component = mount(recordDetail);
     const wrapper = component.find('.Records');
+>>>>>>> develop
     expect(wrapper.length).toBe(1);
   });
 });

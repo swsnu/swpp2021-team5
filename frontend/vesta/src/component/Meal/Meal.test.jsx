@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
 import { Switch } from 'react-router';
 import { Route, Link } from 'react-router-dom';
-import { getMockStore } from '../../../test-utils/mock';
+import { getMockStore } from '../../test-utils/mock';
 import { history } from '../../store/store';
 import * as actionCreators from '../../store/actions/Menu/menu';
 import Meal from './Meal';
@@ -18,7 +18,7 @@ const stubMenuInitialState = {
     carbs: 60,
     protein: 22,
     fat: 16,
-    recipe: '1. Preheat oven to 375F.\n2. In a large bowl cream together butter brown sugar vanilla and cinnamon until smooth.\n3. Add the two kinds of oats one at a time mixing well after each addition.', 
+    recipe: '1. Preheat oven to 375F.\n2. In a large bowl cream together butter brown sugar vanilla and cinnamon until smooth.\n3. Add the two kinds of oats one at a time mixing well after each addition.',
   },
   allMenus: null,
   recommendedMenus: [
@@ -57,7 +57,7 @@ const mockStore = getMockStore(userInitialState, recordInitialState, stubMenuIni
 
 describe('<Meal />', () => {
   // let meal;
-  
+
   // beforeEach(() => {
   //   meal = (
   //     <Provider store={mockStore}>
@@ -73,11 +73,11 @@ describe('<Meal />', () => {
   afterEach(() => jest.clearAllMocks());
 
   it('should render without error', () => {
-    let meal = (
+    const meal = (
       <Provider store={mockStore}>
         <ConnectedRouter history={history}>
           <Switch>
-            <Route path='/' exact render={() => <Meal time="breakfast" />} />
+            <Route path="/" exact render={() => <Meal time="breakfast" />} />
           </Switch>
         </ConnectedRouter>
       </Provider>
@@ -136,18 +136,17 @@ describe('<Meal />', () => {
   //   expect(history.location.pathname).toBe('/recommendation/0/0');
   //   component.unmount();
   // });
-
 });
 
 describe('<Meal />', () => {
   let meal_;
-  
+
   beforeEach(() => {
     meal_ = (
       <Provider store={mockStore}>
         <ConnectedRouter history={history}>
           <Switch>
-            <Route path='/' exact render={() => <Meal time="lunch" />} />
+            <Route path="/" exact render={() => <Meal time="lunch" />} />
           </Switch>
         </ConnectedRouter>
       </Provider>
@@ -163,18 +162,17 @@ describe('<Meal />', () => {
     // component.find('#lunch').simulate('click');
     // expect(history.location.pathname).toBe('/recommendation/1/0');
   });
-
 });
 
 describe('<Meal />', () => {
   let meal__;
-  
+
   beforeEach(() => {
     meal__ = (
       <Provider store={mockStore}>
         <ConnectedRouter history={history}>
           <Switch>
-            <Route path='/' exact render={() => <Meal time="dinner" />} />
+            <Route path="/" exact render={() => <Meal time="dinner" />} />
           </Switch>
         </ConnectedRouter>
       </Provider>
@@ -189,5 +187,4 @@ describe('<Meal />', () => {
     // component.find('#dinner').simulate('click');
     // expect(history.location.pathname).toBe('/recommendation/2/0');
   });
-
 });

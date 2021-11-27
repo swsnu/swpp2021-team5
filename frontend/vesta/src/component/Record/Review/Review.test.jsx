@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
 import { Switch } from 'react-router';
 import { Route, Link } from 'react-router-dom';
-import { getMockStore } from '../../../../test-utils/mock';
+import { getMockStore } from '../../../test-utils/mock';
 import { history } from '../../../store/store';
 import * as actionCreators from '../../../store/actions/Record/record';
 import Review from './Review';
@@ -14,31 +14,31 @@ const recordInitialState = {
   userRecords: [
     {
       id: 1,
-      image: "/sushi_example_image.jpeg",
-      date: "2021/11/09",
+      image: '/sushi_example_image.jpeg',
+      date: '2021/11/09',
       liked: true,
       review: null,
     },
     {
       id: 2,
-      image: "/chicken_sample_image.jpeg",
-      date: "2021/11/08",
+      image: '/chicken_sample_image.jpeg',
+      date: '2021/11/08',
       liked: false,
       review: null,
     },
     {
       id: 3,
-      image: "/pasta_sample_image.jpeg",
-      date: "2021/11/07",
+      image: '/pasta_sample_image.jpeg',
+      date: '2021/11/07',
       liked: true,
       review: null,
     },
   ],
   selectedRecord: {
     id: 1,
-    date: "2021/11/09",
+    date: '2021/11/09',
     liked: true,
-    review: "My favorite Dish",
+    review: 'My favorite Dish',
   },
   selectedReview: null,
 };
@@ -55,14 +55,17 @@ describe('<Review/>', () => {
       <Provider store={mockStore}>
         <ConnectedRouter history={history}>
           <Switch>
-            <Route path='/' exact
-              render={() => <Review />} />
+            <Route
+              path="/"
+              exact
+              render={() => <Review />}
+            />
           </Switch>
         </ConnectedRouter>
       </Provider>
     );
     spyGetRecord = jest.spyOn(actionCreators, 'getRecord')
-    .mockImplementation(() => (dispatch) => {});
+      .mockImplementation(() => (dispatch) => {});
   });
 
   afterEach(() => jest.clearAllMocks());
@@ -74,7 +77,7 @@ describe('<Review/>', () => {
   });
 
   it('should edit review button', () => {
-    let spyOnEditReview = jest.spyOn(actionCreators, 'editReview')
+    const spyOnEditReview = jest.spyOn(actionCreators, 'editReview')
       .mockImplementation(() => (dispatch) => {});
     const component = mount(review);
     component.find('button#edit-review-button').simulate('click');
@@ -102,7 +105,7 @@ describe('<Review/>', () => {
 
   it('should delete review confirm-true', () => {
     window.confirm = jest.fn().mockImplementation(() => true);
-    let spyOnDeleteReview = jest.spyOn(actionCreators, 'deleteReview')
+    const spyOnDeleteReview = jest.spyOn(actionCreators, 'deleteReview')
       .mockImplementation(() => (dispatch) => {});
     const component = mount(review);
     const wrapper = component.find('button#delete-review-button').simulate('click');
@@ -112,12 +115,12 @@ describe('<Review/>', () => {
 
   it('should delete review confirm-false', () => {
     window.confirm = jest.fn().mockImplementation(() => false);
-    let spyOnDeleteReview = jest.spyOn(actionCreators, 'deleteReview')
+    const spyOnDeleteReview = jest.spyOn(actionCreators, 'deleteReview')
       .mockImplementation(() => (dispatch) => {});
     const component = mount(review);
     const wrapper = component.find('button#delete-review-button').simulate('click');
     expect(window.confirm).toHaveBeenCalled();
-  })
+  });
 });
 
 const recordInitialState_ = {
@@ -136,14 +139,17 @@ describe('<Review/> with null', () => {
       <Provider store={mockStore_}>
         <ConnectedRouter history={history}>
           <Switch>
-            <Route path='/' exact
-              render={() => <Review />} />
+            <Route
+              path="/"
+              exact
+              render={() => <Review />}
+            />
           </Switch>
         </ConnectedRouter>
       </Provider>
     );
     spyGetRecord = jest.spyOn(actionCreators, 'getRecord')
-    .mockImplementation(() => (dispatch) => {});
+      .mockImplementation(() => (dispatch) => {});
   });
 
   afterEach(() => jest.clearAllMocks());
@@ -155,7 +161,7 @@ describe('<Review/> with null', () => {
   });
 
   it('should create review', () => {
-    let spyOnCreateReview = jest.spyOn(actionCreators, 'createReview')
+    const spyOnCreateReview = jest.spyOn(actionCreators, 'createReview')
       .mockImplementation(() => (dispatch) => {});
     const component = mount(review_);
     component.find('textarea#create-review-text-area').simulate('change', { target: { value: 'test_create_review' } });
@@ -164,5 +170,4 @@ describe('<Review/> with null', () => {
     component.find('button#create-review-button').simulate('click');
     expect(spyOnCreateReview).toHaveBeenCalled();
   });
-
 });

@@ -40,5 +40,5 @@ module.exports = {
     "object-curly-newline": "off",
     "max-len": "off",
   },
-  "parser": "babel-eslint"
+  parser: 'babel-eslint'
 };

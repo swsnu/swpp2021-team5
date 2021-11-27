@@ -1,6 +1,7 @@
 /* eslint-disable */
 import axios from 'axios';
 import { push } from 'connected-react-router';
+import { Redirect } from 'react-router';
 
 import * as actionTypes from '../actionType';
 
@@ -47,8 +48,8 @@ export const logIn_ = (user) => ({
 
 export const logIn = (info) => (dispatch) => axios.post('/api/user/signin/', info)
   .then((res) => {
-    dispatch(logIn_(res.data))
-    .then(dispatch(push('/main')));
+    dispatch(logIn_(res.data));
+    dispatch(push('/main'));
   }).catch(() => dispatch(push('/login')));
 
 export const signUp = (username, password, age, sex, height, weight, targetCalories) => dispatch => axios.post('/api/user/signup/', {

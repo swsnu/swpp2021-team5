@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
 import { Switch } from 'react-router';
 import { Route } from 'react-router-dom';
-import { getMockStore } from '../../../test-utils/mock';
+import { getMockStore } from '../../test-utils/mock';
 import { history } from '../../store/store';
 import FoodRecord from './FoodRecord';
 
@@ -12,7 +12,6 @@ const userInitialState = {};
 const recordInitialState = {};
 const menuInitialState = {};
 const recipeInitialState = {};
-
 
 let foodRecord;
 let file;
@@ -50,4 +49,4 @@ describe('<FoodRecord />', () => {
     component.find('button#upload-photo-button').simulate('click');
     expect(history.location.pathname).toBe('/confirm');
   });
-})
+});
