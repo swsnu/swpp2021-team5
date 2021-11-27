@@ -73,6 +73,13 @@ const recordReducer = (state = initialState, action) => {
       // }
       return { ...state, userRecords: toggledRecords, selectedRecord: toggledRecord };
     }
+    case actionTypes.ADD_RECORD: {
+      const newRecord = {
+        id: action.id, image: action.image, date: action.date,
+        liked: action.liked, review: action.review
+      };
+      return { ...state, userRecords: [...state.userRecords, newRecord]};
+    }
     case actionTypes.GET_RECORD: {
       return { ...state, selectedRecord: action.record };
     }

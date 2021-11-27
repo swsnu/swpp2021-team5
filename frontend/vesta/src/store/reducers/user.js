@@ -16,6 +16,7 @@ const initialState = {
     carbs: 121,
     protein: 92,
     fat: 23,
+    count_all: 0,
   },
 };
 const userReducer = (state = initialState, action) => {
@@ -49,6 +50,31 @@ const userReducer = (state = initialState, action) => {
           carbs: action.carbs,
           protein: action.protein,
           fat: action.fat,
+          count_all: action.count_all,
+        }
+      };
+
+    case actionTypes.CREATE_USER_NUTRITION:
+      return {
+        ...state,
+        userNutrition: {
+          calories: action.calories,
+          carbs: action.carbs,
+          protein: action.protein,
+          fat: action.fat,
+          count_all: action.count_all,
+        }
+      };
+
+    case actionTypes.EDIT_USER_NUTRITION:
+      return {
+        ...state,
+        userNutrition: {
+          calories: action.calories,
+          carbs: action.carbs,
+          protein: action.protein,
+          fat: action.fat,
+          count_all: action.count_all,
         }
       };
 

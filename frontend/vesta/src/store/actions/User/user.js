@@ -71,13 +71,48 @@ export const getUserNutrition_ = (userNutrition) => ({
   carbs: userNutrition.carbs,
   protein: userNutrition.protein,
   fat: userNutrition.fat,
-});
+  count_all: userNutrition.count_all,
+})
+
+export const failGetUserNutrition = (err) => ({
+  id: err.response.status,
+})
 
 export const getUserNutrition = (date) => (dispatch) => axios.get(`/api/nutrition/${date}/`)
   .then((res) => {
     dispatch(getUserNutrition_(res.data));
+  })
+  .catch((err) => {
+    dispatch(failGetUserNutrition(err));
   });
 
+export const createUserNutrition_ = (userNutrition) => ({
+  type: actionTypes.CREATE_USER_NUTRITION,
+  calories: userNutrition.calories,
+  carbs: userNutrition.carbs,
+  protein: userNutrition.protein,
+  fat: userNutrition.fat,
+  count_all: userNutrition.count_all,
+});
+
+export const createUserNutrition = (date, calories, carbs, protein, fat, count_all) => (dispatch) => axios.post(`/api/nutrition/${date}/`, {'calories': calories, 'carbs': carbs, 'protein': protein, 'fat': fat, 'count_all': count_all})
+  .then((res) => {
+    dispatch(createUserNutrition_(res.data));
+});
+
+export const editUserNutrition_ = (userNutrition) => ({
+  type: actionTypes.EDIT_USER_NUTRITION,
+  calories: userNutrition.calories,
+  carbs: userNutrition.carbs,
+  protein: userNutrition.protein,
+  fat: userNutrition.fat,
+  count_all: userNutrition.count_all,
+})
+
+export const editUserNutrition = (date, calories, carbs, protein, fat, count_all) => (dispatch) => axios.put(`/api/nutrition/${date}/`, {'calories': calories, 'carbs': carbs, 'protein': protein, 'fat': fat, 'count_all': count_all})
+  .then((res) => {
+    dispatch(editUserNutrition_(res.data));
+  });
 
 export const logout_ = () => ({
   type: actionTypes.LOGOUT,

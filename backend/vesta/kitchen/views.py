@@ -18,25 +18,16 @@ import os
 
 @require_http_methods(["POST"])
 def signup(request):
-    if request.method == 'POST':
-        req_data = json.loads(request.body.decode())
-        username = req_data['username']
-        password = req_data['password']
-        user = User.objects.create_user(username=username, password=password)
+    req_data = json.loads(request.body.decode())
+    username = req_data['username']
+    password = req_data['password']
+    user = User.objects.create_user(username=username, password=password)
 
-        # Model 'Profile' should be created simultaneously #
-        age = int(req_data['age'])
-        sex = bool(req_data['sex'])
-        height = int(req_data['height'])
-        weight = int(req_data['weight'])
-        target_calories = int(req_data['targetCalories'])
-        new_profile = Profile(user=user, age=age, sex=sex, height=height, weight=weight, target_calories=target_calories)
-        new_profile.save()
+    # Model 'Profile' should be created simultaneously #
+    new_profile = Profile(user=user, age=None, sex=None, height=None, weight=None)
+    new_profile.save()
 
-        return HttpResponse(status=201)
-    else:
-        return HttpResponseNotAllowed(['POST'])
-
+    return HttpResponse(status=201)
 
 @require_http_methods(["POST"])
 def signin(request):
@@ -70,34 +61,28 @@ def signin(request):
             return JsonResponse(response_dict, status=200, safe=False)
         else:
             return HttpResponse(status=401)
+
     else:
-        return HttpResponseNotAllowed(['POST'])
+        return HttpResponse(status=401)
 
 @require_http_methods(["GET"])
 def signout(request):
-    if request.method == 'GET':
-        if request.user.is_authenticated:
-            logout(request)
-            return HttpResponse(status=204)
-        else:
-            return HttpResponse(status=401)
+    if request.user.is_authenticated:
+        logout(request)
+        return HttpResponse(status=204)
     else:
-        return HttpResponseNotAllowed(['GET'])
+        return HttpResponse(status=401)
 
 @require_http_methods(["DELETE"])
 def resign(request):
-    if request.method == 'DELETE':
-        print(request.user)
-        if request.user.is_authenticated:
-            user = User.objects.get(id=request.user.id)
-            user.delete()
-            logout(request)
-            return HttpResponse(status=200)
-        else:
-            return HttpResponse(status=401)
+    print(request.user)
+    if request.user.is_authenticated:
+        user = User.objects.get(id=request.user.id)
+        user.delete()
+        logout(request)
+        return HttpResponse(status=200)
     else:
-        return HttpResponseNotAllowed(['DELETE'])
-
+        return HttpResponse(status=401)
 
 def profile(request):
     if request.method == 'GET':
@@ -118,8 +103,7 @@ def profile(request):
                 'sex': user_profile.sex,
                 'height': user_profile.height,
                 'weight': user_profile.weight,
-                'preference': food_preference_list,
-                'targetCalories': user_profile.target_calories
+                'preference': food_preference_list
             }
             return JsonResponse(response_dict, status=200, safe=False)
         else:
@@ -140,7 +124,6 @@ def profile(request):
             user_profile.sex = req_data['sex']
             user_profile.height = int(req_data['height'])
             user_profile.weight = int(req_data['weight'])
-            user_profile.target_calories = int(req_data['targetCalories'])
             user.save()
             user_profile.save()
 
@@ -161,8 +144,7 @@ def profile(request):
                 'sex': user_profile.sex,
                 'height': user_profile.height,
                 'weight': user_profile.weight,
-                'preference': food_preference_list_response,
-                'targetCalories': user_profile.target_calories
+                'preference': food_preference_list_response
             }
             return JsonResponse(response_dict, status=200)
         else:
@@ -187,7 +169,6 @@ def nutrition_all(request):
             })
         return JsonResponse(response_list, status=200, safe=False)
 
-
 def nutrition(request, date):
     if request.method == 'GET':
         if request.user.is_authenticated:
@@ -206,7 +187,8 @@ def nutrition(request, date):
                 'calories': today_nutrition.calories,
                 'carbs': today_nutrition.carbs,
                 'protein': today_nutrition.protein,
-                'fat': today_nutrition.fat
+                'fat': today_nutrition.fat,
+                'count_all': today_nutrition.count_all
             }
             return JsonResponse(response_dict, status=200)
         else:
@@ -221,6 +203,7 @@ def nutrition(request, date):
             carbs = int(req_data['carbs'])
             protein = int(req_data['protein'])
             fat = int(req_data['fat'])
+            count_all = int(req_data['count_all'])
 
             new_record = UserNutrition(
                 user=request.user,
@@ -228,7 +211,8 @@ def nutrition(request, date):
                 calories=calories,
                 carbs=carbs,
                 protein=protein,
-                fat=fat)
+                fat=fat,
+                count_all=count_all)
             new_record.save()
 
             response_dict = {
@@ -236,6 +220,7 @@ def nutrition(request, date):
                 'carbs': new_record.carbs,
                 'protein': new_record.protein,
                 'fat': new_record.fat,
+                'count_all': new_record.count_all,
             }
             return JsonResponse(response_dict, status=201)
         else:
@@ -257,11 +242,13 @@ def nutrition(request, date):
             new_carbs = int(req_data['carbs'])
             new_protein = int(req_data['protein'])
             new_fat = int(req_data['fat'])
+            new_count_all = int(req_data['count_all'])
 
             today_nutrition.calories = new_calories
             today_nutrition.carbs = new_carbs
             today_nutrition.protein = new_protein
             today_nutrition.fat = new_fat
+            today_nutrition.count_all = new_count_all
             today_nutrition.save()
 
             response_dict = {
@@ -269,6 +256,7 @@ def nutrition(request, date):
                 'carbs': today_nutrition.carbs,
                 'protein': today_nutrition.protein,
                 'fat': today_nutrition.fat,
+                'count_all': today_nutrition.count_all,
             }
             return JsonResponse(response_dict, status=200)
         else:
@@ -318,18 +306,15 @@ def record(request):
 
         ## decode request
         req_data = json.loads(request.body.decode())
-        menu_id = int(req_data['menu_id'])
+        menu_name = req_data['menu']
         review_text = req_data['review']
         liked = req_data['liked'] == "True"
-        ## req_data['date'] comes in YYYY-MM-DD form, transform the string into datetime object
-        date_list = req_data['date'].split('-')
-        date = datetime.date(int(date_list[0]), int(date_list[1]), int(date_list[2]))
 
         new_record = Record(user = request.user,
-                                menu = Menu.objects.get(id = menu_id),
+                                menu = Menu.objects.get(name = menu_name),
                                 review = review_text,
                                 liked = liked,
-                                date = date,
+                                date = datetime.date.today(),
                                 image = req_data['image'])
         new_record.save()
 
@@ -339,7 +324,7 @@ def record(request):
                             'menu_id' : new_record.menu.id,
                             'review' : new_record.review,
                             'liked' : new_record.liked,
-                            'date' : new_record.date,
+                            'date' : new_record.date.strftime("%Y-%m-%d"),
                             'image' : new_record.image.url}
         return JsonResponse(response_dict)
     return HttpResponseNotAllowed(["GET", "POST"])
