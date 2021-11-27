@@ -1,18 +1,3 @@
-<<<<<<< HEAD
-import { mount, shallow } from 'enzyme';
-import Statistics from './Statistics';
-
-describe('Statistics', () => {
-  let statistics;
-  statistics = <Statistics />;
-
-  it('should render Statistics', () => {
-    const component = mount(statistics);
-    const wrapper = component.find('.Statistics');
-    expect(wrapper.length).toBe(1);
-  });
-});
-=======
 import Statistics from './Statistics';
 
 import { mount } from 'enzyme';
@@ -102,4 +87,3 @@ describe('Statistics', () => {
     expect(nextButton.length).toBe(1);
   })
 })
->>>>>>> 6182de8d9430e3c854a009749daad57f4d8e55d4
