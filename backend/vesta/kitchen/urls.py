@@ -9,6 +9,7 @@ urlpatterns = [
     path('user/profile/', views.profile, name='profile'),
     path('nutrition/', views.nutrition_all, name='nutrition_all'),
     path('nutrition/<str:date>/', views.nutrition, name='nutrition'),
+    path('nutrition/<str:date>/count/', views.nutrition_count, name='nutrition_count'),
     path('record/', views.record, name='record'),
     path('record/<int:record_id>/', views.record_id_func, name='recordID'),
     path('record/user/<int:user_id>/', views.record_user_id, name='recordUserID'),
@@ -17,6 +18,6 @@ urlpatterns = [
     path('menu/', views.menu, name='menu'),
     path('menu/<str:menuname>/', views.menu_name, name='menuName'),
     path('token/', views.token, name='token'),
+    path('recommend/<str:date>/', views.recommend, name='recommend'),
     path('ml/detection/', views.detection, name='detection'),
-    path('recommend/', views.recommend, name='recommend'),
 ]

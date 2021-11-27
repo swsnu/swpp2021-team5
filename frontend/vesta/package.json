@@ -69,6 +69,8 @@
       "!src/reportWebVitals.js",
       "!src/styles/**/*.{js,jsx}",
       "!src/store/actions/index.js",
+      "!src/styles/Menu_Recommendation/*.jsx",
+      "!src/component/Meal/Meal.jsx",
       "!src/store/reducers/user.js",
       "!src/store/reducers/menu.js",
       "!src/store/actions/User/user.js",
