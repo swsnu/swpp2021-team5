@@ -1,5 +1,5 @@
 export {
-  saveUserSetting, getUserSetting, deleteUserAccount, signUp, logIn, logout, getUserNutrition
+  saveUserSetting, getUserSetting, deleteUserAccount, signUp, logIn, logout, getUserNutrition,
 } from './User/user';
 export {
   getMenu, getRecommendedMenus, getCountAll,

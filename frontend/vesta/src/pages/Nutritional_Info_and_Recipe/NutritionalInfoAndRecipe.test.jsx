@@ -52,13 +52,12 @@ describe('<NutritionalInfoAndRecipe />', () => {
       idx: 0
     }
   }
-  let spyUpdateSelectedMenu_;
   beforeEach(() => {
     nutritional = (
       <Provider store={mockStore}>
         <ConnectedRouter history={history}>
           <Switch>
-            <Route path="/" exact component={NutritionalInfoAndRecipe} match={{ params: { when: 0, idx: 0 } }} />
+            <Route path="/" exact render={() => <NutritionalInfoAndRecipe match={match}/> }/>
           </Switch>
         </ConnectedRouter>
       </Provider>
@@ -86,7 +85,6 @@ const mockStore_ = getMockStore(userInitialState, recordInitialState, stubMenuIn
 
 describe('<NutritionalInfoAndRecipe />', () => {
   let nutritional;
-  let spyUpdateSelectedMenu_;
   beforeEach(() => {
     nutritional = (
       <Provider store={mockStore_}>

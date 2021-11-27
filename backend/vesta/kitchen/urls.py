@@ -18,6 +18,6 @@ urlpatterns = [
     path('menu/', views.menu, name='menu'),
     path('menu/<str:menuname>/', views.menu_name, name='menuName'),
     path('token/', views.token, name='token'),
-    path('ml/detection/', views.detection, name='detection'),
     path('recommend/<str:date>/', views.recommend, name='recommend'),
+    path('ml/detection/', views.detection, name='detection'),
 ]
