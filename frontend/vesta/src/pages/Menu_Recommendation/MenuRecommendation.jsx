@@ -23,13 +23,11 @@ class MenuRecommendation extends Component {
   render() {
     return (
       <div className="MenuRecommendation">
-        <Background>
-          {/* <RecommendationHeader>Today&apos;s Recommendation</RecommendationHeader> */}
-          <MealList
-            title="Today's Recommendation"
-          />
-          {/* <Button className="main-button">Back</Button> */}
-        </Background>
+        {/* <RecommendationHeader>Today&apos;s Recommendation</RecommendationHeader> */}
+        <MealList
+          title="Today's Recommendation"
+        />
+        {/* <Button className="main-button">Back</Button> */}
       </div>
     );
   }

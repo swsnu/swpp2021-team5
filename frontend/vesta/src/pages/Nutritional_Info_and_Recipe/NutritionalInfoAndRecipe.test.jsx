@@ -22,7 +22,7 @@ const stubMenuInitialState = {
     carbs: 60,
     protein: 22,
     fat: 16,
-    recipe: '1. Preheat oven to 375F.\n2. In a large bowl cream together butter brown sugar vanilla and cinnamon until smooth.\n3. Add the two kinds of oats one at a time mixing well after each addition.', 
+    recipe: '1. Preheat oven to 375F.\n2. In a large bowl cream together butter brown sugar vanilla and cinnamon until smooth.\n3. Add the two kinds of oats one at a time mixing well after each addition.',
   },
   allMenus: null,
   recommendedMenus: [
@@ -62,14 +62,14 @@ const recipeInitialState = {
 const mockStore = getMockStore(userInitialState, recordInitialState, stubMenuInitialState, recipeInitialState);
 
 describe('<NutritionalInfoAndRecipe />', () => {
-  let nutritional; 
+  let nutritional;
   let spyUpdateSelectedMenu_;
   beforeEach(() => {
     nutritional = (
       <Provider store={mockStore}>
         <ConnectedRouter history={history}>
           <Switch>
-            <Route path="/" exact component={NutritionalInfoAndRecipe} match={{params: {when:0, idx:0}}}/>
+            <Route path="/" exact component={NutritionalInfoAndRecipe} match={{ params: { when: 0, idx: 0 } }} />
           </Switch>
         </ConnectedRouter>
       </Provider>
@@ -88,7 +88,6 @@ describe('<NutritionalInfoAndRecipe />', () => {
     expect(wrapper.length).toBe(1);
     expect(spyUpdateSelectedMenu_).toBeCalledTimes(1);
   });
-  
 });
 
 const stubMenuInitialState_ = {
@@ -100,14 +99,14 @@ const stubMenuInitialState_ = {
 const mockStore_ = getMockStore(userInitialState, recordInitialState, stubMenuInitialState_, recipeInitialState);
 
 describe('<NutritionalInfoAndRecipe />', () => {
-  let nutritional; 
+  let nutritional;
   let spyUpdateSelectedMenu_;
   beforeEach(() => {
     nutritional = (
       <Provider store={mockStore_}>
         <ConnectedRouter history={history}>
           <Switch>
-            <Route path="/" exact component={NutritionalInfoAndRecipe} match={{params: {when:0, idx:0}}}/>
+            <Route path="/" exact component={NutritionalInfoAndRecipe} match={{ params: { when: 0, idx: 0 } }} />
           </Switch>
         </ConnectedRouter>
       </Provider>
@@ -126,5 +125,4 @@ describe('<NutritionalInfoAndRecipe />', () => {
     expect(wrapper.length).toBe(1);
     expect(spyUpdateSelectedMenu_).toBeCalledTimes(1);
   });
-
 });

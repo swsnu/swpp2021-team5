@@ -53,7 +53,7 @@ margin-bottom:30px;
 class RecordDetail extends Component {
   componentDidMount() {
     this.props.onGetRecord(this.props.id)
-      // .then(this.props.onGetMenu(this.props.record.menuName));
+    this.props.onGetMenu(this.props.record.menuName);
   }
   // clickRecordsHandler = () => {
   //   this.props.history.push('/history/');
@@ -169,8 +169,8 @@ const mapDispatchToProps = dispatch => {
           recordID)),
     onToggleRecord: (recordID) =>
       dispatch(actionCreators.toggleRecord(recordID)),
-    // onGetMenu: (menuName) => 
-    //   dispatch(actionCreators.getMenu(menuName)),
+    onGetMenu: (menuName) => 
+      dispatch(actionCreators.getMenu(menuName)),
   }
 }
 

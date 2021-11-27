@@ -27,7 +27,7 @@ module.exports = {
     "no-underscore-dangle": "off",
     "react/destructuring-assignment": ['off'],
     "no-unused-vars": "off",
-    'max-len': ["error", { "code": 120 }],
+    'max-len': ["error", { "code": 500 }],
     "no-console": "off",
     "no-restricted-syntax": [
         "error",
@@ -37,6 +37,8 @@ module.exports = {
         }
     ],
     "comma-dangle": "off",
+    "object-curly-newline": "off",
+    "max-len": "off",
   },
-  "parser": "babel-eslint"
+  parser: 'babel-eslint'
 };

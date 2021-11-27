@@ -16,7 +16,7 @@ class Records extends Component {
     acticeItem: 'All',
   }
   componentDidMount() {
-    this.props.onGetRecords()
+    this.props.onGetRecords(this.props.user.userID)
       .then(this.setState({ records: this.props.storedRecords }));
   }
   // clickRecordHandler = (rec) => {
@@ -115,6 +115,7 @@ class Records extends Component {
 
 const mapStateToProps = state => {
   return {
+    user: state.user.currentUser,
     storedRecords: state.record.userRecords
   }
 }
