@@ -76,7 +76,6 @@ class Main extends Component {
         const currentProtein = apiRes.data.protein;
         const currentFat = apiRes.data.fat;
         const currentCount = apiRes.data.count_all;
-        const countInput = (this.state.type === 'meal') ? 1 : 0;
 
         this.props.onEditUserNutrition(today, currentCalories, currentCarbs, currentProtein,
           currentFat, currentCount + 1);
