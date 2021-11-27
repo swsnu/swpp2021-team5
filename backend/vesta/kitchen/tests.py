@@ -343,7 +343,7 @@ class KitchenTestClass(TestCase):
         menu = Menu.objects.create(name='testmenu', calories=1, carbs=1, protein=1, fat=1, image='./images/brownie.jpeg')
         menu.save()
 
-        preference = Preference(user=user, menu=menu)
+        preference = Preference(user=user, ingredient="apple")
         preference.save()
 
         client = Client()
@@ -423,11 +423,11 @@ class KitchenTestClass(TestCase):
         response = client.get('/api/nutrition/2021-11-11/')
         self.assertEqual(response.status_code, 401)
         response = client.post('/api/nutrition/2021-11-1/', json.dumps({
-            "calories": 1, "carbs": 1, "protein": 1, "fat": 1
+            "calories": 1, "carbs": 1, "protein": 1, "fat": 1, "count_all": 1
         }), content_type='application/json')
         self.assertEqual(response.status_code, 401)
         response = client.put('/api/nutrition/2021-11-11/', json.dumps({
-            "calories": 1, "carbs": 1, "protein": 1, "fat": 2
+            "calories": 1, "carbs": 1, "protein": 1, "fat": 2, "count_all": 1
         }), content_type='application/json')
         self.assertEqual(response.status_code, 401)
 
@@ -440,21 +440,21 @@ class KitchenTestClass(TestCase):
         self.assertEqual(response.status_code, 404)
 
         response = client.post('/api/nutrition/2021-11-12/', json.dumps({
-            "calories": 1, "carbs": 1, "protein": 1, "fat": 1
+            "calories": 1, "carbs": 1, "protein": 1, "fat": 1, "count_all": 1
         }), content_type='application/json')
         self.assertEqual(response.status_code, 201)
 
         response = client.post('/api/nutrition/2021-11-1/', json.dumps({
-            "calories": 1, "carbs": 1, "protein": 1, "fat": 1
+            "calories": 1, "carbs": 1, "protein": 1, "fat": 1, "count_all": 1
         }), content_type='application/json')
         self.assertEqual(response.status_code, 201)
 
         response = client.put('/api/nutrition/2021-11-11/', json.dumps({
-            "calories": 2, "carbs": 2, "protein": 2, "fat": 2
+            "calories": 2, "carbs": 2, "protein": 2, "fat": 2, "count_all": 2
         }), content_type='application/json')
         self.assertEqual(response.status_code, 200)
 
         response = client.put('/api/nutrition/2021-11-10/', json.dumps({
-            "calories": 2, "carbs": 2, "protein": 2, "fat": 2
+            "calories": 2, "carbs": 2, "protein": 2, "fat": 2, "count_all": 2
         }), content_type='application/json')
         self.assertEqual(response.status_code, 404)
