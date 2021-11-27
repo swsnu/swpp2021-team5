@@ -61,15 +61,6 @@ export const signUp = (username, password, age, sex, height, weight, targetCalor
   weight: weight,
   targetCalories: targetCalories})
   .then((res) => {
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-    dispatch(push('/login'))
-  })
-
-  export const getUserNutrition = (userId) => (dispatch) => { return; }
-=======
->>>>>>> develop
   /*alert(`Succesfully Registered!\nYour Target Calorie is set to ${targetCalories}Kcal as recommended generally for your body profile.\nYou can customize your target calorie at the setting page after login.\nWelcome!`);*/
     dispatch(push('/login'));
   });
@@ -97,7 +88,3 @@ export const logout = () => (dispatch) => axios.get('/api/user/signout/')
   .then((res) => {
     dispatch(logout_())
 });
-<<<<<<< HEAD
-=======
->>>>>>> 6182de8d9430e3c854a009749daad57f4d8e55d4
->>>>>>> develop
