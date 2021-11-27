@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
 import { Switch } from 'react-router';
 import { Route } from 'react-router-dom';
-import { getMockStore } from '../../../test-utils/mock';
+import { getMockStore } from '../../test-utils/mock';
 import MenuRecommendation from './MenuRecommendation';
 import { history } from '../../store/store';
 import * as actionCreators from '../../store/actions/Menu/menu';

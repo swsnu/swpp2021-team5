@@ -493,7 +493,6 @@ def menu_name(request, menuname):
 def token(request):
     return HttpResponse(status=204)
 
-<<<<<<< HEAD
 def detection(request):
     if request.method in ['GET', 'PUT', 'DELETE']:
         return HttpResponseNotAllowed(['GET', 'PUT', 'DELETE'])
@@ -512,7 +511,6 @@ def detection(request):
     result_list = api.menu_recognition(img, user_token=api_user_token)
 
     return JsonResponse(result_list)
-=======
 ## recommend 15 menus total(5 for each meal)
 @require_GET
 def recommend(request):
@@ -535,4 +533,3 @@ def recommend(request):
     # check if it does not preserve user preference
 
     # return JsonResponse()
->>>>>>> 6182de8d9430e3c854a009749daad57f4d8e55d4

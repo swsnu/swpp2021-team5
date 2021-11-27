@@ -6,12 +6,18 @@ describe('Statistics', () => {
   let statistics;
   statistics = <Statistics />;
 
+<<<<<<< HEAD
+  xit('should render Statistics', () => {
+=======
   it('should render Statistics', () => {
+>>>>>>> develop
     const component = mount(statistics);
     const wrapper = component.find('.Statistics');
     expect(wrapper.length).toBe(1);
   });
 });
+<<<<<<< HEAD
+=======
 =======
 import Statistics from './Statistics';
 
@@ -103,3 +109,4 @@ describe('Statistics', () => {
   })
 })
 >>>>>>> 6182de8d9430e3c854a009749daad57f4d8e55d4
+>>>>>>> develop

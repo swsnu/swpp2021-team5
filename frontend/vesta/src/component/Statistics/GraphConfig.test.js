@@ -1,11 +1,10 @@
-<<<<<<< HEAD
+import { todayOptions } from './GraphConfig';
 import { options } from './GraphConfig';
 
 describe('GraphConfig', () => {
   it('should return correct value', () => {
     const result = options.scales.y.ticks.callback(100);
     expect(result).toBe('100%');
-=======
 import { todayOptions, weeklyOptions } from './GraphConfig';
 
 const testContext = {
@@ -50,6 +49,5 @@ describe('GraphConfig', () => {
     expect(func(testContext4)).toEqual('Intake: 3 grams\nRecommended: 3 grams');
     const testContext5 = { ...testContext, dataIndex: 4 };
     expect(func(testContext5)).toEqual('');
->>>>>>> 6182de8d9430e3c854a009749daad57f4d8e55d4
   });
 });

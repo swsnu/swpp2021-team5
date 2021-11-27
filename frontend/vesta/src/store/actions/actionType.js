@@ -15,7 +15,13 @@ export const UPDATE_SELECTED_MENU = 'UPDATE_SELECTED_MENU';
 export const SIGNUP = 'SIGNUP';
 <<<<<<< HEAD
 export const DETECT = 'DETECT';
+export const GET_USER_NUTRITION = 'GET_USER_NUTRITION';
+export const LOGOUT = 'LOGOUT';
+=======
+<<<<<<< HEAD
+export const DETECT = 'DETECT';
 =======
 export const GET_USER_NUTRITION = 'GET_USER_NUTRITION';
 export const LOGOUT = 'LOGOUT';
 >>>>>>> 6182de8d9430e3c854a009749daad57f4d8e55d4
+>>>>>>> develop

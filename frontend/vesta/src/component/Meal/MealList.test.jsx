@@ -5,7 +5,7 @@ import { ConnectedRouter } from 'connected-react-router';
 import { Switch } from 'react-router';
 import { Route, Link } from 'react-router-dom';
 import { Button, Grid } from 'semantic-ui-react';
-import { getMockStore } from '../../../test-utils/mock';
+import { getMockStore } from '../../test-utils/mock';
 import { history } from '../../store/store';
 import * as actionCreators from '../../store/actions/Menu/menu';
 import MealList from './MealList';

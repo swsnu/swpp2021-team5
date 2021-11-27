@@ -6,7 +6,7 @@ import { ConnectedRouter } from 'connected-react-router';
 import { Switch } from 'react-router';
 import { Route } from 'react-router-dom';
 import Setting from './Setting';
-import { getMockStore } from '../../../test-utils/mock';
+import { getMockStore } from '../../test-utils/mock';
 import { history } from '../../store/store';
 import * as actionCreators from '../../store/actions/User/user';
 

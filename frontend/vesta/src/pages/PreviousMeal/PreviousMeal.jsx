@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, { Component } from 'react';
 // import styled from 'styled-components';
 import { connect } from 'react-redux';
@@ -9,21 +8,20 @@ import { withRouter } from 'react-router';
 import * as actionCreators from '../../store/actions/index';
 import RecordDetail from '../../component/Record/RecordDetail/RecordDetail';
 
-// const RecommendationHeader = styled.div`
-// font-family:'verveine';
-// font-size:65px;
-// color:#F28095;
-// background-color:#B3D962;
-// `;
+const PreviousMeal = ({ id }) => (
+  <div className="PreviousMeal">
+    <RecordDetail id={id} />
+  </div>
+);
 
-class PreviousMeal extends Component {
-  render() {
-    return (
-      <div className="PastMealRecord">
-        <RecordDetail id={this.props.match.params.id} />
-      </div>
-    );
-  }
-}
+// class PreviousMeal extends Component {
+//   render() {
+//     return (
+//       <div className="PastMealRecord">
+//         <RecordDetail id={this.props.match.params.id} />
+//       </div>
+//     );
+//   }
+// }
 
-export default connect(null, null)(withRouter(PreviousMeal));
+export default withRouter(PreviousMeal);

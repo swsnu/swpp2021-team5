@@ -53,7 +53,7 @@ function App(props) {
           <Route
             path="/history/:id"
             exact
-            render={() => <PreviousMeal />}
+            render={({match}) => <PreviousMeal id={match.params.id} />}
           />
           <Route
             path="/record"

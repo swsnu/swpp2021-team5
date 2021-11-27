@@ -2,7 +2,14 @@
 import * as actionTypes from '../actions/actionType';
 
 const initialState = {
-  selectedMenu: null,
+  selectedMenu: {
+    name: 'Oatmeal',
+    calories: 404,
+    carbs: 60,
+    protein: 22,
+    fat: 16,
+    recipe: '1. Preheat oven to 375F.\n2. In a large bowl cream together butter brown sugar vanilla and cinnamon until smooth.\n3. Add the two kinds of oats one at a time mixing well after each addition.',
+  },
   allMenus: null,
   recommendedMenus: [
     [
