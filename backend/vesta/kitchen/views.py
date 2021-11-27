@@ -7,7 +7,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.views.decorators.http import require_http_methods, require_GET
 
 from django.contrib.auth.models import User
-from .models import Profile, UserNutrition, Preference, Menu, Recipe, Record
+from .models import Profile, UserNutrition, Preference, Menu, Record
 
 import logmeal as api
 import os
@@ -175,6 +175,23 @@ def profile(request):
     else:
         return HttpResponseNotAllowed(['GET', 'PUT'])
 
+@require_http_methods(["GET"])
+def nutrition_all(request):
+    if not request.user.is_authenticated:
+        return HttpResponse(status=401)
+    else:
+        nutrition_objects = UserNutrition.objects.filter(user=request.user).order_by('-date')
+        response_list = []
+        for row in nutrition_objects:
+            response_list.append({
+                'date': row.date.strftime('%Y-%m-%d'),
+                'calories': row.calories,
+                'carbs': row.carbs,
+                'protein': row.protein,
+                'fat': row.fat
+            })
+        return JsonResponse(response_list, status=200, safe=False)
+
 
 def nutrition(request, date):
     if request.method == 'GET':
@@ -283,7 +300,6 @@ def record(request):
         ## decode request
         req_data = json.loads(request.body.decode())
         menu_id = int(req_data['menu_id'])
-        recipe_id = int(req_data['recipe_id'])
         review_text = req_data['review']
         liked = req_data['liked'] == "True"
         ## req_data['date'] comes in YYYY-MM-DD form, transform the string into datetime object
@@ -292,7 +308,6 @@ def record(request):
 
         new_record = Record(user = request.user,
                                 menu = Menu.objects.get(id = menu_id),
-                                recipe = Recipe.objects.get(id = recipe_id),
                                 review = review_text,
                                 liked = liked,
                                 date = date,
@@ -303,7 +318,6 @@ def record(request):
         response_dict = {'id' : new_record.id,
                             'user_id' : new_record.user.id,
                             'menu_id' : new_record.menu.id,
-                            'recipe_id' : new_record.recipe.id,
                             'review' : new_record.review,
                             'liked' : new_record.liked,
                             'date' : new_record.date,
@@ -326,7 +340,6 @@ def record_id_func(request, record_id):
     response_dict = {'id' : record_id,
                     'user_id' : matching_record.user.id,
                     'menu_id' : matching_record.menu.id,
-                    'recipe_id' : matching_record.recipe.id,
                     'review' : matching_record.review,
                     'liked' : matching_record.liked,
                     'date' : matching_record.date,
@@ -380,7 +393,6 @@ def review(request, review_record_id):
         response_dict = {'id' : review_record_id,
                         'user_id' : record_to_add_review.user.id,
                         'menu_id' : record_to_add_review.menu.id,
-                        'recipe_id' : record_to_add_review.recipe.id,
                         'review' : record_to_add_review.review,
                         'liked' : record_to_add_review.liked,
                         'date' : record_to_add_review.date,
@@ -398,7 +410,6 @@ def review(request, review_record_id):
         response_dict = {'id' : review_record_id,
                         'user_id' : record_to_edit_review.user.id,
                         'menu_id' : record_to_edit_review.menu.id,
-                        'recipe_id' : record_to_edit_review.recipe.id,
                         'review' : record_to_edit_review.review,
                         'liked' : record_to_edit_review.liked,
                         'date' : record_to_edit_review.date,
@@ -415,7 +426,6 @@ def review(request, review_record_id):
         response_dict = {'id' : review_record_id,
                         'user_id' : record_to_delete_review.user.id,
                         'menu_id' : record_to_delete_review.menu.id,
-                        'recipe_id' : record_to_delete_review.recipe.id,
                         'review' : record_to_delete_review.review,
                         'liked' : record_to_delete_review.liked,
                         'date' : record_to_delete_review.date,
@@ -443,33 +453,12 @@ def liked(request, liked_record_id):
     response_dict = {'id' : liked_record_id,
                     'user_id' : record_to_toggle_liked.user.id,
                     'menu_id' : record_to_toggle_liked.menu.id,
-                    'recipe_id' : record_to_toggle_liked.recipe.id,
                     'review' : record_to_toggle_liked.review,
                     'liked' : record_to_toggle_liked.liked,
                     'date' : record_to_toggle_liked.date,
                     'image' : record_to_toggle_liked.image.url}
     return JsonResponse(response_dict)
 
-
-@require_GET
-def recipe_menu_name(request, menu_name_recipe):
-    ## If user is not signed in, respond with 401
-    if not request.user.is_authenticated:
-        return HttpResponse(status = 401)
-
-    ## If there are no menus with menu_name_recipe, respond with 404
-    if not Menu.objects.filter(name = menu_name_recipe).exists():
-        return HttpResponse(status = 404)
-
-    ## find the menu id and the recipe object corresponding to the menu_name_recipe
-    matching_menu_id = Menu.objects.get(name = menu_name_recipe).id
-    matching_recipe = [recipe for recipe in Recipe.objects.all().values() if recipe["menu_id"] == matching_menu_id]
-
-    ## if there are no recipes corresponding to the menu id, respond with 404
-    ## else, return the correct recipe
-    if len(matching_recipe) == 0:
-        return HttpResponse(status = 404)
-    return JsonResponse({'recipe' : matching_recipe[0]["recipe"]})
 
 @require_GET
 def menu(request):
@@ -495,7 +484,8 @@ def menu_name(request, menuname):
     matching_menu = Menu.objects.get(name = menuname)
     response_dict = {'id' : matching_menu.id, 'name' : menuname, 'calories' : matching_menu.calories,
                     'carbs' : matching_menu.carbs, 'protein' : matching_menu.protein,
-                    'fat' : matching_menu.fat, 'image' : matching_menu.image.url}
+                    'fat' : matching_menu.fat, 'image' : matching_menu.image.url,
+                    'recipe': matching_menu.recipe, 'ingredient': matching_menu.ingredient }
     return JsonResponse(response_dict)
     
 @ensure_csrf_cookie
@@ -503,6 +493,7 @@ def menu_name(request, menuname):
 def token(request):
     return HttpResponse(status=204)
 
+<<<<<<< HEAD
 def detection(request):
     if request.method in ['GET', 'PUT', 'DELETE']:
         return HttpResponseNotAllowed(['GET', 'PUT', 'DELETE'])
@@ -521,3 +512,27 @@ def detection(request):
     result_list = api.menu_recognition(img, user_token=api_user_token)
 
     return JsonResponse(result_list)
+=======
+## recommend 15 menus total(5 for each meal)
+@require_GET
+def recommend(request):
+    # if unauthenticated
+    if not request.user.is_authenticated:
+        return HttpResponse(status = 401)
+
+    # find the user's nutritional info
+
+    # date_list = date.split('-')
+    # today = datetime.date(int(date_list[0]), 
+    #         int(date_list[1]), int(date_list[2]))
+    # try:
+    #     today_nutrition = UserNutrition.objects.get(
+    #         user_id=request.user.id, date=today)
+    # except UserNutrition.DoesNotExist:      # User.DoesNotExist?
+    #     return HttpResponse(status=404)
+
+    # choose 5 for each meal +-10%
+    # check if it does not preserve user preference
+
+    # return JsonResponse()
+>>>>>>> 6182de8d9430e3c854a009749daad57f4d8e55d4

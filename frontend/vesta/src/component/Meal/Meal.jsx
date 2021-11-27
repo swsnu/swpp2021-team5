@@ -2,19 +2,67 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import { Image } from 'semantic-ui-react';
+import { Icon } from 'semantic-ui-react';
 import * as actionCreators from '../../store/actions/index';
 import {
   Breakfast, Lunch, Dinner, MealName,
 } from '../../styles/Menu_Recommendation/Meals';
 
 class Meal extends Component {
+  constructor() {
+    super();
+    this.state = {
+      otherBreakfast: false,
+      otherLunch: false,
+      otherDinner: false,
+    };
+  }
+
+  onClickedOtherBreakfast = () => {
+    if (this.state.otherBreakfast) {
+      this.setState({
+        otherBreakfast: false,
+      });
+    } else {
+      this.setState({
+        otherBreakfast: true,
+      });
+    }
+  };
+
+  onClickedOtherLunch = () => {
+    if (this.state.otherLunch) {
+      this.setState({
+        otherLunch: false,
+      });
+    } else {
+      this.setState({
+        otherLunch: true,
+      });
+    }
+  };
+
+  onClickedOtherDinner = () => {
+    if (this.state.otherDinner) {
+      this.setState({
+        otherDinner: false,
+      });
+    } else {
+      this.setState({
+        otherDinner: true,
+      });
+    }
+  };
+
   onMealDetail = (when, idx) => {
     console.log('here');
     this.props.history.push('/recommendation/'+when+'/'+idx);
   }
 
   render() {
+    let breakfast_ = "Breakfast  ";
+    let lunch_ = "Lunch  ";
+    let dinner_ = "Dinner  ";
     if (this.props.time === 'breakfast') {
       return (
         <div>
@@ -23,13 +71,17 @@ class Meal extends Component {
               <img
                 id="breakfast"
                 src="/DummyImages/breakfast1_.jpeg"
-                height={180}
-                width={270}
+                height={240}
+                width={360}
                 alt="meal_one"
               />
             </a>
-            <MealName>Breakfast</MealName>
+            <MealName>
+              {breakfast_}
+              <Icon name="search plus" size="large" onClick={() => this.onClickedOtherBreakfast()}/>
+            </MealName>
           </Breakfast>
+          {this.state.otherBreakfast ? "null" : null}
         </div>
       );
     } else if (this.props.time === 'lunch') {
@@ -40,13 +92,17 @@ class Meal extends Component {
               <img
                 id="lunch"
                 src="/DummyImages/lunch1_.jpeg"
-                height={180}
-                width={270}
+                height={240}
+                width={360}
                 alt="meal_one"
               />
             </a>
-            <MealName>Lunch</MealName>
+            <MealName>
+              {lunch_}
+              <Icon name="search plus" size="large" onClick={() => this.onClickedOtherLunch()}/>
+            </MealName>
           </Lunch>
+          {this.state.otherLunch ? "null" : null}
         </div>
       );
     }
@@ -57,13 +113,17 @@ class Meal extends Component {
             <img
               id="dinner"
               src="/DummyImages/dinner1_.jpeg"
-              height={180}
-              width={270}
+              height={240}
+              width={360}
               alt="meal_one"
             />
           </a>
-          <MealName>Dinner</MealName>
+          <MealName>
+              {dinner_}
+              <Icon name="search plus" size="large" onClick={() => this.onClickedOtherDinner()}/>
+            </MealName>
         </Dinner>
+        {this.state.otherDinner ? "dinner" : null}
       </div>
     );
   }

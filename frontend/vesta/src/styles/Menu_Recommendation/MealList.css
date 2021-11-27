@@ -1,0 +1,55 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.item {
+  width: 700px;
+}
+
+.container_other_breakfast {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  background-color:#77ACF2;
+  border-radius: 10px;
+  padding:2%;
+  margin: 15px;
+}
+
+.item_other_breakfast {
+  width: 400px;
+}
+
+.container_other_lunch {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  background-color:#D95407;
+  border-radius: 10px;
+  padding:2%;
+  margin: 15px;
+}
+
+.item_other_lunch {
+  width: 400px;
+}
+
+.container_other_dinner {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  background-color:#BF7960;
+  border-radius: 10px;
+  padding:2%;
+  margin: 15px;
+}
+
+.item_other_dinner {
+  width: 400px;
+}

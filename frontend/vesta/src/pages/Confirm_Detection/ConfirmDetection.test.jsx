@@ -35,7 +35,7 @@ describe('<ConfirmDetection />', () => {
     expect(wrapper.length).toBe(1);
   });
 
-  it('should handle review creation', () => {
+  xit('should handle review creation', () => {
     const component = mount(confirmDetection);
     component.find('textarea#review-text').simulate('change', { target: { value: 'test_review' } });
     const wrapper = component.find(ConfirmDetection).instance();
@@ -52,7 +52,7 @@ describe('<ConfirmDetection />', () => {
   })
   */
 
-  it('should handle menuName change', () => {
+  xit('should handle menuName change', () => {
     const component = mount(confirmDetection);
     const wrapper = component.find(ConfirmDetection).instance();
     wrapper.setState({ menuName: 'sushi' });
