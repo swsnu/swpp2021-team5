@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
 import { Switch } from 'react-router';
 import { Route } from 'react-router-dom';
-import { getMockStore } from '../../../test-utils/mock';
+import { getMockStore } from '../../test-utils/mock';
 import NutritionalInfoAndRecipe from './NutritionalInfoAndRecipe';
 import { history } from '../../store/store';
 import * as actionCreators from '../../store/actions/Menu/menu';
@@ -18,7 +18,7 @@ const stubMenuInitialState = {
     carbs: 60,
     protein: 22,
     fat: 16,
-    recipe: '1. Preheat oven to 375F.\n2. In a large bowl cream together butter brown sugar vanilla and cinnamon until smooth.\n3. Add the two kinds of oats one at a time mixing well after each addition.', 
+    recipe: '1. Preheat oven to 375F.\n2. In a large bowl cream together butter brown sugar vanilla and cinnamon until smooth.\n3. Add the two kinds of oats one at a time mixing well after each addition.',
   },
   allMenus: null,
   recommendedMenus: [
@@ -52,12 +52,13 @@ describe('<NutritionalInfoAndRecipe />', () => {
       idx: 0
     }
   }
+  let spyUpdateSelectedMenu_;
   beforeEach(() => {
     nutritional = (
       <Provider store={mockStore}>
         <ConnectedRouter history={history}>
           <Switch>
-            <Route path="/" exact render={() => <NutritionalInfoAndRecipe match={match}/> }/>
+            <Route path="/" exact component={NutritionalInfoAndRecipe} match={{ params: { when: 0, idx: 0 } }} />
           </Switch>
         </ConnectedRouter>
       </Provider>
@@ -73,7 +74,6 @@ describe('<NutritionalInfoAndRecipe />', () => {
     const wrapper = component.find('.NutritionalInfoAndRecipe');
     expect(wrapper.length).toBe(1);
   });
-
 });
 
 const stubMenuInitialState_ = {
@@ -86,12 +86,13 @@ const mockStore_ = getMockStore(userInitialState, recordInitialState, stubMenuIn
 
 describe('<NutritionalInfoAndRecipe />', () => {
   let nutritional;
+  let spyUpdateSelectedMenu_;
   beforeEach(() => {
     nutritional = (
       <Provider store={mockStore_}>
         <ConnectedRouter history={history}>
           <Switch>
-            <Route path="/" exact component={NutritionalInfoAndRecipe} match={{params: {when:0, idx:0}}}/>
+            <Route path="/" exact component={NutritionalInfoAndRecipe} match={{ params: { when: 0, idx: 0 } }} />
           </Switch>
         </ConnectedRouter>
       </Provider>
@@ -107,5 +108,4 @@ describe('<NutritionalInfoAndRecipe />', () => {
     const wrapper = component.find('.NutritionalInfoAndRecipe');
     expect(wrapper.length).toBe(1);
   });
-
 });

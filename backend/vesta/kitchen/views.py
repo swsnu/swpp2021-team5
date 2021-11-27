@@ -4,7 +4,6 @@ import re
 import random
 from django.db.models.fields import NullBooleanField
 from django.http import HttpResponse, HttpResponseNotAllowed
-from django.http import response
 from django.http.response import JsonResponse
 from django.views.decorators.csrf import csrf_exempt, ensure_csrf_cookie
 from django.contrib.auth import authenticate, login, logout
@@ -12,6 +11,8 @@ from django.views.decorators.http import require_http_methods, require_GET
 
 from django.contrib.auth.models import User
 from .models import Profile, UserNutrition, Preference, Menu, Record
+import logmeal as api
+import os
 
 # Create your views here.
 
@@ -46,7 +47,27 @@ def signin(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return HttpResponse(status=204)
+            try:
+                user = User.objects.get(id=user.id)
+            except User.DoesNotExist:      # Profile.DoesNotExist?
+                return HttpResponse(status=404)
+
+            food_preference_list = []
+            for item in Preference.objects.filter(user_id=request.user.id):
+                food_preference_list.append(str(item.menu.name))
+
+            user_profile = user.profile
+            response_dict = {
+                'userID': user.id,
+                'username': user.username,
+                'age': user_profile.age,
+                'sex': user_profile.sex,
+                'height': user_profile.height,
+                'weight': user_profile.weight,
+                'preference': food_preference_list,
+                'targetCalories': user_profile.target_calories
+            }
+            return JsonResponse(response_dict, status=200, safe=False)
         else:
             return HttpResponse(status=401)
     else:
@@ -88,7 +109,7 @@ def profile(request):
 
             food_preference_list = []
             for item in Preference.objects.filter(user_id=request.user.id):
-                food_preference_list.append(item.ingredient)
+                food_preference_list.append(str(item.menu.name))
 
             user_profile = user.profile
             response_dict = {
@@ -132,7 +153,7 @@ def profile(request):
                 new_preference_item.save()
             food_preference_list_response = []
             for item in Preference.objects.filter(user_id=request.user.id):
-                food_preference_list_response.append(item.ingredient)
+                food_preference_list_response.append(str(item.menu.name))
 
             response_dict = {
                 'username': user.username,
@@ -196,10 +217,10 @@ def nutrition(request, date):
             today = datetime.date(int(date_list[0]), int(
                 date_list[1]), int(date_list[2]))
             req_data = json.loads(request.body.decode())
-            calories = float(req_data['calories'])
-            carbs = float(req_data['carbs'])
-            protein = float(req_data['protein'])
-            fat = float(req_data['fat'])
+            calories = int(req_data['calories'])
+            carbs = int(req_data['carbs'])
+            protein = int(req_data['protein'])
+            fat = int(req_data['fat'])
 
             new_record = UserNutrition(
                 user=request.user,
@@ -232,10 +253,10 @@ def nutrition(request, date):
                 return HttpResponse(status=404)
 
             # should add checking Forbidden(403)
-            new_calories = float(req_data['calories'])
-            new_carbs = float(req_data['carbs'])
-            new_protein = float(req_data['protein'])
-            new_fat = float(req_data['fat'])
+            new_calories = int(req_data['calories'])
+            new_carbs = int(req_data['carbs'])
+            new_protein = int(req_data['protein'])
+            new_fat = int(req_data['fat'])
 
             today_nutrition.calories = new_calories
             today_nutrition.carbs = new_carbs
@@ -491,9 +512,27 @@ def menu_name(request, menuname):
 def token(request):
     return HttpResponse(status=204)
 
+def detection(request):
+    if request.method in ['GET', 'PUT', 'DELETE']:
+        return HttpResponseNotAllowed(['GET', 'PUT', 'DELETE'])
+    if not request.user.is_authenticated:
+        return HttpResponse(status = 401)
+    user = request.user
+    api_company_token = api.api_company_token
+    api_user_token = api.api_user_token
+    images_path = api.images_path
+
+    req_data = json.loads(request.body.decode())
+    img_filename = req_data['file']
+
+    img = api.preprocess(os.path.join(images_path, img_filename))
+
+    result_list = api.menu_recognition(img, user_token=api_user_token)
+
+    return JsonResponse(result_list)
 ## recommend 15 menus total(5 for each meal)
 @require_GET
-def recommend(request, date):
+def recommend(request):
     # if unauthenticated
     if not request.user.is_authenticated:
         return HttpResponse(status = 401)
