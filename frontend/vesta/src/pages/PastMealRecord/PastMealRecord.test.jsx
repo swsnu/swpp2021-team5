@@ -6,9 +6,12 @@ import { Route, Switch } from 'react-router';
 import PastMealRecord from './PastMealRecord';
 import { history } from '../../store/store';
 import { getMockStore } from '../../test-utils/mock';
+import RecordDetail from '../../component/Record/RecordDetail/RecordDetail';
 
 const stubInitialState = {
-  user: null,
+  user: {
+    userID: 1
+  },
   userRecords: [
     {
       id: 1,
@@ -39,7 +42,7 @@ describe('<PastMealRecord />', () => {
   let recordDetail;
   beforeEach(() => {
     recordDetail = (
-      <Provider store={mockStore}>
+      <Provider>
         <ConnectedRouter history={history}>
           <Switch>
             <Route
@@ -53,8 +56,8 @@ describe('<PastMealRecord />', () => {
     );
   });
   it('should be rendered properly', () => {
-    const component = mount(recordDetail);
-    const wrapper = component.find('.Records');
+    const component = shallow(< PastMealRecord />);
+    const wrapper = component.find('.PastMealRecord');
     expect(wrapper.length).toBe(1);
   });
 });

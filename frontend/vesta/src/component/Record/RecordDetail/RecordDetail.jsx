@@ -52,21 +52,28 @@ margin-bottom:30px;
 
 class RecordDetail extends Component {
   componentDidMount() {
+    console.log(this.props.id);
     this.props.onGetRecord(this.props.id)
-    this.props.onGetMenu(this.props.record.menuName);
+    if (this.props.record) {
+      console.log("liked");
+      console.log(this.props.record.menu)
+      this.props.onGetMenu(this.props.record.menu);
+      this.setState({ liked: this.props.record.liked });
+    }
   }
   // clickRecordsHandler = () => {
   //   this.props.history.push('/history/');
   // }
+  state = { liked: true }
+
   render() {
     var liked = false;
-    if (this.props.record) {
-      liked = this.props.record.liked;
-    }
+    liked = this.state.liked;
     var color='black';
     if (liked===true) {
       color='red'
     }
+    console.log(this.state.liked)
     let menuName = 'Sushi';
     let calories = 446;
     let carbs = 93.29;
@@ -74,7 +81,7 @@ class RecordDetail extends Component {
     let fat = 1.31;
     let recipe = 'Ways to make good sushi';
     let date = "2021/11/11";
-    if (this.props.selectedMenu !== null) {
+    if (this.props.selectedMenu !== null && this.props.record !== null) {
       menuName = this.props.selectedMenu.name;
       calories = this.props.selectedMenu.calories;
       carbs = this.props.selectedMenu.carbs;
@@ -142,7 +149,7 @@ class RecordDetail extends Component {
                 <Button id="back-to-recommendations"
                   onClick={() => this.props.history.push('/history')}
                   >Back</Button>
-                <Button onClick={this.props.onToggleRecord(this.props.id)}>
+                <Button onClick={() => { this.setState({liked: !liked});this.props.onToggleRecord(this.props.id)}}>
                   <h4 className="liked" style={{color:color}}>&#9829;</h4>
                 </Button>
               </div>
@@ -157,7 +164,7 @@ class RecordDetail extends Component {
 const mapStateToProps = state => {
   return {
     record: state.record.selectedRecord,
-    selectedMenu: state.menu.selectedMenu
+    selectedMenu: state.menu.selectedMenu,
   }
 }
 

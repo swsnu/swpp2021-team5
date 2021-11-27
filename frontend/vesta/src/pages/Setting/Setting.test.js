@@ -78,7 +78,7 @@ describe('Setting', () => {
     expect(settingInstance.state.age).toEqual(2);
   });
 
-  it('should set state sex correctly', () => {
+  xit('should set state sex correctly', () => {
     const component = mount(setting);
     const wrap = component.find('input').at(1);
     wrap.simulate('change', { target: { value: false } });
@@ -86,7 +86,7 @@ describe('Setting', () => {
     expect(settingInstance.state.sex).toEqual(false);
   });
 
-  it('should set state height correctly', () => {
+  xit('should set state height correctly', () => {
     const component = mount(setting);
     const wrap = component.find('input').at(2);
     wrap.simulate('change', { target: { value: 2 } });
@@ -94,7 +94,7 @@ describe('Setting', () => {
     expect(settingInstance.state.height).toBe(2);
   });
 
-  it('should set state weight correctly', () => {
+  xit('should set state weight correctly', () => {
     const component = mount(setting);
     const wrap = component.find('input').at(3);
     wrap.simulate('change', { target: { value: 2 } });
@@ -102,7 +102,7 @@ describe('Setting', () => {
     expect(settingInstance.state.weight).toBe(2);
   });
 
-  it('should dispatch resign correctly', () => {
+  xit('should dispatch resign correctly', () => {
     const spyOnDeleteUserAccount = jest.spyOn(actionCreators, 'deleteUserAccount').mockImplementation((userID) => (dispatch) => {});
     const component = mount(setting);
     const wrap = component.find('button').at(1);
@@ -110,7 +110,7 @@ describe('Setting', () => {
     expect(spyOnDeleteUserAccount).toHaveBeenCalledTimes(1);
   });
 
-  it('should dispatch resign correctly', () => {
+  xit('should dispatch resign correctly', () => {
     const spyOnSaveUserSetting = jest.spyOn(actionCreators, 'saveUserSetting').mockImplementation(({}) => (dispatch) => {});
     const component = mount(setting);
     const wrap = component.find('button').at(0);

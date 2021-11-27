@@ -53,7 +53,7 @@ describe('<RecordDetail />', () => {
   it('should be rendered properly', () => {
     const spyGetRec = jest.spyOn(actionCreators, 'getRecord').mockImplementation((id) => ({ type: null }));
     const spyToggleRec = jest.spyOn(actionCreators, 'toggleRecord').mockImplementation((id) => (dispatch) => {});
-    const spyGetmenu = jest.spyOn(actionCreators_, 'getMenu');
+    const spyGetmenu = jest.spyOn(actionCreators_, 'getMenu').mockImplementation((id) => (dispatch) => {});
 
     const component = mount(recordDetail);
     const wrapper = component.find('.RecordDetail');
@@ -70,5 +70,32 @@ describe('<RecordDetail />', () => {
     buttons.at(1).simulate('click');
     const liked = buttons.find('h4');
     expect(liked.text()).toEqual('♥');
+  });
+  it('should toggle liked', () => {
+    const stubInitialState2 = {
+      selectedRecord: {
+        id: 1,
+        liked: false,
+        date: 1,
+      },
+      selectedMenu: null
+    };
+
+    const component2 = mount(
+      <Provider store={getMockStore(stubInitialState2, stubInitialState2, stubInitialState2, stubInitialState2)}>
+        <ConnectedRouter history={history}>
+          <Switch>
+            <Route
+              path="/"
+              exact
+              render={() => <RecordDetail />}
+            />
+          </Switch>
+        </ConnectedRouter>
+      </Provider>
+    );
+    const wrapper2 = component2.find('div');
+    expect(wrapper2.length).toBe(1);
+    expect(wrapper2).toHaveStyle(`color: "red"`)
   });
 });

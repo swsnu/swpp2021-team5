@@ -38,4 +38,4 @@ class PastMealRecord extends Component {
 //   getRecords: () => dispatch(actionCreators.getRecords()),
 // });
 
-export default connect(null, null)(withRouter(PastMealRecord));
+export default PastMealRecord;
