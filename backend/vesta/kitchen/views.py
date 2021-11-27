@@ -1,14 +1,16 @@
 import json
 import datetime
+import re
+import random
+from django.db.models.fields import NullBooleanField
 from django.http import HttpResponse, HttpResponseNotAllowed
 from django.http.response import JsonResponse
-from django.views.decorators.csrf import ensure_csrf_cookie
+from django.views.decorators.csrf import csrf_exempt, ensure_csrf_cookie
 from django.contrib.auth import authenticate, login, logout
 from django.views.decorators.http import require_http_methods, require_GET
 
 from django.contrib.auth.models import User
 from .models import Profile, UserNutrition, Preference, Menu, Record
-
 import logmeal as api
 import os
 
@@ -144,17 +146,10 @@ def profile(request):
 
             # lines below should be refactored so that pk of row could be keep
             new_food_preference_list = req_data['preference']
-            for food in new_food_preference_list:
-                try:
-                    Menu.objects.get(name=food)
-                except Menu.DoesNotExist:
-                    return HttpResponse(status=404)
 
             Preference.objects.filter(user_id=request.user.id).delete()
             for food in new_food_preference_list:
-                new_menu = Menu.objects.get(name=food)
-                new_preference_item = Preference(
-                    user=request.user, menu=new_menu)
+                new_preference_item = Preference(user=request.user, ingredient=food)
                 new_preference_item.save()
             food_preference_list_response = []
             for item in Preference.objects.filter(user_id=request.user.id):
@@ -280,6 +275,30 @@ def nutrition(request, date):
             return HttpResponse(status=401)
     else:
         return HttpResponseNotAllowed(['GET', 'POST', 'PUT'])
+
+
+def nutrition_count(request, date):   ## used for recommendation page
+    if not request.user.is_authenticated:
+        return HttpResponse(status=401)
+
+    if request.method == 'GET':
+        date_list = date.split('-')
+        today = datetime.date(int(date_list[0]), int(
+            date_list[1]), int(date_list[2]))
+        try:
+            today_nutrition = UserNutrition.objects.get(
+                user_id=request.user.id, date=today)
+        except UserNutrition.DoesNotExist:
+            response_dict = {
+                'count_all': 0
+            }
+            return JsonResponse(response_dict, status=200)
+        response_dict = {
+            'count_all': today_nutrition.count_all
+        }
+        return JsonResponse(response_dict, status=200)
+    else:
+        return HttpResponseNotAllowed(['GET'])
 
 
 def record(request):
@@ -519,17 +538,89 @@ def recommend(request):
         return HttpResponse(status = 401)
 
     # find the user's nutritional info
+    date_list = date.split('-')
+    today = datetime.date(int(date_list[0]), 
+            int(date_list[1]), int(date_list[2]))
+    try:
+        today_nutrition = UserNutrition.objects.get(
+            user_id=request.user.id, date=today)
+    except UserNutrition.DoesNotExist:     
+        today_nutrition = UserNutrition(
+            user_id=request.user.id,
+            date=today,
+            calories=0,
+            carbs=0,
+            protein=0,
+            fat=0
+        )
+    # left meal times 
+    times = 3
 
-    # date_list = date.split('-')
-    # today = datetime.date(int(date_list[0]), 
-    #         int(date_list[1]), int(date_list[2]))
-    # try:
-    #     today_nutrition = UserNutrition.objects.get(
-    #         user_id=request.user.id, date=today)
-    # except UserNutrition.DoesNotExist:      # User.DoesNotExist?
-    #     return HttpResponse(status=404)
+    # target calories, carbs, protein, fat 
+    # profile = Profile.objects.get(user_id=request.user.id)
+    # age = profile.age
+    # sex = profile.sex
+    # height = profile.height
+    # weight = profile.weight
+    
+    # if sex == True:
+    #     target_cal = 66.47 + 13.75 * weight + 5 * height - 6.76 * age
+    # else:
+    #     target_cal = 655.1 + 9.56 * weight + 1.85 * height - 4.68 * age
+    # target_carbs = ((target_cal*0.5)/4)
+    # target_protein = ((target_cal*0.3)/4)
+    # target_fat = ((target_cal*0.2)/4)
+    target_cal = 2000
+    target_carbs = ((target_cal*0.5)/4)
+    target_protein = ((target_cal*0.3)/4)
+    target_fat = ((target_cal*0.2)/4)
 
-    # choose 5 for each meal +-10%
-    # check if it does not preserve user preference
-
-    # return JsonResponse()
+    # allowed calories, carbs, protein, fat per meal
+    allowed_cal = (target_cal - float(today_nutrition.calories)) / times
+    allowed_carbs = (target_carbs - float(today_nutrition.carbs)) / times
+    allowed_protein = (target_protein - float(today_nutrition.protein)) / times
+    allowed_fat = (target_fat - float(today_nutrition.fat)) / times
+    min_cal = allowed_cal-150
+    min_carbs = allowed_carbs-50
+    min_protein = allowed_protein-30
+    min_fat = allowed_fat-20
+    # get all menus
+    menus = Menu.objects.all()
+    candidates = []
+    print('calories:', allowed_cal, ', ', min_cal)
+    print('carbs:', allowed_carbs, ', ', min_carbs)
+    print('protein:', allowed_protein, ', ', min_protein)
+    print('fat:', allowed_fat, ', ', min_fat)
+    # choose all candidates
+    for menu in menus:
+        if menu.calories < allowed_cal and menu.carbs < allowed_carbs and menu.protein < allowed_protein and menu.fat < allowed_fat:
+        # if m.calories > min_cal and m.calories < allowed_cal and m.carbs > min_carbs and m.carbs < allowed_carbs and m.protein > min_protein and m.protein < allowed_protein and m.fat > min_fat and m.fat < allowed_fat:
+            # check ingredients
+            preference = Preference.objects.filter(user_id=request.user.id) # list
+            ingredient = re.findall("'(.*?)'", menu.ingredient)  # list
+            intersect = set(preference) & set(ingredient)
+            if intersect:   # if there is intersection, do not include
+                continue
+            else:  # no intersection
+                candidates.append(menu)
+        else:
+            continue
+    # random select 15 of them, return
+    if len(candidates) > 15:
+        # select the ones with like TODO
+        candidates = random.sample(candidates, 15)
+    response_dict = []
+    for can in candidates:
+        response_dict.append({
+            'id': can.id,
+            'name': can.name,
+            'calories': can.calories,
+            'carbs': can.carbs,
+            'protein': can.protein,
+            'fat': can.fat,
+            'image': "http://localhost:8000/media/"+str(can.image).split('/')[-1],
+            'recipe': can.recipe,
+            'ingredient': can.ingredient
+        })
+    print(len(response_dict))
+    return JsonResponse(response_dict, safe=False)

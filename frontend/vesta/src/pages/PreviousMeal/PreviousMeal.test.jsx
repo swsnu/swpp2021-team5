@@ -3,9 +3,9 @@ import { shallow, mount } from 'enzyme';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
 import { Route, Switch } from 'react-router';
-import PreviousMeal from './PreviousMeal';
 import { history } from '../../store/store';
 import { getMockStore } from '../../test-utils/mock';
+import PreviousMeal from './PreviousMeal';
 
 const stubInitialState = {
   user: null,
@@ -35,26 +35,22 @@ jest.mock('../../component/Record/RecordDetail/RecordDetail', () => jest.fn((pro
 
 const mockStore = getMockStore(stubInitialState, stubInitialState, stubInitialState, stubInitialState);
 
-describe('<PastMealRecord />', () => {
+describe('<PreviousMeal />', () => {
   let recordDetail;
   beforeEach(() => {
     recordDetail = (
-      <Provider store={mockStore}>
-        <ConnectedRouter history={history}>
-          <Switch>
-            <Route
-              path="/"
-              exact
-              render={() => <PreviousMeal />}
-            />
-          </Switch>
-        </ConnectedRouter>
-      </Provider>
+      <Route
+        path="/"
+        exact
+        render={({match}) => <PreviousMeal id={match.params.id} />}
+      />
     );
   });
+  
   it('should be rendered properly', () => {
-    const component = mount(recordDetail);
-    const wrapper = component.find('.Records');
+    const setRouteLeaveHook = jest.fn();
+    const component = shallow(<PreviousMeal.WrappedComponent params={{router: setRouteLeaveHook}} />);
+    const wrapper = component.find('.PreviousMeal');
     expect(wrapper.length).toBe(1);
   });
 });

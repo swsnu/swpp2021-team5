@@ -1,7 +1,9 @@
 export {
-  saveUserSetting, getUserSetting, deleteUserAccount, signUp, logIn, logout, getUserNutrition
+  saveUserSetting, getUserSetting, deleteUserAccount, signUp, logIn, logout, getUserNutrition,
 } from './User/user';
-export { getMenu, getRecommendedMenus, updateSelectedMenu_, } from './Menu/menu';
+export {
+  getMenu, getRecommendedMenus, getCountAll,
+} from './Menu/menu';
 export {
   getRecord, getRecords, toggleRecord, getReview, createReview, editReview, deleteReview,
 } from './Record/record';

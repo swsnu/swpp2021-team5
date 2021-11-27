@@ -17,4 +17,4 @@ images_path = os.path.join(dirname(dirname(__file__)), 'images')
 
 # menu recognition test
 
-api.menu_recognition(os.path.join(images_path, "brownie.jpeg"))
+# api.menu_recognition(os.path.join(images_path, "brownie.jpeg"))
