@@ -1,6 +1,6 @@
 import datetime
 import json
-from django.test import TestCase, Client
+from django.test import TestCase, Client, client
 from django.contrib.auth.models import User
 from .models import Menu, Preference, Record, Profile, UserNutrition
 
@@ -41,10 +41,9 @@ class KitchenTestClass(TestCase):
         self.assertEqual(response.status_code, 401)
 
         ## if client is signed in, response to POST request should be 200 with correct content
-        response = client2.post('/api/record/', {'menu_id': 1, 'review': 'review2', 'liked': 'False', 'date': '2021-11-11', 'image': './record_images/brownie.jpeg'}, content_type='application/json')
+        response = client2.post('/api/record/', {'menu': 'testmenu', 'review': 'review2', 'liked': 'False', 'date': '2021-11-11', 'image': './record_images/brownie.jpeg'}, content_type='application/json')
         self.assertEqual(response.status_code, 200)
-        self.assertEqual('{"id": 2, "user_id": 1, "menu_id": 1, "review": "review2", "liked": false, "date": "2021-11-11", "image": "/record_images/brownie.jpeg"}', response.content.decode())
-
+        self.assertEqual('{"id": 2, "user_id": 1, "menu_id": 1, "review": "review2", "liked": false, "date": "'+ datetime.date.today().strftime("%Y-%m-%d")+'", "image": "/record_images/brownie.jpeg"}', response.content.decode())
 
         ## NOT GET, POST TEST
         response = client2.put('/api/record/')
@@ -80,7 +79,7 @@ class KitchenTestClass(TestCase):
         ## correct response test
         response = client2.get('/api/record/1/')
         self.assertEqual(response.status_code, 200)
-        self.assertEqual('{"id": 1, "user_id": 1, "menu_id": 1, "review": "review1", "liked": true, "date": "2021-11-01", "image": "/record_images/brownie.jpeg"}', response.content.decode())
+        self.assertEqual('{"id": 1, "user_id": 1, "menu_id": 1, "review": "review1", "liked": true, "date": "2021-11-01", "image": "/media/record_images/brownie.jpeg"}', response.content.decode())
 
 
         ## NOT GET TEST
@@ -163,17 +162,17 @@ class KitchenTestClass(TestCase):
         
         response = client2.post('/api/record/1/review/', {'review': 'newReview'}, content_type='application/json')
         self.assertEqual(response.status_code, 200)
-        self.assertEqual('{"id": 1, "user_id": 1, "menu_id": 1, "review": "newReview", "liked": true, "date": "2021-11-01", "image": "/record_images/brownie.jpeg"}', response.content.decode())
+        self.assertEqual('{"id": 1, "user_id": 1, "menu_id": 1, "review": "newReview", "liked": true, "date": "2021-11-01", "image": "/media/record_images/brownie.jpeg"}', response.content.decode())
 
         ## PUT TEST
         response = client2.put('/api/record/1/review/', {'review': 'editReview'}, content_type='application/json')
         self.assertEqual(response.status_code, 200)
-        self.assertEqual('{"id": 1, "user_id": 1, "menu_id": 1, "review": "editReview", "liked": true, "date": "2021-11-01", "image": "/record_images/brownie.jpeg"}', response.content.decode())
+        self.assertEqual('{"id": 1, "user_id": 1, "menu_id": 1, "review": "editReview", "liked": true, "date": "2021-11-01", "image": "/media/record_images/brownie.jpeg"}', response.content.decode())
 
         ## DELETE TEST
         response = client2.delete('/api/record/1/review/')
         self.assertEqual(response.status_code, 200)
-        self.assertEqual('{"id": 1, "user_id": 1, "menu_id": 1, "review": "", "liked": true, "date": "2021-11-01", "image": "/record_images/brownie.jpeg"}', response.content.decode())
+        self.assertEqual('{"id": 1, "user_id": 1, "menu_id": 1, "review": "", "liked": true, "date": "2021-11-01", "image": "/media/record_images/brownie.jpeg"}', response.content.decode())
 
 
     ## test api/record/<int:liked_record_id>/liked/
@@ -216,7 +215,7 @@ class KitchenTestClass(TestCase):
         ## correct response test
         response = client2.put('/api/record/1/liked/')
         self.assertEqual(response.status_code, 200)
-        self.assertEqual('{"id": 1, "user_id": 1, "menu_id": 1, "review": "review1", "liked": false, "date": "2021-11-01", "image": "/record_images/brownie.jpeg"}', response.content.decode())
+        self.assertEqual('{"id": 1, "user_id": 1, "menu_id": 1, "review": "review1", "liked": false, "date": "2021-11-01", "image": "/media/record_images/brownie.jpeg"}', response.content.decode())
 
     ## test api/menu/
     def test_menu(self): 
@@ -268,7 +267,7 @@ class KitchenTestClass(TestCase):
         ## correct response test
         response = client2.get('/api/menu/testmenu/')
         self.assertEqual(response.status_code, 200)
-        self.assertEqual('{"id": 1, "name": "testmenu", "calories": 1.0, "carbs": 1.0, "protein": 1.0, "fat": 1.0, "image": "/images/brownie.jpeg", "recipe": "1. make brownie", "ingredient": "chocolate"}', response.content.decode())
+        self.assertEqual('{"id": 1, "name": "testmenu", "calories": 1.0, "carbs": 1.0, "protein": 1.0, "fat": 1.0, "image": "/media/images/brownie.jpeg", "recipe": "1. make brownie", "ingredient": "chocolate"}', response.content.decode())
 
 
     ## test api/token/
@@ -294,6 +293,7 @@ class KitchenTestClass(TestCase):
         client = Client()
         response = client.post('/api/user/signup/', json.dumps({'username': 'chris', 'password': 'chris', 'age': 5, 'sex': True, 'height': 160, 'weight': 60, 'targetCalories': 2000 }), content_type='application/json')
         self.assertEqual(response.status_code, 201)  
+
 
     def test_signin(self):
         user = User.objects.create(username='testuser')
@@ -342,7 +342,7 @@ class KitchenTestClass(TestCase):
         profile.save()
         menu = Menu.objects.create(name='testmenu', calories=1, carbs=1, protein=1, fat=1, image='./images/brownie.jpeg', recipe="1. make brownie", ingredient="chocolate")
         menu.save()
-
+        
         preference = Preference(user=user, ingredient="chocolate")
         preference.save()
 
@@ -355,7 +355,8 @@ class KitchenTestClass(TestCase):
             'sex': False,
             'height': '5',
             'weight': '5',
-            'preference': ['chocolate']
+            'preference': ['testmenu'],
+            'targetCalories': '5',
         }), content_type='application/json')
         self.assertEqual(response.status_code, 401)
 
@@ -369,19 +370,25 @@ class KitchenTestClass(TestCase):
             'sex': False,
             'height': '5',
             'weight': '5',
-            'preference': ['chocolate']
+            'preference': ['chocolate'],
+            'targetCalories': '5',
         }), content_type='application/json')
         self.assertEqual(response.status_code, 200)
 
-        # response = client.put('/api/user/profile/', json.dumps({
-        #     'username': 'bang',
-        #     'age': '5',
-        #     'sex': False,
-        #     'height': '5',
-        #     'weight': '5',
-        #     'preference': ['chicken']
-        # }), content_type='application/json')
-        # self.assertEqual(response.status_code, 404)
+        response = client.put('/api/user/profile/', json.dumps({
+            'username': 'bang',
+            'age': '5',
+            'sex': False,
+            'height': '5',
+            'weight': '5',
+            'preference': ['chicken'],
+            'targetCalories': '5',
+        }), content_type='application/json')
+        self.assertEqual(response.status_code, 404)
+
+        response = client.post('/api/user/profile/')
+        self.assertEqual(response.status_code, 405)
+
     
     def test_nutrition_all(self):
         user = User.objects.create(username='testuser')
@@ -417,11 +424,11 @@ class KitchenTestClass(TestCase):
         response = client.get('/api/nutrition/2021-11-11/')
         self.assertEqual(response.status_code, 401)
         response = client.post('/api/nutrition/2021-11-1/', json.dumps({
-            "calories": 1, "carbs": 1, "protein": 1, "fat": 1
+            "calories": 1, "carbs": 1, "protein": 1, "fat": 1, "count_all": 1
         }), content_type='application/json')
         self.assertEqual(response.status_code, 401)
         response = client.put('/api/nutrition/2021-11-11/', json.dumps({
-            "calories": 1, "carbs": 1, "protein": 1, "fat": 2
+            "calories": 1, "carbs": 1, "protein": 1, "fat": 2, "count_all": 1
         }), content_type='application/json')
         self.assertEqual(response.status_code, 401)
 
@@ -434,21 +441,55 @@ class KitchenTestClass(TestCase):
         self.assertEqual(response.status_code, 404)
 
         response = client.post('/api/nutrition/2021-11-12/', json.dumps({
-            "calories": 1, "carbs": 1, "protein": 1, "fat": 1
+            "calories": 1, "carbs": 1, "protein": 1, "fat": 1, "count_all": 1
         }), content_type='application/json')
         self.assertEqual(response.status_code, 201)
 
         response = client.post('/api/nutrition/2021-11-1/', json.dumps({
-            "calories": 1, "carbs": 1, "protein": 1, "fat": 1
+            "calories": 1, "carbs": 1, "protein": 1, "fat": 1, "count_all": 1
         }), content_type='application/json')
         self.assertEqual(response.status_code, 201)
 
         response = client.put('/api/nutrition/2021-11-11/', json.dumps({
-            "calories": 2, "carbs": 2, "protein": 2, "fat": 2
+            "calories": 2, "carbs": 2, "protein": 2, "fat": 2, "count_all": 2
         }), content_type='application/json')
         self.assertEqual(response.status_code, 200)
 
         response = client.put('/api/nutrition/2021-11-10/', json.dumps({
-            "calories": 2, "carbs": 2, "protein": 2, "fat": 2
+            "calories": 2, "carbs": 2, "protein": 2, "fat": 2, "count_all": 2
         }), content_type='application/json')
         self.assertEqual(response.status_code, 404)
+
+    def test_nutrition_count(self):
+        client = Client()
+        response = client.get('/api/nutrition/2021-11-11/count/')
+        self.assertEqual(response.status_code, 401)
+
+        user = User.objects.create(username='testuser')
+        user.set_password('testpassword')
+        user.save()
+
+        client.login(username='testuser', password='testpassword')
+        response = client.get('/api/nutrition/2021-11-11/count/')
+        self.assertEqual(response.status_code, 200)
+
+        nutrition = UserNutrition(user=user, date=datetime.date(2021,11,11), calories=1, carbs=1, protein=1, fat=1)
+        nutrition.save()
+        response = client.get('/api/nutrition/2021-11-11/count/')
+        self.assertEqual(response.status_code, 200)
+
+        response = client.delete('/api/nutrition/2021-11-11/count/')
+        self.assertEqual(response.status_code, 405)
+
+    def test_recommend(self):
+        client = Client()
+        response = client.get('/api/recommend/2021-11-11/')
+        self.assertEqual(response.status_code, 401)
+
+        user = User.objects.create(username='testuser')
+        user.set_password('testpassword')
+        user.save()
+
+        client.login(username='testuser', password='testpassword')
+        response = client.get('/api/recommend/2021-11-11/')
+        self.assertEqual(response.status_code, 200)

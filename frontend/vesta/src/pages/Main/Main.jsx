@@ -1,11 +1,13 @@
-/* eslint-disable */
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import { connect } from 'react-redux';
 import {
   Grid, Image, Button, Container, Icon
 } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
+import axios from 'axios';
 import PastNutritionInfo from '../../component/PastNutritionInfo/PastNutritionInfo';
+import * as actionCreators from '../../store/actions/index';
 
 const NextMealHeader = styled.div`
 background-color:#F28095;
@@ -48,19 +50,62 @@ class Main extends Component {
     super(props);
     this.state = {
       menu: 'Oatmeal',
+      idx: 0,
     };
   }
 
+  componentDidMount() {
+    const today = (new Date()).toISOString().split('T')[0];
+    this.props.getRecommendedMenus(today);
+    this.setState((prevState) => ({ menu: this.props.recommendedMenus[prevState.idx].name }));
+  }
+
+  onClickedSkipButton = () => {
+    const today = (new Date()).toISOString().split('T')[0];
+    (async () => {
+      let apiRes = null;
+      try {
+        apiRes = await axios.get(`/api/nutrition/${today}/`);
+      } catch (err) {
+        if (err.response.status === 404) {
+          this.props.onCreateUserNutrition(today, 0, 0, 0, 0, 1);
+        }
+      } finally {
+        const currentCalories = apiRes.data.calories;
+        const currentCarbs = apiRes.data.carbs;
+        const currentProtein = apiRes.data.protein;
+        const currentFat = apiRes.data.fat;
+        const currentCount = apiRes.data.count_all;
+
+        this.props.onEditUserNutrition(today, currentCalories, currentCarbs, currentProtein,
+          currentFat, currentCount + 1);
+      }
+    })();
+
+    this.setState((prevState) => ({ idx: (prevState.idx + 1) % 3 }));
+  }
+
   onClickedFollowedRecButton = () => {
-    this.props.history.push('/record');
+    this.props.history.push({
+      pathname: '/record',
+      state: { type: 'meal' },
+    });
+    this.setState((prevState) => ({ idx: (prevState.idx + 1) % 3 }));
   }
 
   onClickedNotFollowedButton = () => {
-    this.props.history.push('/record');
+    this.props.history.push({
+      pathname: '/record',
+      state: { type: 'meal' },
+    });
+    this.setState((prevState) => ({ idx: (prevState.idx + 1) % 3 }));
   }
 
   onClickedRecordSnackButton = () => {
-    this.props.history.push('/record');
+    this.props.history.push({
+      pathname: '/record',
+      state: { type: 'snack' },
+    });
   }
 
   onClickedMenuRecButton = () => {
@@ -76,6 +121,8 @@ class Main extends Component {
   }
 
   render() {
+    const menuName = String(this.state.menu).replace(/\s/gi, '-');
+    const url = `/recommendation/${menuName}/${this.state.idx}`;
     return (
       <div>
         <Container>
@@ -84,57 +131,65 @@ class Main extends Component {
               <NextMealHeader>
                 <h1>Next Meal</h1>
               </NextMealHeader>
-              <MealRecordArea style={{backgroundColor: "#F2F2F2"}}>
-              <MealRecordArea style={{"font-size":"40px", padding: "15px"}}>
-                <p style={{"marginBottom": "0px"}}>{this.state.menu}</p>
-                <a href='/recommendation/0/0'>
-                <Image
-                  src="/DummyImages/breakfast1_.jpeg"
-                  alt="menu"
-                  size="centered large"
-                  style={{objectFit: "cover", height:"400px", width:"400px", "border-radius": "15px"}}
-                />
-                </a>
-                <Button id="menu-recommendation-button" onClick={this.onClickedMenuRecButton} style={{margin: "10px", "background-color": "#FFFFFF"}}>
-                  <i n/>+ More Recommendations
-                </Button>
+              <MealRecordArea style={{ backgroundColor: '#F2F2F2' }}>
+                <MealRecordArea style={{ 'font-size': '40px', padding: '15px' }}>
+                  <p style={{ marginBottom: '0px' }}>{ this.state.menu }</p>
+                  <a href={url}>
+                    <Image
+                      src={this.props.recommendedMenus[this.state.idx].image}
+                      alt="menu"
+                      size="centered large"
+                      style={{
+                        objectFit: 'cover', height: '400px', width: '400px', 'border-radius': '15px'
+                      }}
+                    />
+                  </a>
+                  <Button
+                    id="menu-recommendation-button"
+                    onClick={this.onClickedMenuRecButton}
+                    style={{ margin: '10px', 'background-color': '#FFFFFF' }}
+                  >
+                    <i n />
+                    + More Recommendations
+                  </Button>
+                </MealRecordArea>
+                <MealRecordArea style={{ backgroundColor: '#AA7B6F', color: '#F2F2F2' }}>
+                  <p>
+                    If you want to record a meal,
+                    please tell us if you followed our recommendation.
+                    Or you can record a snack.
+                  </p>
+                  <Grid columns={4}>
+                    <Grid.Column>
+                      <p>skip</p>
+                      <Icon circular name="x icon" onClick={this.onClickedSkipButton} />
+                    </Grid.Column>
+                    <Grid.Column>
+                      <p>followed</p>
+                      <Icon circular name="check icon" onClick={this.onClickedFollowedRecButton} />
+                    </Grid.Column>
+                    <Grid.Column>
+                      <p>alternative</p>
+                      <Icon circular name="edit icon" onClick={this.onClickedNotFollowedButton} />
+                    </Grid.Column>
+                    <Grid.Column>
+                      <p>record</p>
+                      <Icon circular name="camera icon" onClick={this.onClickedRecordSnackButton} />
+                    </Grid.Column>
+                  </Grid>
+                </MealRecordArea>
+                <MealRecordArea style={{ backgroundColor: '#E17E76', color: '#F2F2F2' }}>
+                  <p>
+                    Click here to view your previous records.
+                  </p>
+                  <Grid columns={1}>
+                    <Grid.Column>
+                      <p>list</p>
+                      <Icon circular name="list icon" onClick={this.onClickedPastMealRecordButton} />
+                    </Grid.Column>
+                  </Grid>
+                </MealRecordArea>
               </MealRecordArea>
-              <MealRecordArea style={{backgroundColor: "#AA7B6F", color:"#F2F2F2"}}>
-                <p>
-                  If you want to record a meal,
-                  please tell us if you followed our recommendation.
-                </p>
-                <Grid columns={3}>
-                  <Grid.Column>
-                    <p>skip</p>
-                    <Icon circular name="x icon" onClick={this.onClickedSkipButton}></Icon>
-                  </Grid.Column>
-                  <Grid.Column>
-                    <p>followed</p>
-                    <Icon circular name="check icon" onClick={this.onClickedFollowedRecButton}></Icon>
-                  </Grid.Column>
-                  <Grid.Column>
-                    <p>alternative</p>
-                    <Icon circular name="edit icon" onClick={this.onClickedNotFollowedButton}></Icon>
-                  </Grid.Column>
-                </Grid>
-              </MealRecordArea>
-              <MealRecordArea style={{backgroundColor: "#E17E76", color:"#F2F2F2"}}>
-                <p>
-                  Or if you just want to record a snack, press Record Snack.
-                </p>
-                <Grid columns={2}>
-                  <Grid.Column>
-                    <p>record</p>
-                    <Icon circular name="camera icon" onClick={this.onClickedRecordSnackButton}></Icon>
-                  </Grid.Column>
-                  <Grid.Column>
-                    <p>list</p>
-                    <Icon circular name="list icon" onClick={this.onClickedPastMealRecordButton}></Icon>
-                  </Grid.Column>
-                </Grid>
-              </MealRecordArea>
-            </MealRecordArea>
             </Grid.Column>
             <Grid.Column width={8}>
               <StatsHeader>
@@ -142,7 +197,11 @@ class Main extends Component {
               </StatsHeader>
               <StatsBody>
                 <PastNutritionInfo />
-                <Button id="nutrition-analysis-button" onClick={this.onClickedNutritionAnalysisButton} style={{"background-color": "#D5B6D5"}}>
+                <Button
+                  id="nutrition-analysis-button"
+                  onClick={this.onClickedNutritionAnalysisButton}
+                  style={{ 'background-color': '#D5B6D5' }}
+                >
                   More Stats
                 </Button>
               </StatsBody>
@@ -153,4 +212,17 @@ class Main extends Component {
     );
   }
 }
-export default withRouter(Main);
+
+const mapStateToProps = (state) => ({
+  recommendedMenus: state.menu.recommendedMenus,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onCreateUserNutrition: (date, calories, carbs, protein, fat,
+    countAll) => dispatch(actionCreators.createUserNutrition(date, calories, carbs, protein, fat, countAll)),
+  onEditUserNutrition: (date, calories, carbs, protein, fat,
+    countAll) => dispatch(actionCreators.editUserNutrition(date, calories, carbs, protein, fat, countAll)),
+  getRecommendedMenus: (date) => dispatch(actionCreators.getRecommendedMenus(date)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Main));

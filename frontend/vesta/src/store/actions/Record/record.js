@@ -7,8 +7,8 @@ export const getRecords_ = (records) => ({
 });
 
 export const getRecords = (userID) => (dispatch) => axios.get(`/api/record/user/${userID}/`)
-  .then((res) => dispatch(getRecords_(res.data)))
-  .catch((res) => dispatch(getRecords_([])));
+  .then((res) => dispatch(getRecords_(res.data)));
+  // .catch((res) => dispatch(getRecords_([])));
 
 export const getRecord_ = (record) => ({
   type: actionTypes.GET_RECORD,
@@ -17,6 +17,18 @@ export const getRecord_ = (record) => ({
 
 export const getRecord = (id) => (dispatch) => axios.get(`/api/record/${id}/`)
   .then((res) => dispatch(getRecord_(res.data)));
+
+export const addRecord_ = (record) => ({
+  type: actionTypes.ADD_RECORD,
+  id: record.id,
+  image: record.image,
+  date: record.date,
+  liked: record.liked,
+  review: record.review,
+});
+
+export const addRecord = (record) => (dispatch) => axios.post('/api/record/', record)
+  .then((res) => dispatch(addRecord_(res.data)));
 
 export const toggleRecord_ = (id) => ({
   type: actionTypes.TOGGLE_LIKED,
