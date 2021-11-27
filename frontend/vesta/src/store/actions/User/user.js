@@ -4,12 +4,6 @@ import { push } from 'connected-react-router';
 
 import * as actionTypes from '../actionType';
 
-/*                <<Backend API>>                  */
-/*            URL:  /api/user/profile/   */
-/*            json body: like below                */
-/*                                                 */
-/*                                                 */
-
 export const saveUserSetting_ = (user) => ({
   type: actionTypes.SAVE_USER_SETTING,
   userID: user.userID,
@@ -43,8 +37,8 @@ export const getUserSetting = () => (dispatch) => axios.get('/api/user/profile/'
 
 export const deleteUserAccount = () => (dispatch) => axios.delete('/api/user/resign/')
   .then((res) => {
-    dispatch({ /*logout action */ })
-  })
+    dispatch(logout());
+  });
 
 export const logIn_ = (user) => ({
   type: actionTypes.LOGIN,
