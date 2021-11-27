@@ -1,5 +1,7 @@
 import json
 import datetime
+import re
+import random
 from django.db.models.fields import NullBooleanField
 from django.http import HttpResponse, HttpResponseNotAllowed
 from django.http import response
@@ -10,8 +12,6 @@ from django.views.decorators.http import require_http_methods, require_GET
 
 from django.contrib.auth.models import User
 from .models import Profile, UserNutrition, Preference, Menu, Record
-import re
-import random
 
 # Create your views here.
 
@@ -460,8 +460,8 @@ def liked(request, liked_record_id):
 @require_GET
 def menu(request):
     ## If user is not signed in, respond with 401
-    # if not request.user.is_authenticated:
-    #     return HttpResponse(status = 401)
+    if not request.user.is_authenticated:
+        return HttpResponse(status = 401)
 
     ## return all menus
     all_menu_list = list(Menu.objects.all().values())
@@ -494,8 +494,8 @@ def token(request):
 @require_GET
 def recommend(request, date):
     # if unauthenticated
-    # if not request.user.is_authenticated:
-    #     return HttpResponse(status = 401)
+    if not request.user.is_authenticated:
+        return HttpResponse(status = 401)
 
     # find the user's nutritional info
     date_list = date.split('-')
@@ -514,7 +514,7 @@ def recommend(request, date):
             fat=0
         )
     # left meal times 
-    times = 3   # TODO
+    times = 3
 
     # target calories, carbs, protein, fat 
     # profile = Profile.objects.get(user_id=request.user.id)
@@ -552,17 +552,17 @@ def recommend(request, date):
     print('protein:', allowed_protein, ', ', min_protein)
     print('fat:', allowed_fat, ', ', min_fat)
     # choose all candidates
-    for m in menus:
-        if m.calories < allowed_cal and m.carbs < allowed_carbs and m.protein < allowed_protein and m.fat < allowed_fat:
+    for menu in menus:
+        if menu.calories < allowed_cal and menu.carbs < allowed_carbs and menu.protein < allowed_protein and menu.fat < allowed_fat:
         # if m.calories > min_cal and m.calories < allowed_cal and m.carbs > min_carbs and m.carbs < allowed_carbs and m.protein > min_protein and m.protein < allowed_protein and m.fat > min_fat and m.fat < allowed_fat:
             # check ingredients
             preference = Preference.objects.filter(user_id=request.user.id) # list
-            ingredient = re.findall("'(.*?)'", m.ingredient)  # list
+            ingredient = re.findall("'(.*?)'", menu.ingredient)  # list
             intersect = set(preference) & set(ingredient)
             if intersect:   # if there is intersection, do not include
                 continue
             else:  # no intersection
-                candidates.append(m)
+                candidates.append(menu)
         else:
             continue
     # random select 15 of them, return
@@ -570,17 +570,17 @@ def recommend(request, date):
         # select the ones with like TODO
         candidates = random.sample(candidates, 15)
     response_dict = []
-    for c in candidates:
+    for can in candidates:
         response_dict.append({
-            'id': c.id,
-            'name': c.name,
-            'calories': c.calories,
-            'carbs': c.carbs,
-            'protein': c.protein,
-            'fat': c.fat,
-            'image': "http://localhost:8000/media/"+str(c.image).split('/')[-1],
-            'recipe': c.recipe,
-            'ingredient': c.ingredient
+            'id': can.id,
+            'name': can.name,
+            'calories': can.calories,
+            'carbs': can.carbs,
+            'protein': can.protein,
+            'fat': can.fat,
+            'image': "http://localhost:8000/media/"+str(can.image).split('/')[-1],
+            'recipe': can.recipe,
+            'ingredient': can.ingredient
         })
     print(len(response_dict))
     return JsonResponse(response_dict, safe=False)
