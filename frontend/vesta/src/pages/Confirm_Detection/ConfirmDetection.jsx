@@ -5,6 +5,7 @@ import {
 } from 'semantic-ui-react';
 import { withRouter } from 'react-router';
 import styled from 'styled-components';
+import axios from 'axios';
 import Nutrient from '../../component/Nutrient/Nutrient';
 import * as actionCreators from '../../store/actions/index';
 
@@ -41,14 +42,19 @@ class ConfirmDetection extends Component {
     super(props);
     this.state = {
       menuName: 'Burger',
-      review: null,
+      review: '',
       image: null,
+      type: null,
     };
   }
 
   componentDidMount() {
+    const uploadedImage = this.props.location.state.image;
+    console.log(uploadedImage);
+    console.log(this.props.location.state.type);
+    this.setState({ image: uploadedImage });
+    this.setState({ type: this.props.location.state.type });
     this.props.onGetMenu(this.state.menuName);
-    this.setState({ image: this.props.location });
   }
 
   onClickedEditResultButton = () => {
@@ -73,6 +79,37 @@ class ConfirmDetection extends Component {
     record.append('liked', 'False');
     record.append('image', this.state.image);
     this.props.onAddRecord(record);
+
+    const today = (new Date()).toISOString().split('T')[0];
+    (async () => {
+      let apiRes = null;
+      try {
+        apiRes = await axios.get(`/api/nutrition/${today}/`);
+      } catch (err) {
+        if (err.response.status === 404) {
+          const countInput = (this.state.type === 'meal') ? 1 : 0;
+          this.props.onCreateUserNutrition(today, this.props.selectedMenu.calories,
+            this.props.selectedMenu.carbs, this.props.selectedMenu.protein, this.props.selectedMenu.fat, countInput);
+        }
+      } finally {
+        const currentCalories = apiRes.data.calories;
+        const currentCarbs = apiRes.data.carbs;
+        const currentProtein = apiRes.data.protein;
+        const currentFat = apiRes.data.fat;
+        const currentCount = apiRes.data.count_all;
+        const countInput = (this.state.type === 'meal') ? 1 : 0;
+
+        this.props.onEditUserNutrition(today,
+          currentCalories + this.props.selectedMenu.calories,
+          currentCarbs + this.props.selectedMenu.carbs,
+          currentProtein + this.props.selectedMenu.protein,
+          currentFat + this.props.selectedMenu.fat,
+          currentCount + countInput);
+      }
+    })();
+    if (this.state.type === 'meal') {
+      const a = 1;
+    }
   }
 
   render() {
@@ -146,6 +183,11 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   onGetMenu: (menuName) => dispatch(actionCreators.getMenu(menuName)),
   onAddRecord: (review) => dispatch(actionCreators.addRecord(review)),
+  onCreateUserNutrition: (date, calories, carbs, protein, fat,
+    countAll) => dispatch(actionCreators.createUserNutrition(date, calories, carbs, protein, fat, countAll)),
+  onEditUserNutrition: (date, calories, carbs, protein, fat,
+    countAll) => dispatch(actionCreators.editUserNutrition(date, calories, carbs, protein, fat, countAll)),
+  onGetDetection: (formData) => dispatch(actionCreators.detect(formData)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(ConfirmDetection));

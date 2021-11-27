@@ -385,6 +385,9 @@ class KitchenTestClass(TestCase):
             'targetCalories': '5',
         }), content_type='application/json')
         self.assertEqual(response.status_code, 404)
+
+        response = client.post('/api/user/profile/')
+        self.assertEqual(response.status_code, 405)
     
     def test_nutrition_all(self):
         user = User.objects.create(username='testuser')
