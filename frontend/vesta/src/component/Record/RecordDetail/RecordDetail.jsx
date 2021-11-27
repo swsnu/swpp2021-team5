@@ -56,7 +56,8 @@ class RecordDetail extends Component {
     this.props.onGetRecord(this.props.id)
     if (this.props.record) {
       console.log("liked");
-      console.log(this.props.record.menu)
+      console.log(this.props.record);
+      console.log(this.props.record.menu);
       this.props.onGetMenu(this.props.record.menu);
       this.setState({ liked: this.props.record.liked });
     }
