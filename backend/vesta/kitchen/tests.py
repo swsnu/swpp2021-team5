@@ -1,6 +1,6 @@
 import datetime
 import json
-from django.test import TestCase, Client
+from django.test import TestCase, Client, client
 from django.contrib.auth.models import User
 from .models import Menu, Preference, Record, Profile, UserNutrition
 
@@ -295,6 +295,7 @@ class KitchenTestClass(TestCase):
         response = client.post('/api/user/signup/', json.dumps({'username': 'chris', 'password': 'chris', 'age': 5, 'sex': True, 'height': 160, 'weight': 60, 'targetCalories': 2000 }), content_type='application/json')
         self.assertEqual(response.status_code, 201)  
 
+
     def test_signin(self):
         user = User.objects.create(username='testuser')
         user.set_password('testpassword')
@@ -455,3 +456,37 @@ class KitchenTestClass(TestCase):
             "calories": 2, "carbs": 2, "protein": 2, "fat": 2
         }), content_type='application/json')
         self.assertEqual(response.status_code, 404)
+
+    def test_nutrition_count(self):
+        client = Client()
+        response = client.get('/api/nutrition/2021-11-11/count/')
+        self.assertEqual(response.status_code, 401)
+
+        user = User.objects.create(username='testuser')
+        user.set_password('testpassword')
+        user.save()
+
+        client.login(username='testuser', password='testpassword')
+        response = client.get('/api/nutrition/2021-11-11/count/')
+        self.assertEqual(response.status_code, 200)
+
+        nutrition = UserNutrition(user=user, date=datetime.date(2021,11,11), calories=1, carbs=1, protein=1, fat=1)
+        nutrition.save()
+        response = client.get('/api/nutrition/2021-11-11/count/')
+        self.assertEqual(response.status_code, 200)
+
+        response = client.delete('/api/nutrition/2021-11-11/count/')
+        self.assertEqual(response.status_code, 405)
+
+    def test_recommend(self):
+        client = Client()
+        response = client.get('/api/recommend/2021-11-11/')
+        self.assertEqual(response.status_code, 401)
+
+        user = User.objects.create(username='testuser')
+        user.set_password('testpassword')
+        user.save()
+
+        client.login(username='testuser', password='testpassword')
+        response = client.get('/api/recommend/2021-11-11/')
+        self.assertEqual(response.status_code, 200)

@@ -258,7 +258,8 @@ def nutrition(request, date):
 
 def nutrition_count(request, date):   ## used for recommendation page
     if not request.user.is_authenticated:
-        HttpResponse(status=401)
+        return HttpResponse(status=401)
+
     if request.method == 'GET':
         date_list = date.split('-')
         today = datetime.date(int(date_list[0]), int(
