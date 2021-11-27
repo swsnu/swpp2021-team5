@@ -59,7 +59,6 @@ describe('<PastMealRecord />', () => {
   it('should be rendered properly', () => {
     const component = shallow(< PastMealRecord />);
     const wrapper = component.find('.PastMealRecord');
-    const wrapper = component.find('.Records');
     expect(wrapper.length).toBe(1);
   });
 });

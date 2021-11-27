@@ -8,3 +8,4 @@ export {
   getRecord, getRecords, addRecord, toggleRecord, getReview, createReview, editReview, deleteReview,
 } from './Record/record';
 export { detect } from './ML/ml';
+export { logIn, logOut } from './User/user';

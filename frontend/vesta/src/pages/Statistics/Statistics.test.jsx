@@ -1,17 +1,3 @@
-import { mount, shallow } from 'enzyme';
-import Statistics from './Statistics';
-
-describe('Statistics', () => {
-  let statistics;
-  statistics = <Statistics />;
-
-  xit('should render Statistics', () => {
-    const component = mount(statistics);
-    const wrapper = component.find('.Statistics');
-    expect(wrapper.length).toBe(1);
-  });
-});
-
 import Statistics from './Statistics';
 
 import { mount } from 'enzyme';
@@ -20,7 +6,7 @@ import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
 import { Switch } from 'react-router';
 import { Route } from 'react-router-dom';
-import { getMockStore } from '../../../test-utils/mock';
+import { getMockStore } from '../../test-utils/mock';
 import { history } from '../../store/store';
 import * as actionCreators from '../../store/actions/User/user';
 
