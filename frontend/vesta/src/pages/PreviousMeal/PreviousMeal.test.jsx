@@ -46,10 +46,20 @@ describe('<PreviousMeal />', () => {
       />
     );
   });
+<<<<<<< HEAD
   it('should be rendered properly', () => {
     const setRouteLeaveHook = jest.fn();
     const component = shallow(<PreviousMeal.WrappedComponent params={{router: setRouteLeaveHook}} />);
     const wrapper = component.find('.PreviousMeal');
+=======
+<<<<<<< HEAD:frontend/vesta/src/pages/PreviousMeal/PreviousMeal.test.js
+  it('should be rendered properly', () => {
+=======
+  xit('should be rendered properly', () => {
+>>>>>>> 6182de8d9430e3c854a009749daad57f4d8e55d4:frontend/vesta/src/pages/PreviousMeal/PreviousMeal.test.jsx
+    const component = mount(recordDetail);
+    const wrapper = component.find('.Records');
+>>>>>>> develop
     expect(wrapper.length).toBe(1);
   });
 });

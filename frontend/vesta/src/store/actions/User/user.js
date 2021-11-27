@@ -5,12 +5,6 @@ import { Redirect } from 'react-router';
 
 import * as actionTypes from '../actionType';
 
-/*                <<Backend API>>                  */
-/*            URL:  /api/user/profile/   */
-/*            json body: like below                */
-/*                                                 */
-/*                                                 */
-
 export const saveUserSetting_ = (user) => ({
   type: actionTypes.SAVE_USER_SETTING,
   userID: user.userID,
@@ -44,8 +38,8 @@ export const getUserSetting = () => (dispatch) => axios.get('/api/user/profile/'
 
 export const deleteUserAccount = () => (dispatch) => axios.delete('/api/user/resign/')
   .then((res) => {
-    dispatch({ /*logout action */ })
-  })
+    dispatch(logout());
+  });
 
 export const logIn_ = (user) => ({
   type: actionTypes.LOGIN,
@@ -67,6 +61,15 @@ export const signUp = (username, password, age, sex, height, weight, targetCalor
   weight: weight,
   targetCalories: targetCalories})
   .then((res) => {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+    dispatch(push('/login'))
+  })
+
+  export const getUserNutrition = (userId) => (dispatch) => { return; }
+=======
+>>>>>>> develop
   /*alert(`Succesfully Registered!\nYour Target Calorie is set to ${targetCalories}Kcal as recommended generally for your body profile.\nYou can customize your target calorie at the setting page after login.\nWelcome!`);*/
     dispatch(push('/login'));
   });
@@ -77,14 +80,13 @@ export const getUserNutrition_ = (userNutrition) => ({
   carbs: userNutrition.carbs,
   protein: userNutrition.protein,
   fat: userNutrition.fat,
-})
+});
 
-export const getUserNutrition = (userID) => (dispatch) => {
-  const today = (new Date()).toISOString().split('T')[0];
-  axios.get(`/api/nutrition/${today}/`).then((res) => {
+export const getUserNutrition = (date) => (dispatch) => axios.get(`/api/nutrition/${date}/`)
+  .then((res) => {
     dispatch(getUserNutrition_(res.data));
-  })
-};
+  });
+
 
 export const logout_ = () => ({
   type: actionTypes.LOGOUT,
@@ -95,3 +97,7 @@ export const logout = () => (dispatch) => axios.get('/api/user/signout/')
   .then((res) => {
     dispatch(logout_())
 });
+<<<<<<< HEAD
+=======
+>>>>>>> 6182de8d9430e3c854a009749daad57f4d8e55d4
+>>>>>>> develop

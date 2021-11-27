@@ -5,7 +5,11 @@ import { ConnectedRouter } from 'connected-react-router';
 import { Switch } from 'react-router';
 import { Route } from 'react-router-dom';
 import Setting from './Setting';
+<<<<<<< HEAD
 import { getMockStore } from '../../test-utils/mock';
+=======
+import { getMockStore } from '../../../test-utils/mock';
+>>>>>>> develop
 import { history } from '../../store/store';
 import * as actionCreators from '../../store/actions/User/user';
 
@@ -78,7 +82,11 @@ describe('Setting', () => {
     expect(settingInstance.state.age).toEqual(2);
   });
 
+<<<<<<< HEAD
   xit('should set state sex correctly', () => {
+=======
+  it('should set state sex correctly', () => {
+>>>>>>> develop
     const component = mount(setting);
     const wrap = component.find('input').at(1);
     wrap.simulate('change', { target: { value: false } });
@@ -86,7 +94,11 @@ describe('Setting', () => {
     expect(settingInstance.state.sex).toEqual(false);
   });
 
+<<<<<<< HEAD
   xit('should set state height correctly', () => {
+=======
+  it('should set state height correctly', () => {
+>>>>>>> develop
     const component = mount(setting);
     const wrap = component.find('input').at(2);
     wrap.simulate('change', { target: { value: 2 } });
@@ -94,7 +106,11 @@ describe('Setting', () => {
     expect(settingInstance.state.height).toBe(2);
   });
 
+<<<<<<< HEAD
   xit('should set state weight correctly', () => {
+=======
+  it('should set state weight correctly', () => {
+>>>>>>> develop
     const component = mount(setting);
     const wrap = component.find('input').at(3);
     wrap.simulate('change', { target: { value: 2 } });
@@ -102,7 +118,11 @@ describe('Setting', () => {
     expect(settingInstance.state.weight).toBe(2);
   });
 
+<<<<<<< HEAD
   xit('should dispatch resign correctly', () => {
+=======
+  it('should dispatch resign correctly', () => {
+>>>>>>> develop
     const spyOnDeleteUserAccount = jest.spyOn(actionCreators, 'deleteUserAccount').mockImplementation((userID) => (dispatch) => {});
     const component = mount(setting);
     const wrap = component.find('button').at(1);
@@ -110,7 +130,11 @@ describe('Setting', () => {
     expect(spyOnDeleteUserAccount).toHaveBeenCalledTimes(1);
   });
 
+<<<<<<< HEAD
   xit('should dispatch resign correctly', () => {
+=======
+  it('should dispatch resign correctly', () => {
+>>>>>>> develop
     const spyOnSaveUserSetting = jest.spyOn(actionCreators, 'saveUserSetting').mockImplementation(({}) => (dispatch) => {});
     const component = mount(setting);
     const wrap = component.find('button').at(0);
