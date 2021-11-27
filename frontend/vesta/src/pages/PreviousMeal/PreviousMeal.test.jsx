@@ -52,7 +52,7 @@ describe('<PastMealRecord />', () => {
       </Provider>
     );
   });
-  xit('should be rendered properly', () => {
+  it('should be rendered properly', () => {
     const component = mount(recordDetail);
     const wrapper = component.find('.Records');
     expect(wrapper.length).toBe(1);

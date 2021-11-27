@@ -1,5 +1,5 @@
 export {
-  saveUserSetting, getUserSetting, deleteUserAccount, signUp, getUserNutrition,
+  saveUserSetting, getUserSetting, deleteUserAccount, signUp, logIn, logout, getUserNutrition,
 } from './User/user';
 export {
   getMenu, getRecommendedMenus, getCountAll,
@@ -7,4 +7,4 @@ export {
 export {
   getRecord, getRecords, toggleRecord, getReview, createReview, editReview, deleteReview,
 } from './Record/record';
-export { logIn, logout } from './User/user';
+export { detect } from './ML/ml';

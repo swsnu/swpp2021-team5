@@ -18,7 +18,7 @@ const stubMenuInitialState = {
     carbs: 60,
     protein: 22,
     fat: 16,
-    recipe: '1. Preheat oven to 375F.\n2. In a large bowl cream together butter brown sugar vanilla and cinnamon until smooth.\n3. Add the two kinds of oats one at a time mixing well after each addition.', 
+    recipe: '1. Preheat oven to 375F.\n2. In a large bowl cream together butter brown sugar vanilla and cinnamon until smooth.\n3. Add the two kinds of oats one at a time mixing well after each addition.',
   },
   allMenus: null,
   recommendedMenus: [
@@ -73,7 +73,6 @@ describe('<NutritionalInfoAndRecipe />', () => {
     const wrapper = component.find('.NutritionalInfoAndRecipe');
     expect(wrapper.length).toBe(1);
   });
-
 });
 
 const stubMenuInitialState_ = {
@@ -91,7 +90,7 @@ describe('<NutritionalInfoAndRecipe />', () => {
       <Provider store={mockStore_}>
         <ConnectedRouter history={history}>
           <Switch>
-            <Route path="/" exact component={NutritionalInfoAndRecipe} match={{params: {when:0, idx:0}}}/>
+            <Route path="/" exact component={NutritionalInfoAndRecipe} match={{ params: { when: 0, idx: 0 } }} />
           </Switch>
         </ConnectedRouter>
       </Provider>
@@ -107,5 +106,4 @@ describe('<NutritionalInfoAndRecipe />', () => {
     const wrapper = component.find('.NutritionalInfoAndRecipe');
     expect(wrapper.length).toBe(1);
   });
-
 });

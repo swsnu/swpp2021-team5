@@ -8,6 +8,7 @@ import userReducer from './reducers/user';
 import recordReducer from './reducers/record';
 import menuReducer from './reducers/menu';
 import recipeReducer from './reducers/recipe';
+import mlReducer from './reducers/ml';
 
 export const history = createBrowserHistory();
 
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
   record: recordReducer,
   menu: menuReducer,
   recipe: recipeReducer,
+  ml: mlReducer,
   router: connectRouter(history),
 });
 

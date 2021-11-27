@@ -13,6 +13,9 @@ from django.views.decorators.http import require_http_methods, require_GET
 from django.contrib.auth.models import User
 from .models import Profile, UserNutrition, Preference, Menu, Record
 
+import logmeal as api
+import os
+
 # Create your views here.
 
 @require_http_methods(["POST"])
@@ -46,7 +49,27 @@ def signin(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return HttpResponse(status=204)
+            try:
+                user = User.objects.get(id=user.id)
+            except User.DoesNotExist:      # Profile.DoesNotExist?
+                return HttpResponse(status=404)
+
+            food_preference_list = []
+            for item in Preference.objects.filter(user_id=request.user.id):
+                food_preference_list.append(str(item.menu.name))
+
+            user_profile = user.profile
+            response_dict = {
+                'userID': user.id,
+                'username': user.username,
+                'age': user_profile.age,
+                'sex': user_profile.sex,
+                'height': user_profile.height,
+                'weight': user_profile.weight,
+                'preference': food_preference_list,
+                'targetCalories': user_profile.target_calories
+            }
+            return JsonResponse(response_dict, status=200, safe=False)
         else:
             return HttpResponse(status=401)
     else:
@@ -491,6 +514,24 @@ def menu_name(request, menuname):
 def token(request):
     return HttpResponse(status=204)
 
+def detection(request):
+    if request.method in ['GET', 'PUT', 'DELETE']:
+        return HttpResponseNotAllowed(['GET', 'PUT', 'DELETE'])
+    if not request.user.is_authenticated:
+        return HttpResponse(status = 401)
+    user = request.user
+    api_company_token = api.api_company_token
+    api_user_token = api.api_user_token
+    images_path = api.images_path
+
+    req_data = json.loads(request.body.decode())
+    img_filename = req_data['file']
+
+    img = api.preprocess(os.path.join(images_path, img_filename))
+
+    result_list = api.menu_recognition(img, user_token=api_user_token)
+
+    return JsonResponse(result_list)
 ## recommend 15 menus total(5 for each meal)
 @require_GET
 def recommend(request, date):

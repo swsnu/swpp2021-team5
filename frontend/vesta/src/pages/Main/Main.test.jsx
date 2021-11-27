@@ -69,5 +69,4 @@ describe('<Main />', () => {
     expect(history.location.pathname).toBe('/history');
     component.unmount();
   });
-
-})
+});

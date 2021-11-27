@@ -72,7 +72,7 @@ const stubMenuInitialState_ = {
     carbs: 60,
     protein: 22,
     fat: 16,
-    recipe: '1. Preheat oven to 375F.\n2. In a large bowl cream together butter brown sugar vanilla and cinnamon until smooth.\n3. Add the two kinds of oats one at a time mixing well after each addition.', 
+    recipe: '1. Preheat oven to 375F.\n2. In a large bowl cream together butter brown sugar vanilla and cinnamon until smooth.\n3. Add the two kinds of oats one at a time mixing well after each addition.',
   },
   allMenus: null,
   recommendedMenus: [
@@ -108,8 +108,11 @@ describe('MenuRecommenation', () => {
       <Provider store={mockStore_}>
         <ConnectedRouter history={history}>
           <Switch>
-            <Route path='/' exact
-              render={() => <MenuRecommendation />} />
+            <Route
+              path="/"
+              exact
+              render={() => <MenuRecommendation />}
+            />
           </Switch>
         </ConnectedRouter>
       </Provider>
@@ -117,7 +120,7 @@ describe('MenuRecommenation', () => {
     spyGetCountAll = jest.spyOn(actionCreators, 'getCountAll')
     .mockImplementation(() => (dispatch) => {});
     spyGetRecommendedMenus = jest.spyOn(actionCreators, 'getRecommendedMenus')
-    .mockImplementation(() => (dispatch) => {});
+      .mockImplementation(() => (dispatch) => {});
   });
 
   afterEach(() => jest.clearAllMocks());

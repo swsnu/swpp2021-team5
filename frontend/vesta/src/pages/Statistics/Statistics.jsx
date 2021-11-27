@@ -132,7 +132,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onGetUserNutrition: (date) => dispatch(actionCreators.getUserNutrition(date)) 
+    onGetUserNutrition: (userID) => dispatch(actionCreators.getUserNutrition(userID)) 
   }
 }
 

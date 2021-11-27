@@ -1,6 +1,7 @@
 /* eslint-disable */
 import axios from 'axios';
 import { push } from 'connected-react-router';
+import { Redirect } from 'react-router';
 
 import * as actionTypes from '../actionType';
 
@@ -47,8 +48,8 @@ export const logIn_ = (user) => ({
 
 export const logIn = (info) => (dispatch) => axios.post('/api/user/signin/', info)
   .then((res) => {
-    dispatch(logIn_(res.data))
-    .then(dispatch(push('/main')));
+    dispatch(logIn_(res.data));
+    dispatch(push('/main'));
   }).catch(() => dispatch(push('/login')));
 
 export const signUp = (username, password, age, sex, height, weight, targetCalories) => dispatch => axios.post('/api/user/signup/', {
@@ -60,6 +61,12 @@ export const signUp = (username, password, age, sex, height, weight, targetCalor
   weight: weight,
   targetCalories: targetCalories})
   .then((res) => {
+<<<<<<< HEAD
+    dispatch(push('/login'))
+  })
+
+  export const getUserNutrition = (userId) => (dispatch) => { return; }
+=======
   /*alert(`Succesfully Registered!\nYour Target Calorie is set to ${targetCalories}Kcal as recommended generally for your body profile.\nYou can customize your target calorie at the setting page after login.\nWelcome!`);*/
     dispatch(push('/login'));
   });
@@ -87,3 +94,4 @@ export const logout = () => (dispatch) => axios.get('/api/user/signout/')
   .then((res) => {
     dispatch(logout_())
 });
+>>>>>>> 6182de8d9430e3c854a009749daad57f4d8e55d4
