@@ -266,8 +266,8 @@ def nutrition(request, date):
 
 
 def nutrition_count(request, date):   ## used for recommendation page
-    if not request.user.is_authenticated:
-        return HttpResponse(status=401)
+    # if not request.user.is_authenticated:
+    #     return HttpResponse(status=401)
 
     if request.method == 'GET':
         date_list = date.split('-')
@@ -520,8 +520,8 @@ def token(request):
 @require_GET
 def recommend(request, date):
     # if unauthenticated
-    if not request.user.is_authenticated:
-        return HttpResponse(status = 401)
+    # if not request.user.is_authenticated:
+    #     return HttpResponse(status = 401)
 
     # find the user's nutritional info
     date_list = date.split('-')
@@ -542,20 +542,7 @@ def recommend(request, date):
     # left meal times 
     times = 3
 
-    # target calories, carbs, protein, fat 
-    # profile = Profile.objects.get(user_id=request.user.id)
-    # age = profile.age
-    # sex = profile.sex
-    # height = profile.height
-    # weight = profile.weight
-    
-    # if sex == True:
-    #     target_cal = 66.47 + 13.75 * weight + 5 * height - 6.76 * age
-    # else:
-    #     target_cal = 655.1 + 9.56 * weight + 1.85 * height - 4.68 * age
-    # target_carbs = ((target_cal*0.5)/4)
-    # target_protein = ((target_cal*0.3)/4)
-    # target_fat = ((target_cal*0.2)/4)
+    # target_cal = Profile.objects.get(user_id=request.user.id).target_calories
     target_cal = 2000
     target_carbs = ((target_cal*0.5)/4)
     target_protein = ((target_cal*0.3)/4)
@@ -566,21 +553,17 @@ def recommend(request, date):
     allowed_carbs = (target_carbs - float(today_nutrition.carbs)) / times
     allowed_protein = (target_protein - float(today_nutrition.protein)) / times
     allowed_fat = (target_fat - float(today_nutrition.fat)) / times
-    min_cal = allowed_cal-150
-    min_carbs = allowed_carbs-50
-    min_protein = allowed_protein-30
-    min_fat = allowed_fat-20
+
     # get all menus
     menus = Menu.objects.all()
     candidates = []
-    print('calories:', allowed_cal, ', ', min_cal)
-    print('carbs:', allowed_carbs, ', ', min_carbs)
-    print('protein:', allowed_protein, ', ', min_protein)
-    print('fat:', allowed_fat, ', ', min_fat)
+    print('calories:', allowed_cal)
+    print('carbs:', allowed_carbs)
+    print('protein:', allowed_protein)
+    print('fat:', allowed_fat)
     # choose all candidates
     for menu in menus:
         if menu.calories < allowed_cal and menu.carbs < allowed_carbs and menu.protein < allowed_protein and menu.fat < allowed_fat:
-        # if m.calories > min_cal and m.calories < allowed_cal and m.carbs > min_carbs and m.carbs < allowed_carbs and m.protein > min_protein and m.protein < allowed_protein and m.fat > min_fat and m.fat < allowed_fat:
             # check ingredients
             preference = Preference.objects.filter(user_id=request.user.id) # list
             ingredient = re.findall("'(.*?)'", menu.ingredient)  # list
@@ -588,25 +571,53 @@ def recommend(request, date):
             if intersect:   # if there is intersection, do not include
                 continue
             else:  # no intersection
+                difference = (allowed_cal - menu.calories) + (allowed_carbs - menu.carbs) + (allowed_protein - menu.protein) + (allowed_fat - menu.fat)
+                menu = [
+                    menu,
+                    difference
+                ]
                 candidates.append(menu)
         else:
             continue
-    # random select 15 of them, return
-    if len(candidates) > 15:
-        # select the ones with like TODO
-        candidates = random.sample(candidates, 15)
+    
+    # sort in the order of little difference with the target nutrition
+    candidates = sorted(candidates, key=lambda x:x[1])
+    # select the ones with like
+    liked_menus = []
+    liked_records = Record.objects.filter(user_id=request.user.id, liked=True)
+    for rec in liked_records:
+        for can in candidates:
+            if can[0].name == rec.menu.name:
+                liked_menus.append(can[0])
+    
+    result = []
+    liked_num = len(liked_menus)
+    if liked_num != 0:
+        result.extend(liked_menus)
+    
+    if len(candidates) < 15:
+        for can in candidates:
+            result.append(can[0])
+    else:
+        for can in candidates:
+            if liked_num < 15:
+                result.append(can[0])
+                liked_num+=1
+            else:
+                break
+
     response_dict = []
-    for can in candidates:
+    for res in result:
         response_dict.append({
-            'id': can.id,
-            'name': can.name,
-            'calories': can.calories,
-            'carbs': can.carbs,
-            'protein': can.protein,
-            'fat': can.fat,
-            'image': "http://localhost:8000/media/"+str(can.image).split('/')[-1],
-            'recipe': can.recipe,
-            'ingredient': can.ingredient
+            'id': res.id,
+            'name': res.name,
+            'calories': res.calories,
+            'carbs': res.carbs,
+            'protein': res.protein,
+            'fat': res.fat,
+            'image': "http://localhost:8000/media/"+str(res.image).split('/')[-1],
+            'recipe': res.recipe,
+            'ingredient': res.ingredient
         })
     print(len(response_dict))
     return JsonResponse(response_dict, safe=False)
