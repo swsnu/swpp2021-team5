@@ -60,7 +60,6 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   getCountAll: (date) => dispatch(actionCreators.getCountAll(date)),
   getRecommendedMenus: (date) => dispatch(actionCreators.getRecommendedMenus(date)),
-  // changeCount: (cnt) => dispatch(actionCreators.changeCount_(cnt)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(MenuRecommendation));
