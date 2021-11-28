@@ -11,7 +11,7 @@ from django.views.decorators.http import require_http_methods, require_GET
 
 from django.contrib.auth.models import User
 from .models import Profile, UserNutrition, Preference, Menu, Record
-import logmeal as api
+# import logmeal as api
 import os
 
 # Create your views here.
@@ -497,27 +497,28 @@ def menu_name(request, menuname):
 def token(request):
     return HttpResponse(status=204)
 
-def detection(request):
-    if request.method in ['GET', 'PUT', 'DELETE']:
-        return HttpResponseNotAllowed(['GET', 'PUT', 'DELETE'])
-    if not request.user.is_authenticated:
-        return HttpResponse(status = 401)
-    user = request.user
-    api_company_token = api.api_company_token
-    api_user_token = api.api_user_token
-    images_path = api.images_path
+# def detection(request):
+#     if request.method in ['GET', 'PUT', 'DELETE']:
+#         return HttpResponseNotAllowed(['GET', 'PUT', 'DELETE'])
+#     if not request.user.is_authenticated:
+#         return HttpResponse(status = 401)
+#     user = request.user
+#     api_company_token = api.api_company_token
+#     api_user_token = api.api_user_token
+#     images_path = api.images_path
 
-    req_data = json.loads(request.body.decode())
-    img_filename = req_data['file']
+#     req_data = json.loads(request.body.decode())
+#     img_filename = req_data['file']
 
-    img = api.preprocess(os.path.join(images_path, img_filename))
+#     img = api.preprocess(os.path.join(images_path, img_filename))
 
-    result_list = api.menu_recognition(img, user_token=api_user_token)
+#     result_list = api.menu_recognition(img, user_token=api_user_token)
 
-    return JsonResponse(result_list)
+#     return JsonResponse(result_list)
+
 ## recommend 15 menus total(5 for each meal)
 @require_GET
-def recommend(request):
+def recommend(request, date):
     # if unauthenticated
     if not request.user.is_authenticated:
         return HttpResponse(status = 401)
