@@ -4,16 +4,14 @@ import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
 import { Switch } from 'react-router';
 import { Route } from 'react-router-dom';
-import { getMockStore } from '../../../test-utils/mock';
+import { getMockStore } from '../../test-utils/mock';
 import { history } from '../../store/store';
 import ConfirmDetection from './ConfirmDetection';
-
 
 const userInitialState = {};
 const recordInitialState = {};
 const menuInitialState = {};
 const recipeInitialState = {};
-
 
 let confirmDetection;
 const mockStore = getMockStore(userInitialState, recordInitialState, menuInitialState, recipeInitialState);
@@ -39,7 +37,7 @@ describe('<ConfirmDetection />', () => {
 
   xit('should handle review creation', () => {
     const component = mount(confirmDetection);
-    component.find('textarea#review-text').simulate('change', { target: {value: 'test_review' } });
+    component.find('textarea#review-text').simulate('change', { target: { value: 'test_review' } });
     const wrapper = component.find(ConfirmDetection).instance();
     expect(wrapper.state.review).toEqual('test_review');
   });
@@ -60,4 +58,4 @@ describe('<ConfirmDetection />', () => {
     wrapper.setState({ menuName: 'sushi' });
     expect(wrapper.state.menuName).toEqual('sushi');
   });
-})
+});

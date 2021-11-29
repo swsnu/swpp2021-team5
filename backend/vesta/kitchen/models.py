@@ -26,20 +26,19 @@ class Profile(models.Model):
     height = IntegerField(null=True)
     weight = IntegerField(null=True)
     target_calories = IntegerField(null=True)
+    api_id = IntegerField()
+    api_name = TextField()
+    api_token = TextField()
 
 #### model 'Preference' consists of two foreign key field ####
-####                  : User, Menu                        ####
+####                  : User, ingredient                  ####
 class Preference(models.Model):
     user = ForeignKey(
         User,
         on_delete=models.CASCADE,
         related_name='preference_list'
     )
-    menu = ForeignKey(
-        Menu,
-        null=True,                  # should be revised to => 'null=False'
-        on_delete=models.CASCADE    # is it also should be delete
-    )                               # when the related menu has been deleted?
+    ingredient = TextField(default="")
 
 #### it must be better to rename this Model
 #### EX) DateNutrition, Nutrition
@@ -53,6 +52,7 @@ class UserNutrition(models.Model):
     carbs = FloatField()
     protein = FloatField()
     fat = FloatField()
+    count_all = IntegerField(default=0)
 
 class Record(models.Model):
     user = ForeignKey(User, on_delete = models.CASCADE, related_name = 'creator_of')

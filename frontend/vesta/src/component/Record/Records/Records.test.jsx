@@ -9,7 +9,9 @@ import { getMockStore } from '../../../test-utils/mock';
 import * as actionCreators from '../../../store/actions/Record/record';
 
 const stubInitialState = {
-  user: null,
+  currentUser: {
+    userID: 1,
+  },
   userRecords: [
     {
       id: 1,
