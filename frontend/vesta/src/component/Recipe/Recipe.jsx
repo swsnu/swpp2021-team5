@@ -13,6 +13,7 @@ const TextArea = styled.div`
 font-family:system-ui;
 font-size:15px;
 text-align:left;
+white-space: pre-wrap;
 `;
 
 class Recipe extends Component {
