@@ -61,3 +61,25 @@ class Record(models.Model):
     liked = BooleanField()
     date = DateField()
     image = models.ImageField(upload_to = 'record_images', blank = True)
+
+class TodayMenu(models.Model):
+    user = ForeignKey(
+        User,
+        on_delete=models.CASCADE
+    )
+    count = IntegerField(default=0)
+    breakfast = ForeignKey(Menu, on_delete=models.PROTECT, related_name='breakfast')
+    lunch = ForeignKey(Menu, on_delete=models.PROTECT, related_name='lunch')
+    dinner = ForeignKey(Menu, on_delete=models.PROTECT, related_name='dinner')
+    breakfast_other1 = ForeignKey(Menu, on_delete=models.PROTECT, related_name='breakfast1')
+    breakfast_other2 = ForeignKey(Menu, on_delete=models.PROTECT, related_name='breakfast2')
+    breakfast_other3 = ForeignKey(Menu, on_delete=models.PROTECT, related_name='breakfast3')
+    breakfast_other4 = ForeignKey(Menu, on_delete=models.PROTECT, related_name='breakfast4')
+    lunch_other1 = ForeignKey(Menu, on_delete=models.PROTECT, related_name='lunch1')
+    lunch_other2 = ForeignKey(Menu, on_delete=models.PROTECT, related_name='lunch2')
+    lunch_other3 = ForeignKey(Menu, on_delete=models.PROTECT, related_name='lunch3')
+    lunch_other4 = ForeignKey(Menu, on_delete=models.PROTECT, related_name='lunch4')
+    dinner_other1 = ForeignKey(Menu, on_delete=models.PROTECT, related_name='dinner1')
+    dinner_other2 = ForeignKey(Menu, on_delete=models.PROTECT, related_name='dinner2')
+    dinner_other3 = ForeignKey(Menu, on_delete=models.PROTECT, related_name='dinner3')
+    dinner_other4 = ForeignKey(Menu, on_delete=models.PROTECT, related_name='dinner4')

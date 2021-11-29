@@ -32,6 +32,7 @@ class Recipe extends Component {
       matchIng = regex.exec(this.props.ingredient);
     }
     ingredient = ingredient.slice(0, ingredient.length-2);
+    ingredient += '\n';
     console.log(recipe);
     return(
       <Container text className="Recipe">
