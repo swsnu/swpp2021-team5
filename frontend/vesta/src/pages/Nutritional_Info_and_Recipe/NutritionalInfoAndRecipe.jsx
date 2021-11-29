@@ -26,6 +26,7 @@ class NutritionalInfoAndRecipe extends Component {
     let fat = 0;
     let recipe = '';
     let image = '';
+    let ingredient = '';
     console.log(parseInt(this.props.match.params.idx));
     if (this.props.recommendedMenus) {
       menuName = this.props.recommendedMenus[parseInt(this.props.match.params.idx)].name;
@@ -35,6 +36,7 @@ class NutritionalInfoAndRecipe extends Component {
       fat = this.props.recommendedMenus[parseInt(this.props.match.params.idx)].fat;
       recipe = this.props.recommendedMenus[parseInt(this.props.match.params.idx)].recipe;
       image = this.props.recommendedMenus[parseInt(this.props.match.params.idx)].image;
+      ingredient = this.props.recommendedMenus[parseInt(this.props.match.params.idx)].ingredient;
       return (
         <div className="NutritionalInfoAndRecipe">
           <Background>
@@ -48,6 +50,7 @@ class NutritionalInfoAndRecipe extends Component {
             />
             <Recipe
               recipe={recipe}
+              ingredient={ingredient}
             />
             <Link to="/recommendation">
               <Button className="menu-recommendation-button">Back</Button>

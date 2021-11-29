@@ -19,16 +19,24 @@ white-space: pre-wrap;
 class Recipe extends Component {
   render() {
     let recipe = '';
+    let ingredient = '';
     let regex = new RegExp("'(.*?)'", "g");
-    let match = regex.exec(this.props.recipe);
-    while (match != null) {
-      recipe += match[1]+'\n';
-      console.log(match[1]);
-      match = regex.exec(this.props.recipe);
+    let matchRecipe = regex.exec(this.props.recipe);
+    while (matchRecipe != null) {
+      recipe += matchRecipe[1]+'\n';
+      matchRecipe = regex.exec(this.props.recipe);
     }
+    let matchIng = regex.exec(this.props.ingredient);
+    while (matchIng != null) {
+      ingredient += matchIng[1]+', ';
+      matchIng = regex.exec(this.props.ingredient);
+    }
+    ingredient = ingredient.slice(0, ingredient.length-2);
     console.log(recipe);
     return(
       <Container text className="Recipe">
+        <RecipeHeader>Ingredient</RecipeHeader>
+        <TextArea>{ingredient}</TextArea>
         <RecipeHeader>Recipe</RecipeHeader>
         <TextArea>{recipe}</TextArea>
       </Container>
