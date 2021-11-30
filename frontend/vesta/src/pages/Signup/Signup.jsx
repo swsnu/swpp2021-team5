@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import {
-    Header, Input, Button, Form
+    Button, Form
   } from 'semantic-ui-react';
 import styled from 'styled-components';
 
@@ -31,7 +31,7 @@ line-height: 80px;
 margin:8;
 `;
 
-const isNumeric = (str) => {
+export const isNumeric = (str) => {
   if (typeof str != "string") return false // we only process strings!  
   return !isNaN(str) && // use type coercion to parse the _entirety_ of the string (`parseFloat` alone does not do this)...
          !isNaN(parseFloat(str)) // ...and ensure strings of whitespace fail
@@ -120,13 +120,13 @@ class Signup extends Component {
       return;
     }
 
-    if (!isNumeric(this.state.age) || this.state.age == '' || parseInt(this.state.age) < 5) {
+    if (!isNumeric(this.state.age) || parseInt(this.state.age) < 5) {
       alert('Age should be a number larger than 4');
       return;
-    } else if (!isNumeric(this.state.height) || this.state.height == '') {
+    } else if (!isNumeric(this.state.height)) {
       alert('Height should be entered as a number');
       return;
-    } else if (!isNumeric(this.state.weight || this.state.weight == '')) {
+    } else if (!isNumeric(this.state.weight)) {
       alert('Weight should be enterend as a number');
       return;
     }
@@ -134,8 +134,8 @@ class Signup extends Component {
     const targetCalories = recommendedCalorie(
       parseInt(this.state.age),
       this.state.sex,
-      parseInt(this.state.height),
-      parseInt(this.state.weight)
+      parseFloat(this.state.height),
+      parseFloat(this.state.weight)
     )
     this.props.onRegister(
       this.state.username,
@@ -146,7 +146,7 @@ class Signup extends Component {
       this.state.weight,
       targetCalories,
     )
-    alert(`Succesfully Registered!\nYour Target Calorie is set to ${targetCalories}Kcal as recommended generally for your body profile.\nYou can customize your target calorie at the setting page after login.\nWelcome!`);
+    /*alert(`Succesfully Registered!\nYour Target Calorie is set to ${targetCalories}Kcal as recommended generally for your body profile.\nYou can customize your target calorie at the setting page after login.\nWelcome!`);*/
   }
 
   render() {
@@ -237,7 +237,7 @@ const mapDispatchToProps = dispatch => {
     onRegister: (
       username, password, age, sex, height, weight, targetCalories
     ) => dispatch(actionCreators.signUp(
-      username, password, parseInt(age), sex, parseInt(height), parseInt(weight), targetCalories
+      username, password, parseInt(age), sex, parseFloat(height), parseFloat(weight), targetCalories
     )),
   }
 }

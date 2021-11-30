@@ -3,7 +3,7 @@ import { connectRouter } from 'connected-react-router';
 import { history, middleWares } from '../store/store';
 
 const getMockReducer = jest.fn(
-  initialState => (state = initialState, action) => {
+  (initialState) => (state = initialState, action) => {
     switch (action.type) {
       default:
         break;

@@ -67,14 +67,8 @@
       "src/**/*.{js,jsx}",
       "!src/index.jsx",
       "!src/reportWebVitals.js",
-      "!src/styles/fonts/fonts.js",
-      "!src/store/actions/index.js",
-      "!src/styles/Menu_Recommendation/*.jsx",
-      "!src/component/Meal/MealList.jsx",
-      "!src/pages/Setting/Calculator.js",
-      "!src/store/reducers/user.js",
-      "!src/store/reducers/menu.js",
-      "!src/component/Record/RecordDetail/RecordDetail.jsx"
+      "!src/styles/**/*.{js,jsx}",
+      "!src/store/actions/index.js"
     ]
   },
   "proxy": "http://localhost:8000/"
