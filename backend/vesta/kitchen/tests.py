@@ -293,6 +293,20 @@ class KitchenTestClass(TestCase):
         client = Client()
         response = client.post('/api/user/signup/', json.dumps({'username': 'chris', 'password': 'chris', 'age': 5, 'sex': True, 'height': 160, 'weight': 60, 'targetCalories': 2000 }), content_type='application/json')
         self.assertEqual(response.status_code, 201)  
+    
+    def test_signup_check_avail(self):
+        user = User.objects.create(username='testuser')
+        user.set_password('testpassword')
+        user.save()
+
+        client = Client()
+        response = client.post('/api/user/signup/testuser/')
+        self.assertEqual(response.status_code, 405)
+
+        response = client.get('/api/user/signup/testuser/')
+        self.assertEqual(response.status_code, 200)
+
+
 
 
     def test_signin(self):

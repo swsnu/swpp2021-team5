@@ -56,12 +56,12 @@ class Signup extends Component {
     this.setState({ ...thisState, username: e.target.value });
   }
 
-  onClickedCheckAvailabilityButton = () => {
-    axios.get('/api/user/signup/availability/')
+  onClickedCheckAvailButton = () => {
+    axios.get(`/api/user/signup/${this.state.username}/`)
       .then((res) => {
-        if(response === 1) {
+        if(res.data.check === true) {
           alert('This Username is available');
-        } else if(response === 0) {
+        } else if(res.data.check === false) {
           alert('This Username is Not available.\n Please choose another one');
         }
       });
@@ -111,11 +111,20 @@ class Signup extends Component {
       alert('You should enter the username');
       return;
     }
-    else if (this.state.password === '') {
+    
+    axios.get(`/api/user/signup/${this.state.username}/`)
+      .then((res) => {
+        if(res.data.check === false) {
+          alert('The Username is Not available.\n Please choose another one');
+          return;
+        }
+      });
+    
+    if (this.state.password === '') {
       alert('You should enter the password');
       return;
     }
-    else if (this.state.password !== this.state.confirmPassword) {
+    if (this.state.password !== this.state.confirmPassword) {
       alert('Two value of password are not consistent');
       return;
     }
@@ -164,17 +173,25 @@ class Signup extends Component {
         <Div className="body" class="ui one column stackable center aligned page grid">
           <Form className="ui six wide column form segment">
             <Form.Field>
-              <label>Username</label>
+              <label align='left'>Username</label>
               <input
                 id='username-input'  
                 type='text'
                 placeholder='Username'
                 onChange={(e) => this.onChangedUsername(e)}
               />
-              <Button id='availability-button' onClick={() => this.onClickedCheckAvailabilityButton()}>Check Availability</Button>
+              <Button
+                size='mini'  
+                floated='right'
+                style={{padding: '3%', margin: '2px'}}
+                id='availability-button'
+                onClick={() => this.onClickedCheckAvailButton()}
+              >
+              Check Availability
+              </Button>
             </Form.Field>
             <Form.Field>
-              <label>Password</label>
+              <label align='left'>Password</label>
               <input
                 id='password-input'
                 type='password'
@@ -183,7 +200,7 @@ class Signup extends Component {
               />
             </Form.Field>
             <Form.Field>
-              <label>Confirm Password</label>
+              <label align='left'>Confirm Password</label>
               <input
                 id='confirm-password-input'
                 type='password'
@@ -192,7 +209,7 @@ class Signup extends Component {
               />
             </Form.Field>
             <Form.Field>
-              <label>Age</label>
+              <label align='left'>Age</label>
               <input
                 id='age-input'  
                 type='text'
@@ -201,11 +218,11 @@ class Signup extends Component {
               />
             </Form.Field>
             <Form.Field>
-              <label>Sex</label>
+              <label >Sex</label>
               {sexSelectButton}
             </Form.Field>
             <Form.Field>
-              <label>Height</label>
+              <label align='left'>Height</label>
               <input
                 id='height-input'  
                 type='text'
@@ -214,7 +231,7 @@ class Signup extends Component {
               />
             </Form.Field>
             <Form.Field>
-              <label>Weight</label>
+              <label align='left'>Weight</label>
               <input
                 id='weight-input'  
                 type='text'
@@ -239,6 +256,7 @@ const mapDispatchToProps = dispatch => {
     ) => dispatch(actionCreators.signUp(
       username, password, parseInt(age), sex, parseFloat(height), parseFloat(weight), targetCalories
     )),
+    // onCheckUsernameAvailability : (targetName) => dispatch(actionCreators.checkUsernameAvail(targetName)),
   }
 }
 

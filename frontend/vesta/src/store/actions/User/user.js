@@ -83,7 +83,7 @@ export const getUserNutrition = (date) => (dispatch) => axios.get(`/api/nutritio
     dispatch(getUserNutrition_(res.data));
   })
   .catch((err) => {
-    dispatch(failGetUserNutrition(err));
+  //  dispatch(failGetUserNutrition(err));
   });
 
 export const createUserNutrition_ = (userNutrition) => ({
