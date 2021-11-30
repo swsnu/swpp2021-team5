@@ -45,9 +45,8 @@ def signin(request):
                 return HttpResponse(status=404)
 
             food_preference_list = []
-            for item in Preference.objects.filter(user_id=request.user.id):
+            for item in Preference.objects.filter(user_id=user.id):
                 food_preference_list.append(str(item.menu.name))
-
             user_profile = user.profile
             response_dict = {
                 'userID': user.id,
@@ -577,19 +576,21 @@ def recommend(request, date):
             response_dict = []
             dict = model_to_dict(today_menu)
             for key, value in dict.items():
-                if key=='user' or key=='count' or key=='date':
+                print(key, ", ", value)
+                if key=='id' or key=='user' or key=='count' or key=='date':
                     continue
                 else:
+                    menu = Menu.objects.get(id=value)
                     response_dict.append({
-                        'id': value.id,
-                        'name': value.name,
-                        'calories': value.calories,
-                        'carbs': value.carbs,
-                        'protein': value.protein,
-                        'fat': value.fat,
-                        'image': "http://localhost:8000/media/"+str(value.image).split('/')[-1],
-                        'recipe': value.recipe,
-                        'ingredient': value.ingredient
+                        'id': menu.id,
+                        'name': menu.name,
+                        'calories': menu.calories,
+                        'carbs': menu.carbs,
+                        'protein': menu.protein,
+                        'fat': menu.fat,
+                        'image': "http://localhost:8000/media/"+str(menu.image).split('/')[-1],
+                        'recipe': menu.recipe,
+                        'ingredient': menu.ingredient
                     })
             return JsonResponse(response_dict, safe=False)
 
@@ -640,19 +641,20 @@ def recommend(request, date):
         response_dict = []
         dict = model_to_dict(today_menu)
         for key, value in dict.items():
-            if key=='user' or key=='count' or key=='date':
+            if key=='id' or key=='user' or key=='count' or key=='date':
                 continue
             else:
+                menu = Menu.objects.get(id=value)
                 response_dict.append({
-                    'id': value.id,
-                    'name': value.name,
-                    'calories': value.calories,
-                    'carbs': value.carbs,
-                    'protein': value.protein,
-                    'fat': value.fat,
-                    'image': "http://localhost:8000/media/"+str(value.image).split('/')[-1],
-                    'recipe': value.recipe,
-                    'ingredient': value.ingredient
+                    'id': menu.id,
+                    'name': menu.name,
+                    'calories': menu.calories,
+                    'carbs': menu.carbs,
+                    'protein': menu.protein,
+                    'fat': menu.fat,
+                    'image': "http://localhost:8000/media/"+str(menu.image).split('/')[-1],
+                    'recipe': menu.recipe,
+                    'ingredient': menu.ingredient
                 })
         return JsonResponse(today_menu, safe=False)
 
