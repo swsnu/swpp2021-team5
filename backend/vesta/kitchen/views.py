@@ -45,8 +45,8 @@ def signup(request):
             weight=weight, 
             target_calories=target_calories,
             api_name = api_name,
+            api_token = userdict["token"],
             api_id = userdict["id"],
-            api_token = userdict["token"]
         )
         new_profile.save()
 
