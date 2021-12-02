@@ -35,6 +35,7 @@ def signup(request):
 
         api_name = "APIUser_namKim"+username
         userdict = api.signup(api_name)
+        # .
 
         new_profile = Profile(
             user=user, 
