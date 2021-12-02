@@ -11,7 +11,7 @@ from django.views.decorators.http import require_http_methods, require_GET
 
 from django.contrib.auth.models import User
 from .models import Profile, UserNutrition, Preference, Menu, Record
-import logmeal as api
+from . import logmeal as api
 import os
 
 # Create your views here.
