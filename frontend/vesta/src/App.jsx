@@ -41,7 +41,7 @@ function App(props) {
             render={() => <MenuRecommendation />}
           />
           <Route
-            path="/recommendation/:when/:idx"
+            path="/recommendation/:menuName/:idx"
             exact
             render={() => <NutritionalInfoAndRecipe />}
           />
@@ -53,7 +53,7 @@ function App(props) {
           <Route
             path="/history/:id"
             exact
-            render={() => <PreviousMeal />}
+            render={({match}) => <PreviousMeal id={match.params.id} />}
           />
           <Route
             path="/record"

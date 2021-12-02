@@ -13,7 +13,7 @@ from selenium.common.exceptions import NoSuchElementException, WebDriverExceptio
 def get_image_(url, image_name):
   options = webdriver.ChromeOptions()
   options.add_argument('headless')
-  driver = webdriver.Chrome(executable_path='/Users/youngsuh-hong/SWPP/Project/swpp2021-team5/chromedriver')
+  driver = webdriver.Chrome(executable_path='/Users/youngsuh-hong/SWPP/Project/swpp2021-team5/chromedriver', options=options)
   driver.get(url=url)
   sleep(5)
   try:
@@ -21,6 +21,8 @@ def get_image_(url, image_name):
   except NoSuchElementException:
     return
   except WebDriverException:
+    return
+  except Exception:
     return
   # element = driver.find_element_by_xpath('//*[@id="__layout"]/div/div[2]/div/div/div[7]/div/div/div[1]/div/div/img')
   # print(element)
@@ -37,9 +39,9 @@ if __name__ == "__main__":
     print(start)
     for row in csv_reader:
       idx+=1
-      if idx < 1464:
+      if idx < 3316:
         continue
-      elif idx == 2001:   # collect 2000 menus
+      elif idx == 10001:   # collect 2000 menus
         end = datetime.now()
         diff = end - start
         print('diff: ', diff)

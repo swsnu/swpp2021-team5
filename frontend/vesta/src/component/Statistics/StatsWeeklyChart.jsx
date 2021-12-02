@@ -17,7 +17,6 @@ height: 500px;
 `;
 
 function StatsWeeklyChart(props) {
-  console.log('Child rendered');
   const barData = {
     labels: [
       'Sun',
