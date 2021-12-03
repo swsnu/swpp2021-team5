@@ -9,23 +9,45 @@ from django.views.decorators.http import require_http_methods, require_GET
 
 from django.contrib.auth.models import User
 from .models import Profile, UserNutrition, Preference, Menu, Record
-# import logmeal as api
+from . import logmeal as api
 import os
 
 # Create your views here.
 
 @require_http_methods(["POST"])
 def signup(request):
-    req_data = json.loads(request.body.decode())
-    username = req_data['username']
-    password = req_data['password']
-    user = User.objects.create_user(username=username, password=password)
+    if request.method == 'POST':
+        req_data = json.loads(request.body.decode())
+        username = req_data['username']
+        password = req_data['password']
+        user = User.objects.create_user(username=username, password=password)
 
-    # Model 'Profile' should be created simultaneously #
-    new_profile = Profile(user=user, age=None, sex=None, height=None, weight=None)
-    new_profile.save()
+        # Model 'Profile' should be created simultaneously #
+        age = int(req_data['age'])
+        sex = bool(req_data['sex'])
+        height = int(req_data['height'])
+        weight = int(req_data['weight'])
+        target_calories = int(req_data['targetCalories'])
 
-    return HttpResponse(status=201)
+        api_name = "APIUser_namKim"+username
+        userdict = api.signup(api_name)
+        # .
+
+        new_profile = Profile(
+            user=user, 
+            age=age, 
+            sex=sex, 
+            height=height, 
+            weight=weight, 
+            target_calories=target_calories,
+            api_name = api_name,
+            api_token = userdict["token"],
+            api_id = userdict["id"],
+        )
+        new_profile.save()
+        return HttpResponse(status=201)
+    else:
+        return HttpResponseNotAllowed['POST']
 
 @require_http_methods(["POST"])
 def signin(request):
