@@ -12,8 +12,8 @@ import re
 ## recommend 15 menus total(5 for each meal)
 def recommend(request, date):
     # if unauthenticated
-    if not request.user.is_authenticated:
-        return HttpResponse(status = 401)
+    # if not request.user.is_authenticated:
+    #     return HttpResponse(status = 401)
     
     date_list = date.split('-')
     today = datetime.date(int(date_list[0]), 
@@ -27,8 +27,6 @@ def recommend(request, date):
             )
         except TodayMenu.DoesNotExist:
             response = recommend_algorithm(request, today, 0)
-            print(response)
-            print(request.user)
             today_menu = TodayMenu.objects.create(
                 user_id=request.user.id,
                 count=0,
@@ -71,7 +69,7 @@ def recommend(request, date):
             response_dict = []
             dict = model_to_dict(today_menu)
             for key, value in dict.items():
-                print(key, ", ", value)
+                # print(key, ", ", value)
                 if key=='id' or key=='user' or key=='count' or key=='date':
                     continue
                 else:
@@ -115,22 +113,22 @@ def recommend(request, date):
             today_menu.dinner_other3 = response[13]
             today_menu.dinner_other4 = response[14]
         elif count_all == 1:
-            today_menu.lunch = response[1]
-            today_menu.dinner = response[2]
-            today_menu.lunch_other1 = response[7]
-            today_menu.lunch_other2 = response[8]
-            today_menu.lunch_other3 = response[9]
-            today_menu.lunch_other4 = response[10]
-            today_menu.dinner_other1 = response[11]
-            today_menu.dinner_other2 = response[12]
-            today_menu.dinner_other3 = response[13]
-            today_menu.dinner_other4 = response[14]
+            today_menu.lunch = response[0]
+            today_menu.dinner = response[1]
+            today_menu.lunch_other1 = response[2]
+            today_menu.lunch_other2 = response[3]
+            today_menu.lunch_other3 = response[4]
+            today_menu.lunch_other4 = response[5]
+            today_menu.dinner_other1 = response[6]
+            today_menu.dinner_other2 = response[7]
+            today_menu.dinner_other3 = response[8]
+            today_menu.dinner_other4 = response[9]
         elif count_all == 2:
-            today_menu.dinner = response[2]
-            today_menu.dinner_other1 = response[11]
-            today_menu.dinner_other2 = response[12]
-            today_menu.dinner_other3 = response[13]
-            today_menu.dinner_other4 = response[14]
+            today_menu.dinner = response[0]
+            today_menu.dinner_other1 = response[1]
+            today_menu.dinner_other2 = response[2]
+            today_menu.dinner_other3 = response[3]
+            today_menu.dinner_other4 = response[4]
         today_menu.save()
 
         response_dict = []
@@ -250,8 +248,7 @@ def recommend_algorithm(request, today, count_all):
         response_dict = []
         return response_dict
 
-    # target_cal = Profile.objects.get(user_id=request.user.id).target_calories
-    target_cal = 2000
+    target_cal = Profile.objects.get(user_id=request.user.id).target_calories
     target_carbs = ((target_cal*0.5)/4)
     target_protein = ((target_cal*0.3)/4)
     target_fat = ((target_cal*0.2)/9)

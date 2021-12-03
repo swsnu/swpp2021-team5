@@ -14,21 +14,21 @@ class MenuRecommendation extends Component {
     const year = date.getFullYear();
     const month = date.getMonth();
     const day = date.getDate();
-    this.props.getCountAll(String(`${year}-${month}-${day}`));
-    console.log(this.props.count);
+    // this.props.getCountAll(String(`${year}-${month}-${day}`));
+    // console.log(this.props.count);
+    this.props.getRecommendedMenus(String(`${year}-${month}-${day}`));
   }
 
-  componentDidUpdate() {
-    const date = new Date();
-    const year = date.getFullYear();
-    const month = date.getMonth();
-    const day = date.getDate();
-    this.props.getCountAll(String(`${year}-${month}-${day}`));
-    console.log(this.props.isUpdated);
-    if (this.props.isUpdated) {
-      this.props.getRecommendedMenus(String(`${year}-${month}-${day}`));
-    }
-  }
+  // componentDidUpdate() {
+  //   const date = new Date();
+  //   const year = date.getFullYear();
+  //   const month = date.getMonth();
+  //   const day = date.getDate();
+  //   this.props.getCountAll(String(`${year}-${month}-${day}`));
+  //   console.log(this.props.isUpdated);
+  //   if (this.props.isUpdated) {
+  //   }
+  // }
 
   render() {
     if (this.props.recommendedMenus) {
@@ -58,7 +58,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  getCountAll: (date) => dispatch(actionCreators.getCountAll(date)),
+  // getCountAll: (date) => dispatch(actionCreators.getCountAll(date)),
   getRecommendedMenus: (date) => dispatch(actionCreators.getRecommendedMenus(date)),
 });
 

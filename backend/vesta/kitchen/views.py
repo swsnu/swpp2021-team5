@@ -121,6 +121,7 @@ def profile(request):
             user_profile.sex = req_data['sex']
             user_profile.height = int(req_data['height'])
             user_profile.weight = int(req_data['weight'])
+            user_profile.target_calories = int(req_data['target_calories'])
             user.save()
             user_profile.save()
 
@@ -133,7 +134,7 @@ def profile(request):
                 new_preference_item.save()
             food_preference_list_response = []
             for item in Preference.objects.filter(user_id=request.user.id):
-                food_preference_list_response.append(str(item.menu.name))
+                food_preference_list_response.append(str(item.ingredient))
 
             response_dict = {
                 'username': user.username,
@@ -141,7 +142,8 @@ def profile(request):
                 'sex': user_profile.sex,
                 'height': user_profile.height,
                 'weight': user_profile.weight,
-                'preference': food_preference_list_response
+                'preference': food_preference_list_response,
+                'target_calories': user_profile.target_calories
             }
             return JsonResponse(response_dict, status=200)
         else:
