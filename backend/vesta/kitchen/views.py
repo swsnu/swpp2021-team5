@@ -519,13 +519,15 @@ def token(request):
 ## recommend 15 menus total(5 for each meal)
 def recommend(request, date):
     # if unauthenticated
-    # if not request.user.is_authenticated:
-    #     return HttpResponse(status = 401)
+    if not request.user.is_authenticated:
+        return HttpResponse(status = 401)
+    
+    date_list = date.split('-')
+    today = datetime.date(int(date_list[0]), 
+            int(date_list[1]), int(date_list[2]))
+
     if request.method == 'GET':
-    # find the user's nutritional info
-        date_list = date.split('-')
-        today = datetime.date(int(date_list[0]), 
-                int(date_list[1]), int(date_list[2]))
+        # find the user's nutritional info
         try:
             today_menu = TodayMenu.objects.get(
                 user_id = request.user.id, date=today
@@ -657,6 +659,85 @@ def recommend(request, date):
                     'ingredient': menu.ingredient
                 })
         return JsonResponse(today_menu, safe=False)
+    
+    elif request.method == 'PUT':
+        idx = json.loads(request.body.decode())
+        # print(req_data)
+        # idx = req_data['idx']
+        # idx = int(idx)
+        try:
+            today_menu = TodayMenu.objects.get(user_id = request.user.id, date=today)
+        except TodayMenu.DoesNotExist:
+            return HttpResponse(status=404)
+
+        if idx >= 3 and idx <= 6:
+            temp = today_menu.breakfast
+            if idx == 3:
+                today_menu.breakfast = today_menu.breakfast_other1
+                today_menu.breakfast_other1 = temp
+            elif idx == 4:
+                today_menu.breakfast = today_menu.breakfast_other2
+                today_menu.breakfast_other2 = temp
+            elif idx == 5:
+                today_menu.breakfast = today_menu.breakfast_other3
+                today_menu.breakfast_other3 = temp
+            else:
+                today_menu.breakfast = today_menu.breakfast_other4
+                today_menu.breakfast_other4 = temp
+            today_menu.save()
+        elif idx >= 7 and idx <= 10:
+            temp = today_menu.lunch
+            if idx == 7:
+                today_menu.lunch = today_menu.lunch_other1
+                today_menu.lunch_other1 = temp
+            elif idx == 8:
+                today_menu.lunch = today_menu.lunch_other2
+                today_menu.lunch_other2 = temp
+            elif idx == 9:
+                today_menu.lunch = today_menu.lunch_other3
+                today_menu.lunch_other3 = temp
+            else:
+                today_menu.lunch = today_menu.lunch_other4
+                today_menu.lunch_other4 = temp
+            today_menu.save()
+        else:
+            temp = today_menu.dinner
+            if idx == 11:
+                today_menu.dinner = today_menu.dinner_other1
+                today_menu.dinner_other1 = temp
+            elif idx == 12:
+                today_menu.dinner = today_menu.dinner_other2
+                today_menu.dinner_other2 = temp
+            elif idx == 13:
+                today_menu.dinner = today_menu.dinner_other3
+                today_menu.dinner_other3 = temp
+            else:
+                today_menu.dinner = today_menu.dinner_other4
+                today_menu.dinner_other4 = temp
+            today_menu.save()
+
+        response_dict = []
+        dict = model_to_dict(today_menu)
+        for key, value in dict.items():
+            if key=='id' or key=='user' or key=='count' or key=='date':
+                continue
+            else:
+                menu = Menu.objects.get(id=value)
+                response_dict.append({
+                    'id': menu.id,
+                    'name': menu.name,
+                    'calories': menu.calories,
+                    'carbs': menu.carbs,
+                    'protein': menu.protein,
+                    'fat': menu.fat,
+                    'image': "http://localhost:8000/media/"+str(menu.image).split('/')[-1],
+                    'recipe': menu.recipe,
+                    'ingredient': menu.ingredient
+                })
+        return JsonResponse(response_dict, safe=False)
+    
+    else:
+        return HttpResponseNotAllowed(['GET','PUT'])
 
 
 ## internal function

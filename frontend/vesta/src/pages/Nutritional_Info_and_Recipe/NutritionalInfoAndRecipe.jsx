@@ -18,6 +18,17 @@ class NutritionalInfoAndRecipe extends Component {
     this.props.getRecommendedMenus(String(`${year}-${month}-${day}`));
   }
 
+  changeRecommendation = () => {
+    let ans = confirm("Are you sure you want to change this menu to your main recommended meal?");
+    if (ans) {
+      const date = new Date();
+      const year = date.getFullYear();
+      const month = date.getMonth();
+      const day = date.getDate();
+      this.props.changeRecommendation(String(`${year}-${month}-${day}`), parseInt(this.props.match.params.idx));
+    }
+  }
+
   render() {
     let menuName = '';
     let calories = 0;
@@ -53,8 +64,9 @@ class NutritionalInfoAndRecipe extends Component {
               ingredient={ingredient}
             />
             <Link to="/recommendation">
-              <Button className="menu-recommendation-button">Back</Button>
+              <Button className="menu-recommendation-button">Recommendation-page</Button>
             </Link>
+            <Button onClick={() => this.changeRecommendation()}>Change</Button>
           </Background>
         </div>
       );
@@ -77,6 +89,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   getRecommendedMenus: (date) => dispatch(actionCreators.getRecommendedMenus(date)),
+  changeRecommendation: (date, idx) => dispatch(actionCreators.changeRecommendation(date, idx)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(NutritionalInfoAndRecipe));
