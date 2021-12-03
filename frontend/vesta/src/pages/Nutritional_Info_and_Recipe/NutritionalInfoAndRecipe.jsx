@@ -19,7 +19,7 @@ class NutritionalInfoAndRecipe extends Component {
   }
 
   changeRecommendation = () => {
-    let ans = confirm("Are you sure you want to change this menu to your main recommended meal?");
+    let ans = confirm("Do you want to change this menu to your main recommended meal?");
     if (ans) {
       const date = new Date();
       const year = date.getFullYear();
@@ -27,6 +27,7 @@ class NutritionalInfoAndRecipe extends Component {
       const day = date.getDate();
       this.props.changeRecommendation(String(`${year}-${month}-${day}`), parseInt(this.props.match.params.idx));
     }
+    confirm("If you refresh your site, all changes have been applied. Enjoy!");
   }
 
   render() {
@@ -66,7 +67,7 @@ class NutritionalInfoAndRecipe extends Component {
             <Link to="/recommendation">
               <Button className="menu-recommendation-button">Recommendation-page</Button>
             </Link>
-            <Button onClick={() => this.changeRecommendation()}>Change</Button>
+            <Button className="change-button" onClick={() => this.changeRecommendation()}>Change</Button>
           </Background>
         </div>
       );
