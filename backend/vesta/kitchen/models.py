@@ -27,9 +27,9 @@ class Profile(models.Model):
     height = IntegerField(null=True)
     weight = IntegerField(null=True)
     target_calories = IntegerField(null=True)
-    # api_id = IntegerField()
-    # api_name = TextField()
-    # api_token = TextField()
+    api_id = IntegerField(null=True)
+    api_name = TextField(null=True)
+    api_token = TextField(null=True)
 
 #### model 'Preference' consists of two foreign key field ####
 ####                  : User, ingredient                  ####

@@ -113,7 +113,7 @@ def profile(request):
 
             food_preference_list = []
             for item in Preference.objects.filter(user_id=request.user.id):
-                food_preference_list.append(str(item.menu.name))
+                food_preference_list.append(str(item.ingredient))
 
             user_profile = user.profile
             response_dict = {
@@ -287,8 +287,8 @@ def nutrition(request, date):
 
 
 def nutrition_count(request, date):   ## used for recommendation page
-    # if not request.user.is_authenticated:
-    #     return HttpResponse(status=401)
+    if not request.user.is_authenticated:
+        return HttpResponse(status=401)
 
     if request.method == 'GET':
         date_list = date.split('-')

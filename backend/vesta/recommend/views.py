@@ -12,8 +12,8 @@ import re
 ## recommend 15 menus total(5 for each meal)
 def recommend(request, date):
     # if unauthenticated
-    # if not request.user.is_authenticated:
-    #     return HttpResponse(status = 401)
+    if not request.user.is_authenticated:
+        return HttpResponse(status = 401)
     
     date_list = date.split('-')
     today = datetime.date(int(date_list[0]), 
