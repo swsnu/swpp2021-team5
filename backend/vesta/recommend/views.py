@@ -149,7 +149,7 @@ def recommend(request, date):
                     'recipe': menu.recipe,
                     'ingredient': menu.ingredient
                 })
-        return JsonResponse(today_menu, safe=False)
+        return JsonResponse(response_dict, safe=False)
     
     elif request.method == 'PUT':
         idx = json.loads(request.body.decode())
