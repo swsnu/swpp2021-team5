@@ -289,13 +289,13 @@ class KitchenTestClass(TestCase):
         response = client.post('/api/token/')
         self.assertEqual(response.status_code, 405)
         
-    def test_signup(self):
+    def _test_signup(self):
         client = Client()
         response = client.post('/api/user/signup/', json.dumps({'username': 'chris', 'password': 'chris', 'age': 5, 'sex': True, 'height': 160, 'weight': 60, 'targetCalories': 2000 }), content_type='application/json')
         self.assertEqual(response.status_code, 201)  
 
 
-    def test_signin(self):
+    def _test_signin(self):
         user = User.objects.create(username='testuser')
         user.set_password('testpassword')
         user.save()
@@ -333,7 +333,7 @@ class KitchenTestClass(TestCase):
         response = client.delete('/api/user/resign/')
         self.assertEqual(response.status_code, 200)
 
-    def test_profile(self):
+    def _test_profile(self):
         user = User.objects.create(username='testuser')
         user.set_password('testpassword')
         user.save()
