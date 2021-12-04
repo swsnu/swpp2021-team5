@@ -51,17 +51,20 @@ def recommend(request, date):
             response_dict = []
             if len(response)!=0:
                 for res in response:
-                    response_dict.append({
-                        'id': res.id,
-                        'name': res.name,
-                        'calories': res.calories,
-                        'carbs': res.carbs,
-                        'protein': res.protein,
-                        'fat': res.fat,
-                        'image': "http://localhost:8000/media/"+str(res.image).split('/')[-1],
-                        'recipe': res.recipe,
-                        'ingredient': res.ingredient
-                    })
+                    if res is not None:
+                        response_dict.append({
+                            'id': res.id,
+                            'name': res.name,
+                            'calories': res.calories,
+                            'carbs': res.carbs,
+                            'protein': res.protein,
+                            'fat': res.fat,
+                            'image': "http://localhost:8000/media/"+str(res.image).split('/')[-1],
+                            'recipe': res.recipe,
+                            'ingredient': res.ingredient
+                        })
+                    else:
+                        response_dict.append(None)
             return JsonResponse(response_dict, safe=False)
         
         count = len(Record.objects.filter(user_id=request.user.id, date=today))  
@@ -73,18 +76,21 @@ def recommend(request, date):
                 if key=='id' or key=='user' or key=='count' or key=='date':
                     continue
                 else:
-                    menu = Menu.objects.get(id=value)
-                    response_dict.append({
-                        'id': menu.id,
-                        'name': menu.name,
-                        'calories': menu.calories,
-                        'carbs': menu.carbs,
-                        'protein': menu.protein,
-                        'fat': menu.fat,
-                        'image': "http://localhost:8000/media/"+str(menu.image).split('/')[-1],
-                        'recipe': menu.recipe,
-                        'ingredient': menu.ingredient
-                    })
+                    try:
+                        menu = Menu.objects.get(id=value)
+                        response_dict.append({
+                            'id': menu.id,
+                            'name': menu.name,
+                            'calories': menu.calories,
+                            'carbs': menu.carbs,
+                            'protein': menu.protein,
+                            'fat': menu.fat,
+                            'image': "http://localhost:8000/media/"+str(menu.image).split('/')[-1],
+                            'recipe': menu.recipe,
+                            'ingredient': menu.ingredient
+                        })
+                    except Menu.DoesNotExist:
+                        response_dict.append(None)
             return JsonResponse(response_dict, safe=False)
 
         today_menu.count = count   # update today_menu.count
@@ -94,6 +100,30 @@ def recommend(request, date):
             count_all = UserNutrition.objects.get(user_id=request.user.id, date=today).count_all
         except UserNutrition.DoesNotExist:   # there should not be such a case like this -> if there is a record, then UserNutrition exits
             count_all = 0
+
+        if count_all == 3:   # if count_all == 3, just return the same todayMenu
+            response_dict = []
+            dict = model_to_dict(today_menu)
+            for key, value in dict.items():
+                if key=='id' or key=='user' or key=='count' or key=='date':
+                    continue
+                else:
+                    try:
+                        menu = Menu.objects.get(id=value)
+                        response_dict.append({
+                            'id': menu.id,
+                            'name': menu.name,
+                            'calories': menu.calories,
+                            'carbs': menu.carbs,
+                            'protein': menu.protein,
+                            'fat': menu.fat,
+                            'image': "http://localhost:8000/media/"+str(menu.image).split('/')[-1],
+                            'recipe': menu.recipe,
+                            'ingredient': menu.ingredient
+                        })
+                    except Menu.DoesNotExist:
+                        response_dict.append(None)
+            return JsonResponse(response_dict, safe=False)
 
         response = recommend_algorithm(request, today, count_all)
         if count_all==0:
@@ -137,18 +167,21 @@ def recommend(request, date):
             if key=='id' or key=='user' or key=='count' or key=='date':
                 continue
             else:
-                menu = Menu.objects.get(id=value)
-                response_dict.append({
-                    'id': menu.id,
-                    'name': menu.name,
-                    'calories': menu.calories,
-                    'carbs': menu.carbs,
-                    'protein': menu.protein,
-                    'fat': menu.fat,
-                    'image': "http://localhost:8000/media/"+str(menu.image).split('/')[-1],
-                    'recipe': menu.recipe,
-                    'ingredient': menu.ingredient
-                })
+                try:
+                    menu = Menu.objects.get(id=value)
+                    response_dict.append({
+                        'id': menu.id,
+                        'name': menu.name,
+                        'calories': menu.calories,
+                        'carbs': menu.carbs,
+                        'protein': menu.protein,
+                        'fat': menu.fat,
+                        'image': "http://localhost:8000/media/"+str(menu.image).split('/')[-1],
+                        'recipe': menu.recipe,
+                        'ingredient': menu.ingredient
+                    })
+                except Menu.DoesNotExist:
+                    response_dict.append(None)
         return JsonResponse(response_dict, safe=False)
     
     elif request.method == 'PUT':
@@ -210,18 +243,21 @@ def recommend(request, date):
             if key=='id' or key=='user' or key=='count' or key=='date':
                 continue
             else:
-                menu = Menu.objects.get(id=value)
-                response_dict.append({
-                    'id': menu.id,
-                    'name': menu.name,
-                    'calories': menu.calories,
-                    'carbs': menu.carbs,
-                    'protein': menu.protein,
-                    'fat': menu.fat,
-                    'image': "http://localhost:8000/media/"+str(menu.image).split('/')[-1],
-                    'recipe': menu.recipe,
-                    'ingredient': menu.ingredient
-                })
+                try:
+                    menu = Menu.objects.get(id=value)
+                    response_dict.append({
+                        'id': menu.id,
+                        'name': menu.name,
+                        'calories': menu.calories,
+                        'carbs': menu.carbs,
+                        'protein': menu.protein,
+                        'fat': menu.fat,
+                        'image': "http://localhost:8000/media/"+str(menu.image).split('/')[-1],
+                        'recipe': menu.recipe,
+                        'ingredient': menu.ingredient
+                    })
+                except Menu.DoesNotExist:
+                    response_dict.append(None)
         return JsonResponse(response_dict, safe=False)
     
     else:
@@ -244,9 +280,6 @@ def recommend_algorithm(request, today, count_all):
         )
     # left meal times 
     times = (3 - count_all)
-    if times == 0:
-        response_dict = []
-        return response_dict
 
     target_cal = Profile.objects.get(user_id=request.user.id).target_calories
     target_carbs = ((target_cal*0.5)/4)
@@ -261,15 +294,23 @@ def recommend_algorithm(request, today, count_all):
 
     menus = Menu.objects.all()
     candidates = []
-    print('calories:', allowed_cal)
-    print('carbs:', allowed_carbs)
-    print('protein:', allowed_protein)
-    print('fat:', allowed_fat)
+    # print('calories:', allowed_cal)
+    # print('carbs:', allowed_carbs)
+    # print('protein:', allowed_protein)
+    # print('fat:', allowed_fat)
     # choose all candidates
     for menu in menus:
-        if menu.calories < allowed_cal and menu.carbs < allowed_carbs and menu.protein < allowed_protein and menu.fat < allowed_fat:
+        if (menu.calories < allowed_cal) and (menu.carbs < allowed_carbs) and (menu.protein < allowed_protein) and (menu.fat < allowed_fat):
             # check ingredients
-            preference = Preference.objects.filter(user_id=request.user.id) # list
+            preferences = Preference.objects.filter(user_id=request.user.id) # QuerySet
+            preference = []
+            for pref in preferences:
+                pref = model_to_dict(pref)
+                for key, value in pref.items():
+                    if key=='id' or key=='user':
+                        continue
+                    else:
+                        preference.append(value)
             ingredient = re.findall("'(.*?)'", menu.ingredient)  # list
             intersect = set(preference) & set(ingredient)
             if intersect:   # if there is intersection, do not include
@@ -281,8 +322,6 @@ def recommend_algorithm(request, today, count_all):
                     difference
                 ]
                 candidates.append(menu)
-        else:
-            continue
     
     # sort in the order of little difference with the target nutrition
     candidates = sorted(candidates, key=lambda x:x[1])
@@ -299,9 +338,11 @@ def recommend_algorithm(request, today, count_all):
     if liked_num != 0:
         result.extend(liked_menus)
     
-    if len(candidates) < 15:
+    if len(candidates) < 15: # if candidates are less than 15
         for can in candidates:
-            result.append(can[0])
+            result.append(can[0])  
+        while len(result) != 15:
+            result.append(None)
     else:
         for can in candidates:
             if liked_num < 15:
