@@ -1,10 +1,9 @@
-from django.forms.models import model_to_dict
+import datetime
 from django.test import TestCase, Client
 from django.contrib.auth.models import User
+from kitchen.models import Menu, UserNutrition, Profile, Record, Preference
 from .models import TodayMenu
-from kitchen.models import *
-import datetime
-import re
+# from django.forms.models import model_to_dict
 
 # Create your tests here.
 class RecommendTestClass(TestCase):
@@ -46,6 +45,7 @@ class RecommendTestClass(TestCase):
           dinner_other3=menu,
           dinner_other4=menu
         )
+        today_menu.save()
 
         response = client.get('/api/recommend/2021-11-11/')
         self.assertEqual(response.status_code, 200)

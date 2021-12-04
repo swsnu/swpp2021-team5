@@ -480,4 +480,3 @@ class KitchenTestClass(TestCase):
 
         response = client.delete('/api/nutrition/2021-11-11/count/')
         self.assertEqual(response.status_code, 405)
-

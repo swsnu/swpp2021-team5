@@ -1,6 +1,5 @@
-
-import requests
 import os
+import requests
 from PIL import Image
 
 #################
@@ -75,7 +74,7 @@ def preprocess(img_path):
     # iteratively reduce the image a percentatge of its size until it is smaller than 1MB
     rez_image = rgb_im
 
-    while(size_mb >= 1):
+    while size_mb >= 1:
         # resize th image 75%
         size=int(width*0.75), int(height*0.75)
         rez_image = rgb_im.resize(size, Image.ANTIALIAS)

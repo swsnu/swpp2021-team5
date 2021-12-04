@@ -1,12 +1,12 @@
-from django.shortcuts import render
+import json
+import re
 import datetime
-from .models import TodayMenu
-from kitchen.models import *
+from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseNotAllowed
 from django.http.response import JsonResponse
 from django.forms.models import model_to_dict
-import json
-import re
+from kitchen.models import Record, UserNutrition, Preference, Menu, Profile
+from .models import TodayMenu
 
 # Create your views here.
 ## recommend 15 menus total(5 for each meal)
@@ -59,7 +59,7 @@ def recommend(request, date):
                             'carbs': res.carbs,
                             'protein': res.protein,
                             'fat': res.fat,
-                            'image': "http://localhost:8000/media/"+str(res.image).split('/')[-1],
+                            'image': "http://localhost:8000/media/"+str(res.image).split('/', maxsplit=1)[-1],
                             'recipe': res.recipe,
                             'ingredient': res.ingredient
                         })
@@ -73,7 +73,7 @@ def recommend(request, date):
             dict = model_to_dict(today_menu)
             for key, value in dict.items():
                 # print(key, ", ", value)
-                if key=='id' or key=='user' or key=='count' or key=='date':
+                if key in ('id', 'user', 'count', 'date'):
                     continue
                 else:
                     try:
@@ -85,7 +85,7 @@ def recommend(request, date):
                             'carbs': menu.carbs,
                             'protein': menu.protein,
                             'fat': menu.fat,
-                            'image': "http://localhost:8000/media/"+str(menu.image).split('/')[-1],
+                            'image': "http://localhost:8000/media/"+str(menu.image).split('/', maxsplit=1)[-1],
                             'recipe': menu.recipe,
                             'ingredient': menu.ingredient
                         })
@@ -105,7 +105,7 @@ def recommend(request, date):
             response_dict = []
             dict = model_to_dict(today_menu)
             for key, value in dict.items():
-                if key=='id' or key=='user' or key=='count' or key=='date':
+                if key in ('id', 'user', 'count', 'date'):
                     continue
                 else:
                     try:
@@ -117,7 +117,7 @@ def recommend(request, date):
                             'carbs': menu.carbs,
                             'protein': menu.protein,
                             'fat': menu.fat,
-                            'image': "http://localhost:8000/media/"+str(menu.image).split('/')[-1],
+                            'image': "http://localhost:8000/media/"+str(menu.image).split('/', maxsplit=1)[-1],
                             'recipe': menu.recipe,
                             'ingredient': menu.ingredient
                         })
@@ -164,7 +164,7 @@ def recommend(request, date):
         response_dict = []
         dict = model_to_dict(today_menu)
         for key, value in dict.items():
-            if key=='id' or key=='user' or key=='count' or key=='date':
+            if key in ('id', 'user', 'count', 'date'):
                 continue
             else:
                 try:
@@ -176,7 +176,7 @@ def recommend(request, date):
                         'carbs': menu.carbs,
                         'protein': menu.protein,
                         'fat': menu.fat,
-                        'image': "http://localhost:8000/media/"+str(menu.image).split('/')[-1],
+                        'image': "http://localhost:8000/media/"+str(menu.image).split('/', maxsplit=1)[-1],
                         'recipe': menu.recipe,
                         'ingredient': menu.ingredient
                     })
@@ -240,7 +240,7 @@ def recommend(request, date):
         response_dict = []
         dict = model_to_dict(today_menu)
         for key, value in dict.items():
-            if key=='id' or key=='user' or key=='count' or key=='date':
+            if key in ('id', 'user', 'count', 'date'):
                 continue
             else:
                 try:
@@ -252,7 +252,7 @@ def recommend(request, date):
                         'carbs': menu.carbs,
                         'protein': menu.protein,
                         'fat': menu.fat,
-                        'image': "http://localhost:8000/media/"+str(menu.image).split('/')[-1],
+                        'image': "http://localhost:8000/media/"+str(menu.image).split('/', maxsplit=1)[-1],
                         'recipe': menu.recipe,
                         'ingredient': menu.ingredient
                     })
@@ -307,7 +307,7 @@ def recommend_algorithm(request, today, count_all):
             for pref in preferences:
                 pref = model_to_dict(pref)
                 for key, value in pref.items():
-                    if key=='id' or key=='user':
+                    if key in ('id', 'user'):
                         continue
                     else:
                         preference.append(value)

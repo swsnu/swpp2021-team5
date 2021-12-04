@@ -1,6 +1,9 @@
 from django.db import models
 from django.db.models.fields.related import ForeignKey
-from kitchen.models import *
+from django.contrib.auth.models import User
+from django.db.models.fields import DateField, IntegerField
+from django.utils.timezone import now
+from kitchen.models import Menu
 
 # Create your models here.
 class TodayMenu(models.Model):
