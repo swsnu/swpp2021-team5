@@ -57,7 +57,7 @@ class RecommendTestClass(TestCase):
         user.save()
         client.login(username='testuser', password='testpassword')
 
-        profile = Profile.objects.create(user_id=user.id, age=20, sex=True, height=180, weight=70, target_calories=2000)
+        profile = Profile.objects.create(user_id=user.id, age=20, sex=True, height=180, weight=70, target_calories=2000, api_id=1, api_name="", api_token="")
         profile.save()
 
         date_list = "2021-11-11".split('-')
@@ -131,7 +131,7 @@ class RecommendTestClass(TestCase):
         record = Record.objects.create(user_id=user.id, menu=menu, review="good", liked=False, date=today, image='./images/brownie.jpeg')
         record.save()
 
-        profile = Profile.objects.create(user_id=user.id, age=20, sex=True, height=180, weight=70, target_calories=2000)
+        profile = Profile.objects.create(user_id=user.id, age=20, sex=True, height=180, weight=70, target_calories=2000, api_id=1, api_name="", api_token="")
         profile.save()
 
         idx = 0
@@ -187,7 +187,7 @@ class RecommendTestClass(TestCase):
         record = Record.objects.create(user_id=user.id, menu=menu, review="good", liked=False, date=today, image='./images/brownie.jpeg')
         record.save()
 
-        profile = Profile.objects.create(user_id=user.id, age=20, sex=True, height=180, weight=70, target_calories=2000)
+        profile = Profile.objects.create(user_id=user.id, age=20, sex=True, height=180, weight=70, target_calories=2000, api_id=1, api_name="", api_token="")
         profile.save()
 
         idx = 0
@@ -239,7 +239,7 @@ class RecommendTestClass(TestCase):
         record = Record.objects.create(user_id=user.id, menu=menu, review="good", liked=False, date=today, image='./images/brownie.jpeg')
         record.save()
 
-        profile = Profile.objects.create(user_id=user.id, age=20, sex=True, height=180, weight=70, target_calories=2000)
+        profile = Profile.objects.create(user_id=user.id, age=20, sex=True, height=180, weight=70, target_calories=2000, api_id=1, api_name="", api_token="")
         profile.save()
 
         idx = 0
@@ -402,7 +402,7 @@ class RecommendTestClass(TestCase):
         record = Record.objects.create(user_id=user.id, menu=menu, review="good", liked=False, date=today, image='./images/brownie.jpeg')
         record.save()
 
-        profile = Profile.objects.create(user_id=user.id, age=20, sex=True, height=180, weight=70, target_calories=2000)
+        profile = Profile.objects.create(user_id=user.id, age=20, sex=True, height=180, weight=70, target_calories=2000, api_id=1, api_name="", api_token="")
         profile.save()
 
         today_nutrition = UserNutrition.objects.create(user_id=user.id, date=today, calories=0, carbs=0, protein=0, fat=0, count_all=3)
@@ -463,7 +463,7 @@ class RecommendTestClass(TestCase):
         respose = client.get('/api/recommend/2021-11-11/')
         self.assertEqual(respose.status_code, 200)
     
-    def test_recommend_interset(self):
+    def test_recommend_interest(self):
         client = Client()
         user = User.objects.create(username='testuser')
         user.set_password('testpassword')
@@ -501,7 +501,7 @@ class RecommendTestClass(TestCase):
         record = Record.objects.create(user_id=user.id, menu=menu, review="good", liked=False, date=today, image='./images/brownie.jpeg')
         record.save()
 
-        profile = Profile.objects.create(user_id=user.id, age=20, sex=True, height=180, weight=70, target_calories=2000)
+        profile = Profile.objects.create(user_id=user.id, age=20, sex=True, height=180, weight=70, target_calories=2000, api_id=1, api_name="", api_token="")
         profile.save()
         idx = 0
         while idx < 15:
@@ -578,7 +578,7 @@ class RecommendTestClass(TestCase):
         record = Record.objects.create(user_id=user.id, menu=menu, review="good", liked=False, date=today, image='./images/brownie.jpeg')
         record.save()
 
-        profile = Profile.objects.create(user_id=user.id, age=20, sex=True, height=180, weight=70, target_calories=2000)
+        profile = Profile.objects.create(user_id=user.id, age=20, sex=True, height=180, weight=70, target_calories=2000, api_id=1, api_name="", api_token="")
         profile.save()
         idx = 0
         while idx < 13:
@@ -634,7 +634,7 @@ class RecommendTestClass(TestCase):
         record = Record.objects.create(user_id=user.id, menu=menu, review="good", liked=False, date=today, image='./images/brownie.jpeg')
         record.save()
 
-        profile = Profile.objects.create(user_id=user.id, age=20, sex=True, height=180, weight=70, target_calories=2000)
+        profile = Profile.objects.create(user_id=user.id, age=20, sex=True, height=180, weight=70, target_calories=2000, api_id=1, api_name="", api_token="")
         profile.save()
         idx = 0
         while idx < 10:
