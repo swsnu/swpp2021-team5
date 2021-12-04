@@ -25,7 +25,7 @@ def recommend(request, date):
             today_menu = TodayMenu.objects.get(
                 user_id = request.user.id, date=today
             )
-        except TodayMenu.DoesNotExist:
+        except TodayMenu.DoesNotExist:  # first recommendation of the day
             response = recommend_algorithm(request, today, 0)
             today_menu = TodayMenu.objects.create(
                 user_id=request.user.id,
@@ -93,10 +93,10 @@ def recommend(request, date):
                         response_dict.append(None)
             return JsonResponse(response_dict, safe=False)
 
-        today_menu.count = count   # update today_menu.count
+        today_menu.count = count   # if you ate something else including snack, update today_menu.count
         today_menu.save()
         
-        try:
+        try:  # count times of MEAL (not snack)
             count_all = UserNutrition.objects.get(user_id=request.user.id, date=today).count_all
         except UserNutrition.DoesNotExist:   # there should not be such a case like this -> if there is a record, then UserNutrition exits
             count_all = 0
