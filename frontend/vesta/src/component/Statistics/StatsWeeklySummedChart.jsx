@@ -5,7 +5,7 @@ import { Bar } from 'react-chartjs-2';
 import styled from 'styled-components';
 import { Grid, Header } from 'semantic-ui-react';
 
-import { todayOptions, todayData } from './GraphConfig';
+import { todayOptions, weeklySummedData } from './GraphConfig';
 
 const Div = styled.div`
 align-items:center;
@@ -41,26 +41,31 @@ const StatsWeeklySummedChart = (props) => {
     totalFat += selectedWeekNutritions[i].fat;
   }
 
-  const barData = todayData;
-  barData.datasets[0].data = [
-    Math.round((totalCalories / (selectedWeekNutritions.length * props.recommendedIntake.calories)) * 10000) / 100,
-    Math.round((totalCarbs / (selectedWeekNutritions.length * props.recommendedIntake.carbs)) * 10000) / 100,
-    Math.round((totalProt / (selectedWeekNutritions.length * props.recommendedIntake.protein)) * 10000) / 100,
-    Math.round((totalFat / (selectedWeekNutritions.length * props.recommendedIntake.fat)) * 10000) / 100,
-  ];
-  barData.datasets[1].data = [
-    Math.round(totalCalories * 100) / 100,
-    Math.round(totalCarbs * 100) / 100,
-    Math.round(totalProt * 100) / 100,
-    Math.round(totalFat * 100) / 100
-  ];
-  barData.datasets[2].data = [
-    Math.round(props.recommendedIntake.calories * 100) / 100,
-    Math.round(props.recommendedIntake.carbs * 100) / 100,
-    Math.round(props.recommendedIntake.protein * 100) / 100,
-    Math.round(props.recommendedIntake.fat * 100) / 100,
-  ];
-
+  const barData = weeklySummedData;
+  if (selectedWeekNutritions.length > 0) {
+    barData.datasets[0].data = [
+      Math.round((totalCalories / (selectedWeekNutritions.length * props.recommendedIntake.calories)) * 10000) / 100,
+      Math.round((totalCarbs / (selectedWeekNutritions.length * props.recommendedIntake.carbs)) * 10000) / 100,
+      Math.round((totalProt / (selectedWeekNutritions.length * props.recommendedIntake.protein)) * 10000) / 100,
+      Math.round((totalFat / (selectedWeekNutritions.length * props.recommendedIntake.fat)) * 10000) / 100,
+    ];
+    barData.datasets[1].data = [
+      Math.round(totalCalories * 100) / 100,
+      Math.round(totalCarbs * 100) / 100,
+      Math.round(totalProt * 100) / 100,
+      Math.round(totalFat * 100) / 100
+    ];
+    barData.datasets[2].data = [
+      Math.round(props.recommendedIntake.calories * 100) / 100,
+      Math.round(props.recommendedIntake.carbs * 100) / 100,
+      Math.round(props.recommendedIntake.protein * 100) / 100,
+      Math.round(props.recommendedIntake.fat * 100) / 100,
+    ];
+  } else {
+    barData.datasets[0].data = [0, 0, 0, 0];
+    barData.datasets[1].data = [1, 1, 1, 1];
+    barData.datasets[2].data = [1, 1, 1, 1];
+  }
   return (
     <Div>
       <Grid>
