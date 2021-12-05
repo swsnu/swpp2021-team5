@@ -53,7 +53,7 @@ def signup(request):
 def signup_check_avail(request, username):
     if request.method == 'GET':
         response_dict = {
-            'check': User.objects.filter(username = username).exists()
+            'availability': not User.objects.filter(username = username).exists()
         }
         JsonResponse(response_dict, status=200)
     else:
