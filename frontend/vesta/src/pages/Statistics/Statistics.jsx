@@ -43,19 +43,20 @@ class Statistics extends Component {
     super(props);
     this.state = {
       selectedWeek: new Date(),
+      selectedMonth: (new Date()).getMonth(),
       userNutritions: [],
     };
   }
 
   componentDidMount() {
-    /*axios.get('/api/nutrition/').then((res) => {
+    const today = (new Date()).toISOString().split('T')[0];
+    this.props.onGetUserNutrition(today);
+    
+    /* axios.get('/api/nutrition/').then((res) => {
       this.setState({...this.state, userNutritions: res.data})
       // res.data : list of objects ?
-    })
-    */
-  const today = (new Date()).toISOString().split('T')[0];
-   this.setState({...this.state, userNutritions: dummyUserNutritions});
-   this.props.onGetUserNutrition(today);
+    }); */
+    this.setState({...this.state, userNutritions: dummyUserNutritions});
   }
 
   onClickedWeeklyPrevButton = () => {
@@ -70,6 +71,16 @@ class Statistics extends Component {
     const newSelected = new Date(this.state.selectedWeek);
     newSelected.setDate(newSelected.getDate() + 7);
     this.setState({...thisState, selectedWeek: newSelected});
+  }
+
+  onClickedMonthlyPrevButton = () => {
+    const thisState = this.state;
+    this.setState({...thisState, selectedMonth: thisState.selectedMonth - 1});
+  }
+
+  onClickedMonthlyNextButton = () => {
+    const thisState = this.state;
+    this.setState({...thisState, selectedMonth: thisState.selectedMonth + 1});
   }
 
   render() {
@@ -102,10 +113,14 @@ class Statistics extends Component {
     const selectedWeek = this.state.selectedWeek; // must be today
     selectedWeek.setHours(0,0,0,0);
 
+    let monthlyUserNutritions = processedUserNutritions.filter((nutrition) => {
+      return nutrition.date.getMonth() === this.state.selectedMonth;
+    })
+
     const panes=[
        { menuItem: 'Today', render: () => <StatsDaily intake={todayNutritionIntake} recommendedIntake={recommendedIntake} /> },
-       { menuItem: 'Weekly', render: () => <StatsWeekly selectedWeek={selectedWeek} userNutritions={processedUserNutritions} recommendedIntake={recommendedIntake} onClickedWeeklyPrevButton={this.onClickedWeeklyPrevButton} onClickedWeeklyNextButton={this.onClickedWeeklyNextButton}/> },
-       { menuItem: 'Monthly', render: () => <StatsMonthly userNutritions={processedUserNutritions} recommendedIntake={recommendedIntake}/> }
+       { menuItem: 'Weekly', render: () => <StatsWeekly selectedWeek={selectedWeek} userNutritions={processedUserNutritions} recommendedIntake={recommendedIntake} onClickedWeeklyPrevButton={this.onClickedWeeklyPrevButton} onClickedWeeklyNextButton={this.onClickedWeeklyNextButton} /> },
+       { menuItem: 'Monthly', render: () => <StatsMonthly selectedMonth={this.state.selectedMonth}monthlyUserNutritions={monthlyUserNutritions} recommendedIntake={recommendedIntake} onClickedMonthlyPrevButton={this.onClickedMonthlyPrevButton} onClickedMonthlyNextButton={this.onClickedMonthlyNextButton} /> }
     ]
     
     return (

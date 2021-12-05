@@ -116,3 +116,32 @@ export const weeklyOptions = {
     }
   },
 }
+
+export const monthlyOptions = {
+  maintainAspectRatio: false,
+  scales: {
+    y: {
+      display: true,
+      min: 0,
+      max: 140,
+      ticks: {
+        callback: function (value) {
+          return value + '%'; // convert it to percentage
+        }
+      },
+    },
+  },
+  plugins: {
+    title: {
+      display: false,
+      text: "Monthly Stats",
+    },
+    datalabels: {
+      display: false,
+    },
+    legend: {
+      display: true,
+      position: 'bottom',
+    }
+  },
+}
