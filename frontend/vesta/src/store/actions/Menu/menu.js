@@ -24,3 +24,11 @@ export const getCountAll_ = (data) => ({
 
 export const getCountAll = (date) => (dispatch) => axios.get(`/api/nutrition/${date}/count/`)
   .then((res) => dispatch(getCountAll_(res.data)));
+
+export const changeRecommendation_ = (menu) => ({
+  type: actionTypes.CHANGE_RECOMMENDATION,
+  recommendedMenus: menu,
+});
+
+export const changeRecommendation = (date, idx) => (dispatch) => axios.put(`/api/recommend/${date}/`, idx)
+  .then((res) => dispatch(changeRecommendation_(res.data)));
