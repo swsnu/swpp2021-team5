@@ -88,6 +88,35 @@ export const todayData = {
   ],
 };
 
+export const weeklySummedData = {
+  labels: [
+    'Calorie',
+    'Carbs',
+    'Protein',
+    'Fat',
+  ],
+  datasets: [
+    {
+    // label: "",
+    data: [],
+    backgroundColor: [
+      'green',
+      'rgb(255, 99, 132)',
+      'rgb(54, 162, 235)',
+      'rgb(255, 205, 86)',
+    ],
+    },
+    {
+      data: [],
+      hidden: true,
+    },
+    {
+      data: [],
+      hidden: true,
+    }
+  ],
+};
+
 export const weeklyOptions = {
   maintainAspectRatio: false,
   scales: {
