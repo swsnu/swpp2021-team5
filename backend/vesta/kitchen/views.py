@@ -55,7 +55,7 @@ def signup_check_avail(request, username):
         response_dict = {
             'availability': not User.objects.filter(username = username).exists()
         }
-        JsonResponse(response_dict, status=200)
+        return JsonResponse(response_dict, status=200)
     else:
         return HttpResponseNotAllowed(['GET'])
 
