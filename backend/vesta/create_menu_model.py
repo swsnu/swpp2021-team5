@@ -6,8 +6,8 @@ import os
 from django.conf import settings
 
 # path needs to be changed
-CSV_PATH = '/Users/kimnamgi/Desktop/swpp2021-team5/backend/vesta/RAW_recipes.csv'
-IMAGE_PATH = '/Users/kimnamgi/Desktop/swpp2021-team5/backend/vesta/menu_images/'
+CSV_PATH = '/Users/kimnamgi/Desktop/team5/swpp2021-team5/backend/vesta/kitchen/RAW_recipes.csv'
+IMAGE_PATH = '/Users/kimnamgi/Desktop/team5/swpp2021-team5/backend/vesta/menu_images'
 
 def parse_nutrition(nutrition):
     return re.findall("(\d+\.\d+)", nutrition)
@@ -64,6 +64,6 @@ if __name__ == "__main__":
                     )
                     menu.save()
                 else:
-                    print("no")
+                    print(os.path.join(IMAGE_PATH,image_name))
                     continue
                     print(calories, carbs, protein, fat)
