@@ -52,11 +52,11 @@ class Statistics extends Component {
     const today = (new Date()).toISOString().split('T')[0];
     this.props.onGetUserNutrition(today);
     
-    /* axios.get('/api/nutrition/').then((res) => {
+    this.setState({...this.state, userNutritions: dummyUserNutritions});
+    axios.get('/api/nutrition/').then((res) => {
       this.setState({...this.state, userNutritions: res.data})
       // res.data : list of objects ?
-    }); */
-    this.setState({...this.state, userNutritions: dummyUserNutritions});
+    });
   }
 
   onClickedWeeklyPrevButton = () => {
