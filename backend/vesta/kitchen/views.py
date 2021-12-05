@@ -218,7 +218,15 @@ def nutrition(request, date):
                 today_nutrition = UserNutrition.objects.get(
                     user_id=request.user.id, date=today)
             except UserNutrition.DoesNotExist:      # User.DoesNotExist?
-                return HttpResponse(status=404)
+                response_dict = {
+                    #'date': today_nutrition.date.strftime('%Y-%m-%d'),
+                    'calories': 0,
+                    'carbs': 0,
+                    'protein': 0,
+                    'fat': 0,
+                    'count_all': 0
+                }
+                return JsonResponse(response_dict, status=200)
             response_dict = {
                 #'date': today_nutrition.date.strftime('%Y-%m-%d'),
                 'calories': today_nutrition.calories,
