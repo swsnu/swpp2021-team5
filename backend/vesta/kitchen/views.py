@@ -108,6 +108,11 @@ def resign(request):
     print(request.user)
     if request.user.is_authenticated:
         user = User.objects.get(id=request.user.id)
+        try:
+            api_id = user.profile.api_id
+            api.resign(api_id)
+        except:
+            pass
         user.delete()
         logout(request)
         return HttpResponse(status=200)
