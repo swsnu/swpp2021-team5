@@ -32,10 +32,12 @@ margin:8;
 `;
 
 export const isNumeric = (str) => {
-  if (typeof str != "string") return false // we only process strings!  
-  return !isNaN(str) && // use type coercion to parse the _entirety_ of the string (`parseFloat` alone does not do this)...
-         !isNaN(parseFloat(str)) // ...and ensure strings of whitespace fail
-}
+  if (typeof str != "string") return false        // we only process strings!  
+  return !isNaN(str) &&  !isNaN(parseFloat(str))  // use type coercion to parse the
+}                                                 // _entirety_ of the string 
+                                                  // (`parseFloat` alone does not do this)...
+                                                  // ...and ensure strings of whitespace fail
+
 
 class Signup extends Component {
   constructor(props) {
@@ -59,7 +61,7 @@ class Signup extends Component {
   onClickedCheckAvailButton = () => {
     axios.get(`/api/user/signup/${this.state.username}/`)
       .then((res) => {
-        if(res.data.check === true) {
+        if(res.data.availability === true) {
           alert('This Username is available');
         } else if(res.data.check === false) {
           alert('This Username is Not available.\n Please choose another one');
@@ -114,7 +116,7 @@ class Signup extends Component {
     
     axios.get(`/api/user/signup/${this.state.username}/`)
       .then((res) => {
-        if(res.data.check === false) {
+        if(res.data.availability === false) {
           alert('The Username is Not available.\n Please choose another one');
           return;
         }
