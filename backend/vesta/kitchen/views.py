@@ -55,7 +55,7 @@ def signup_check_avail(request, username):
         response_dict = {
             'availability': not User.objects.filter(username = username).exists()
         }
-        JsonResponse(response_dict, status=200)
+        return JsonResponse(response_dict, status=200)
     else:
         return HttpResponseNotAllowed(['GET'])
 
@@ -108,6 +108,11 @@ def resign(request):
     print(request.user)
     if request.user.is_authenticated:
         user = User.objects.get(id=request.user.id)
+        try:
+            api_id = user.profile.api_id
+            api.resign(api_id)
+        except:
+            pass
         user.delete()
         logout(request)
         return HttpResponse(status=200)
