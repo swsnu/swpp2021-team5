@@ -49,6 +49,17 @@ def signup(request):
     else:
         return HttpResponseNotAllowed['POST']
 
+@require_http_methods(["GET"])
+def signup_check_avail(request, username):
+    if request.method == 'GET':
+        response_dict = {
+            'availability': not User.objects.filter(username = username).exists()
+        }
+        JsonResponse(response_dict, status=200)
+    else:
+        return HttpResponseNotAllowed(['GET'])
+
+
 @require_http_methods(["POST"])
 def signin(request):
     if request.method == 'POST':
@@ -82,7 +93,7 @@ def signin(request):
             return HttpResponse(status=401)
 
     else:
-        return HttpResponse(status=401)
+        return HttpResponseNotAllowed(['POST'])
 
 @require_http_methods(["GET"])
 def signout(request):
