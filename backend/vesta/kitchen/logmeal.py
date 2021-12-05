@@ -27,6 +27,18 @@ def signup(username, api_company_token=api_company_token):
 
     return response_dict
 
+def resign(userID, api_company_token=api_company_token):
+    headers = {'Authorization': 'Bearer ' + api_company_token}
+    url = 'https://api.logmeal.es/v2/users/deleteAPIUser/'
+
+    # Create an API User with the default languange ('eng')
+    response = requests.delete(url+str(userID),
+                            headers=headers)
+    # Get the API User Token from the response
+    response_dict = dict(response.json())
+
+    return response_dict
+
 def getUsers(api_company_token=api_company_token):
     # Set the API Company Token in the header of the request
     headers = {'Authorization': 'Bearer ' + api_company_token}
@@ -97,7 +109,8 @@ def menu_recognition(img_path, user_token=api_user_token):
 
     # Single Dishes Detection
     url = api_url + 'recognition/dish'
-    resp = requests.post(url,files={'image': open(img, 'rb')}, headers=headers)
+    # resp = requests.post(url,files={'image': open(img, 'rb')}, headers=headers)
+    resp = requests.post(url,files=img, headers=headers)
     print(resp.json()["recognition_results"]) # display dish only
     print(resp.json())
     

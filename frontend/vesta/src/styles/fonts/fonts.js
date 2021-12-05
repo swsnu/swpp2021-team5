@@ -1,6 +1,4 @@
 import { createGlobalStyle } from 'styled-components';
-// import twostick from './twostick.woff';
-// import noovo from './Noovo ITC Std Light.woff2';
 import verveine from './Verveine-W01-Regular.woff';
 import opensans from './OpenSans-B9K8.woff';
 import opensansbold from './OpenSansBold-8wJJ.woff';

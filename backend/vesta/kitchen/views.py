@@ -525,14 +525,19 @@ def detection(request):
     if not request.user.is_authenticated:
         return HttpResponse(status = 401)
     user = request.user
+
     api_company_token = api.api_company_token
-    api_user_token = api.api_user_token
-    images_path = api.images_path
+    try:
+        api_user_token = Profile.objects.get(user=user).api_token
+    except:
+        api_user_token = api.api_user_token
+    # images_path = api.images_path
 
-    req_data = json.loads(request.body.decode())
-    img_filename = req_data['file']
+    # req_data = json.loads(request.body.decode())
+    # img_filename = req_data['file']
 
-    img = api.preprocess(os.path.join(images_path, img_filename))
+    # img = api.preprocess(os.path.join(images_path, img_filename))
+    img = request.FILES['files'] # gets only 1 file
 
     result_list = api.menu_recognition(img, user_token=api_user_token)
 
