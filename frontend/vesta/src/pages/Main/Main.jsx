@@ -50,7 +50,7 @@ class Main extends Component {
     super(props);
     this.state = {
       menu: 'Oatmeal',
-      idx: 5,
+      idx: 0,
     };
   }
 
@@ -210,7 +210,7 @@ class Main extends Component {
                 <h1>My Stats</h1>
               </StatsHeader>
               <StatsBody>
-                <p>testing</p>
+                <PastNutritionInfo />
                 <Button
                   id="nutrition-analysis-button"
                   onClick={this.onClickedNutritionAnalysisButton}
