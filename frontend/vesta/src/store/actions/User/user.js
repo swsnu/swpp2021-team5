@@ -61,7 +61,9 @@ export const signUp = (username, password, age, sex, height, weight, targetCalor
   weight: weight,
   targetCalories: targetCalories})
   .then((res) => {
-  /*alert(`Succesfully Registered!\nYour Target Calorie is set to ${targetCalories}Kcal as recommended generally for your body profile.\nYou can customize your target calorie at the setting page after login.\nWelcome!`);*/
+    alert(`Succesfully Registered!\nYour Target Calorie is set to ${targetCalories}Kcal as recommended generally for your body profile.\nYou can customize your target calorie at the setting page after login.\nWelcome!`);
+  })
+  .then((res) => {
     dispatch(push('/login'));
   });
 
@@ -107,7 +109,7 @@ export const editUserNutrition_ = (userNutrition) => ({
   protein: userNutrition.protein,
   fat: userNutrition.fat,
   count_all: userNutrition.count_all,
-})
+});
 
 export const editUserNutrition = (date, calories, carbs, protein, fat, count_all) => (dispatch) => axios.put(`/api/nutrition/${date}/`, {'calories': calories, 'carbs': carbs, 'protein': protein, 'fat': fat, 'count_all': count_all})
   .then((res) => {
