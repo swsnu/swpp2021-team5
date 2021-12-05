@@ -43,7 +43,7 @@ if __name__ == "__main__":
                 name = re.sub(' +', ' ', row[0])
                 id = row[1]
                 image_name = re.sub(' +','-', name)+"-"+id+".jpg"
-                if os.path.exists(IMAGE_PATH+image_name):
+                if os.path.exists(os.path.join(IMAGE_PATH,image_name)):
                     nutrition = row[6]
                     recipe = organize_recipe(row[8])
                     ingredient = organize_ingredient(row[10])
