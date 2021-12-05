@@ -52,7 +52,6 @@ def recommend(request, date):
             if len(response)!=0:
                 for res in response:
                     if res is not None:
-                        # print(str(res.image).split('/')[-1])
                         response_dict.append({
                             'id': res.id,
                             'name': res.name,
