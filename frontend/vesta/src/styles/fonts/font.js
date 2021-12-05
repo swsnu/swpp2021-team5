@@ -30,6 +30,6 @@ const FontStyle = createGlobalStyle`
 @font-face {
     font-family: 'arvobold';
     src: url(${arvobold}) format('woff');
-}`
+}`;
 
 export default FontStyle;

@@ -57,7 +57,7 @@ class Main extends Component {
   componentDidMount() {
     const today = (new Date()).toISOString().split('T')[0];
     this.props.getRecommendedMenus(today);
-    // this.setState((prevState) => ({ menu: this.props.recommendedMenus[prevState.idx].name }));
+    this.setState((prevState) => ({ menu: this.props.recommendedMenus[prevState.idx].name }));
   }
 
   onClickedSkipButton = () => {
@@ -136,7 +136,7 @@ class Main extends Component {
                   <p style={{ marginBottom: '0px' }}>{ this.state.menu }</p>
                   <a href={url}>
                     <Image
-                      // src={this.props.recommendedMenus[this.state.idx].image}
+                      src={this.props.recommendedMenus[this.state.idx].image}
                       alt="menu"
                       size="centered large"
                       style={{
