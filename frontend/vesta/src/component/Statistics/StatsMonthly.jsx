@@ -28,8 +28,9 @@ height: 500px;
 const StatsMonthly = (props) => {
 
   const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-  const title = months[props.selectedMonth]
+  const title = `${(new Date().getFullYear())} ${months[props.selectedMonth%12]}`
   const monthNutritions = props.monthlyUserNutritions;
+  console.log(monthNutritions);
   const monthNutritionData = [
     { // first week
       calories: 0,
@@ -59,10 +60,13 @@ const StatsMonthly = (props) => {
 
   let i;
   for (i = 0; i < monthNutritions.length; i += 1) {
-    let weekIndex =  (monthNutritions[i].getDay() - 1) / 7;
+    let weekIndex =  parseInt((monthNutritions[i].date.getDate() - 1) / 7);
     if (weekIndex === 4) {
       weekIndex = 3;
     }
+    console.log(weekIndex);
+    console.log(monthNutritions[i]);
+    console.log(monthNutritionData[weekIndex]);
     monthNutritionData[weekIndex].calories += monthNutritions[i].calories;
     monthNutritionData[weekIndex].carbs += monthNutritions[i].carbs;
     monthNutritionData[weekIndex].protein += monthNutritions[i].protein;
