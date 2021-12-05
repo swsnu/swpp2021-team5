@@ -1,6 +1,5 @@
-
-import requests
 import os
+import requests
 from PIL import Image
 
 #################
@@ -21,6 +20,18 @@ def signup(username, api_company_token=api_company_token):
     # Create an API User with the default languange ('eng')
     response = requests.post(url,
                             json={'username': str(username)},
+                            headers=headers)
+    # Get the API User Token from the response
+    response_dict = dict(response.json())
+
+    return response_dict
+
+def resign(userID, api_company_token=api_company_token):
+    headers = {'Authorization': 'Bearer ' + api_company_token}
+    url = 'https://api.logmeal.es/v2/users/deleteAPIUser/'
+
+    # Create an API User with the default languange ('eng')
+    response = requests.delete(url+str(userID),
                             headers=headers)
     # Get the API User Token from the response
     response_dict = dict(response.json())
@@ -75,7 +86,7 @@ def preprocess(img_path):
     # iteratively reduce the image a percentatge of its size until it is smaller than 1MB
     rez_image = rgb_im
 
-    while(size_mb >= 1):
+    while size_mb >= 1:
         # resize th image 75%
         size=int(width*0.75), int(height*0.75)
         rez_image = rgb_im.resize(size, Image.ANTIALIAS)
@@ -97,7 +108,8 @@ def menu_recognition(img_path, user_token=api_user_token):
 
     # Single Dishes Detection
     url = api_url + 'recognition/dish'
-    resp = requests.post(url,files={'image': open(img, 'rb')}, headers=headers)
+    # resp = requests.post(url,files={'image': open(img, 'rb')}, headers=headers)
+    resp = requests.post(url,files=img, headers=headers)
     print(resp.json()["recognition_results"]) # display dish only
     print(resp.json())
     
