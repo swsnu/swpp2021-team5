@@ -525,8 +525,12 @@ def detection(request):
     if not request.user.is_authenticated:
         return HttpResponse(status = 401)
     user = request.user
+
     api_company_token = api.api_company_token
-    api_user_token = api.api_user_token
+    try:
+        api_user_token = Profile.objects.get(user=user).api_token
+    except:
+        api_user_token = api.api_user_token
     images_path = api.images_path
 
     req_data = json.loads(request.body.decode())
