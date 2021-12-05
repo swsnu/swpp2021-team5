@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.fields.related import ForeignKey, OneToOneField
 from django.db.models.fields import BooleanField, CharField, DateField, IntegerField, TextField, FloatField
+from django.utils.timezone import now
 
 # Create your models here.
 
@@ -26,9 +27,9 @@ class Profile(models.Model):
     height = IntegerField(null=True)
     weight = IntegerField(null=True)
     target_calories = IntegerField(null=True)
-    api_id = IntegerField()
-    api_name = TextField()
-    api_token = TextField()
+    api_id = IntegerField(null=True)
+    api_name = TextField(null=True)
+    api_token = TextField(null=True)
 
 #### model 'Preference' consists of two foreign key field ####
 ####                  : User, ingredient                  ####

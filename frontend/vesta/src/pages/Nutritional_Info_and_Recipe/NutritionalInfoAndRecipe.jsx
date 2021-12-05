@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import { Button } from 'semantic-ui-react';
+import { Button, Segment, Dimmer, Loader, Image } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import Nutrient from '../../component/Nutrient/Nutrient';
 import * as actionCreators from '../../store/actions/index';
@@ -10,6 +10,25 @@ import Background from '../../styles/Nutritional_Info_and_Recipe/Background';
 import Recipe from '../../component/Recipe/Recipe';
 
 class NutritionalInfoAndRecipe extends Component {
+  componentDidMount() {
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = date.getMonth();
+    const day = date.getDate();
+    this.props.getRecommendedMenus(String(`${year}-${month}-${day}`));
+  }
+
+  changeRecommendation = () => {
+    let ans = confirm("Do you want to change this menu to your main recommended meal?");
+    if (ans) {
+      const date = new Date();
+      const year = date.getFullYear();
+      const month = date.getMonth();
+      const day = date.getDate();
+      this.props.changeRecommendation(String(`${year}-${month}-${day}`), parseInt(this.props.match.params.idx));
+    }
+    confirm("If you refresh your site, all changes have been applied. Enjoy!");
+  }
 
   render() {
     let menuName = '';
@@ -19,6 +38,7 @@ class NutritionalInfoAndRecipe extends Component {
     let fat = 0;
     let recipe = '';
     let image = '';
+    let ingredient = '';
     console.log(parseInt(this.props.match.params.idx));
     if (this.props.recommendedMenus) {
       menuName = this.props.recommendedMenus[parseInt(this.props.match.params.idx)].name;
@@ -28,28 +48,40 @@ class NutritionalInfoAndRecipe extends Component {
       fat = this.props.recommendedMenus[parseInt(this.props.match.params.idx)].fat;
       recipe = this.props.recommendedMenus[parseInt(this.props.match.params.idx)].recipe;
       image = this.props.recommendedMenus[parseInt(this.props.match.params.idx)].image;
+      ingredient = this.props.recommendedMenus[parseInt(this.props.match.params.idx)].ingredient;
+      return (
+        <div className="NutritionalInfoAndRecipe">
+          <Background>
+            <Nutrient
+              menu_name={menuName}
+              calories={calories}
+              carbs={carbs}
+              protein={protein}
+              fat={fat}
+              src={image}
+            />
+            <Recipe
+              recipe={recipe}
+              ingredient={ingredient}
+            />
+            <Link to="/recommendation">
+              <Button className="menu-recommendation-button">Recommendation-page</Button>
+            </Link>
+            <Button className="change-button" onClick={() => this.changeRecommendation()}>Change</Button>
+          </Background>
+        </div>
+      );
     }
     return (
-      <div className="NutritionalInfoAndRecipe">
-        <Background>
-          <Nutrient
-            menu_name={menuName}
-            calories={calories}
-            carbs={carbs}
-            protein={protein}
-            fat={fat}
-            src={image}
-          />
-          <Recipe
-            recipe={recipe}
-          />
-          <Link to="/recommendation">
-            <Button className="menu-recommendation-button">Back</Button>
-          </Link>
-        </Background>
-      </div>
+      <Segment>
+        <Dimmer active inverted>
+          <Loader inverted content="Loading" />
+        </Dimmer>
+        <Image src="https://react.semantic-ui.com/images/wireframe/short-paragraph.png" />
+      </Segment>
     );
   }
+    
 }
 
 const mapStateToProps = (state) => ({
@@ -57,8 +89,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  // onUpdateSelectedMenu: (when, idx) => dispatch(actionCreators.updateSelectedMenu_(when, idx)),
-  // onGetMenu: (menuName) => dispatch(actionCreators.getMenu(menuName)),
+  getRecommendedMenus: (date) => dispatch(actionCreators.getRecommendedMenus(date)),
+  changeRecommendation: (date, idx) => dispatch(actionCreators.changeRecommendation(date, idx)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(NutritionalInfoAndRecipe));

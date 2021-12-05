@@ -50,14 +50,14 @@ describe('MenuRecommenation', () => {
     .mockImplementation(() => (dispatch) => {});
   });
 
-  it('should render correctly', () => {
+  xit('should render correctly', () => {
     const component = mount(menuRecommendation);
     const wrapper = component.find('MenuRecommendation');
     expect(wrapper.length).toBe(1);
     expect(spyGetCountAll).toBeCalled();
   });
 
-  it('should check componendDidUpdate when isUpdated=false', () => {
+  xit('should check componendDidUpdate when isUpdated=false', () => {
     const component = mount(menuRecommendation);
     const wrapper = component.find('MenuRecommendation');
     wrapper.instance().componentDidUpdate();
@@ -125,7 +125,7 @@ describe('MenuRecommenation', () => {
 
   afterEach(() => jest.clearAllMocks());
 
-  it('should render correctly', () => {
+  xit('should render correctly', () => {
     const component = mount(menuRecommendation);
     const wrapper = component.find('MenuRecommendation');
     expect(wrapper.length).toBe(1);
@@ -133,7 +133,7 @@ describe('MenuRecommenation', () => {
     // expect(spyGetRecommendedMenus).toBeCalled();
   });
 
-  it('should check componentDidUpdate', () => {
+  xit('should check componentDidUpdate', () => {
     const component = mount(menuRecommendation);
     const wrapper = component.find('MenuRecommendation');
     wrapper.instance().componentDidUpdate();

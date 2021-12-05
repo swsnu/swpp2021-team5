@@ -15,6 +15,7 @@ const FontStyle = createGlobalStyle`
     font-family: 'arciform';
     src: url(${arciform}) format('woff');
 }
+@font-face {
     font-family: 'opensans';
     src: url(${opensans}) format('woff');
 }
