@@ -9,6 +9,11 @@
   width: 700px;
 }
 
+.item img {
+  width: 100%;
+  height: auto;
+}
+
 .container_other_breakfast {
   display: flex;
   flex-direction: row;

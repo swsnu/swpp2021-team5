@@ -71,7 +71,6 @@ class MealList extends Component {
     let otherLunch = null;
     let otherDinner = null;
     if(this.props.recommendedMenus) {
-      // console.log(this.props.recommendedMenus);
       otherBreakfast = (
         <div className="container_other_breakfast">
           <div className="item_other_breakfast">
@@ -233,8 +232,6 @@ class MealList extends Component {
                 <img
                   id="breakfast"
                   src={this.props.recommendedMenus[0].image}
-                  height={240}
-                  width={400}
                   alt="meal_one"
                 />
               </a>
@@ -250,8 +247,6 @@ class MealList extends Component {
                 <img
                   id="lunch"
                   src={this.props.recommendedMenus[1].image}
-                  height={240}
-                  width={400}
                   alt="meal_one"
                 />
               </a>
@@ -267,8 +262,6 @@ class MealList extends Component {
                 <img
                   id="dinner"
                   src={this.props.recommendedMenus[2].image}
-                  height={240}
-                  width={400}
                   alt="meal_one"
                 />
               </a>
