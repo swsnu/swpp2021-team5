@@ -29,10 +29,6 @@ const FontStyle = createGlobalStyle`
 @font-face {
     font-family: 'arvobold';
     src: url(${arvobold}) format('woff');
-}
-@font-face {
-    font-family: 'arciform';
-    src: url(${arciform}) format('woff');
-}
-`;
+}`
+
 export default FontStyle;
