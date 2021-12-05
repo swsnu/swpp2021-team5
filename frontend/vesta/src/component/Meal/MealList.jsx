@@ -72,15 +72,13 @@ class MealList extends Component {
     let otherDinner = null;
     if(this.props.recommendedMenus) {
       otherBreakfast = (
-        <div className="container_other_breakfast">
-          <div className="item_other_breakfast">
+        <div class="container_other_breakfast">
+          <div class="item_other_breakfast">
             <a onClick={() => this.onMealDetail(this.props.recommendedMenus[3].name, 3)}>
               <img
                 id="otherBreakfast"
                 src={this.props.recommendedMenus[3].image}
                 alt="meal_one"
-                height={160}
-                width={210}
               />
             </a>
             <OtherMealName>{this.props.recommendedMenus[3].name}</OtherMealName>
@@ -90,8 +88,6 @@ class MealList extends Component {
               <img
                 src={this.props.recommendedMenus[4].image}
                 alt="meal_one"
-                height={160}
-                width={210}
               />
             </a>
             <OtherMealName>{this.props.recommendedMenus[4].name}</OtherMealName>
@@ -101,8 +97,6 @@ class MealList extends Component {
               <img
                 src={this.props.recommendedMenus[5].image}
                 alt="meal_one"
-                height={160}
-                width={210}
               />
             </a>
             <OtherMealName>{this.props.recommendedMenus[5].name}</OtherMealName>
@@ -112,8 +106,6 @@ class MealList extends Component {
               <img
                 src={this.props.recommendedMenus[6].image}
                 alt="meal_one"
-                height={160}
-                width={210}
               />
             </a>
             <OtherMealName>{this.props.recommendedMenus[6].name}</OtherMealName>
@@ -127,8 +119,6 @@ class MealList extends Component {
             <img
               src={this.props.recommendedMenus[7].image}
               alt="meal_one"
-              height={160}
-              width={210}
             />
           </a>
           <OtherMealName>{this.props.recommendedMenus[7].name}</OtherMealName>
@@ -138,8 +128,6 @@ class MealList extends Component {
             <img
               src={this.props.recommendedMenus[8].image}
               alt="meal_one"
-              height={160}
-              width={210}
             />
           </a>
           <OtherMealName>{this.props.recommendedMenus[8].name}</OtherMealName>
@@ -149,8 +137,6 @@ class MealList extends Component {
             <img
               src={this.props.recommendedMenus[9].image}
               alt="meal_one"
-              height={160}
-              width={210}
             />
           </a>
           <OtherMealName>{this.props.recommendedMenus[9].name}</OtherMealName>
@@ -160,8 +146,6 @@ class MealList extends Component {
             <img
               src={this.props.recommendedMenus[10].image}
               alt="meal_one"
-              height={160}
-              width={210}
             />
           </a>
           <OtherMealName>{this.props.recommendedMenus[10].name}</OtherMealName>
@@ -174,8 +158,6 @@ class MealList extends Component {
           <a onClick={() => this.onMealDetail(this.props.recommendedMenus[11].name, 11)}>
             <img
               src={this.props.recommendedMenus[11].image}
-              height={160}
-              width={210}
               alt="meal_one"
             />
           </a>
@@ -185,8 +167,6 @@ class MealList extends Component {
           <a onClick={() => this.onMealDetail(this.props.recommendedMenus[12].name, 12)}>
             <img
               src={this.props.recommendedMenus[12].image}
-              height={160}
-              width={210}
               alt="meal_one"
             />
           </a>
@@ -196,8 +176,6 @@ class MealList extends Component {
           <a onClick={() => this.onMealDetail(this.props.recommendedMenus[13].name, 13)}>
             <img
               src={this.props.recommendedMenus[13].image}
-              height={160}
-              width={210}
               alt="meal_one"
             />
           </a>
@@ -207,8 +185,6 @@ class MealList extends Component {
           <a onClick={() => this.onMealDetail(this.props.recommendedMenus[14].name, 14)}>
             <img
               src={this.props.recommendedMenus[14].image}
-              height={160}
-              width={210}
               alt="meal_one"
             />
           </a>
