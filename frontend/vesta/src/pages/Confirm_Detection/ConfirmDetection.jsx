@@ -49,12 +49,12 @@ class ConfirmDetection extends Component {
   }
 
   componentDidMount() {
-    // const uploadedImage = this.props.location.state.image;
-    // console.log(uploadedImage);
-    // console.log(this.props.location.state.type);
-    // this.setState({ image: uploadedImage });
-    // this.setState({ type: this.props.location.state.type });
-    // this.props.onGetMenu(this.state.menuName);
+    const uploadedImage = this.props.location.state.image;
+    console.log(uploadedImage);
+    console.log(this.props.location.state.type);
+    this.setState({ image: uploadedImage });
+    this.setState({ type: this.props.location.state.type });
+    this.props.onGetMenu(this.state.menuName);
   }
 
   onClickedEditResultButton = () => {
@@ -107,9 +107,7 @@ class ConfirmDetection extends Component {
           currentCount + countInput);
       }
     })();
-    if (this.state.type === 'meal') {
-      const a = 1;
-    }
+    this.props.history.push('/main');
   }
 
   render() {
