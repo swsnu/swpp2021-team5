@@ -62,9 +62,9 @@ class PastNutritionInfo extends Component {
     const selectedWeek = this.state.selectedWeek; // must be today
     selectedWeek.setHours(0, 0, 0, 0);
 
-    const selectedWeekSun = new Date(this.props.selectedWeek.getTime());
+    const selectedWeekSun = new Date(this.state.selectedWeek.getTime());
     selectedWeekSun.setDate(selectedWeekSun.getDate() - selectedWeekSun.getDay());
-    const selectedWeekSat = new Date(this.props.selectedWeek.getTime());
+    const selectedWeekSat = new Date(this.state.selectedWeek.getTime());
     selectedWeekSat.setDate(selectedWeekSat.getDate() + (6 - selectedWeekSat.getDay()));
     const selectedWeekNutritions = processedUserNutritions.filter((nutrition) => {
       return +nutrition.date >= +selectedWeekSun && +nutrition.date <= +selectedWeekSat;
