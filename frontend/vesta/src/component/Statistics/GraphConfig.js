@@ -41,8 +41,8 @@ export const todayOptions = {
               expr = `Intake: ${intake} grams\nRecommended: ${recommendedIntake} grams`
               return expr;
             case 2:
-              intake = context.chart.data.datasets[1].data[3];
-              recommendedIntake = context.chart.data.datasets[2].data[3];
+              intake = context.chart.data.datasets[1].data[2];
+              recommendedIntake = context.chart.data.datasets[2].data[2];
               expr = `Intake: ${intake} grams\nRecommended: ${recommendedIntake} grams`
               return expr;
             case 3:

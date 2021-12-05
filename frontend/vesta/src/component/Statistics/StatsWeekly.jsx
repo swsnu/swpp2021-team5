@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React, { Component } from 'react';
 
-import { Button, Grid, GridRow, Header } from 'semantic-ui-react';
+import { Button, Grid, Header } from 'semantic-ui-react';
 import styled from 'styled-components';
 
 import StatsWeeklyChart from './StatsWeeklyChart';
@@ -24,13 +24,11 @@ class StatsWeekly extends Component {
     const userNutritions = this.props.userNutritions;
     const recommendedIntake = this.props.recommendedIntake;
 
-    // console.log(userNutritions);
     let selectedWeekNutritions = userNutritions.filter((nutrition) => {
       return +nutrition.date >= +selectedWeekSun && +nutrition.date <= +selectedWeekSat;
     });
-    // console.log(selectedWeekNutritions);
 
-    const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    //const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     let title, from, to;
     from = `${selectedWeekSun.getMonth() + 1}/${selectedWeekSun.getDate()}`;
     to = `${selectedWeekSat.getMonth() + 1}/${selectedWeekSat.getDate()}`;
@@ -41,7 +39,7 @@ class StatsWeekly extends Component {
         <Grid>
           <Grid.Row columns={3}>
             <Grid.Column class="left floated column">
-              <Button id="prev-button" onClick={() => this.props.onClickedWeeklyPrevButton()} primary >Prev</Button>
+              <Button id="weekly-prev-button" onClick={() => this.props.onClickedWeeklyPrevButton()} primary >Prev</Button>
             </Grid.Column>
             <Grid.Column>
               <Header as='h2'>
@@ -49,7 +47,7 @@ class StatsWeekly extends Component {
               </Header>
             </Grid.Column>
             <Grid.Column>
-              <Button id="next-button" onClick={() => this.props.onClickedWeeklyNextButton()} secondary >Next</Button>
+              <Button id="weekly-next-button" onClick={() => this.props.onClickedWeeklyNextButton()} secondary >Next</Button>
             </Grid.Column>
           </Grid.Row>
           <Grid.Row>

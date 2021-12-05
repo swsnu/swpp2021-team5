@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import {
-  Header, Table, Input, Button, Grid, Tab
+  Tab
 } from 'semantic-ui-react';
 import styled from 'styled-components';
 
@@ -38,10 +38,6 @@ border-radius: 20px;
 padding: 3%;
 `;
 
-const TODAY = 'TODAY';
-const WEEKLY = 'WEEKLY';
-const MONTHLY = 'MONTHLY';
-
 class Statistics extends Component {
   constructor(props) {
     super(props);
@@ -57,29 +53,12 @@ class Statistics extends Component {
       // res.data : list of objects ?
     })
     */
+  const today = (new Date()).toISOString().split('T')[0];
    this.setState({...this.state, userNutritions: dummyUserNutritions});
-  }
-
-  onClickedTodayButton = () => {
-    const thisState = this.state;
-    if (!(this.state.selected === TODAY))
-      this.setState({...thisState, selected: TODAY})
-  }
-
-  onClickedWeeklyButton = () => {
-    const thisState = this.state;
-    if (!(this.state.selected === WEEKLY))
-      this.setState({...thisState, selected: WEEKLY})
-  }
-
-  onClickedMonthlyButton = () => {
-    const thisState = this.state;
-    if (!(this.state.selected === MONTHLY))
-      this.setState({...thisState, selected: MONTHLY})
+   this.props.onGetUserNutrition(today);
   }
 
   onClickedWeeklyPrevButton = () => {
-    console.log('hi');
     const thisState = this.state;
     const newSelected = new Date(this.state.selectedWeek);
     newSelected.setDate(newSelected.getDate() - 7);
@@ -87,16 +66,13 @@ class Statistics extends Component {
   }
 
   onClickedWeeklyNextButton = () => {
-    console.log('hi');
     const thisState = this.state;
     const newSelected = new Date(this.state.selectedWeek);
     newSelected.setDate(newSelected.getDate() + 7);
     this.setState({...thisState, selectedWeek: newSelected});
   }
-  
 
   render() {
-    console.log('Parent rendered');
     let todayNutritionIntake = {
       calories: this.props.currUserNutrition.calories,
       carbs: this.props.currUserNutrition.carbs,
@@ -140,7 +116,7 @@ class Statistics extends Component {
         </div>
 
         <Div className="body">
-          <Tab panes={panes} />
+          <Tab id='chart-tab' menu={{ widths: panes.length}} panes={panes} />
         </Div>
       </div>
     );

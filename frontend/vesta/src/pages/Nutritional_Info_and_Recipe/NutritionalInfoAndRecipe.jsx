@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import { Button } from 'semantic-ui-react';
+import { Button, Segment, Dimmer, Loader, Image } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import Nutrient from '../../component/Nutrient/Nutrient';
 import * as actionCreators from '../../store/actions/index';
@@ -11,7 +11,23 @@ import Recipe from '../../component/Recipe/Recipe';
 
 class NutritionalInfoAndRecipe extends Component {
   componentDidMount() {
-    this.props.onUpdateSelectedMenu(parseInt(this.props.match.params.when, 10), parseInt(this.props.match.params.idx, 10));
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = date.getMonth();
+    const day = date.getDate();
+    this.props.getRecommendedMenus(String(`${year}-${month}-${day}`));
+  }
+
+  changeRecommendation = () => {
+    let ans = confirm("Do you want to change this menu to your main recommended meal?");
+    if (ans) {
+      const date = new Date();
+      const year = date.getFullYear();
+      const month = date.getMonth();
+      const day = date.getDate();
+      this.props.changeRecommendation(String(`${year}-${month}-${day}`), parseInt(this.props.match.params.idx));
+    }
+    confirm("If you refresh your site, all changes have been applied. Enjoy!");
   }
 
   render() {
@@ -20,56 +36,61 @@ class NutritionalInfoAndRecipe extends Component {
     let carbs = 0;
     let protein = 0;
     let fat = 0;
-    let recipe = '/DummyImages/';
-    if (this.props.selectedMenu) {
-      menuName = this.props.selectedMenu.name;
-      calories = this.props.selectedMenu.calories;
-      carbs = this.props.selectedMenu.carbs;
-      protein = this.props.selectedMenu.protein;
-      fat = this.props.selectedMenu.fat;
-      recipe = this.props.selectedMenu.recipe;
+    let recipe = '';
+    let image = '';
+    let ingredient = '';
+    console.log(parseInt(this.props.match.params.idx));
+    if (this.props.recommendedMenus) {
+      menuName = this.props.recommendedMenus[parseInt(this.props.match.params.idx)].name;
+      calories = this.props.recommendedMenus[parseInt(this.props.match.params.idx)].calories;
+      carbs = this.props.recommendedMenus[parseInt(this.props.match.params.idx)].carbs;
+      protein = this.props.recommendedMenus[parseInt(this.props.match.params.idx)].protein;
+      fat = this.props.recommendedMenus[parseInt(this.props.match.params.idx)].fat;
+      recipe = this.props.recommendedMenus[parseInt(this.props.match.params.idx)].recipe;
+      image = this.props.recommendedMenus[parseInt(this.props.match.params.idx)].image;
+      ingredient = this.props.recommendedMenus[parseInt(this.props.match.params.idx)].ingredient;
+      return (
+        <div className="NutritionalInfoAndRecipe">
+          <Background>
+            <Nutrient
+              menu_name={menuName}
+              calories={calories}
+              carbs={carbs}
+              protein={protein}
+              fat={fat}
+              src={image}
+            />
+            <Recipe
+              recipe={recipe}
+              ingredient={ingredient}
+            />
+            <Link to="/recommendation">
+              <Button className="menu-recommendation-button">Recommendation-page</Button>
+            </Link>
+            <Button className="change-button" onClick={() => this.changeRecommendation()}>Change</Button>
+          </Background>
+        </div>
+      );
     }
-    // console.log(this.props.selectedMenu);
-    let url = '/DummyImages/breakfast1_.jpeg';
-    // if (parseInt(this.props.match.params.when, 10)==0){
-    //   url += 'breakfast' + (parseInt(this.props.match.params.idx, 10)+1) + '_.jpeg';
-    // } else if (parseInt(this.props.match.params.when, 10)==1){
-    //   url += 'lunch' + (parseInt(this.props.match.params.idx, 10)+1) + '_.jpeg';
-    // } else {
-    //   if (parseInt(this.props.match.params.idx, 10)+1 != 3) url += 'dinner' + (parseInt(this.props.match.params.idx, 10)+1) +'_.jpeg';
-    //   else url += 'dinner'+(parseInt(this.props.match.params.idx, 10)+1) +'_.jpg';
-    // }
-    // console.log(url);
     return (
-      <div className="NutritionalInfoAndRecipe">
-        <Background>
-          <Nutrient
-            menu_name={menuName}
-            calories={calories}
-            carbs={carbs}
-            protein={protein}
-            fat={fat}
-            src={url}
-          />
-          <Recipe
-            recipe={recipe}
-          />
-          <Link to="/recommendation">
-            <Button className="menu-recommendation-button">Back</Button>
-          </Link>
-        </Background>
-      </div>
+      <Segment>
+        <Dimmer active inverted>
+          <Loader inverted content="Loading" />
+        </Dimmer>
+        <Image src="https://react.semantic-ui.com/images/wireframe/short-paragraph.png" />
+      </Segment>
     );
   }
+    
 }
 
 const mapStateToProps = (state) => ({
-  selectedMenu: state.menu.selectedMenu,
+  recommendedMenus: state.menu.recommendedMenus,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onUpdateSelectedMenu: (when, idx) => dispatch(actionCreators.updateSelectedMenu_(when, idx)),
-  // onGetMenu: (menuName) => dispatch(actionCreators.getMenu(menuName)),
+  getRecommendedMenus: (date) => dispatch(actionCreators.getRecommendedMenus(date)),
+  changeRecommendation: (date, idx) => dispatch(actionCreators.changeRecommendation(date, idx)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(NutritionalInfoAndRecipe));

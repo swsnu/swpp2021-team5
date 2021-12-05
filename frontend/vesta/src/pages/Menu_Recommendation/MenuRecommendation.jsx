@@ -1,46 +1,65 @@
 import React, { Component } from 'react';
-// import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-// import { Button } from 'semantic-ui-react';
+import {
+  Dimmer, Loader, Image, Segment
+} from 'semantic-ui-react';
 import MealList from '../../component/Meal/MealList';
-import Background from '../../styles/Nutritional_Info_and_Recipe/Background';
 import * as actionCreators from '../../store/actions/index';
-// import { AlignMiddle } from '../../styles/Menu_Recommendation/AlignMiddle';
-
-// const RecommendationHeader = styled.div`
-// font-family:'verveine';
-// font-size:65px;
-// color:#F28095;
-// background-color:#B3D962;
-// `;
 
 class MenuRecommendation extends Component {
   componentDidMount() {
-    this.props.getRecommendedMenus();
+    console.log('componentdidmount');
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = date.getMonth();
+    const day = date.getDate();
+    // this.props.getCountAll(String(`${year}-${month}-${day}`));
+    // console.log(this.props.count);
+    this.props.getRecommendedMenus(String(`${year}-${month}-${day}`));
   }
 
+  // componentDidUpdate() {
+  //   const date = new Date();
+  //   const year = date.getFullYear();
+  //   const month = date.getMonth();
+  //   const day = date.getDate();
+  //   this.props.getCountAll(String(`${year}-${month}-${day}`));
+  //   console.log(this.props.isUpdated);
+  //   if (this.props.isUpdated) {
+  //   }
+  // }
+
   render() {
-    return (
-      <div className="MenuRecommendation">
-        <Background>
-          {/* <RecommendationHeader>Today&apos;s Recommendation</RecommendationHeader> */}
+    if (this.props.recommendedMenus) {
+      return (
+        <div className="MenuRecommendation">
           <MealList
             title="Today's Recommendation"
           />
-          {/* <Button className="main-button">Back</Button> */}
-        </Background>
-      </div>
+        </div>
+      );
+    }
+    return (
+      <Segment>
+        <Dimmer active inverted>
+          <Loader inverted content="Loading" />
+        </Dimmer>
+        <Image src="https://react.semantic-ui.com/images/wireframe/short-paragraph.png" />
+      </Segment>
     );
   }
 }
 
 const mapStateToProps = (state) => ({
   recommendedMenus: state.menu.recommendedMenus,
+  count: state.menu.count,
+  isUpdated: state.menu.isUpdated,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  getRecommendedMenus: () => dispatch(actionCreators.getRecommendedMenus()),
+  // getCountAll: (date) => dispatch(actionCreators.getCountAll(date)),
+  getRecommendedMenus: (date) => dispatch(actionCreators.getRecommendedMenus(date)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(MenuRecommendation));
