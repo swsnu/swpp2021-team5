@@ -1,8 +1,29 @@
 /* eslint-disable */
 import React from 'react';
 
-//import ChartDataLabels from 'chartjs-plugin-datalabels';
-//import { Bar } from 'react-chartjs-2';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
+import { Line } from 'react-chartjs-2';
+import styled from 'styled-components';
+import {
+  Grid, Button, Header
+} from 'semantic-ui-react';
+
+import { weeklyOptions } from './GraphConfig';
+
+const Div = styled.div`
+margin: 5% auto;
+background-color:#CCEEFF;
+`;
+
+const ChartDiv = styled.div`
+color:#F28095;
+align-items:center;
+vertical-align: middle;
+line-height: 10px;
+margin: 0 auto;
+width: 90%;
+height: 500px;
+`;
 
 const StatsMonthly = (props) => {
 
@@ -35,6 +56,8 @@ const StatsMonthly = (props) => {
       fat: 0
     }
   ];
+
+  let i;
   for (i = 0; i < monthNutritions.length; i += 1) {
     let weekIndex =  (monthNutritions[i].getDay() - 1) / 7;
     if (weekIndex === 4) {
@@ -82,7 +105,7 @@ const StatsMonthly = (props) => {
   };
 
   return (
-    <Div className="StatsMonthly">
+      <Div className="StatsMonthly">
         <Grid>
           <Grid.Row columns={3}>
             <Grid.Column class="left floated column">
@@ -98,7 +121,9 @@ const StatsMonthly = (props) => {
             </Grid.Column>
           </Grid.Row>
           <Grid.Row>
-            <StatsWeeklyChart selectedWeekNutritions={selectedWeekNutritions} recommendedIntake={recommendedIntake}/>
+            <ChartDiv>
+              <Line data={barData} redraw plugins={[ChartDataLabels]} options={weeklyOptions} />
+            </ChartDiv>
           </Grid.Row>
         </Grid>
       </Div>

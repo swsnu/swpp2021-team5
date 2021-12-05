@@ -105,7 +105,7 @@ export const weeklyOptions = {
   plugins: {
     title: {
       display: false,
-      text: "Weekly Stats",
+      text: "Stats",
     },
     datalabels: {
       display: false,
@@ -117,6 +117,7 @@ export const weeklyOptions = {
   },
 }
 
+/*
 export const monthlyOptions = {
   maintainAspectRatio: false,
   scales: {
@@ -145,3 +146,4 @@ export const monthlyOptions = {
     }
   },
 }
+*/
