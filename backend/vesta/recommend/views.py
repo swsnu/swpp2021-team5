@@ -11,6 +11,7 @@ from .models import TodayMenu
 # Create your views here.
 ## recommend 15 menus total(5 for each meal)
 def recommend(request, date):
+    print('here')
     # if unauthenticated
     if not request.user.is_authenticated:
         return HttpResponse(status = 401)
@@ -51,6 +52,7 @@ def recommend(request, date):
             response_dict = []
             if len(response)!=0:
                 for res in response:
+                    print(res)
                     if res is not None:
                         response_dict.append({
                             'id': res.id,
