@@ -109,7 +109,8 @@ def menu_recognition(img_path, user_token=api_user_token):
 
     # Single Dishes Detection
     url = api_url + 'recognition/dish'
-    resp = requests.post(url,files={'image': open(img, 'rb')}, headers=headers)
+    # resp = requests.post(url,files={'image': open(img, 'rb')}, headers=headers)
+    resp = requests.post(url,files=img, headers=headers)
     print(resp.json()["recognition_results"]) # display dish only
     print(resp.json())
     
