@@ -72,13 +72,37 @@ describe('Setting', () => {
     expect(wrapper.length).toBe(1);
   });
 
-  xit('should set state age correctly', () => {
+  it('should set state age correctly', () => {
+    window.prompt = jest.fn().mockImplementation(() => '5');
     const component = mount(setting);
-    const wrap = component.find('input#user-age-input');
-    //wrap.simulate('change', { target: { value: 'age' } });
-    wrap.simulate('change', { target: { value: '2' } });
+    const wrap = component.find('Button#age-edit-button');
+    wrap.simulate('click');
     const settingInstance = component.find(Setting.WrappedComponent).instance();
-    expect(settingInstance.state.age).toEqual('2');
+    expect(settingInstance.state.age).toEqual('5');
+  });
+
+  it('should ignore age edit', () => {
+    window.prompt = jest.fn().mockImplementation(() => null);
+    const component = mount(setting);
+    const wrap = component.find('Button#age-edit-button');
+    wrap.simulate('click');
+    expect(wrap.length).toEqual(1);
+  });
+
+  it('should check age to be larget than 4', () => {
+    window.prompt = jest.fn().mockImplementation(() => '4');
+    const component = mount(setting);
+    const wrap = component.find('Button#age-edit-button');
+    wrap.simulate('click');
+    expect(wrap.length).toEqual(1);
+  });
+
+  it('should check age to be number', () => {
+    window.prompt = jest.fn().mockImplementation(() => 'asdf');
+    const component = mount(setting);
+    const wrap = component.find('Button#age-edit-button');
+    wrap.simulate('click');
+    expect(wrap.length).toEqual(1);
   });
 
   it('should set sex to female correctly', () => {
@@ -92,32 +116,80 @@ describe('Setting', () => {
     const settingInstance = component.find(Setting.WrappedComponent).instance();
     expect(settingInstance.state.sex).toEqual(true);
   });
-
-  xit('should set state height correctly', () => {
+  
+  it('should ignore height edit when cancle', () => {
+    window.prompt = jest.fn().mockImplementation(() => null);
     const component = mount(setting);
-    const wrap = component.find('input#user-height-input');
-    //wrap.simulate('change', { target: { value: 'height' } });
-    wrap.simulate('change', { target: { value: '2' } });
-    const settingInstance = component.find(Setting.WrappedComponent).instance();
-    expect(settingInstance.state.height).toBe('2');
+    const wrap = component.find('Button#height-edit-button');
+    wrap.simulate('click');
+    expect(wrap.length).toEqual(1);
   });
 
-  xit('should set state weight correctly', () => {
+  it('should set state height correctly', () => {
+    window.prompt = jest.fn().mockImplementation(() => '170');
     const component = mount(setting);
-    const wrap = component.find('input#user-weight-input');
-    //wrap.simulate('change', { target: { value: 'weight' } });
-    wrap.simulate('change', { target: { value: '2' } });
+    const wrap = component.find('Button#height-edit-button');
+    wrap.simulate('click');
     const settingInstance = component.find(Setting.WrappedComponent).instance();
-    expect(settingInstance.state.weight).toBe('2');
+    expect(settingInstance.state.height).toEqual('170');
   });
 
-  xit('should set state target calorie correctly', () => {
+  it('should check height to be number', () => {
+    window.prompt = jest.fn().mockImplementation(() => 'asdf');
     const component = mount(setting);
-    const wrap = component.find('input#user-target-calorie-input');
-    //wrap.simulate('change', { target: { value: 'tc' } });
-    wrap.simulate('change', { target: { value: '2' } });
+    const wrap = component.find('Button#height-edit-button');
+    wrap.simulate('click');
+    expect(wrap.length).toEqual(1);
+  });
+
+  it('should set state weight correctly', () => {
+    window.prompt = jest.fn().mockImplementation(() => '70');
+    const component = mount(setting);
+    const wrap = component.find('Button#weight-edit-button');
+    wrap.simulate('click');
     const settingInstance = component.find(Setting.WrappedComponent).instance();
-    expect(settingInstance.state.targetCalories).toBe('2');
+    expect(settingInstance.state.weight).toEqual('70');
+  });
+
+  it('should ignore weight edit when cancle', () => {
+    window.prompt = jest.fn().mockImplementation(() => null);
+    const component = mount(setting);
+    const wrap = component.find('Button#weight-edit-button');
+    wrap.simulate('click');
+    expect(wrap.length).toEqual(1);
+  });
+
+  it('should check weight to be number', () => {
+    window.prompt = jest.fn().mockImplementation(() => 'asdf');
+    const component = mount(setting);
+    const wrap = component.find('Button#weight-edit-button');
+    wrap.simulate('click');
+    expect(wrap.length).toEqual(1);
+  });
+
+  it('should set state target calorie correctly', () => {
+    window.prompt = jest.fn().mockImplementation(() => '999');
+    const component = mount(setting);
+    const wrap = component.find('Button#target-calorie-edit-button');
+    wrap.simulate('click');
+    const settingInstance = component.find(Setting.WrappedComponent).instance();
+    expect(settingInstance.state.targetCalories).toEqual('999');
+  });
+
+  it('should ignore target calorie edit when cancle', () => {
+    window.prompt = jest.fn().mockImplementation(() => null);
+    const component = mount(setting);
+    const wrap = component.find('Button#target-calorie-edit-button');
+    wrap.simulate('click');
+    expect(wrap.length).toEqual(1);
+  });
+
+  it('should check weight to be number', () => {
+    window.prompt = jest.fn().mockImplementation(() => 'asdf');
+    const component = mount(setting);
+    const wrap = component.find('Button#target-calorie-edit-button');
+    wrap.simulate('click');
+    expect(wrap.length).toEqual(1);
   });
 
   it('should open confirm window', () => {
@@ -139,7 +211,7 @@ describe('Setting', () => {
     expect(settingInstance.state.preference.length).toEqual(1);
   })
 
-  it('should add preference', () => {
+  it('should add preference 1', () => {
     window.prompt = jest.fn().mockImplementation(() => null);
     const component = mount(setting);
     const wrap = component.find('button#add-preferece-button');
@@ -148,7 +220,7 @@ describe('Setting', () => {
     expect(settingInstance.state.preference.length).toEqual(2);
   })
 
-  it('should add preference', () => {
+  it('should add preference 2', () => {
     window.prompt = jest.fn().mockImplementation(() => 'test_ingredient');
     const component = mount(setting);
     const wrap = component.find('button#add-preferece-button');
@@ -165,14 +237,27 @@ describe('Setting', () => {
     expect(spyOnDeleteUserAccount).toHaveBeenCalledTimes(1);
   });
 
-  it('should find save button correctly', () => {
+  it('should save profile correctly', () => {
     const spyOnSaveUserSetting = jest.spyOn(actionCreators, 'saveUserSetting')
       .mockImplementation(({}) => (dispatch) => {});
+    window.confirm = jest.fn().mockImplementation(() => true);
     const component = mount(setting);
     const wrap = component.find('button#save-button');
+    wrap.simulate('click')
     expect(wrap.length).toBe(1);
   });
 
+  it('should ignore save button when cancled', () => {
+    const spyOnSaveUserSetting = jest.spyOn(actionCreators, 'saveUserSetting')
+      .mockImplementation(({}) => (dispatch) => {});
+    window.confirm = jest.fn().mockImplementation(() => false);
+    const component = mount(setting);
+    const wrap = component.find('button#save-button');
+    wrap.simulate('click')
+    expect(wrap.length).toBe(1);
+  });
+
+  /*
   xit('should check age', () => {
     const spyOnSaveUserSetting = jest.spyOn(actionCreators, 'saveUserSetting')
       .mockImplementation(({}) => (dispatch) => {});
@@ -280,6 +365,5 @@ describe('Setting', () => {
     wrapper.simulate('click');
     expect(spyOnSaveUserSetting).toHaveBeenCalledTimes(1);
   });
-
-
+  */
 });

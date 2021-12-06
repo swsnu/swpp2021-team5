@@ -9,3 +9,4 @@ export {
 } from './Record/record';
 export { detect } from './ML/ml';
 export { logIn, logout } from './User/user';
+export { getAllUserNutrition } from './User/user';

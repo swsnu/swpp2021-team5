@@ -1,4 +1,5 @@
 import Statistics from './Statistics';
+import axios from 'axios';
 
 import { mount } from 'enzyme';
 import React from 'react';
@@ -28,6 +29,23 @@ const userInitialState = {
       fat: 1,
   },
 };
+
+const stubUserNutritions = [
+  {
+    calories: 1,
+    carbs: 1,
+    protein: 1,
+    fat: 1,
+    date: '2021-11-10'
+  },
+  {
+    calories: 1,
+    carbs: 1,
+    protein: 1,
+    fat: 1,
+    date: '2021-11-11'
+  },
+]
 const recordInitialState = {
 
 };
@@ -54,6 +72,13 @@ describe('Statistics', () => {
     );
     spyOnGetUserNutrition = jest.spyOn(actionCreators, 'getUserNutrition')
       .mockImplementation(() => (dispatch) => {});
+    /*spy = jest.spyOn(axios, 'get').mockImplementation(() => new Promise((resolve) => {
+      const result = {
+        status: 200,
+        data: stubUserNutritions,
+      };
+      resolve(result);
+    }));*/
   });
   afterEach(() => {
     jest.clearAllMocks();

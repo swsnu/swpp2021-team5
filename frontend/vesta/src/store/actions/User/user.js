@@ -126,3 +126,13 @@ export const logout = () => (dispatch) => axios.get('/api/user/signout/')
   .then((res) => {
     dispatch(logout_())
 });
+
+export const getAllUserNutrition_ = (nutritions) => ({
+  type: actionTypes.GET_ALL_USER_NUTRITION,
+  userNutritions: nutritions
+})
+
+export const getAllUserNutrition = () => (dispatch) => axios.get('/api/nutrition/')
+  .then((res) => {
+    dispatch(getAllUserNutrition_(res.data))
+  });

@@ -45,19 +45,19 @@ class Statistics extends Component {
     this.state = {
       selectedWeek: new Date(),
       selectedMonth: (new Date()).getMonth(),
-      userNutritions: [],
     };
   }
 
   componentDidMount() {
     const today = (new Date()).toISOString().split('T')[0];
     this.props.onGetUserNutrition(today);
+    this.props.onGetAllUserNutrition();
     
-    this.setState({...this.state, userNutritions: dummyUserNutritions});
-    axios.get('/api/nutrition/').then((res) => {
+    //this.setState({...this.state, userNutritions: dummyUserNutritions});
+    /*axios.get('/api/nutrition/').then((res) => {
       this.setState({...this.state, userNutritions: res.data})
       // res.data : list of objects ?
-    });
+    });*/
   }
 
   onClickedWeeklyPrevButton = () => {
@@ -102,7 +102,7 @@ class Statistics extends Component {
       fat: recommendedFat,
     }
 
-    let processedUserNutritions = this.state.userNutritions.map((nutrition) => {
+    let processedUserNutritions = this.props.currAllUserNutrition.map((nutrition) => {
       const dateObject = new Date(nutrition.date);
       dateObject.setHours(0,0,0,0);
       return {...nutrition, date: dateObject};
@@ -139,12 +139,14 @@ const mapStateToProps = state => {
   return {
     currUser: state.user.currentUser,
     currUserNutrition: state.user.userNutrition,
+    currAllUserNutrition: state.user.userNutritions,
   }
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    onGetUserNutrition: (date) => dispatch(actionCreators.getUserNutrition(date)) 
+    onGetUserNutrition: (date) => dispatch(actionCreators.getUserNutrition(date)),
+    onGetAllUserNutrition : () => dispatch(actionCreators.getAllUserNutrition())
   }
 }
 

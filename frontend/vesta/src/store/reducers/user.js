@@ -18,6 +18,22 @@ const initialState = {
     fat: 15,
     count_all: 0,
   },
+  userNutritions: [
+    {
+      calories: 1231,
+      carbs: 120,
+      protein: 30,
+      fat: 15,
+      date: '2021-12-1'
+    },
+    {
+      calories: 1231,
+      carbs: 120,
+      protein: 30,
+      fat: 15,
+      date: '2021-12-2'
+    }
+  ],
 };
 const userReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -80,6 +96,9 @@ const userReducer = (state = initialState, action) => {
 
     case actionTypes.LOGOUT:
       return { ...state, currentUser: action.currentUser };
+
+    case actionTypes.GET_ALL_USER_NUTRITION:
+      return {...state, userNutritions: action.userNutritions };
 
     default:
       break;
