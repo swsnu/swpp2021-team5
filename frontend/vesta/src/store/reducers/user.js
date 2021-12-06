@@ -1,16 +1,7 @@
 import * as actionTypes from '../actions/actionType';
 
 const initialState = {
-  currentUser: {
-    userID: 1,
-    username: 'team5',
-    age: 23,
-    sex: true,
-    height: 180,
-    weight: 80,
-    preference: ['banana', 'apple', 'fish'],
-    targetCalories: 2000,
-  },
+  currentUser: null,
   userNutrition: {
     calories: 1231,
     carbs: 120,

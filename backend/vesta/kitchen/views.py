@@ -76,7 +76,7 @@ def signin(request):
 
             food_preference_list = []
             for item in Preference.objects.filter(user_id=user.id):
-                food_preference_list.append(str(item.menu.name))
+                food_preference_list.append(str(item.ingredient))
             user_profile = user.profile
             response_dict = {
                 'userID': user.id,

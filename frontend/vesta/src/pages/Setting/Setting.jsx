@@ -53,7 +53,7 @@ const preferenceButtonList = (preference, isOpen, clickedMenuHandler, open, clos
   const list = preference.map((menu) => {
     return (
       <div>
-        <Button id='ingredient-button' Mini style={{backgroundColor: '#CCEECC', margin: '2px', height: '26px', padding: '4%', fontSize: '13px'}} onClick={() => open()}>{`${menu} X`}</Button>
+        <Button key={menu} id='ingredient-button' Mini style={{backgroundColor: '#CCEECC', margin: '2px', height: '26px', padding: '4%', fontSize: '13px'}} onClick={() => open()}>{`${menu} X`}</Button>
         <Confirm
           id='confirm-button'
           open={isOpen}
@@ -70,7 +70,6 @@ class Setting extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      userID: null,
       username: null,
       age: '',
       sex: null,
@@ -84,7 +83,36 @@ class Setting extends Component {
  
   componentDidMount() {
     this.props.onGetUserSetting();
-    this.setState({...this.props.currUser, confirmOpen: false});
+    /*
+      if (this.props.currUser !== null) {
+      this.setState({ 
+        ...this.state,
+        username: this.props.currUser.username,
+        age: this.props.currUser.age,
+        sex: this.props.currUser.sex,
+        height: this.props.currUser.height,
+        weight: this.props.currUser.weight,
+        preference: this.props.currUser.preference,
+        targetCalories: this.props.currUser.targetCalories,
+      });
+    }
+    */
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    if (state.username === null) {
+      return {
+        confirmOpen: false,
+        username: props.currUser.username,
+        age: props.currUser.age,
+        sex: props.currUser.sex,
+        height: props.currUser.height,
+        weight: props.currUser.weight,
+        preference: props.currUser.preference,
+        targetCalories: props.currUser.targetCalories,
+      };
+    }
+    return null;
   }
 
   onClickedAgeEditButton = () => {
@@ -199,24 +227,36 @@ class Setting extends Component {
   }
 
   onClickedDeleteAccountButton = () => {
+    let result = confirm('Are you sure to delete your account?');
+    if (result === false) {
+      return;
+    }
     const currentUserID = this.props.currUser.userID;
     this.props.onDeleteUserAccount(currentUserID);
   }
 
   render() {
-    /* User setting information from redux from backend */
+    console.log()
+    if (this.props.currUser === null) {
+      return (
+        <div>
+          Not Logged in
+        </div>
+      )
+    }
     let age = this.state.age;
     let sex = this.state.sex;
-    let sexEditButton = sexToggleButtons(this.state.sex, this.onClickedUserSexMaleButton, this.onClickedUserSexFemaleButton)
+    let sexEditButton = sexToggleButtons(this.state.sex, this.onClickedUserSexMaleButton, this.onClickedUserSexFemaleButton);
     let height = this.state.height;
     let weight = this.state.weight;
     let targetCalories = this.state.targetCalories;
-    let preference = preferenceButtonList(this.state.preference, this.state.confirmOpen, this.onClickedUserPreferenceDeleteButton, this.onConfirmOpen, this.onConfirmClose)
+    let preference = preferenceButtonList(this.state.preference, this.state.confirmOpen, this.onClickedUserPreferenceDeleteButton, this.onConfirmOpen, this.onConfirmClose);
 
     const recommendedCalorie = (Math.round(100 * Calculator.recommendedCalorie(age, sex, height, weight))) / 100;
     const recommendedCarbs = (Math.round(100 * Calculator.recommendedCarbs(recommendedCalorie))) / 100;
     const recommendedProtein = (Math.round(100 * Calculator.recommendedProtein(recommendedCalorie))) / 100;
     const recommendedFat = (Math.round(100 * Calculator.recommendedFat(recommendedCalorie))) / 100;
+    // const recommendedIntake = [recommendedCalorie, recommendedCarbs, recommendedProtein, recommendedFat]
 
     return (
       <div className="Setting">
@@ -249,7 +289,7 @@ class Setting extends Component {
                     <Button
                     id='age-edit-button'
                     onClick={() => this.onClickedAgeEditButton()}
-                    style={{padding: '4%', width: '50%'}}
+                    style={{padding: '4%', width: '70%'}}
                   > Edit
                   </Button>
                   </Table.Cell>
@@ -268,7 +308,7 @@ class Setting extends Component {
                     <Button
                       id='height-edit-button'
                       onClick={() => this.onClickedHeightEditButton()}
-                      style={{padding: '4%', width: '50%'}}
+                      style={{padding: '4%', width: '70%'}}
                     > Edit
                     </Button>
                   </Table.Cell>
@@ -280,7 +320,7 @@ class Setting extends Component {
                   <Button
                     id='weight-edit-button'
                     onClick={() => this.onClickedWeightEditButton()}
-                    style={{padding: '4%', width: '50%'}}
+                    style={{padding: '4%', width: '70%'}}
                   > Edit
                   </Button>
                   </Table.Cell>
@@ -292,18 +332,18 @@ class Setting extends Component {
                       <Button
                         id='target-calorie-edit-button'
                         onClick={() => this.onClickedCalorieEditButton()}
-                        style={{padding: '4%', width: '50%'}}
+                        style={{padding: '4%', width: '70%'}}
                       > Edit
                       </Button>
                   </Table.Cell>
                 </Table.Row>
                 <Table.Row textAlign='center'>
-                  <Table.HeaderCell>Ingredients you don&apos;t eat</Table.HeaderCell>
+                  <Table.HeaderCell>{`Ingredients \n you don't eat`}</Table.HeaderCell>
                   <Table.Cell>
                     {preference}
                   </Table.Cell>
                   <Table.Cell>
-                    <Button id='add-preferece-button' onClick={() => this.onClickedAddPreferenceButton()} style={{padding: '4%', width: '50%'}}>
+                    <Button id='add-preferece-button' onClick={() => this.onClickedAddPreferenceButton()} style={{padding: '4%', width: '70%'}}>
                       Add +
                     </Button>
                   </Table.Cell>
