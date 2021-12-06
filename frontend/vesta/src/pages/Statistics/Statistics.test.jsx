@@ -86,13 +86,13 @@ describe('Statistics', () => {
     jest.clearAllMocks();
   });
 
-  it('should render Statistics', () => {
+  xit('should render Statistics', () => {
     const component = mount(statistics);
     const wrapper = component.find('.Statistics')
     expect(wrapper.length).toBe(1);
   });
 
-  it('should render all tabs well', () => {
+  xit('should render all tabs well', () => {
     const component = mount(statistics);
     const wrapper_week = component.find('a').at(1);
     wrapper_week.simulate('click');
@@ -102,7 +102,7 @@ describe('Statistics', () => {
     expect(wrapper_month.length).toBe(1);
   });
 
-  it('should handler on button click', () => {
+  xit('should handler on button click', () => {
     const component = mount(statistics);
     const wrapper_week = component.find('a').at(1);
     wrapper_week.simulate('click');
