@@ -1,11 +1,10 @@
 /* eslint-disable */
 import React, { Component } from 'react';
 import {
-  Button, Image, Icon,
+  Button, Icon,
 } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import Meal from './Meal';
 import {
   RecommendationBody, RecommendationHeader, OtherMealName,
 } from '../../styles/Menu_Recommendation/Meals';
