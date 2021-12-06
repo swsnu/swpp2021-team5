@@ -1,7 +1,6 @@
 /* eslint-disable */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import axios from 'axios';
 
 import {
   Tab
@@ -52,12 +51,6 @@ class Statistics extends Component {
     const today = (new Date()).toISOString().split('T')[0];
     this.props.onGetUserNutrition(today);
     this.props.onGetAllUserNutrition();
-    
-    //this.setState({...this.state, userNutritions: dummyUserNutritions});
-    /*axios.get('/api/nutrition/').then((res) => {
-      this.setState({...this.state, userNutritions: res.data})
-      // res.data : list of objects ?
-    });*/
   }
 
   onClickedWeeklyPrevButton = () => {

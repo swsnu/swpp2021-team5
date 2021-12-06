@@ -76,7 +76,7 @@ const recipeInitialState = {
 const mockStore = getMockStore(userInitialState, recordInitialState, menuInitialState, recipeInitialState);
 
 describe('Statistics', () => {
-  let statistics, spyOnGetUserNutrition;
+  let statistics, spyOnGetUserNutrition, spyOnGetAllUserNutrition;
 
   beforeEach(() => {
     statistics = (
@@ -89,6 +89,8 @@ describe('Statistics', () => {
       </Provider>
     );
     spyOnGetUserNutrition = jest.spyOn(actionCreators, 'getUserNutrition')
+      .mockImplementation(() => (dispatch) => {});
+    spyOnGetAllUserNutrition = jest.spyOn(actionCreators, 'getAllUserNutrition')
       .mockImplementation(() => (dispatch) => {});
     /*spy = jest.spyOn(axios, 'get').mockImplementation(() => new Promise((resolve) => {
       const result = {
