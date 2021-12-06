@@ -30,6 +30,7 @@ const userInitialState = {
   },
 };
 
+/*
 const stubUserNutritions = [
   {
     calories: 1,
@@ -46,6 +47,7 @@ const stubUserNutritions = [
     date: '2021-11-11'
   },
 ]
+*/
 const recordInitialState = {
 
 };

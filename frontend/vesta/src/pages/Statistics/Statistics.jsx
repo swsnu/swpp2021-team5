@@ -14,7 +14,7 @@ import StatsWeekly from '../../component/Statistics/StatsWeekly';
 import StatsMonthly from '../../component/Statistics/StatsMonthly';
 import * as Calculator from '../Setting/Calculator';
 
-import { dummyUserNutritions } from './util';
+// import { dummyUserNutritions } from './util';
 
 const StatisticsHeader = styled.div`
 font-family:'verveine';

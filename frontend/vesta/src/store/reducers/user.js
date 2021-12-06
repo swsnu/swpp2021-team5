@@ -98,7 +98,7 @@ const userReducer = (state = initialState, action) => {
       return { ...state, currentUser: action.currentUser };
 
     case actionTypes.GET_ALL_USER_NUTRITION:
-      return {...state, userNutritions: action.userNutritions };
+      return { ...state, userNutritions: action.userNutritions };
 
     default:
       break;
