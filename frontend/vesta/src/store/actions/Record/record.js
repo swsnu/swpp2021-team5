@@ -7,8 +7,8 @@ export const getRecords_ = (records) => ({
 });
 
 export const getRecords = (userID) => (dispatch) => axios.get(`/api/record/user/${userID}/`)
-  .then((res) => dispatch(getRecords_(res.data)));
-  // .catch((res) => dispatch(getRecords_([])));
+  .then((res) => dispatch(getRecords_(res.data)))
+  .catch((res) => dispatch(getRecords_([])));
 
 export const getRecord_ = (record) => ({
   type: actionTypes.GET_RECORD,
