@@ -14,25 +14,12 @@ class MenuRecommendation extends Component {
     const year = date.getFullYear();
     const month = date.getMonth();
     const day = date.getDate();
-    // this.props.getCountAll(String(`${year}-${month}-${day}`));
-    console.log(this.props.count);
     this.props.getRecommendedMenus(String(`${year}-${month}-${day}`));
   }
 
-  // componentDidUpdate() {
-  //   const date = new Date();
-  //   const year = date.getFullYear();
-  //   const month = date.getMonth();
-  //   const day = date.getDate();
-  //   this.props.getCountAll(String(`${year}-${month}-${day}`));
-  //   console.log(this.props.isUpdated);
-  //   if (this.props.isUpdated) {
-  //   }
-  // }
-
   render() {
-    console.log(this.props.recommendedMenus);
     if (this.props.recommendedMenus) {
+      console.log(this.props.recommendedMenus);
       return (
         <div className="MenuRecommendation">
           <MealList
@@ -54,12 +41,9 @@ class MenuRecommendation extends Component {
 
 const mapStateToProps = (state) => ({
   recommendedMenus: state.menu.recommendedMenus,
-  count: state.menu.count,
-  isUpdated: state.menu.isUpdated,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  // getCountAll: (date) => dispatch(actionCreators.getCountAll(date)),
   getRecommendedMenus: (date) => dispatch(actionCreators.getRecommendedMenus(date)),
 });
 
