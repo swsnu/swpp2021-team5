@@ -70,7 +70,6 @@ class Setting extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: null,
       age: '',
       sex: null,
       height: '',
@@ -78,41 +77,12 @@ class Setting extends Component {
       preference: [],
       targetCalories: '',
       confirmOpen: false,
+      prevId: null,
     };
   }
  
   componentDidMount() {
     this.props.onGetUserSetting();
-    /*
-      if (this.props.currUser !== null) {
-      this.setState({ 
-        ...this.state,
-        username: this.props.currUser.username,
-        age: this.props.currUser.age,
-        sex: this.props.currUser.sex,
-        height: this.props.currUser.height,
-        weight: this.props.currUser.weight,
-        preference: this.props.currUser.preference,
-        targetCalories: this.props.currUser.targetCalories,
-      });
-    }
-    */
-  }
-
-  static getDerivedStateFromProps(props, state) {
-    if (state.username === null) {
-      return {
-        confirmOpen: false,
-        username: props.currUser.username,
-        age: props.currUser.age,
-        sex: props.currUser.sex,
-        height: props.currUser.height,
-        weight: props.currUser.weight,
-        preference: props.currUser.preference,
-        targetCalories: props.currUser.targetCalories,
-      };
-    }
-    return null;
   }
 
   onClickedAgeEditButton = () => {
@@ -124,21 +94,44 @@ class Setting extends Component {
       alert('Weight should be a number larger than 4');
       return;
     }
-    const thisState = this.state;
-    this.setState({ ...thisState, age: result });
+    // const thisState = this.state;
+    // this.setState({ ...thisState, age: result });
+    this.props.onSaveUserSetting(
+      this.props.currUser.username,
+      parseInt(result),
+      this.props.currUser.sex,
+      this.props.currUser.height,
+      this.props.currUser.weight,
+      this.props.currUser.preference,
+      this.props.currUser.targetCalories,
+    )
   }
 
-  onClickedUserSexMaleButton = (e) => {
-    const thisState = this.state;
-    if (!this.state.sex) {
-      this.setState({...thisState, sex: true})
+  onClickedUserSexMaleButton = () => {
+    if (!this.props.currUser.sex) {
+      this.props.onSaveUserSetting(
+        this.props.currUser.username,
+        this.props.currUser.age,
+        true,
+        this.props.currUser.height,
+        this.props.currUser.weight,
+        this.props.currUser.preference,
+        this.props.currUser.targetCalories,
+      )
     }
   }
 
-  onClickedUserSexFemaleButton = (e) => {
-    const thisState = this.state;
-    if (this.state.sex) {
-      this.setState({...thisState, sex: false})
+  onClickedUserSexFemaleButton = () => {
+    if (this.props.currUser.sex) {
+      this.props.onSaveUserSetting(
+        this.props.currUser.username,
+        this.props.currUser.age,
+        false,
+        this.props.currUser.height,
+        this.props.currUser.weight,
+        this.props.currUser.preference,
+        this.props.currUser.targetCalories,
+      )
     }
   }
 
@@ -151,10 +144,19 @@ class Setting extends Component {
       alert('Height should be a number');
       return;
     }
-    const thisState = this.state;
-    this.setState({ ...thisState, height: result });
+    // const thisState = this.state;
+    // this.setState({ ...thisState, height: result });
+    this.props.onSaveUserSetting(
+      this.props.currUser.username,
+      this.props.currUser.age,
+      this.props.currUser.sex,
+      parseFloat(result),
+      this.props.currUser.weight,
+      this.props.currUser.preference,
+      this.props.currUser.targetCalories,
+    )
   }
-
+  
   onClickedWeightEditButton = () => {
     let result = prompt('Enter the Weigth You want to set', '');
     if(result === null) {
@@ -164,8 +166,15 @@ class Setting extends Component {
       alert('Weight should be a number');
       return;
     }
-    const thisState = this.state;
-    this.setState({ ...thisState, weight: result });
+    this.props.onSaveUserSetting(
+      this.props.currUser.username,
+      this.props.currUser.age,
+      this.props.currUser.sex,
+      this.props.currUser.height,
+      parseFloat(result),  
+      this.props.currUser.preference,
+      this.props.currUser.targetCalories,
+    )
   }
 
   onClickedCalorieEditButton = () => {
@@ -177,8 +186,15 @@ class Setting extends Component {
       alert('Target Calorie should be a number');
       return;
     }
-    const thisState = this.state;
-    this.setState({ ...thisState, targetCalories: result });
+    this.props.onSaveUserSetting(
+      this.props.currUser.username,
+      this.props.currUser.age,
+      this.props.currUser.sex,
+      this.props.currUser.height,
+      this.props.currUser.weight, 
+      this.props.currUser.preference,
+      parseFloat(result),
+    )
   }
 
   onClickedAddPreferenceButton = () => {
@@ -186,17 +202,34 @@ class Setting extends Component {
     if(result === null) {
       return;
     }
-    const thisState = this.state;
-    thisState.preference.push(result);
-    this.setState({...thisState});
+    const newPreference = this.props.currUser.preference;
+    newPreference.push(result);
+    console.log(newPreference);
+    this.props.onSaveUserSetting(
+      this.props.currUser.username,
+      this.props.currUser.age,
+      this.props.currUser.sex,
+      this.props.currUser.height,
+      this.props.currUser.weight, 
+      newPreference,
+      this.props.currUser.targetCalories,
+    )
   }
 
   onClickedUserPreferenceDeleteButton = (target) => {
-    const thisState = this.state;
-    const newPreference = this.state.preference.filter((menu) => {
+    const newPreference = this.props.currUser.preference.filter((menu) => {
       return menu !== target;
     });
-    this.setState({...thisState, preference: newPreference, confirmOpen: false});
+    console.log(newPreference);
+    this.props.onSaveUserSetting(
+      this.props.currUser.username,
+      this.props.currUser.age,
+      this.props.currUser.sex,
+      this.props.currUser.height,
+      this.props.currUser.weight, 
+      newPreference,
+      this.props.currUser.targetCalories,
+    )
   }
 
   onConfirmOpen = () => {
@@ -209,6 +242,7 @@ class Setting extends Component {
     this.setState({...thisState, confirmOpen: false});
   }
 
+  /*
   onClickedSaveButton = () => {
     let result = confirm('Will you save this user profile?')
     if (result === false) {
@@ -225,6 +259,7 @@ class Setting extends Component {
       parseFloat(this.state.targetCalories),
     );
   }
+  */
 
   onClickedDeleteAccountButton = () => {
     let result = confirm('Are you sure to delete your account?');
@@ -244,13 +279,13 @@ class Setting extends Component {
         </div>
       )
     }
-    let age = this.state.age;
-    let sex = this.state.sex;
-    let sexEditButton = sexToggleButtons(this.state.sex, this.onClickedUserSexMaleButton, this.onClickedUserSexFemaleButton);
-    let height = this.state.height;
-    let weight = this.state.weight;
-    let targetCalories = this.state.targetCalories;
-    let preference = preferenceButtonList(this.state.preference, this.state.confirmOpen, this.onClickedUserPreferenceDeleteButton, this.onConfirmOpen, this.onConfirmClose);
+    let age = this.props.currUser.age;
+    let sex = this.props.currUser.sex;
+    let sexEditButton = sexToggleButtons(this.props.currUser.sex, this.onClickedUserSexMaleButton, this.onClickedUserSexFemaleButton);
+    let height = this.props.currUser.height;
+    let weight = this.props.currUser.weight;
+    let targetCalories = this.props.currUser.targetCalories;
+    let preference = preferenceButtonList(this.props.currUser.preference, this.state.confirmOpen, this.onClickedUserPreferenceDeleteButton, this.onConfirmOpen, this.onConfirmClose);
 
     const recommendedCalorie = (Math.round(100 * Calculator.recommendedCalorie(age, sex, height, weight))) / 100;
     const recommendedCarbs = (Math.round(100 * Calculator.recommendedCarbs(recommendedCalorie))) / 100;
@@ -350,15 +385,6 @@ class Setting extends Component {
                 </Table.Row>
               </Table.Body>
 
-              <Table.Footer>
-                <Table.Row>
-                  <Table.HeaderCell colSpan="3">
-                    <Button id='save-button' primary floated="right"
-                     onClick={() => this.onClickedSaveButton()}>Save
-                    </Button>
-                  </Table.HeaderCell>
-                </Table.Row>
-              </Table.Footer>
             </Table>
             </Grid.Column>
             <Grid.Column width={6}>
