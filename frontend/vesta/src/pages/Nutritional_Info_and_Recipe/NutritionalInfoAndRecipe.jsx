@@ -11,25 +11,28 @@ import Recipe from '../../component/Recipe/Recipe';
 
 class NutritionalInfoAndRecipe extends Component {
   componentDidMount() {
-    const date = new Date();
-    const year = date.getFullYear();
-    const month = date.getMonth();
-    const day = date.getDate();
-    this.props.getRecommendedMenus(String(`${year}-${month}-${day}`));
+    // const date = new Date();
+    // const year = date.getFullYear();
+    // const month = date.getMonth();
+    // const day = date.getDate();
+    const today = (new Date()).toISOString().split('T')[0];
+    console.log(today);
+    this.props.getRecommendedMenus((new Date()).toISOString().split('T')[0]);
   }
 
   changeRecommendation = () => {
-    const date = new Date();
-    const year = date.getFullYear();
-    const month = date.getMonth();
-    const day = date.getDate();
+    // const date = new Date();
+    // const year = date.getFullYear();
+    // const month = date.getMonth();
+    // const day = date.getDate();
+    const today = (new Date()).toISOString().split('T')[0];
     let ans = confirm("Do you want to change this menu to your main recommended meal?");
     if (ans) {
-      this.props.changeRecommendation(String(`${year}-${month}-${day}`), parseInt(this.props.match.params.idx));
+      this.props.changeRecommendation(today, parseInt(this.props.match.params.idx));
     }
     let refresh = confirm("If you press confirm, change will be applied. Enjoy!");
     if (refresh) {
-      this.props.getRecommendedMenus(String(`${year}-${month}-${day}`));
+      this.props.getRecommendedMenus(today);
     }
   }
 
