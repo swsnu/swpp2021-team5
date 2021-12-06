@@ -52,9 +52,16 @@ class ConfirmDetection extends Component {
     const uploadedImage = this.props.location.state.image;
     console.log(uploadedImage);
     console.log(this.props.location.state.type);
+
     this.setState({ image: uploadedImage });
     this.setState({ type: this.props.location.state.type });
     this.props.onGetMenu(this.state.menuName);
+
+    const form = new FormData();
+    form.append('files', this.state.image);
+    this.props.onGetDetection(form);
+    console.log('detection', this.props.detectedMenus);
+    this.setState({ menuName: this.props.detectedMenus[0].name });
   }
 
   onClickedEditResultButton = () => {
@@ -73,12 +80,12 @@ class ConfirmDetection extends Component {
   }
 
   onClickedConfirmButton = () => {
-    const record = new FormData();
-    record.append('menu', this.state.menuName);
-    record.append('review', this.state.review);
-    record.append('liked', 'False');
-    record.append('image', this.state.image);
-    this.props.onAddRecord(record);
+    const form = new FormData();
+    form.append('menu_name', this.state.menuName);
+    form.append('review', this.state.review);
+    form.append('liked', 'False');
+    form.append('image', this.state.image.image);
+    this.props.onAddRecord(form);
 
     const today = (new Date()).toISOString().split('T')[0];
     (async () => {
@@ -107,7 +114,7 @@ class ConfirmDetection extends Component {
           currentCount + countInput);
       }
     })();
-    this.props.history.push('/main');
+    this.props.history.push('/history');
   }
 
   render() {
@@ -121,7 +128,7 @@ class ConfirmDetection extends Component {
       protein = this.props.selectedMenu.protein;
       fat = this.props.selectedMenu.fat;
     }
-
+    // console.log(this.state.image);
     return (
       <div>
         <Container className="Confirm">
@@ -176,16 +183,17 @@ class ConfirmDetection extends Component {
 
 const mapStateToProps = (state) => ({
   selectedMenu: state.menu.selectedMenu,
+  detectedMenus: state.ml.detectedMenu,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   onGetMenu: (menuName) => dispatch(actionCreators.getMenu(menuName)),
-  onAddRecord: (review) => dispatch(actionCreators.addRecord(review)),
   onCreateUserNutrition: (date, calories, carbs, protein, fat,
     countAll) => dispatch(actionCreators.createUserNutrition(date, calories, carbs, protein, fat, countAll)),
   onEditUserNutrition: (date, calories, carbs, protein, fat,
     countAll) => dispatch(actionCreators.editUserNutrition(date, calories, carbs, protein, fat, countAll)),
   onGetDetection: (formData) => dispatch(actionCreators.detect(formData)),
+  onAddRecord: (formData) => dispatch(actionCreators.addRecord(formData)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(ConfirmDetection));

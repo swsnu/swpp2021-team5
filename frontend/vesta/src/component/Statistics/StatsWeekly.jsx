@@ -32,7 +32,7 @@ class StatsWeekly extends Component {
     let title, from, to;
     from = `${selectedWeekSun.getMonth() + 1}/${selectedWeekSun.getDate()}`;
     to = `${selectedWeekSat.getMonth() + 1}/${selectedWeekSat.getDate()}`;
-    title = `${from} - ${to}`;
+    title = `${(new Date).getFullYear()} ${from} - ${to}`;
     
     return (
       <Div className="StatsWeekly">

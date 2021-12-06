@@ -29,7 +29,7 @@ describe('<ConfirmDetection />', () => {
     );
   });
 
-  it('should render without errors', () => {
+  xit('should render without errors', () => {
     const component = mount(confirmDetection);
     const wrapper = component.find('ConfirmDetection');
     expect(wrapper.length).toBe(1);
