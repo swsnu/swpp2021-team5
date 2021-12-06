@@ -139,7 +139,8 @@ def profile(request):
                 'sex': user_profile.sex,
                 'height': user_profile.height,
                 'weight': user_profile.weight,
-                'preference': food_preference_list
+                'preference': food_preference_list,
+                'targetCalories': user_profile.target_calories,
             }
             return JsonResponse(response_dict, status=200, safe=False)
         else:
