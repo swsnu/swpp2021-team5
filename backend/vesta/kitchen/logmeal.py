@@ -22,7 +22,6 @@ images_path = os.path.join(dirname(dirname(__file__)), 'images')
 
 def signup(username, api_company_token=api_company_token):
     # Set the API Company Token in the header of the request
-    
     url = 'https://api.logmeal.es/v2/users/signUp'
 
     # Create an API User with the default languange ('eng')
