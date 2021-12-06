@@ -10,11 +10,9 @@ import * as actionCreators from '../../store/actions/index';
 class MenuRecommendation extends Component {
   componentDidMount() {
     console.log('componentdidmount');
-    const date = new Date();
-    const year = date.getFullYear();
-    const month = date.getMonth();
-    const day = date.getDate();
-    this.props.getRecommendedMenus(String(`${year}-${month}-${day}`));
+    const today = (new Date()).toISOString().split('T')[0];
+    console.log(today);
+    this.props.getRecommendedMenus(today);
   }
 
   render() {

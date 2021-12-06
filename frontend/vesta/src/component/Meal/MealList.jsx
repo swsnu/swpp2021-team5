@@ -23,12 +23,6 @@ class MealList extends Component {
     };
   }
 
-  onMealDetail = (menuName, idx) => {
-    menuName = String(menuName).replace(/\s/gi, '-');
-    console.log(menuName);
-    this.props.history.push(`/recommendation/${menuName}/${idx}`);
-  }
-
   onClickedOtherBreakfast = () => {
     if (this.state.otherBreakfast) {
       this.setState({
@@ -75,11 +69,13 @@ class MealList extends Component {
     let lunch_ = "Lunch  ";
     let dinner_ = "Dinner  ";
     if (this.props.recommendedMenus) {
+      console.log(this.props.recommendedMenus);
       if (this.props.recommendedMenus[0] !== null) {
+        console.log(this.props.recommendedMenus[0]);
         meals.push(
           <div class="item">
             <Breakfast>
-              <a onClick={() => this.onMealDetail(this.props.recommendedMenus[0].name, 0)}>
+              <a href={`/recommendation/${String(this.props.recommendedMenus[0].name).replace(/\s/gi, '-')}/0`}>
                 <img
                   id="breakfast"
                   src={this.props.recommendedMenus[0].image}
@@ -98,7 +94,7 @@ class MealList extends Component {
         meals.push(
           <div class="item">
             <Lunch>
-              <a onClick={() => this.onMealDetail(this.props.recommendedMenus[1].name, 1)}>
+              <a href={`/recommendation/${String(this.props.recommendedMenus[0].name).replace(/\s/gi, '-')}/1`}>
                 <img
                   id="lunch"
                   src={this.props.recommendedMenus[1].image}
@@ -117,7 +113,7 @@ class MealList extends Component {
         meals.push(
           <div class="item">
             <Dinner>
-              <a onClick={() => this.onMealDetail(this.props.recommendedMenus[2].name, 2)}>
+              <a href={`/recommendation/${String(this.props.recommendedMenus[2].name).replace(/\s/gi, '-')}/2`}>
                 <img
                   id="dinner"
                   src={this.props.recommendedMenus[2].image}
@@ -136,7 +132,7 @@ class MealList extends Component {
         if (this.props.recommendedMenus[idx] !== null) {
           otherBreakfast.push(
             <div class="item_other_breakfast">
-              <a onClick={() => this.onMealDetail(this.props.recommendedMenus[idx].name, idx)}>
+              <a href={`/recommendation/${String(this.props.recommendedMenus[idx].name).replace(/\s/gi, '-')}/${idx}`}>
                 <img
                   id="otherBreakfast"
                   src={this.props.recommendedMenus[idx].image}
@@ -152,7 +148,7 @@ class MealList extends Component {
         if (this.props.recommendedMenus[idx] !== null){
           otherLunch.push(
             <div class="item_other_lunch">
-              <a onClick={() => this.onMealDetail(this.props.recommendedMenus[idx].name, idx)}>
+              <a href={`/recommendation/${String(this.props.recommendedMenus[idx].name).replace(/\s/gi, '-')}/${idx}`}>
                 <img
                   src={this.props.recommendedMenus[idx].image}
                   alt="meal_one"
@@ -167,7 +163,7 @@ class MealList extends Component {
         if (this.props.recommendedMenus[idx] !==  null) {
           otherDinner.push(
             <div class="item_other_dinner">
-              <a onClick={() => this.onMealDetail(this.props.recommendedMenus[idx].name, idx)}>
+              <a href={`/recommendation/${String(this.props.recommendedMenus[idx].name).replace(/\s/gi, '-')}/${idx}`}>
                 <img
                   src={this.props.recommendedMenus[idx].image}
                   alt="meal_one"

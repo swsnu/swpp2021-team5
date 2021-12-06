@@ -310,7 +310,7 @@ def nutrition(request, date):
         return HttpResponseNotAllowed(['GET', 'POST', 'PUT'])
 
 
-def nutrition_count(request, date):   ## used for recommendation page
+def nutrition_count(request, date):   ## used for main page
     if not request.user.is_authenticated:
         return HttpResponse(status=401)
 
