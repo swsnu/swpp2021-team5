@@ -11,6 +11,7 @@ from django.contrib.auth.models import User
 from .models import Profile, UserNutrition, Preference, Menu, Record
 from . import logmeal as api
 import os
+import base64
 
 # Create your views here.
 
@@ -560,11 +561,12 @@ def detection(request):
     # img_filename = req_data['file']
 
     # img = api.preprocess(os.path.join(images_path, img_filename))
-    print(request.FILES)
-    img = request.FILES['files'] # gets only 1 file
+    print(request.POST.keys())
+    img = request.POST['image'] # gets only 1 file
+    # img = base64.b64decode(img[23:])
 
     # img = api.preprocess(os.path.join(images_path, img_filename))
 
-    result_list = api.menu_recognition(img, user_token=api_user_token)
+    result_list = api.menu_recognition(img[23:], user_token=api_user_token)
 
-    return JsonResponse(result_list)
+    return JsonResponse(result_list, safe=False)
