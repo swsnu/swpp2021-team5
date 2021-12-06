@@ -7,6 +7,11 @@ from PIL import Image
 api_company_token = '08c17275a67ca0d8c1fc40f4ec776884d10a41dd'
 available_company_tokens = [
     '08c17275a67ca0d8c1fc40f4ec776884d10a41dd',
+    '46cf3c97d0e55fc9c959f92d5de39babbb5f1d08',
+    '195ab2bb681393befe2be38cba010c7a925728c7',
+    'c3f7853b6adbfd3b84f9fb93bf4a8a8e6e847c75',
+    '96757cd38e4c64d23729d2975460c9a504572def',
+    '77ed7fdbb3c84d457ba350585af0c2b0d52b579c',
 ]
 api_user_token = '0ce3203ec3f4906581d6ee835e08eafb4e10264e'
 api_url = 'https://api.logmeal.es/v2/'
@@ -17,11 +22,11 @@ images_path = os.path.join(dirname(dirname(__file__)), 'images')
 
 def signup(username, api_company_token=api_company_token):
     # Set the API Company Token in the header of the request
-    headers = {'Authorization': 'Bearer ' + api_company_token}
     url = 'https://api.logmeal.es/v2/users/signUp'
 
     # Create an API User with the default languange ('eng')
     for company_api in available_company_tokens:
+        headers = {'Authorization': 'Bearer ' + company_api}
         response = requests.post(url,
                                 json={'username': str(username)},
                                 headers=headers)

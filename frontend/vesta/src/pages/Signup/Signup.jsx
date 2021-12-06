@@ -61,9 +61,9 @@ class Signup extends Component {
   onClickedCheckAvailButton = () => {
     axios.get(`/api/user/signup/${this.state.username}/`)
       .then((res) => {
-        if(res.data.availability === true) {
+        if(res.data.availability == true) {
           alert('This Username is available');
-        } else if(res.data.check === false) {
+        } else if(res.data.availability == false) {
           alert('This Username is Not available.\n Please choose another one');
         }
       });
