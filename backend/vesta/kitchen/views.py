@@ -352,17 +352,17 @@ def record(request):
             return HttpResponse(status = 401)
 
         ## decode request
-        req_data = json.loads(request.body.decode())
-        menu_name = req_data['menu']
-        review_text = req_data['review']
-        liked = req_data['liked'] == "True"
+        # req_data = json.loads(request.body.decode())
+        menu_name = request.POST['menu_name']
+        review_text = request.POST['review']
+        liked = request.POST['liked'] == "True"
 
         new_record = Record(user = request.user,
                                 menu = Menu.objects.get(name = menu_name),
                                 review = review_text,
                                 liked = liked,
                                 date = datetime.date.today(),
-                                image = req_data['image'])
+                                image = request.POST['image'])
         new_record.save()
 
         ## respond with created record detail
