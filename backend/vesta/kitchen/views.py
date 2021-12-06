@@ -357,12 +357,18 @@ def record(request):
         review_text = request.POST['review']
         liked = request.POST['liked'] == "True"
 
+        if not Menu.objects.filter(name = menu_name).exists():
+            return HttpResponse(status = 404)
+
         new_record = Record(user = request.user,
                                 menu = Menu.objects.get(name = menu_name),
                                 review = review_text,
                                 liked = liked,
                                 date = datetime.date.today(),
                                 image = request.POST['image'])
+
+        print('image')
+        print(request.POST['image'])
         new_record.save()
 
         ## respond with created record detail
