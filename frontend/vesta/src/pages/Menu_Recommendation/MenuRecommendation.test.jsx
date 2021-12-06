@@ -120,10 +120,4 @@ describe('MenuRecommenation', () => {
     expect(spyGetRecommendedMenus).toBeCalled();
   });
 
-  xit('should check componentDidUpdate', () => {
-    const component = mount(menuRecommendation);
-    const wrapper = component.find('MenuRecommendation');
-    wrapper.instance().componentDidUpdate();
-    expect(spyGetRecommendedMenus).toBeCalled();
-  });
 });
