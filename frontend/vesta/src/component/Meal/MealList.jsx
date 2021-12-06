@@ -71,6 +71,7 @@ class MealList extends Component {
     let otherLunch = null;
     let otherDinner = null;
     if(this.props.recommendedMenus) {
+      console.log(this.props.recommendedMenus)
       otherBreakfast = (
         <div class="container_other_breakfast">
           <div class="item_other_breakfast">

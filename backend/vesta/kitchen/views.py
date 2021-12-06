@@ -159,7 +159,7 @@ def profile(request):
             user_profile.sex = req_data['sex']
             user_profile.height = int(req_data['height'])
             user_profile.weight = int(req_data['weight'])
-            user_profile.target_calories = int(req_data['target_calories'])
+            user_profile.target_calories = int(req_data['targetCalories'])
             user.save()
             user_profile.save()
 

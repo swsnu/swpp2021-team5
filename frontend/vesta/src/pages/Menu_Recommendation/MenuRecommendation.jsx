@@ -15,7 +15,7 @@ class MenuRecommendation extends Component {
     const month = date.getMonth();
     const day = date.getDate();
     // this.props.getCountAll(String(`${year}-${month}-${day}`));
-    // console.log(this.props.count);
+    console.log(this.props.count);
     this.props.getRecommendedMenus(String(`${year}-${month}-${day}`));
   }
 
@@ -31,6 +31,7 @@ class MenuRecommendation extends Component {
   // }
 
   render() {
+    console.log(this.props.recommendedMenus);
     if (this.props.recommendedMenus) {
       return (
         <div className="MenuRecommendation">

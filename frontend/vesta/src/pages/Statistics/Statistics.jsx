@@ -48,12 +48,12 @@ class Statistics extends Component {
   }
 
   componentDidMount() {
-    /*axios.get('/api/nutrition/').then((res) => {
+    axios.get('/api/nutrition/').then((res) => {
       this.setState({...this.state, userNutritions: res.data})
       // res.data : list of objects ?
     })
-    */
-  const today = (new Date()).toISOString().split('T')[0];
+    
+   const today = (new Date()).toISOString().split('T')[0];
    this.setState({...this.state, userNutritions: dummyUserNutritions});
    this.props.onGetUserNutrition(today);
   }
