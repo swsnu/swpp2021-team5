@@ -80,24 +80,24 @@ describe('MealList', () => {
     component.unmount();
   });
 
-  xit('should redirect to onMealDetail', () => {
-    const component = mount(mealList).find('.MealList');
-    const wrapper = component.find('a');
-    wrapper.at(0).simulate('click');
-    // expect(history.location.pathname).toBe('/recommendation/acorn-squash-and-arugula-pizza/3/')
+  xit('should click other breakfast', () => {
+    const component = mount(mealList);
+    const wrapper = component.find('#other-breakfast').at(0).simulate('click');
   })
 
-  xit('should click other breakfast correctly', () => {
-    const component = mount(mealList);
-    // expect(component.find('MenuRecommendation').find(Grid).find('button#other-meal-breakfast-button').length).toBe(1);
-    // component.find('button').at(1).simulate('click');
-    component.find('button#other-meal-breakfast-button').simulate('click');
-    const wrapper = component.find(MealList.WrappedComponent).instance();
-    expect(wrapper.state.otherBreakfast).toBe(true);
-    component.find('button').at(1).simulate('click');
-    // component.find('button#other-meal-breakfast-button').simulate('click');
-    const wrapper_ = component.find(MealList.WrappedComponent).instance();
-    expect(wrapper_.state.otherBreakfast).toBe(false);
-    // component.unmount();
-  });
+  // xit('should redirect to onMealDetail', () => {
+  //   const component = mount(mealList).find('.MealList');
+  //   const wrapper = component.find('a');
+  //   wrapper.at(0).simulate('click');
+  // })
+
+  // xit('should click other breakfast correctly', () => {
+  //   const component = mount(mealList);
+  //   component.find('button#other-meal-breakfast-button').simulate('click');
+  //   const wrapper = component.find(MealList.WrappedComponent).instance();
+  //   expect(wrapper.state.otherBreakfast).toBe(true);
+  //   component.find('button').at(1).simulate('click');
+  //   const wrapper_ = component.find(MealList.WrappedComponent).instance();
+  //   expect(wrapper_.state.otherBreakfast).toBe(false);
+  // });
 });
