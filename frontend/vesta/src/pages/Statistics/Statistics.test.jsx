@@ -28,6 +28,22 @@ const userInitialState = {
       protein: 1,
       fat: 1,
   },
+  userNutritions: [
+    {
+      calories: 1,
+      carbs: 1,
+      protein: 1,
+      fat: 1,
+      date: '2021-11-10'
+    },
+    {
+      calories: 1,
+      carbs: 1,
+      protein: 1,
+      fat: 1,
+      date: '2021-11-11'
+    },
+  ]
 };
 
 /*
@@ -86,13 +102,13 @@ describe('Statistics', () => {
     jest.clearAllMocks();
   });
 
-  xit('should render Statistics', () => {
+  it('should render Statistics', () => {
     const component = mount(statistics);
     const wrapper = component.find('.Statistics')
     expect(wrapper.length).toBe(1);
   });
 
-  xit('should render all tabs well', () => {
+  it('should render all tabs well', () => {
     const component = mount(statistics);
     const wrapper_week = component.find('a').at(1);
     wrapper_week.simulate('click');
@@ -102,7 +118,7 @@ describe('Statistics', () => {
     expect(wrapper_month.length).toBe(1);
   });
 
-  xit('should handler on button click', () => {
+  it('should handler on button click', () => {
     const component = mount(statistics);
     const wrapper_week = component.find('a').at(1);
     wrapper_week.simulate('click');
