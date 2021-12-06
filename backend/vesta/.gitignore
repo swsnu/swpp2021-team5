@@ -12,6 +12,8 @@ db.sqlite3-journal
 media
 */.coverage
 kitchen/migrations/*.py
+RAW_recipes.csv
+create_menu_model.py
 
 # If your build process includes running collectstatic, then you probably don't need or want to include staticfiles/
 # in your Git repository. Update and uncomment the following line accordingly.

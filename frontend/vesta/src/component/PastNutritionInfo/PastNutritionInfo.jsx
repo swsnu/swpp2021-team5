@@ -1,10 +1,12 @@
 /* eslint-disable */
 import React, { Component } from 'react';
-import { Bar } from 'react-chartjs-2';
-import {
-  Container,
-} from 'semantic-ui-react';
+import { connect } from 'react-redux';
 import styled from 'styled-components';
+import * as actionCreators from '../../store/actions/index';
+import * as Calculator from '../../pages/Setting/Calculator';
+import { dummyUserNutritions } from '../../pages/Statistics/util';
+import StatsDaily from '../Statistics/StatsDaily';
+import StatsWeeklySummedChart from '../Statistics/StatsWeeklySummedChart';
 
 const StatsBody = styled.div`
 background-color:#CCEECC;
@@ -15,113 +17,82 @@ margin: 15px;
 padding: 10px;
 `;
 
-
 class PastNutritionInfo extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      selectedWeek: new Date(),
+      userNutritions: [],
+    };
+  }
+
+  componentDidMount() {
+    const today = (new Date()).toISOString().split('T')[0];
+    this.setState({ ...this.state, userNutritions: dummyUserNutritions });
+    this.props.onGetUserNutrition(today);
   }
 
   render() {
-    const dailyData = {
-      labels: [
-        'Calories',
-        'Carbs',
-        'Protein',
-        'Fat',
-      ],
-      datasets: [{
-        label: 'Nutrition Intake Percentage\nfor Today',
-        data: [60, 80, 70, 90],
-        backgroundColor: [
-          'green',
-          'rgb(255, 99, 132)',
-          'rgb(54, 162, 235)',
-          'rgb(255, 205, 86)',
-        ],
-      }],
+    const todayNutritionIntake = {
+      calories: this.props.currUserNutrition.calories,
+      carbs: this.props.currUserNutrition.carbs,
+      protein: this.props.currUserNutrition.protein,
+      fat: this.props.currUserNutrition.fat,
+    };
+    const age = this.props.currUser.age;
+    const sex = this.props.currUser.sex;
+    const height = this.props.currUser.height;
+    const weight = this.props.currUser.weight;
+    const recommendedCarbs = Calculator.recommendedCarbs(age, sex, height, weight);
+    const recommendedProtein = Calculator.recommendedProtein(age, sex, height, weight);
+    const recommendedFat = Calculator.recommendedFat(age, sex, height, weight);
+    const recommendedCalorie = this.props.currUser.targetCalories;
+    const recommendedIntake = {
+      calories: recommendedCalorie,
+      carbs: recommendedCarbs,
+      protein: recommendedProtein,
+      fat: recommendedFat,
     };
 
-    const weeklyData = {
-      labels: [
-        'Calories',
-        'Carbs',
-        'Protein',
-        'Fat',
-      ],
-      datasets: [{
-        label: 'Nutrition Intake Percentage\nfor This Week',
-        data: [30, 40, 45, 35],
-        backgroundColor: [
-          'green',
-          'rgb(255, 99, 132)',
-          'rgb(54, 162, 235)',
-          'rgb(255, 205, 86)',
-        ],
-      }],
-    };
-    const options = {
-      scales: {
-        y: {
-          display: true,
-          min: 0,
-          max: 100,
-          ticks: {
-            callback: function (value) {
-              return value + '%'; // convert it to percentage
-            },
-            scaleLabel: {
-              display: true,
-              labelString: 'Percentage',
-            },
-            scaleFontSize: 100
-          },
-        },
-        x: {
-          ticks: {
-            fontSzie: 20
-          }
-        }
-      },
-      plugins: {
-        datalabels: {
-          display: true,
-          color: "white"
-        },
-        legend: {
-          display: false,
-          labels: {
-            font: {
-              size: 1
-            }
-          }
-        },
-      },
-      maintainAspectRatio: true,
-    };
+    const processedUserNutritions = this.state.userNutritions.map((nutrition) => {
+      const dateObject = new Date(nutrition.date);
+      dateObject.setHours(0, 0, 0, 0);
+      return { ...nutrition, date: dateObject };
+    });
+    const selectedWeek = this.state.selectedWeek; // must be today
+    selectedWeek.setHours(0, 0, 0, 0);
+
+    const selectedWeekSun = new Date(this.state.selectedWeek.getTime());
+    selectedWeekSun.setDate(selectedWeekSun.getDate() - selectedWeekSun.getDay());
+    const selectedWeekSat = new Date(this.state.selectedWeek.getTime());
+    selectedWeekSat.setDate(selectedWeekSat.getDate() + (6 - selectedWeekSat.getDay()));
+    const selectedWeekNutritions = processedUserNutritions.filter((nutrition) => {
+      return +nutrition.date >= +selectedWeekSun && +nutrition.date <= +selectedWeekSat;
+    });
 
     return (
       <div>
         <StatsBody>
-          <h2>Nutrition Analysis For Today</h2>
-          <Bar
-            data={dailyData}
-            width={30}
-            height={20}
-            options={options}
-          />
+          <StatsDaily intake={todayNutritionIntake} recommendedIntake={recommendedIntake} />
         </StatsBody>
-        <StatsBody style={{backgroundColor: "#CCEEFF"}}>
-          <h2>Nutrition Analysis For This Week</h2>
-          <Bar
-            data={weeklyData}
-            width={30}
-            height={20}
-            options={options}
-          />
+        <StatsBody style={{ backgroundColor: '#CCEEFF' }}>
+          <h2>Your Weekly Intake</h2>
+          <StatsWeeklySummedChart selectedWeekNutritions={selectedWeekNutritions} recommendedIntake={recommendedIntake} />
         </StatsBody>
       </div>
     );
   }
 }
-export default PastNutritionInfo;
+const mapStateToProps = (state) => {
+  return {
+    currUser: state.user.currentUser,
+    currUserNutrition: state.user.userNutrition,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onGetUserNutrition: (date) => dispatch(actionCreators.getUserNutrition(date))
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(PastNutritionInfo);

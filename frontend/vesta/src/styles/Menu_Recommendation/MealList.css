@@ -9,6 +9,12 @@
   width: 700px;
 }
 
+.item img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
 .container_other_breakfast {
   display: flex;
   flex-direction: row;
@@ -22,6 +28,13 @@
 
 .item_other_breakfast {
   width: 400px;
+}
+
+.item_other_breakfast img {
+  width: 100%;
+  height: auto;
+  padding: 2%;
+  border-radius: 10px;
 }
 
 .container_other_lunch {
@@ -39,6 +52,13 @@
   width: 400px;
 }
 
+.item_other_lunch img {
+  width: 100%;
+  height: auto;
+  padding: 2%;
+  border-radius: 10px;
+}
+
 .container_other_dinner {
   display: flex;
   flex-direction: row;
@@ -52,4 +72,11 @@
 
 .item_other_dinner {
   width: 400px;
+}
+
+.item_other_dinner img {
+  width: 100%;
+  height: auto;
+  padding: 2%;
+  border-radius: 10px;
 }

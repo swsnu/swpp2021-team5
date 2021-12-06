@@ -19,15 +19,18 @@ class NutritionalInfoAndRecipe extends Component {
   }
 
   changeRecommendation = () => {
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = date.getMonth();
+    const day = date.getDate();
     let ans = confirm("Do you want to change this menu to your main recommended meal?");
     if (ans) {
-      const date = new Date();
-      const year = date.getFullYear();
-      const month = date.getMonth();
-      const day = date.getDate();
       this.props.changeRecommendation(String(`${year}-${month}-${day}`), parseInt(this.props.match.params.idx));
     }
-    confirm("If you refresh your site, all changes have been applied. Enjoy!");
+    let refresh = confirm("If you press confirm, change will be applied. Enjoy!");
+    if (refresh) {
+      this.props.getRecommendedMenus(String(`${year}-${month}-${day}`));
+    }
   }
 
   render() {

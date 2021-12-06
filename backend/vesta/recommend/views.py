@@ -11,6 +11,7 @@ from .models import TodayMenu
 # Create your views here.
 ## recommend 15 menus total(5 for each meal)
 def recommend(request, date):
+    print('here')
     # if unauthenticated
     if not request.user.is_authenticated:
         return HttpResponse(status = 401)
@@ -51,6 +52,7 @@ def recommend(request, date):
             response_dict = []
             if len(response)!=0:
                 for res in response:
+                    print(res)
                     if res is not None:
                         response_dict.append({
                             'id': res.id,
@@ -59,7 +61,7 @@ def recommend(request, date):
                             'carbs': res.carbs,
                             'protein': res.protein,
                             'fat': res.fat,
-                            'image': "http://localhost:8000/media/"+str(res.image).split('/', maxsplit=1)[-1],
+                            'image': "http://localhost:8000/media/"+str(res.image).split('/')[-1],
                             'recipe': res.recipe,
                             'ingredient': res.ingredient
                         })
@@ -78,6 +80,7 @@ def recommend(request, date):
                 else:
                     try:
                         menu = Menu.objects.get(id=value)
+                        print(str(menu.image).split('/')[-1])
                         response_dict.append({
                             'id': menu.id,
                             'name': menu.name,
@@ -85,7 +88,7 @@ def recommend(request, date):
                             'carbs': menu.carbs,
                             'protein': menu.protein,
                             'fat': menu.fat,
-                            'image': "http://localhost:8000/media/"+str(menu.image).split('/', maxsplit=1)[-1],
+                            'image': "http://localhost:8000/media/"+str(menu.image).split('/')[-1],
                             'recipe': menu.recipe,
                             'ingredient': menu.ingredient
                         })
@@ -117,7 +120,7 @@ def recommend(request, date):
                             'carbs': menu.carbs,
                             'protein': menu.protein,
                             'fat': menu.fat,
-                            'image': "http://localhost:8000/media/"+str(menu.image).split('/', maxsplit=1)[-1],
+                            'image': "http://localhost:8000/media/"+str(menu.image).split('/')[-1],
                             'recipe': menu.recipe,
                             'ingredient': menu.ingredient
                         })
@@ -176,7 +179,7 @@ def recommend(request, date):
                         'carbs': menu.carbs,
                         'protein': menu.protein,
                         'fat': menu.fat,
-                        'image': "http://localhost:8000/media/"+str(menu.image).split('/', maxsplit=1)[-1],
+                        'image': "http://localhost:8000/media/"+str(menu.image).split('/')[-1],
                         'recipe': menu.recipe,
                         'ingredient': menu.ingredient
                     })
@@ -252,7 +255,7 @@ def recommend(request, date):
                         'carbs': menu.carbs,
                         'protein': menu.protein,
                         'fat': menu.fat,
-                        'image': "http://localhost:8000/media/"+str(menu.image).split('/', maxsplit=1)[-1],
+                        'image': "http://localhost:8000/media/"+str(menu.image).split('/')[-1],
                         'recipe': menu.recipe,
                         'ingredient': menu.ingredient
                     })

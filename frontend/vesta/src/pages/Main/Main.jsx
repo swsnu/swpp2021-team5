@@ -57,7 +57,14 @@ class Main extends Component {
   componentDidMount() {
     const today = (new Date()).toISOString().split('T')[0];
     this.props.getRecommendedMenus(today);
-    this.setState((prevState) => ({ menu: this.props.recommendedMenus[prevState.idx].name }));
+    if (this.state.idx <= 2) {
+      this.setState((prevState) => ({ menu: this.props.recommendedMenus[prevState.idx].name }));
+    }
+
+    const newDay = new Date();
+    if (newDay.getHours() === 0 && newDay.getMinutes() === 0 && newDay.getSeconds() === 0) {
+      this.setState({ idx: 0 });
+    }
   }
 
   onClickedSkipButton = () => {
@@ -81,8 +88,7 @@ class Main extends Component {
           currentFat, currentCount + 1);
       }
     })();
-
-    this.setState((prevState) => ({ idx: (prevState.idx + 1) % 3 }));
+    this.setState((prevState) => ({ idx: prevState.idx + 1 }));
   }
 
   onClickedFollowedRecButton = () => {
@@ -90,7 +96,7 @@ class Main extends Component {
       pathname: '/record',
       state: { type: 'meal' },
     });
-    this.setState((prevState) => ({ idx: (prevState.idx + 1) % 3 }));
+    this.setState((prevState) => ({ idx: prevState.idx + 1 }));
   }
 
   onClickedNotFollowedButton = () => {
@@ -98,7 +104,7 @@ class Main extends Component {
       pathname: '/record',
       state: { type: 'meal' },
     });
-    this.setState((prevState) => ({ idx: (prevState.idx + 1) % 3 }));
+    this.setState((prevState) => ({ idx: prevState.idx + 1 }));
   }
 
   onClickedRecordSnackButton = () => {
@@ -132,18 +138,26 @@ class Main extends Component {
                 <h1>Next Meal</h1>
               </NextMealHeader>
               <MealRecordArea style={{ backgroundColor: '#F2F2F2' }}>
+                {(this.state.idx < 3)
+                  ? (
+                    <MealRecordArea style={{ 'font-size': '40px', padding: '15px' }}>
+                      <p style={{ marginBottom: '0px' }}>{ this.state.menu }</p>
+                      <a href={url}>
+                        <Image
+                          src={this.props.recommendedMenus[this.state.idx].image}
+                          alt="menu"
+                          size="centered large"
+                          style={{
+                            objectFit: 'cover', height: '400px', width: '400px', 'border-radius': '15px'
+                          }}
+                        />
+                      </a>
+                    </MealRecordArea>
+                  )
+                  : (
+                    <h1>You Had Enough For Today!</h1>
+                  )}
                 <MealRecordArea style={{ 'font-size': '40px', padding: '15px' }}>
-                  <p style={{ marginBottom: '0px' }}>{ this.state.menu }</p>
-                  <a href={url}>
-                    <Image
-                      src={this.props.recommendedMenus[this.state.idx].image}
-                      alt="menu"
-                      size="centered large"
-                      style={{
-                        objectFit: 'cover', height: '400px', width: '400px', 'border-radius': '15px'
-                      }}
-                    />
-                  </a>
                   <Button
                     id="menu-recommendation-button"
                     onClick={this.onClickedMenuRecButton}
