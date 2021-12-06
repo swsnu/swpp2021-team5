@@ -73,19 +73,24 @@ class Main extends Component {
       let apiRes = null;
       try {
         apiRes = await axios.get(`/api/nutrition/${today}/`);
-      } catch (err) {
-        if (err.response.status === 404) {
-          this.props.onCreateUserNutrition(today, 0, 0, 0, 0, 1);
-        }
       } finally {
-        const currentCalories = apiRes.data.calories;
-        const currentCarbs = apiRes.data.carbs;
-        const currentProtein = apiRes.data.protein;
-        const currentFat = apiRes.data.fat;
-        const currentCount = apiRes.data.count_all;
+        const countInput = (this.state.type === 'meal') ? 1 : 0;
+        if (apiRes.data.calories === 0 && apiRes.data.carbs === 0 && apiRes.data.protein === 0 && apiRes.data.fat === 0) {
+          this.props.onCreateUserNutrition(today, 0, 0, 0, 0, 1);
+        } else {
+          const currentCalories = apiRes.data.calories;
+          const currentCarbs = apiRes.data.carbs;
+          const currentProtein = apiRes.data.protein;
+          const currentFat = apiRes.data.fat;
+          const currentCount = apiRes.data.count_all;
 
-        this.props.onEditUserNutrition(today, currentCalories, currentCarbs, currentProtein,
-          currentFat, currentCount + 1);
+          this.props.onEditUserNutrition(today,
+            currentCalories,
+            currentCarbs,
+            currentProtein,
+            currentFat,
+            currentCount + 1);
+        }
       }
     })();
     this.setState((prevState) => ({ idx: prevState.idx + 1 }));
