@@ -29,6 +29,7 @@ export const saveUserSetting = (user) => (dispatch) => axios.put('/api/user/prof
   })
   .then((res) => {
     dispatch(saveUserSetting_({...res.data}));
+    alert('Successfully Saved!')
   });
 
 export const getUserSetting = () => (dispatch) => axios.get('/api/user/profile/')
