@@ -113,11 +113,18 @@ export const weeklyOptions = {
     legend: {
       display: true,
       position: 'bottom',
+    },
+    tooltip: {
+      callbacks: {
+        label: function(context) {
+          let index = context.dataIndex
+          return `${context.dataset.data[index]}%`
+        }
+      }
     }
   },
 }
 
-/*
 export const monthlyOptions = {
   maintainAspectRatio: false,
   scales: {
@@ -143,7 +150,67 @@ export const monthlyOptions = {
     legend: {
       display: true,
       position: 'bottom',
+    },
+    tooltip: {
+      callbacks: {
+        label: function(context) {
+          let index = context.dataIndex
+          return `${context.dataset.data[index]}%`
+        }
+      }
     }
   },
 }
-*/
+
+export const months = [
+  {
+    month: "January",
+    date: 31
+  },
+  {
+    month: "February",
+    date: 28
+  },
+  {
+    month: "March",
+    date: 31
+  },
+  {
+    month: "April",
+    date: 30
+  },
+  {
+    month: "May",
+    date: 31
+  },
+  {
+    month: "June",
+    date: 30
+  },
+  {
+    month: "July",
+    date: 31
+  },
+  {
+    month: "August",
+    date: 31
+  },
+  {
+    month: "September",
+    date: 30
+  },
+  {
+    month: "October",
+    date: 31
+  },
+  {
+    month: "November",
+    date: 30
+  },
+  {
+    month: "December",
+    date: 31
+  }
+];
+
+

@@ -1,6 +1,7 @@
 /* eslint-disable */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import axios from 'axios';
 
 import {
   Tab
@@ -75,12 +76,12 @@ class Statistics extends Component {
 
   onClickedMonthlyPrevButton = () => {
     const thisState = this.state;
-    this.setState({...thisState, selectedMonth: thisState.selectedMonth - 1});
+    this.setState({...thisState, selectedMonth: (thisState.selectedMonth - 1) % 12});
   }
 
   onClickedMonthlyNextButton = () => {
     const thisState = this.state;
-    this.setState({...thisState, selectedMonth: thisState.selectedMonth + 1});
+    this.setState({...thisState, selectedMonth: (thisState.selectedMonth + 1) % 12});
   }
 
   render() {

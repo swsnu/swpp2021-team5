@@ -8,7 +8,7 @@ import {
   Grid, Button, Header
 } from 'semantic-ui-react';
 
-import { weeklyOptions } from './GraphConfig';
+import { monthlyOptions, months } from './GraphConfig';
 
 const Div = styled.div`
 margin: 5% auto;
@@ -26,11 +26,9 @@ height: 500px;
 `;
 
 const StatsMonthly = (props) => {
-
-  const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-  const title = `${(new Date().getFullYear())} ${months[props.selectedMonth%12]}`
-  const monthNutritions = props.monthlyUserNutritions;
-  console.log(monthNutritions);
+  const  { recommendedIntake, monthlyUserNutritions, selectedMonth } = props
+  const title = `${(new Date().getFullYear())} ${months[selectedMonth].month}`
+  // console.log(monthNutritions);
   const monthNutritionData = [
     { // first week
       calories: 0,
@@ -59,19 +57,32 @@ const StatsMonthly = (props) => {
   ];
 
   let i;
-  for (i = 0; i < monthNutritions.length; i += 1) {
-    let weekIndex =  parseInt((monthNutritions[i].date.getDate() - 1) / 7);
+  for (i = 0; i < monthlyUserNutritions.length; i += 1) {
+    let weekIndex =  parseInt((monthlyUserNutritions[i].date.getDate() - 1) / 7);
     if (weekIndex === 4) {
       weekIndex = 3;
     }
-    console.log(weekIndex);
-    console.log(monthNutritions[i]);
-    console.log(monthNutritionData[weekIndex]);
-    monthNutritionData[weekIndex].calories += monthNutritions[i].calories;
-    monthNutritionData[weekIndex].carbs += monthNutritions[i].carbs;
-    monthNutritionData[weekIndex].protein += monthNutritions[i].protein;
-    monthNutritionData[weekIndex].fat += monthNutritions[i].fat;
+    // console.log(weekIndex);
+    // console.log(monthNutritions[i]);
+    // console.log(monthNutritionData[weekIndex]);
+    monthNutritionData[weekIndex].calories += monthlyUserNutritions[i].calories;
+    monthNutritionData[weekIndex].carbs += monthlyUserNutritions[i].carbs;
+    monthNutritionData[weekIndex].protein += monthlyUserNutritions[i].protein;
+    monthNutritionData[weekIndex].fat += monthlyUserNutritions[i].fat;
   }
+
+  for (i = 0; i < 3; i += 1) {
+    monthNutritionData[i].calories = Math.round(10000 * (monthNutritionData[i].calories / ( 7 * recommendedIntake.calories))) / 100
+    monthNutritionData[i].carbs = Math.round(10000 * (monthNutritionData[i].carbs / ( 7 * recommendedIntake.carbs))) / 100
+    monthNutritionData[i].protein = Math.round(10000 * (monthNutritionData[i].protein / ( 7 * recommendedIntake.protein))) / 100
+    monthNutritionData[i].fat = Math.round(10000 * (monthNutritionData[i].fat / ( 7 * recommendedIntake.fat))) / 100
+  }
+
+    monthNutritionData[3].calories = Math.round(10000 * (monthNutritionData[i].calories / ( (months[selectedMonth].date - 21) * recommendedIntake.calories))) / 100
+    monthNutritionData[3].carbs = Math.round(10000 * (monthNutritionData[i].carbs / ( (months[selectedMonth].date - 21) * recommendedIntake.carbs))) / 100
+    monthNutritionData[3].protein = Math.round(10000 * (monthNutritionData[i].protein / ( (months[selectedMonth].date - 21) * recommendedIntake.protein))) / 100
+    monthNutritionData[3].fat = Math.round(10000 * (monthNutritionData[i].fat / ( (months[selectedMonth].date - 21) * recommendedIntake.fat))) / 100
+  
 
   const barData = {
     labels: [
@@ -126,7 +137,7 @@ const StatsMonthly = (props) => {
           </Grid.Row>
           <Grid.Row>
             <ChartDiv>
-              <Line data={barData} redraw plugins={[ChartDataLabels]} options={weeklyOptions} />
+              <Line data={barData} redraw plugins={[ChartDataLabels]} options={monthlyOptions} />
             </ChartDiv>
           </Grid.Row>
         </Grid>
