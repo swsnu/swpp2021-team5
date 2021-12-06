@@ -1,4 +1,4 @@
-from . import logmeal as api
+import logmeal as api
 from PIL import Image
 import os
 
@@ -9,7 +9,7 @@ images_path = os.path.join(dirname(dirname(__file__)), 'images')
 
 # user signup test
 
-# userdict = api.signup("testuser"+"namkim1")
+# userdict = api.signup(username="testuser"+"namkim111", api_company_token="2020202")
 # print(userdict)
 
 # image preprocess test

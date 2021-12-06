@@ -5,6 +5,9 @@ from PIL import Image
 #################
 # configuration
 api_company_token = '08c17275a67ca0d8c1fc40f4ec776884d10a41dd'
+available_company_tokens = [
+    '08c17275a67ca0d8c1fc40f4ec776884d10a41dd',
+]
 api_user_token = '0ce3203ec3f4906581d6ee835e08eafb4e10264e'
 api_url = 'https://api.logmeal.es/v2/'
 dirname = os.path.dirname
@@ -18,11 +21,14 @@ def signup(username, api_company_token=api_company_token):
     url = 'https://api.logmeal.es/v2/users/signUp'
 
     # Create an API User with the default languange ('eng')
-    response = requests.post(url,
-                            json={'username': str(username)},
-                            headers=headers)
-    # Get the API User Token from the response
-    response_dict = dict(response.json())
+    for company_api in available_company_tokens:
+        response = requests.post(url,
+                                json={'username': str(username)},
+                                headers=headers)
+        # Get the API User Token from the response
+        response_dict = dict(response.json())
+        if 'token' in response_dict.keys():
+            return response_dict
 
     return response_dict
 

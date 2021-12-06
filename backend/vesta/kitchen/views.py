@@ -55,7 +55,7 @@ def signup_check_avail(request, username):
         response_dict = {
             'availability': not User.objects.filter(username = username).exists()
         }
-        JsonResponse(response_dict, status=200)
+        return JsonResponse(response_dict, status=200)
     else:
         return HttpResponseNotAllowed(['GET'])
 
@@ -108,6 +108,11 @@ def resign(request):
     print(request.user)
     if request.user.is_authenticated:
         user = User.objects.get(id=request.user.id)
+        try:
+            api_id = user.profile.api_id
+            api.resign(api_id)
+        except:
+            pass
         user.delete()
         logout(request)
         return HttpResponse(status=200)
@@ -154,7 +159,7 @@ def profile(request):
             user_profile.sex = req_data['sex']
             user_profile.height = int(req_data['height'])
             user_profile.weight = int(req_data['weight'])
-            user_profile.target_calories = int(req_data['target_calories'])
+            user_profile.target_calories = int(req_data['targetCalories'])
             user.save()
             user_profile.save()
 
@@ -213,7 +218,15 @@ def nutrition(request, date):
                 today_nutrition = UserNutrition.objects.get(
                     user_id=request.user.id, date=today)
             except UserNutrition.DoesNotExist:      # User.DoesNotExist?
-                return HttpResponse(status=404)
+                response_dict = {
+                    #'date': today_nutrition.date.strftime('%Y-%m-%d'),
+                    'calories': 0,
+                    'carbs': 0,
+                    'protein': 0,
+                    'fat': 0,
+                    'count_all': 0
+                }
+                return JsonResponse(response_dict, status=200)
             response_dict = {
                 #'date': today_nutrition.date.strftime('%Y-%m-%d'),
                 'calories': today_nutrition.calories,
