@@ -12,8 +12,8 @@ import * as actionCreators from '../../store/actions/index';
 const NextMealHeader = styled.div`
 background-color:#F28095;
 border-radius: 10px;
-font-family:'verveine';
-font-size:20px;
+font-family:'arciform';
+font-size:25px;
 margin: 15px;
 padding: 10px;
 `;
@@ -21,17 +21,18 @@ padding: 10px;
 const MealRecordArea = styled.div`
 background-color:#FFDFBA;
 border-radius: 20px;
-font-family:'verveine';
+font-family:'arciform';
 font-size:25px;
 margin: 15px;
 padding: 10px;
+white-space: pre-wrap;
 `;
 
 const StatsHeader = styled.div`
 background-color:#F2BB16;
 border-radius: 10px;
-font-family:'verveine';
-font-size:20px;
+font-family:'arciform';
+font-size:25px;
 margin: 15px;
 padding: 10px;
 `;
@@ -112,6 +113,7 @@ class Main extends Component {
   }
 
   render() {
+    const meal = 'Please tell us how you ate your meal.\nOr you can record a snack.\n\n';
     if (this.props.recommendedMenus && this.props.countAll !== -1) {
       console.log(this.props.countAll);
       console.log(this.props.recommendedMenus);
@@ -121,12 +123,12 @@ class Main extends Component {
             <Grid>
               <Grid.Column width={8}>
                 <NextMealHeader>
-                  <h1>Next Meal</h1>
+                  Next Meal
                 </NextMealHeader>
                 <MealRecordArea style={{ backgroundColor: '#F2F2F2' }}>
                   {(this.props.countAll < 3)
                     ? (
-                      <MealRecordArea style={{ 'font-size': '40px', padding: '15px' }}>
+                      <MealRecordArea style={{ 'font-size': '30px', padding: '15px' }}>
                         <p style={{ marginBottom: '0px' }}>{ this.props.recommendedMenus[this.props.countAll].name }</p>
                         <a href={`/recommendation/${this.props.recommendedMenus[this.props.countAll].name}/${this.props.countAll}`}>
                           <Image
@@ -154,27 +156,23 @@ class Main extends Component {
                     </Button>
                   </MealRecordArea>
                   <MealRecordArea style={{ backgroundColor: '#AA7B6F', color: '#F2F2F2' }}>
-                    <p>
-                      If you want to record a meal,
-                      please tell us if you followed our recommendation.
-                      Or you can record a snack.
-                    </p>
+                    {meal}
                     <Grid columns={4}>
                       <Grid.Column>
-                        <p>skip</p>
                         <Icon circular name="x icon" onClick={this.onClickedSkipButton} />
+                        skip
                       </Grid.Column>
                       <Grid.Column>
-                        <p>followed</p>
                         <Icon circular name="check icon" onClick={this.onClickedFollowedRecButton} />
+                        followed
                       </Grid.Column>
                       <Grid.Column>
-                        <p>alternative</p>
                         <Icon circular name="edit icon" onClick={this.onClickedNotFollowedButton} />
+                        alternative
                       </Grid.Column>
                       <Grid.Column>
-                        <p>record</p>
                         <Icon circular name="camera icon" onClick={this.onClickedRecordSnackButton} />
+                        record
                       </Grid.Column>
                     </Grid>
                   </MealRecordArea>
@@ -184,7 +182,6 @@ class Main extends Component {
                     </p>
                     <Grid columns={1}>
                       <Grid.Column>
-                        <p>list</p>
                         <Icon circular name="list icon" onClick={this.onClickedPastMealRecordButton} />
                       </Grid.Column>
                     </Grid>
@@ -193,7 +190,7 @@ class Main extends Component {
               </Grid.Column>
               <Grid.Column width={8}>
                 <StatsHeader>
-                  <h1>My Stats</h1>
+                  My Stats
                 </StatsHeader>
                 <StatsBody>
                   <PastNutritionInfo />
