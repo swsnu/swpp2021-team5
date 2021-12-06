@@ -560,6 +560,7 @@ def detection(request):
     # img_filename = req_data['file']
 
     # img = api.preprocess(os.path.join(images_path, img_filename))
+    print(request.FILES)
     img = request.FILES['files'] # gets only 1 file
 
     # img = api.preprocess(os.path.join(images_path, img_filename))

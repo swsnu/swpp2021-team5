@@ -30,7 +30,7 @@ class FoodRecord extends Component {
     if (this.state.image != null) {
       this.props.history.push({
         pathname: '/confirm',
-        state: { image: this.state.image, type: this.props.location.state.type },
+        state: { image: this.state.image },
       });
     }
   }

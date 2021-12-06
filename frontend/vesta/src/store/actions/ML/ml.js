@@ -7,4 +7,16 @@ export const detect_ = (menu) => ({
 });
 
 export const detect = (formData) => (dispatch) => axios.post('/api/ml/detection/', formData)
-  .then((res) => dispatch(detect_(res.data)));
+  .then((res) => {
+    for (const key of formData.keys()) {
+      console.log(key);
+    }
+    dispatch(detect_(res.data));
+  }).catch(() => {
+    for (const key of formData.keys()) {
+      console.log(key);
+    }
+    for (const value of formData.values()) {
+      console.log(value);
+    }
+  });

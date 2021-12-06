@@ -54,11 +54,18 @@ class ConfirmDetection extends Component {
     console.log(this.props.location.state.type);
 
     this.setState({ image: uploadedImage });
-    this.setState({ type: this.props.location.state.type });
+    this.setState({ type: 'meal' });
     this.props.onGetMenu(this.state.menuName);
 
     const form = new FormData();
-    form.append('files', this.state.image);
+    form.append('files', uploadedImage);
+    form.append('image', uploadedImage);
+    for (const value of form.keys()) {
+      console.log(value);
+    }
+    for (const value of form.values()) {
+      console.log(value);
+    }
     this.props.onGetDetection(form);
     console.log('detection', this.props.detectedMenus);
     this.setState({ menuName: this.props.detectedMenus[0].name });
