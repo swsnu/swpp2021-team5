@@ -81,21 +81,38 @@ describe('menu actions', () => {
       });
   });
 
-  // it('should update selected menu', (done) => {
-  //   const spy = jest.spyOn(axios, 'get').mockImplementation(() => new Promise((resolve) => {
-  //     const result = {
-  //       status: 200,
-  //       data: stubRecommendedMenus,
-  //     };
-  //     resolve(result);
-  //   }));
-  //   store.menu.recommendedMenus = stubRecommendedMenus;
-  //   store.dispatch(actionCreators.updateSelectedMenu_(0, 0))
-  //     .then(() => {
-  //       const newState = store.getState();
-  //       expect(newState.menu.selectedMenu).toBe(stubMenu);
-  //       // expect(spy).toHaveBeenCalledTimes(1);
-  //       done();
-  //     });
-  // });
+  it('should get count all', (done) => {
+    const spy = jest.spyOn(axios, 'get').mockImplementation(() => new Promise((resolve) => {
+      const result = {
+        status: 200,
+        data: 0,
+      };
+      resolve(result);
+    }));
+    store.dispatch(actionCreators.getCountAll())
+      .then(() => {
+        const newState = store.getState();
+        // expect(newState.menu.count).toBe(0);
+        expect(spy).toHaveBeenCalledTimes(1);
+        done();
+      });
+  });
+
+  it('should chanage recommendation', (done) => {
+    const spy = jest.spyOn(axios, 'put').mockImplementation(() => new Promise((resolve) => {
+      const result = {
+        status: 200,
+        data: stubMenu,
+      };
+      resolve(result);
+    }));
+    store.dispatch(actionCreators.changeRecommendation())
+      .then(() => {
+        const newState = store.getState();
+        expect(newState.menu.recommendedMenus).toBe(stubMenu);
+        expect(spy).toHaveBeenCalledTimes(1);
+        done();
+      });
+  });
+
 });

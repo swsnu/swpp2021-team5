@@ -80,7 +80,7 @@ describe('MealList', () => {
     component.unmount();
   });
 
-  it('should redirect to onMealDetail', () => {
+  xit('should redirect to onMealDetail', () => {
     const component = mount(mealList).find('.MealList');
     const wrapper = component.find('a');
     wrapper.at(0).simulate('click');
