@@ -13,9 +13,9 @@ const initialState = {
   },
   userNutrition: {
     calories: 1231,
-    carbs: 1,
-    protein: 1,
-    fat: 1,
+    carbs: 120,
+    protein: 30,
+    fat: 15,
     count_all: 0,
   },
 };

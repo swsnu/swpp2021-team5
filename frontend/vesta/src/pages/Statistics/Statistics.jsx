@@ -91,14 +91,10 @@ class Statistics extends Component {
       protein: this.props.currUserNutrition.protein,
       fat: this.props.currUserNutrition.fat,
     }
-    let age = this.props.currUser.age;
-    let sex = this.props.currUser.sex;
-    let height = this.props.currUser.height;
-    let weight = this.props.currUser.weight;
-    let recommendedCarbs = Calculator.recommendedCarbs(age, sex, height, weight);
-    let recommendedProtein = Calculator.recommendedProtein(age, sex, height, weight);
-    let recommendedFat = Calculator.recommendedFat(age, sex, height, weight);
     let recommendedCalorie = this.props.currUser.targetCalories;
+    let recommendedCarbs = Calculator.recommendedCarbs(recommendedCalorie);
+    let recommendedProtein = Calculator.recommendedProtein(recommendedCalorie);
+    let recommendedFat = Calculator.recommendedFat(recommendedCalorie);
     let recommendedIntake = {
       calories: recommendedCalorie,
       carbs: recommendedCarbs,

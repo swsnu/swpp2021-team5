@@ -196,10 +196,10 @@ class Setting extends Component {
     let targetCalories = this.props.currUser.targetCalories;
     let preference = preferenceButtonList(this.state.preference, this.state.confirmOpen, this.onClickedUserPreferenceDeleteButton, this.onConfirmOpen, this.onConfirmClose)
 
-    const recommendedCalorie = Calculator.recommendedCalorie(age, sex, height, weight);
-    const recommendedCarbs = Calculator.recommendedCarbs(age, sex, height, weight);
-    const recommendedProtein = Calculator.recommendedProtein(age, sex, height, weight);
-    const recommendedFat = Calculator.recommendedFat(age, sex, height, weight);
+    const recommendedCalorie = (Math.round(100 * Calculator.recommendedCalorie(age, sex, height, weight))) / 100;
+    const recommendedCarbs = (Math.round(100 * Calculator.recommendedCarbs(recommendedCalorie))) / 100;
+    const recommendedProtein = (Math.round(100 * Calculator.recommendedProtein(recommendedCalorie))) / 100;
+    const recommendedFat = (Math.round(100 * Calculator.recommendedFat(recommendedCalorie))) / 100;
 
     return (
       <div className="Setting">
