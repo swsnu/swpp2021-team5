@@ -7,4 +7,9 @@ export const detect_ = (menu) => ({
 });
 
 export const detect = (formData) => (dispatch) => axios.post('/api/ml/detection/', formData)
-  .then((res) => dispatch(detect_(res.data)));
+  .then((res) => {
+    console.log(res);
+    dispatch(detect_(res.data));
+  }).catch((res) => {
+    console.log(res);
+  });

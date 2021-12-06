@@ -7,8 +7,6 @@ import styled from 'styled-components';
 import * as actionCreators from '../../store/actions/index';
 
 const Div = styled.div`
-background-color:#B3D962;
-color:#F28095;
 align-items:center;
 vertical-align: middle;
 line-height: 80px;
@@ -36,6 +34,7 @@ class Login extends Component {
     return (
       <Div className="Login" class="ui one column stackable center aligned page grid">
         <Form className="ui six wide column form segment">
+        <Div>LOGIN</Div>
         <Divider/>
           <Form.Field>
             <input

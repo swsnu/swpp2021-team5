@@ -88,6 +88,35 @@ export const todayData = {
   ],
 };
 
+export const weeklySummedData = {
+  labels: [
+    'Calorie',
+    'Carbs',
+    'Protein',
+    'Fat',
+  ],
+  datasets: [
+    {
+    // label: "",
+    data: [],
+    backgroundColor: [
+      'green',
+      'rgb(255, 99, 132)',
+      'rgb(54, 162, 235)',
+      'rgb(255, 205, 86)',
+    ],
+    },
+    {
+      data: [],
+      hidden: true,
+    },
+    {
+      data: [],
+      hidden: true,
+    }
+  ],
+};
+
 export const weeklyOptions = {
   maintainAspectRatio: false,
   scales: {
@@ -105,7 +134,7 @@ export const weeklyOptions = {
   plugins: {
     title: {
       display: false,
-      text: "Weekly Stats",
+      text: "Stats",
     },
     datalabels: {
       display: false,
@@ -113,6 +142,104 @@ export const weeklyOptions = {
     legend: {
       display: true,
       position: 'bottom',
+    },
+    tooltip: {
+      callbacks: {
+        label: function(context) {
+          let index = context.dataIndex
+          return `${context.dataset.data[index]}%`
+        }
+      }
     }
   },
 }
+
+export const monthlyOptions = {
+  maintainAspectRatio: false,
+  scales: {
+    y: {
+      display: true,
+      min: 0,
+      max: 140,
+      ticks: {
+        callback: function (value) {
+          return value + '%'; // convert it to percentage
+        }
+      },
+    },
+  },
+  plugins: {
+    title: {
+      display: false,
+      text: "Monthly Stats",
+    },
+    datalabels: {
+      display: false,
+    },
+    legend: {
+      display: true,
+      position: 'bottom',
+    },
+    tooltip: {
+      callbacks: {
+        label: function(context) {
+          let index = context.dataIndex
+          return `${context.dataset.data[index]}%`
+        }
+      }
+    }
+  },
+}
+
+export const months = [
+  {
+    month: "January",
+    date: 31
+  },
+  {
+    month: "February",
+    date: 28
+  },
+  {
+    month: "March",
+    date: 31
+  },
+  {
+    month: "April",
+    date: 30
+  },
+  {
+    month: "May",
+    date: 31
+  },
+  {
+    month: "June",
+    date: 30
+  },
+  {
+    month: "July",
+    date: 31
+  },
+  {
+    month: "August",
+    date: 31
+  },
+  {
+    month: "September",
+    date: 30
+  },
+  {
+    month: "October",
+    date: 31
+  },
+  {
+    month: "November",
+    date: 30
+  },
+  {
+    month: "December",
+    date: 31
+  }
+];
+
+

@@ -13,7 +13,7 @@ import StatsWeekly from '../../component/Statistics/StatsWeekly';
 import StatsMonthly from '../../component/Statistics/StatsMonthly';
 import * as Calculator from '../Setting/Calculator';
 
-import { dummyUserNutritions } from './util';
+// import { dummyUserNutritions } from './util';
 
 const StatisticsHeader = styled.div`
 font-family:'verveine';
@@ -43,19 +43,14 @@ class Statistics extends Component {
     super(props);
     this.state = {
       selectedWeek: new Date(),
-      userNutritions: [],
+      selectedMonth: (new Date()).getMonth(),
     };
   }
 
   componentDidMount() {
-    /*axios.get('/api/nutrition/').then((res) => {
-      this.setState({...this.state, userNutritions: res.data})
-      // res.data : list of objects ?
-    })
-    */
-  const today = (new Date()).toISOString().split('T')[0];
-   this.setState({...this.state, userNutritions: dummyUserNutritions});
-   this.props.onGetUserNutrition(today);
+    const today = (new Date()).toISOString().split('T')[0];
+    this.props.onGetUserNutrition(today);
+    this.props.onGetAllUserNutrition();
   }
 
   onClickedWeeklyPrevButton = () => {
@@ -72,6 +67,16 @@ class Statistics extends Component {
     this.setState({...thisState, selectedWeek: newSelected});
   }
 
+  onClickedMonthlyPrevButton = () => {
+    const thisState = this.state;
+    this.setState({...thisState, selectedMonth: (thisState.selectedMonth - 1) % 12});
+  }
+
+  onClickedMonthlyNextButton = () => {
+    const thisState = this.state;
+    this.setState({...thisState, selectedMonth: (thisState.selectedMonth + 1) % 12});
+  }
+
   render() {
     let todayNutritionIntake = {
       calories: this.props.currUserNutrition.calories,
@@ -79,14 +84,10 @@ class Statistics extends Component {
       protein: this.props.currUserNutrition.protein,
       fat: this.props.currUserNutrition.fat,
     }
-    let age = this.props.currUser.age;
-    let sex = this.props.currUser.sex;
-    let height = this.props.currUser.height;
-    let weight = this.props.currUser.weight;
-    let recommendedCarbs = Calculator.recommendedCarbs(age, sex, height, weight);
-    let recommendedProtein = Calculator.recommendedProtein(age, sex, height, weight);
-    let recommendedFat = Calculator.recommendedFat(age, sex, height, weight);
     let recommendedCalorie = this.props.currUser.targetCalories;
+    let recommendedCarbs = Calculator.recommendedCarbs(recommendedCalorie);
+    let recommendedProtein = Calculator.recommendedProtein(recommendedCalorie);
+    let recommendedFat = Calculator.recommendedFat(recommendedCalorie);
     let recommendedIntake = {
       calories: recommendedCalorie,
       carbs: recommendedCarbs,
@@ -94,7 +95,7 @@ class Statistics extends Component {
       fat: recommendedFat,
     }
 
-    let processedUserNutritions = this.state.userNutritions.map((nutrition) => {
+    let processedUserNutritions = this.props.currAllUserNutrition.map((nutrition) => {
       const dateObject = new Date(nutrition.date);
       dateObject.setHours(0,0,0,0);
       return {...nutrition, date: dateObject};
@@ -102,10 +103,14 @@ class Statistics extends Component {
     const selectedWeek = this.state.selectedWeek; // must be today
     selectedWeek.setHours(0,0,0,0);
 
+    let monthlyUserNutritions = processedUserNutritions.filter((nutrition) => {
+      return nutrition.date.getMonth() === this.state.selectedMonth;
+    })
+
     const panes=[
        { menuItem: 'Today', render: () => <StatsDaily intake={todayNutritionIntake} recommendedIntake={recommendedIntake} /> },
-       { menuItem: 'Weekly', render: () => <StatsWeekly selectedWeek={selectedWeek} userNutritions={processedUserNutritions} recommendedIntake={recommendedIntake} onClickedWeeklyPrevButton={this.onClickedWeeklyPrevButton} onClickedWeeklyNextButton={this.onClickedWeeklyNextButton}/> },
-       { menuItem: 'Monthly', render: () => <StatsMonthly userNutritions={processedUserNutritions} recommendedIntake={recommendedIntake}/> }
+       { menuItem: 'Weekly', render: () => <StatsWeekly selectedWeek={selectedWeek} userNutritions={processedUserNutritions} recommendedIntake={recommendedIntake} onClickedWeeklyPrevButton={this.onClickedWeeklyPrevButton} onClickedWeeklyNextButton={this.onClickedWeeklyNextButton} /> },
+       { menuItem: 'Monthly', render: () => <StatsMonthly selectedMonth={this.state.selectedMonth}monthlyUserNutritions={monthlyUserNutritions} recommendedIntake={recommendedIntake} onClickedMonthlyPrevButton={this.onClickedMonthlyPrevButton} onClickedMonthlyNextButton={this.onClickedMonthlyNextButton} /> }
     ]
     
     return (
@@ -127,12 +132,14 @@ const mapStateToProps = state => {
   return {
     currUser: state.user.currentUser,
     currUserNutrition: state.user.userNutrition,
+    currAllUserNutrition: state.user.userNutritions,
   }
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    onGetUserNutrition: (userID) => dispatch(actionCreators.getUserNutrition(userID)) 
+    onGetUserNutrition: (date) => dispatch(actionCreators.getUserNutrition(date)),
+    onGetAllUserNutrition : () => dispatch(actionCreators.getAllUserNutrition())
   }
 }
 

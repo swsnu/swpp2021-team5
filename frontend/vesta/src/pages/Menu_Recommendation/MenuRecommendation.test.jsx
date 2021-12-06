@@ -22,8 +22,6 @@ const stubMenuInitialState = {
   },
   allMenus: null,
   recommendedMenus: null,
-  count: -1,
-  countAll: 0,
   isUpdated: false,
 };
 const recipeInitialState = {};
@@ -31,7 +29,7 @@ const mockStore = getMockStore(userInitialState, recordInitialState, stubMenuIni
 
 describe('MenuRecommenation', () => {
   let menuRecommendation;
-  let spyGetCountAll, spyGetRecommendedMenus;
+  let spyGetRecommendedMenus;
 
   beforeEach(() => {
     menuRecommendation = (
@@ -44,8 +42,6 @@ describe('MenuRecommenation', () => {
         </ConnectedRouter>
       </Provider>
     );
-    spyGetCountAll = jest.spyOn(actionCreators, 'getCountAll')
-    .mockImplementation(() => (dispatch) => {});
     spyGetRecommendedMenus = jest.spyOn(actionCreators, 'getRecommendedMenus')
     .mockImplementation(() => (dispatch) => {});
   });
@@ -54,15 +50,9 @@ describe('MenuRecommenation', () => {
     const component = mount(menuRecommendation);
     const wrapper = component.find('MenuRecommendation');
     expect(wrapper.length).toBe(1);
-    expect(spyGetCountAll).toBeCalled();
+    expect(spyGetRecommendedMenus).toBeCalled();
   });
 
-  it('should check componendDidUpdate when isUpdated=false', () => {
-    const component = mount(menuRecommendation);
-    const wrapper = component.find('MenuRecommendation');
-    wrapper.instance().componentDidUpdate();
-    expect(spyGetRecommendedMenus).toBeCalledTimes(0);
-  })
 });
 
 const stubMenuInitialState_ = {
@@ -101,7 +91,7 @@ const mockStore_ = getMockStore(userInitialState, recordInitialState, stubMenuIn
 
 describe('MenuRecommenation', () => {
   let menuRecommendation;
-  let spyGetCountAll, spyGetRecommendedMenus;
+  let spyGetRecommendedMenus;
 
   beforeEach(() => {
     menuRecommendation = (
@@ -117,8 +107,6 @@ describe('MenuRecommenation', () => {
         </ConnectedRouter>
       </Provider>
     );
-    spyGetCountAll = jest.spyOn(actionCreators, 'getCountAll')
-    .mockImplementation(() => (dispatch) => {});
     spyGetRecommendedMenus = jest.spyOn(actionCreators, 'getRecommendedMenus')
       .mockImplementation(() => (dispatch) => {});
   });
@@ -129,14 +117,7 @@ describe('MenuRecommenation', () => {
     const component = mount(menuRecommendation);
     const wrapper = component.find('MenuRecommendation');
     expect(wrapper.length).toBe(1);
-    expect(spyGetCountAll).toBeCalled();
-    // expect(spyGetRecommendedMenus).toBeCalled();
-  });
-
-  it('should check componentDidUpdate', () => {
-    const component = mount(menuRecommendation);
-    const wrapper = component.find('MenuRecommendation');
-    wrapper.instance().componentDidUpdate();
     expect(spyGetRecommendedMenus).toBeCalled();
   });
+
 });

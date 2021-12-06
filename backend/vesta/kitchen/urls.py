@@ -3,6 +3,7 @@ from . import views
 
 urlpatterns = [
     path('user/signup/', views.signup, name='signup'),
+    path('user/signup/<str:username>/', views.signup_check_avail, name='signup_check_avail'),
     path('user/signin/', views.signin, name='signin'),
     path('user/signout/', views.signout, name='signout'),
     path('user/resign/', views.resign, name='resign'),
@@ -19,5 +20,4 @@ urlpatterns = [
     path('menu/<str:menuname>/', views.menu_name, name='menuName'),
     path('token/', views.token, name='token'),
     path('ml/detection/', views.detection, name='detection'),
-    path('recommend/', views.recommend, name='recommend'),
 ]

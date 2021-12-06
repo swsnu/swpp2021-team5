@@ -29,6 +29,7 @@ export const saveUserSetting = (user) => (dispatch) => axios.put('/api/user/prof
   })
   .then((res) => {
     dispatch(saveUserSetting_({...res.data}));
+    alert('Successfully Saved!')
   });
 
 export const getUserSetting = () => (dispatch) => axios.get('/api/user/profile/')
@@ -61,7 +62,9 @@ export const signUp = (username, password, age, sex, height, weight, targetCalor
   weight: weight,
   targetCalories: targetCalories})
   .then((res) => {
-  /*alert(`Succesfully Registered!\nYour Target Calorie is set to ${targetCalories}Kcal as recommended generally for your body profile.\nYou can customize your target calorie at the setting page after login.\nWelcome!`);*/
+    alert(`Succesfully Registered!\nYour Target Calorie is set to ${targetCalories}Kcal as recommended generally for your body profile.\nYou can customize your target calorie at the setting page after login.\nWelcome!`);
+  })
+  .then((res) => {
     dispatch(push('/login'));
   });
 
@@ -83,7 +86,7 @@ export const getUserNutrition = (date) => (dispatch) => axios.get(`/api/nutritio
     dispatch(getUserNutrition_(res.data));
   })
   .catch((err) => {
-    dispatch(failGetUserNutrition(err));
+  //  dispatch(failGetUserNutrition(err));
   });
 
 export const createUserNutrition_ = (userNutrition) => ({
@@ -107,7 +110,7 @@ export const editUserNutrition_ = (userNutrition) => ({
   protein: userNutrition.protein,
   fat: userNutrition.fat,
   count_all: userNutrition.count_all,
-})
+});
 
 export const editUserNutrition = (date, calories, carbs, protein, fat, count_all) => (dispatch) => axios.put(`/api/nutrition/${date}/`, {'calories': calories, 'carbs': carbs, 'protein': protein, 'fat': fat, 'count_all': count_all})
   .then((res) => {
@@ -123,3 +126,13 @@ export const logout = () => (dispatch) => axios.get('/api/user/signout/')
   .then((res) => {
     dispatch(logout_())
 });
+
+export const getAllUserNutrition_ = (nutritions) => ({
+  type: actionTypes.GET_ALL_USER_NUTRITION,
+  userNutritions: nutritions
+})
+
+export const getAllUserNutrition = () => (dispatch) => axios.get('/api/nutrition/')
+  .then((res) => {
+    dispatch(getAllUserNutrition_(res.data))
+  });

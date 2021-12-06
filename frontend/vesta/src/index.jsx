@@ -7,7 +7,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import 'semantic-ui-css/semantic.min.css';
 import store, { history } from './store/store';
-import FontStyle from './styles/fonts/fonts';
+import FontStyle from './styles/fonts/font';
 
 ReactDOM.render(
   <Provider store={store}>

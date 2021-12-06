@@ -2,9 +2,16 @@ import React, { Component, createRef } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { Image, Grid, Segment, Sticky, Menu } from 'semantic-ui-react';
+import styled from 'styled-components';
 import Record from '../Record';
 import * as actionCreators from '../../../store/actions/index';
 
+const Div = styled.div`
+font-family:'arciform';
+font-size:20px;
+margin: 15px;
+padding: 10px;
+`;
 class Records extends Component {
   contextRef = createRef();
 
@@ -44,6 +51,15 @@ class Records extends Component {
     for (let i = 0; i < demoRecords_.length; i += 1) {
       demoRecords[i % 3].push(demoRecords_[i]);
     }
+    let notify = null;
+    if (demoRecords_.length === 0) {
+      notify = (
+        <Div>
+          Upload your first record,
+          and get personalized menu recommendation!
+        </Div>
+      );
+    }
     return (
       <div className="Records" ref={this.contextRef}>
         <Sticky context={this.contextRef}>
@@ -55,6 +71,7 @@ class Records extends Component {
             <Menu.Item
               position="right"
               as="a"
+              style={{ width: 70 }}
               active={this.state.acticeItem === 'All'}
               name="All"
               onClick={() => this.setState({
@@ -65,6 +82,7 @@ class Records extends Component {
             <Menu.Item
               position="left"
               as="a"
+              style={{ width: 70 }}
               active={this.state.acticeItem === 'Liked'}
               name="Liked"
               onClick={() => this.setState({
@@ -75,6 +93,7 @@ class Records extends Component {
           </Menu>
         </Sticky>
         <Segment>
+          {notify}
           <Grid centered columns={3} textAlign="center" relaxed="very">
             <Grid.Column width={2}>
               {demoRecords[0]}

@@ -1,33 +1,65 @@
 import json
 import datetime
-import re
-import random
 from django.db.models.fields import NullBooleanField
 from django.http import HttpResponse, HttpResponseNotAllowed
 from django.http.response import JsonResponse
-from django.views.decorators.csrf import csrf_exempt, ensure_csrf_cookie
+from django.views.decorators.csrf import ensure_csrf_cookie
 from django.contrib.auth import authenticate, login, logout
 from django.views.decorators.http import require_http_methods, require_GET
 
 from django.contrib.auth.models import User
 from .models import Profile, UserNutrition, Preference, Menu, Record
-import logmeal as api
+from . import logmeal as api
 import os
+import base64
 
 # Create your views here.
 
 @require_http_methods(["POST"])
 def signup(request):
-    req_data = json.loads(request.body.decode())
-    username = req_data['username']
-    password = req_data['password']
-    user = User.objects.create_user(username=username, password=password)
+    if request.method == 'POST':
+        req_data = json.loads(request.body.decode())
+        username = req_data['username']
+        password = req_data['password']
+        user = User.objects.create_user(username=username, password=password)
 
-    # Model 'Profile' should be created simultaneously #
-    new_profile = Profile(user=user, age=None, sex=None, height=None, weight=None)
-    new_profile.save()
+        # Model 'Profile' should be created simultaneously #
+        age = int(req_data['age'])
+        sex = bool(req_data['sex'])
+        height = int(req_data['height'])
+        weight = int(req_data['weight'])
+        target_calories = int(req_data['targetCalories'])
 
-    return HttpResponse(status=201)
+        api_name = "APIUser_namKim"+username
+        userdict = api.signup(api_name)
+        # .
+
+        new_profile = Profile(
+            user=user, 
+            age=age, 
+            sex=sex, 
+            height=height, 
+            weight=weight, 
+            target_calories=target_calories,
+            api_name = api_name,
+            api_token = userdict["token"],
+            api_id = userdict["id"],
+        )
+        new_profile.save()
+        return HttpResponse(status=201)
+    else:
+        return HttpResponseNotAllowed['POST']
+
+@require_http_methods(["GET"])
+def signup_check_avail(request, username):
+    if request.method == 'GET':
+        response_dict = {
+            'availability': not User.objects.filter(username = username).exists()
+        }
+        return JsonResponse(response_dict, status=200)
+    else:
+        return HttpResponseNotAllowed(['GET'])
+
 
 @require_http_methods(["POST"])
 def signin(request):
@@ -44,9 +76,8 @@ def signin(request):
                 return HttpResponse(status=404)
 
             food_preference_list = []
-            for item in Preference.objects.filter(user_id=request.user.id):
-                food_preference_list.append(str(item.menu.name))
-
+            for item in Preference.objects.filter(user_id=user.id):
+                food_preference_list.append(str(item.ingredient))
             user_profile = user.profile
             response_dict = {
                 'userID': user.id,
@@ -63,7 +94,7 @@ def signin(request):
             return HttpResponse(status=401)
 
     else:
-        return HttpResponse(status=401)
+        return HttpResponseNotAllowed(['POST'])
 
 @require_http_methods(["GET"])
 def signout(request):
@@ -78,6 +109,11 @@ def resign(request):
     print(request.user)
     if request.user.is_authenticated:
         user = User.objects.get(id=request.user.id)
+        try:
+            api_id = user.profile.api_id
+            api.resign(api_id)
+        except:
+            pass
         user.delete()
         logout(request)
         return HttpResponse(status=200)
@@ -94,7 +130,7 @@ def profile(request):
 
             food_preference_list = []
             for item in Preference.objects.filter(user_id=request.user.id):
-                food_preference_list.append(str(item.menu.name))
+                food_preference_list.append(str(item.ingredient))
 
             user_profile = user.profile
             response_dict = {
@@ -103,7 +139,8 @@ def profile(request):
                 'sex': user_profile.sex,
                 'height': user_profile.height,
                 'weight': user_profile.weight,
-                'preference': food_preference_list
+                'preference': food_preference_list,
+                'targetCalories': user_profile.target_calories,
             }
             return JsonResponse(response_dict, status=200, safe=False)
         else:
@@ -124,6 +161,7 @@ def profile(request):
             user_profile.sex = req_data['sex']
             user_profile.height = int(req_data['height'])
             user_profile.weight = int(req_data['weight'])
+            user_profile.target_calories = int(req_data['targetCalories'])
             user.save()
             user_profile.save()
 
@@ -136,7 +174,7 @@ def profile(request):
                 new_preference_item.save()
             food_preference_list_response = []
             for item in Preference.objects.filter(user_id=request.user.id):
-                food_preference_list_response.append(str(item.menu.name))
+                food_preference_list_response.append(str(item.ingredient))
 
             response_dict = {
                 'username': user.username,
@@ -144,7 +182,8 @@ def profile(request):
                 'sex': user_profile.sex,
                 'height': user_profile.height,
                 'weight': user_profile.weight,
-                'preference': food_preference_list_response
+                'preference': food_preference_list_response,
+                'target_calories': user_profile.target_calories
             }
             return JsonResponse(response_dict, status=200)
         else:
@@ -181,7 +220,15 @@ def nutrition(request, date):
                 today_nutrition = UserNutrition.objects.get(
                     user_id=request.user.id, date=today)
             except UserNutrition.DoesNotExist:      # User.DoesNotExist?
-                return HttpResponse(status=404)
+                response_dict = {
+                    #'date': today_nutrition.date.strftime('%Y-%m-%d'),
+                    'calories': 0,
+                    'carbs': 0,
+                    'protein': 0,
+                    'fat': 0,
+                    'count_all': 0
+                }
+                return JsonResponse(response_dict, status=200)
             response_dict = {
                 #'date': today_nutrition.date.strftime('%Y-%m-%d'),
                 'calories': today_nutrition.calories,
@@ -265,7 +312,7 @@ def nutrition(request, date):
         return HttpResponseNotAllowed(['GET', 'POST', 'PUT'])
 
 
-def nutrition_count(request, date):   ## used for recommendation page
+def nutrition_count(request, date):   ## used for main page
     if not request.user.is_authenticated:
         return HttpResponse(status=401)
 
@@ -305,17 +352,23 @@ def record(request):
             return HttpResponse(status = 401)
 
         ## decode request
-        req_data = json.loads(request.body.decode())
-        menu_name = req_data['menu']
-        review_text = req_data['review']
-        liked = req_data['liked'] == "True"
+        # req_data = json.loads(request.body.decode())
+        menu_name = request.POST['menu_name']
+        review_text = request.POST['review']
+        liked = request.POST['liked'] == "True"
+
+        if not Menu.objects.filter(name = menu_name).exists():
+            return HttpResponse(status = 404)
 
         new_record = Record(user = request.user,
                                 menu = Menu.objects.get(name = menu_name),
                                 review = review_text,
                                 liked = liked,
                                 date = datetime.date.today(),
-                                image = req_data['image'])
+                                image = request.POST['image'])
+
+        print('image')
+        print(request.POST['image'])
         new_record.save()
 
         ## respond with created record detail
@@ -503,109 +556,24 @@ def detection(request):
     if not request.user.is_authenticated:
         return HttpResponse(status = 401)
     user = request.user
+
     api_company_token = api.api_company_token
-    api_user_token = api.api_user_token
-    images_path = api.images_path
-
-    req_data = json.loads(request.body.decode())
-    img_filename = req_data['file']
-
-    img = api.preprocess(os.path.join(images_path, img_filename))
-
-    result_list = api.menu_recognition(img, user_token=api_user_token)
-
-    return JsonResponse(result_list)
-## recommend 15 menus total(5 for each meal)
-@require_GET
-def recommend(request):
-    # if unauthenticated
-    if not request.user.is_authenticated:
-        return HttpResponse(status = 401)
-
-    # find the user's nutritional info
-    date_list = date.split('-')
-    today = datetime.date(int(date_list[0]), 
-            int(date_list[1]), int(date_list[2]))
     try:
-        today_nutrition = UserNutrition.objects.get(
-            user_id=request.user.id, date=today)
-    except UserNutrition.DoesNotExist:     
-        today_nutrition = UserNutrition(
-            user_id=request.user.id,
-            date=today,
-            calories=0,
-            carbs=0,
-            protein=0,
-            fat=0
-        )
-    # left meal times 
-    times = 3
+        api_user_token = Profile.objects.get(user=user).api_token
+    except:
+        api_user_token = api.api_user_token
+    # images_path = api.images_path
 
-    # target calories, carbs, protein, fat 
-    # profile = Profile.objects.get(user_id=request.user.id)
-    # age = profile.age
-    # sex = profile.sex
-    # height = profile.height
-    # weight = profile.weight
-    
-    # if sex == True:
-    #     target_cal = 66.47 + 13.75 * weight + 5 * height - 6.76 * age
-    # else:
-    #     target_cal = 655.1 + 9.56 * weight + 1.85 * height - 4.68 * age
-    # target_carbs = ((target_cal*0.5)/4)
-    # target_protein = ((target_cal*0.3)/4)
-    # target_fat = ((target_cal*0.2)/4)
-    target_cal = 2000
-    target_carbs = ((target_cal*0.5)/4)
-    target_protein = ((target_cal*0.3)/4)
-    target_fat = ((target_cal*0.2)/4)
+    # req_data = json.loads(request.body.decode())
+    # img_filename = req_data['file']
 
-    # allowed calories, carbs, protein, fat per meal
-    allowed_cal = (target_cal - float(today_nutrition.calories)) / times
-    allowed_carbs = (target_carbs - float(today_nutrition.carbs)) / times
-    allowed_protein = (target_protein - float(today_nutrition.protein)) / times
-    allowed_fat = (target_fat - float(today_nutrition.fat)) / times
-    min_cal = allowed_cal-150
-    min_carbs = allowed_carbs-50
-    min_protein = allowed_protein-30
-    min_fat = allowed_fat-20
-    # get all menus
-    menus = Menu.objects.all()
-    candidates = []
-    print('calories:', allowed_cal, ', ', min_cal)
-    print('carbs:', allowed_carbs, ', ', min_carbs)
-    print('protein:', allowed_protein, ', ', min_protein)
-    print('fat:', allowed_fat, ', ', min_fat)
-    # choose all candidates
-    for menu in menus:
-        if menu.calories < allowed_cal and menu.carbs < allowed_carbs and menu.protein < allowed_protein and menu.fat < allowed_fat:
-        # if m.calories > min_cal and m.calories < allowed_cal and m.carbs > min_carbs and m.carbs < allowed_carbs and m.protein > min_protein and m.protein < allowed_protein and m.fat > min_fat and m.fat < allowed_fat:
-            # check ingredients
-            preference = Preference.objects.filter(user_id=request.user.id) # list
-            ingredient = re.findall("'(.*?)'", menu.ingredient)  # list
-            intersect = set(preference) & set(ingredient)
-            if intersect:   # if there is intersection, do not include
-                continue
-            else:  # no intersection
-                candidates.append(menu)
-        else:
-            continue
-    # random select 15 of them, return
-    if len(candidates) > 15:
-        # select the ones with like TODO
-        candidates = random.sample(candidates, 15)
-    response_dict = []
-    for can in candidates:
-        response_dict.append({
-            'id': can.id,
-            'name': can.name,
-            'calories': can.calories,
-            'carbs': can.carbs,
-            'protein': can.protein,
-            'fat': can.fat,
-            'image': "http://localhost:8000/media/"+str(can.image).split('/')[-1],
-            'recipe': can.recipe,
-            'ingredient': can.ingredient
-        })
-    print(len(response_dict))
-    return JsonResponse(response_dict, safe=False)
+    # img = api.preprocess(os.path.join(images_path, img_filename))
+    print(request.POST.keys())
+    img = request.POST['image'] # gets only 1 file
+    # img = base64.b64decode(img[23:])
+
+    # img = api.preprocess(os.path.join(images_path, img_filename))
+
+    result_list = api.menu_recognition(img[23:], user_token=api_user_token)
+
+    return JsonResponse(result_list, safe=False)

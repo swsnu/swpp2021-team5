@@ -11,6 +11,7 @@ import styled from 'styled-components';
 import * as actionCreators from '../../store/actions/index';
 import { sexToggleButtons } from '../Setting/Setting';
 import { recommendedCalorie } from '../Setting/Calculator';
+import axios from 'axios';
 
 const SignupHeader = styled.div`
 font-family:'verveine';
@@ -31,10 +32,12 @@ margin:8;
 `;
 
 export const isNumeric = (str) => {
-  if (typeof str != "string") return false // we only process strings!  
-  return !isNaN(str) && // use type coercion to parse the _entirety_ of the string (`parseFloat` alone does not do this)...
-         !isNaN(parseFloat(str)) // ...and ensure strings of whitespace fail
-}
+  if (typeof str != "string") return false        // we only process strings!  
+  return !isNaN(str) &&  !isNaN(parseFloat(str))  // use type coercion to parse the
+}                                                 // _entirety_ of the string 
+                                                  // (`parseFloat` alone does not do this)...
+                                                  // ...and ensure strings of whitespace fail
+
 
 class Signup extends Component {
   constructor(props) {
@@ -53,6 +56,17 @@ class Signup extends Component {
   onChangedUsername = (e) => {
     const thisState = this.state;
     this.setState({ ...thisState, username: e.target.value });
+  }
+
+  onClickedCheckAvailButton = () => {
+    axios.get(`/api/user/signup/${this.state.username}/`)
+      .then((res) => {
+        if(res.data.availability == true) {
+          alert('This Username is available');
+        } else if(res.data.availability == false) {
+          alert('This Username is Not available.\n Please choose another one');
+        }
+      });
   }
 
   onChangedPassword = (e) => {
@@ -99,11 +113,20 @@ class Signup extends Component {
       alert('You should enter the username');
       return;
     }
-    else if (this.state.password === '') {
+    
+    axios.get(`/api/user/signup/${this.state.username}/`)
+      .then((res) => {
+        if(res.data.availability === false) {
+          alert('The Username is Not available.\n Please choose another one');
+          return;
+        }
+      });
+    
+    if (this.state.password === '') {
       alert('You should enter the password');
       return;
     }
-    else if (this.state.password !== this.state.confirmPassword) {
+    if (this.state.password !== this.state.confirmPassword) {
       alert('Two value of password are not consistent');
       return;
     }
@@ -152,16 +175,25 @@ class Signup extends Component {
         <Div className="body" class="ui one column stackable center aligned page grid">
           <Form className="ui six wide column form segment">
             <Form.Field>
-              <label>Username</label>
+              <label align='left'>Username</label>
               <input
                 id='username-input'  
                 type='text'
                 placeholder='Username'
                 onChange={(e) => this.onChangedUsername(e)}
               />
+              <Button
+                size='mini'  
+                floated='right'
+                style={{padding: '3%', margin: '2px'}}
+                id='availability-button'
+                onClick={() => this.onClickedCheckAvailButton()}
+              >
+              Check Availability
+              </Button>
             </Form.Field>
             <Form.Field>
-              <label>Password</label>
+              <label align='left'>Password</label>
               <input
                 id='password-input'
                 type='password'
@@ -170,7 +202,7 @@ class Signup extends Component {
               />
             </Form.Field>
             <Form.Field>
-              <label>Confirm Password</label>
+              <label align='left'>Confirm Password</label>
               <input
                 id='confirm-password-input'
                 type='password'
@@ -179,7 +211,7 @@ class Signup extends Component {
               />
             </Form.Field>
             <Form.Field>
-              <label>Age</label>
+              <label align='left'>Age</label>
               <input
                 id='age-input'  
                 type='text'
@@ -188,11 +220,11 @@ class Signup extends Component {
               />
             </Form.Field>
             <Form.Field>
-              <label>Sex</label>
+              <label >Sex</label>
               {sexSelectButton}
             </Form.Field>
             <Form.Field>
-              <label>Height</label>
+              <label align='left'>Height</label>
               <input
                 id='height-input'  
                 type='text'
@@ -201,7 +233,7 @@ class Signup extends Component {
               />
             </Form.Field>
             <Form.Field>
-              <label>Weight</label>
+              <label align='left'>Weight</label>
               <input
                 id='weight-input'  
                 type='text'
@@ -226,6 +258,7 @@ const mapDispatchToProps = dispatch => {
     ) => dispatch(actionCreators.signUp(
       username, password, parseInt(age), sex, parseFloat(height), parseFloat(weight), targetCalories
     )),
+    // onCheckUsernameAvailability : (targetName) => dispatch(actionCreators.checkUsernameAvail(targetName)),
   }
 }
 
