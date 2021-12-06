@@ -71,7 +71,7 @@ const StatsWeeklySummedChart = (props) => {
       <Grid>
         <Grid.Row columns={1}>
           <Grid.Column>
-            <Header as="h2">Your Today Intake</Header>
+            <Header as="h2">Your Weekly Intake</Header>
           </Grid.Column>
         </Grid.Row>
         <Grid.Row>

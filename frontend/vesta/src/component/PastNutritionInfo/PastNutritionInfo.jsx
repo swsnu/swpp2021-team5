@@ -76,7 +76,6 @@ class PastNutritionInfo extends Component {
           <StatsDaily intake={todayNutritionIntake} recommendedIntake={recommendedIntake} />
         </StatsBody>
         <StatsBody style={{ backgroundColor: '#CCEEFF' }}>
-          <h2>Your Weekly Intake</h2>
           <StatsWeeklySummedChart selectedWeekNutritions={selectedWeekNutritions} recommendedIntake={recommendedIntake} />
         </StatsBody>
       </div>
