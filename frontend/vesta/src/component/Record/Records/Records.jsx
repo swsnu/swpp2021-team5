@@ -71,6 +71,7 @@ class Records extends Component {
             <Menu.Item
               position="right"
               as="a"
+              style={{ width: 70 }}
               active={this.state.acticeItem === 'All'}
               name="All"
               onClick={() => this.setState({
@@ -81,6 +82,7 @@ class Records extends Component {
             <Menu.Item
               position="left"
               as="a"
+              style={{ width: 70 }}
               active={this.state.acticeItem === 'Liked'}
               name="Liked"
               onClick={() => this.setState({
