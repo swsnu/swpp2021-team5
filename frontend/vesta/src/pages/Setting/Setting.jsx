@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import {
-  Table, Button, Grid, GridRow, Confirm
+  Table, Input, Button, Grid, GridRow, Confirm
 } from 'semantic-ui-react';
 import styled from 'styled-components';
 
@@ -87,17 +87,9 @@ class Setting extends Component {
     this.setState({...this.props.currUser, confirmOpen: false});
   }
 
-  onClickedAgeEditButton = () => {
-    let result = prompt('Enter the Age You want to set', '');
-    if(result === null) {
-      return;
-    }
-    if (!isNumeric(result) || parseInt(result) < 5) {
-      alert('Weight should be a number larger than 4');
-      return;
-    }
+  onChangedUserAgeInput = (e) => {
     const thisState = this.state;
-    this.setState({ ...thisState, age: result });
+    this.setState({ ...thisState, age: e.target.value });
   }
 
   onClickedUserSexMaleButton = (e) => {
@@ -114,43 +106,19 @@ class Setting extends Component {
     }
   }
 
-  onClickedHeightEditButton = () => {
-    let result = prompt('Enter the Heigth You want to set', '');
-    if(result === null) {
-      return;
-    }
-    if (!isNumeric(result)) {
-      alert('Height should be a number');
-      return;
-    }
+  onChangedUserHeightInput = (e) => {
     const thisState = this.state;
-    this.setState({ ...thisState, height: result });
+    this.setState({ ...thisState, height: e.target.value });
   }
 
-  onClickedWeightEditButton = () => {
-    let result = prompt('Enter the Weigth You want to set', '');
-    if(result === null) {
-      return;
-    }
-    if (!isNumeric(result)) {
-      alert('Weight should be a number');
-      return;
-    }
+  onChangedUserWeightInput = (e) => {
     const thisState = this.state;
-    this.setState({ ...thisState, weight: result });
+    this.setState({ ...thisState, weight: e.target.value });
   }
 
-  onClickedCalorieEditButton = () => {
-    let result = prompt('Enter the Target Calorie You want to set', '');
-    if(result === null) {
-      return;
-    }
-    if (!isNumeric(result)) {
-      alert('Target Calorie should be a number');
-      return;
-    }
+  onChangedUserTargetCalorieInput = (e) => {
     const thisState = this.state;
-    this.setState({ ...thisState, targetCalories: result });
+    this.setState({ ...thisState, targetCalories: e.target.value });
   }
 
   onClickedAddPreferenceButton = () => {
@@ -182,20 +150,35 @@ class Setting extends Component {
   }
 
   onClickedSaveButton = () => {
-    let result = confirm('Will you save this user profile?')
-    if (result === false) {
+    if (!isNumeric(this.state.age)) {
+      alert('Age should be a number');
+      return;
+    } else if (!isNumeric(this.state.height)) {
+      alert('Height should be a number');
+      return;
+    } else if (!isNumeric(this.state.weight)) {
+      alert('Weight should be a number');
+      return;
+    } else if (!isNumeric(this.state.targetCalories)) {
+      alert('Target Calorie should be a number');
       return;
     }
 
-    this.props.onSaveUserSetting(
-      this.state.username,
-      parseInt(this.state.age),
-      this.state.sex,
-      parseFloat(this.state.height),
-      parseFloat(this.state.weight),
-      this.state.preference,
-      parseFloat(this.state.targetCalories),
-    );
+    if (parseInt(this.state.age) < 5) {
+      alert('The lowest age that can use our service normally is Five')
+      return;
+    }
+    else  {
+      this.props.onSaveUserSetting(
+        this.state.username,
+        parseInt(this.state.age),
+        this.state.sex,
+        parseInt(this.state.height),
+        parseInt(this.state.weight),
+        this.state.preference,
+        parseInt(this.state.targetCalories),
+      );
+    } 
   }
 
   onClickedDeleteAccountButton = () => {
@@ -205,18 +188,18 @@ class Setting extends Component {
 
   render() {
     /* User setting information from redux from backend */
-    let age = this.state.age;
-    let sex = this.state.sex;
+    let age = this.props.currUser.age;
+    let sex = this.props.currUser.sex;
     let sexEditButton = sexToggleButtons(this.state.sex, this.onClickedUserSexMaleButton, this.onClickedUserSexFemaleButton)
-    let height = this.state.height;
-    let weight = this.state.weight;
-    let targetCalories = this.state.targetCalories;
+    let height = this.props.currUser.height;
+    let weight = this.props.currUser.weight;
+    let targetCalories = this.props.currUser.targetCalories;
     let preference = preferenceButtonList(this.state.preference, this.state.confirmOpen, this.onClickedUserPreferenceDeleteButton, this.onConfirmOpen, this.onConfirmClose)
 
-    const recommendedCalorie = (Math.round(100 * Calculator.recommendedCalorie(age, sex, height, weight))) / 100;
-    const recommendedCarbs = (Math.round(100 * Calculator.recommendedCarbs(recommendedCalorie))) / 100;
-    const recommendedProtein = (Math.round(100 * Calculator.recommendedProtein(recommendedCalorie))) / 100;
-    const recommendedFat = (Math.round(100 * Calculator.recommendedFat(recommendedCalorie))) / 100;
+    const recommendedCalorie = Calculator.recommendedCalorie(age, sex, height, weight);
+    const recommendedCarbs = Calculator.recommendedCarbs(age, sex, height, weight);
+    const recommendedProtein = Calculator.recommendedProtein(age, sex, height, weight);
+    const recommendedFat = Calculator.recommendedFat(age, sex, height, weight);
 
     return (
       <div className="Setting">
@@ -246,12 +229,7 @@ class Setting extends Component {
                   <Table.HeaderCell>Age</Table.HeaderCell>
                   <Table.Cell>{age}</Table.Cell>
                   <Table.Cell>
-                    <Button
-                    id='age-edit-button'
-                    onClick={() => this.onClickedAgeEditButton()}
-                    style={{padding: '4%', width: '50%'}}
-                  > Edit
-                  </Button>
+                    <Input id="user-age-input" onChange={(e) => this.onChangedUserAgeInput(e)} placeholder={'Edit'} style={{width: '100px'}}/>
                   </Table.Cell>
                 </Table.Row>
                 <Table.Row textAlign='center'>
@@ -265,36 +243,30 @@ class Setting extends Component {
                   <Table.HeaderCell>height</Table.HeaderCell>
                   <Table.Cell>{height}</Table.Cell>
                   <Table.Cell>
-                    <Button
-                      id='height-edit-button'
-                      onClick={() => this.onClickedHeightEditButton()}
-                      style={{padding: '4%', width: '50%'}}
-                    > Edit
-                    </Button>
+                    <Input id="user-height-input"
+                      onChange={(e) => { this.onChangedUserHeightInput(e); }}
+                      placeholder={'Edit'} style={{width: '100px'}}
+                    />
                   </Table.Cell>
                 </Table.Row>
                 <Table.Row textAlign='center'>
                   <Table.HeaderCell>weight</Table.HeaderCell>
                   <Table.Cell>{weight}</Table.Cell>
                   <Table.Cell>
-                  <Button
-                    id='weight-edit-button'
-                    onClick={() => this.onClickedWeightEditButton()}
-                    style={{padding: '4%', width: '50%'}}
-                  > Edit
-                  </Button>
+                    <Input id="user-weight-input"
+                      onChange={(e) => { this.onChangedUserWeightInput(e); }}
+                      placeholder={'Edit'} style={{width: '100px'}}
+                    />
                   </Table.Cell>
                 </Table.Row>
                 <Table.Row textAlign='center'>
                   <Table.HeaderCell>Target Calories</Table.HeaderCell>
                   <Table.Cell>{targetCalories}</Table.Cell>
                   <Table.Cell>
-                      <Button
-                        id='target-calorie-edit-button'
-                        onClick={() => this.onClickedCalorieEditButton()}
-                        style={{padding: '4%', width: '50%'}}
-                      > Edit
-                      </Button>
+                    <Input id="user-target-calorie-input"
+                      onChange={(e) => { this.onChangedUserTargetCalorieInput(e); }}
+                      placeholder={'Edit'} style={{width: '100px'}} 
+                    />
                   </Table.Cell>
                 </Table.Row>
                 <Table.Row textAlign='center'>
@@ -303,8 +275,8 @@ class Setting extends Component {
                     {preference}
                   </Table.Cell>
                   <Table.Cell>
-                    <Button id='add-preferece-button' onClick={() => this.onClickedAddPreferenceButton()} style={{padding: '4%', width: '50%'}}>
-                      Add +
+                    <Button id='add-preferece-button' onClick={() => this.onClickedAddPreferenceButton()} style={{padding: '4%'}}>
+                      Click to Add..
                     </Button>
                   </Table.Cell>
                 </Table.Row>
