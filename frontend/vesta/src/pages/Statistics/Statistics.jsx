@@ -78,13 +78,28 @@ class Statistics extends Component {
   }
 
   render() {
-    let todayNutritionIntake = {
-      calories: this.props.currUserNutrition.calories,
-      carbs: this.props.currUserNutrition.carbs,
-      protein: this.props.currUserNutrition.protein,
-      fat: this.props.currUserNutrition.fat,
+    let todayNutritionIntake, recommendedCalorie
+    
+    if (this.props.currUserNutrition === null) {
+      todayNutritionIntake = {
+        calories: 0,
+        carbs: 0,
+        protein: 0,
+        fat: 0,
+      }
+    } else {
+      todayNutritionIntake = {
+        calories: this.props.currUserNutrition.calories,
+        carbs: this.props.currUserNutrition.carbs,
+        protein: this.props.currUserNutrition.protein,
+        fat: this.props.currUserNutrition.fat,
+      }
     }
-    let recommendedCalorie = this.props.currUser.targetCalories;
+    if (this.props.currUser === null) {
+      recommendedCalorie = 99999;
+    } else {
+      recommendedCalorie = this.props.currUser.targetCalories;
+    }
     let recommendedCarbs = Calculator.recommendedCarbs(recommendedCalorie);
     let recommendedProtein = Calculator.recommendedProtein(recommendedCalorie);
     let recommendedFat = Calculator.recommendedFat(recommendedCalorie);
