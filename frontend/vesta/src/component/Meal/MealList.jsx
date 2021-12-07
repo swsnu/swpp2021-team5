@@ -69,9 +69,9 @@ class MealList extends Component {
     let lunch_ = "Lunch  ";
     let dinner_ = "Dinner  ";
     if (this.props.recommendedMenus) {
-      console.log(this.props.recommendedMenus);
+      // console.log(this.props.recommendedMenus);
       if (this.props.recommendedMenus[0] !== null) {
-        console.log(this.props.recommendedMenus[0]);
+        // console.log(this.props.recommendedMenus[0]);
         meals.push(
           <div class="item">
             <Breakfast>
@@ -84,7 +84,7 @@ class MealList extends Component {
               </a>
               <MealName>
                 {breakfast_}
-                <Icon name="search plus" size="large" onClick={() => this.onClickedOtherBreakfast()}/>
+                <Icon id="other-breakfast" name="search plus" size="large" onClick={() => this.onClickedOtherBreakfast()}/>
               </MealName>
             </Breakfast>
           </div>

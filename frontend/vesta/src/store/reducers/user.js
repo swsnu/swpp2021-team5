@@ -1,39 +1,9 @@
 import * as actionTypes from '../actions/actionType';
 
 const initialState = {
-  currentUser: {
-    userID: 1,
-    username: 'team5',
-    age: 23,
-    sex: true,
-    height: 180,
-    weight: 80,
-    preference: ['banana', 'apple', 'fish'],
-    targetCalories: 2000,
-  },
-  userNutrition: {
-    calories: 1231,
-    carbs: 120,
-    protein: 30,
-    fat: 15,
-    count_all: 0,
-  },
-  userNutritions: [
-    {
-      calories: 1231,
-      carbs: 120,
-      protein: 30,
-      fat: 15,
-      date: '2021-12-1'
-    },
-    {
-      calories: 1231,
-      carbs: 120,
-      protein: 30,
-      fat: 15,
-      date: '2021-12-2'
-    }
-  ],
+  currentUser: null,
+  userNutrition: null,
+  userNutritions: [],
 };
 const userReducer = (state = initialState, action) => {
   switch (action.type) {
