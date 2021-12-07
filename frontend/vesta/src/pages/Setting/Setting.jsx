@@ -268,7 +268,7 @@ class Setting extends Component {
     console.log()
     if (this.props.currUser === null) {
       return (
-        <div>
+        <div className="SettingPage">
           Not Logged in
         </div>
       )
