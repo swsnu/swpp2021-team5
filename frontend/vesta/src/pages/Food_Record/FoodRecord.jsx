@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import {
   Image, Input, Container, Divider, Button,
 } from 'semantic-ui-react';
-// import { connect } from 'react-redux';
+import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import * as actionCreators from '../../store/actions/index';
 
 /* eslint no-restricted-globals: ["off"] */
 
@@ -28,10 +29,20 @@ class FoodRecord extends Component {
 
   onClickedUploadButton = () => {
     if (this.state.image != null) {
+      const form = new FormData();
+      form.append('image', this.state.image);
+      this.props.onGetDetection(form);
+
+      setTimeout(() => this.props.history.push({
+        pathname: '/confirm',
+        state: { image: this.state.image, menuName: this.props.detectedMenus[0].name },
+      }), 10000);
+      /*
       this.props.history.push({
         pathname: '/confirm',
-        state: { image: this.state.image },
+        state: { image: this.state.image, menuName: this.props.detectedMenus[0].name },
       });
+      */
     }
   }
 
@@ -55,4 +66,20 @@ class FoodRecord extends Component {
     );
   }
 }
-export default withRouter(FoodRecord);
+
+const mapStateToProps = (state) => ({
+  selectedMenu: state.menu.selectedMenu,
+  detectedMenus: state.ml.detectedMenu,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onGetMenu: (menuName) => dispatch(actionCreators.getMenu(menuName)),
+  onCreateUserNutrition: (date, calories, carbs, protein, fat,
+    countAll) => dispatch(actionCreators.createUserNutrition(date, calories, carbs, protein, fat, countAll)),
+  onEditUserNutrition: (date, calories, carbs, protein, fat,
+    countAll) => dispatch(actionCreators.editUserNutrition(date, calories, carbs, protein, fat, countAll)),
+  onGetDetection: (formData) => dispatch(actionCreators.detect(formData)),
+  onAddRecord: (formData) => dispatch(actionCreators.addRecord(formData)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(FoodRecord));
