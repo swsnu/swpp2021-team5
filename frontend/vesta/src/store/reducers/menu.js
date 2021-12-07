@@ -11,7 +11,7 @@ const initialState = {
     recipe: '1. Preheat oven to 375F.\n2. In a large bowl cream together butter brown sugar vanilla and cinnamon until smooth.\n3. Add the two kinds of oats one at a time mixing well after each addition.',
   },
   allMenus: null,
-  recommendedMenus: [],
+  recommendedMenus: null,
   count: -1,
   isUpdated: false,
 };

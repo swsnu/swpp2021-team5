@@ -11,6 +11,7 @@ from django.contrib.auth.models import User
 from .models import Profile, UserNutrition, Preference, Menu, Record
 from . import logmeal as api
 import os
+import base64
 
 # Create your views here.
 
@@ -311,7 +312,7 @@ def nutrition(request, date):
         return HttpResponseNotAllowed(['GET', 'POST', 'PUT'])
 
 
-def nutrition_count(request, date):   ## used for recommendation page
+def nutrition_count(request, date):   ## used for main page
     if not request.user.is_authenticated:
         return HttpResponse(status=401)
 
@@ -351,17 +352,23 @@ def record(request):
             return HttpResponse(status = 401)
 
         ## decode request
-        req_data = json.loads(request.body.decode())
-        menu_name = req_data['menu']
-        review_text = req_data['review']
-        liked = req_data['liked'] == "True"
+        # req_data = json.loads(request.body.decode())
+        menu_name = request.POST['menu_name']
+        review_text = request.POST['review']
+        liked = request.POST['liked'] == "True"
+
+        if not Menu.objects.filter(name = menu_name).exists():
+            return HttpResponse(status = 404)
 
         new_record = Record(user = request.user,
                                 menu = Menu.objects.get(name = menu_name),
                                 review = review_text,
                                 liked = liked,
                                 date = datetime.date.today(),
-                                image = req_data['image'])
+                                image = request.POST['image'])
+
+        print('image')
+        print(request.POST['image'])
         new_record.save()
 
         ## respond with created record detail
@@ -561,10 +568,12 @@ def detection(request):
     # img_filename = req_data['file']
 
     # img = api.preprocess(os.path.join(images_path, img_filename))
-    img = request.FILES['files'] # gets only 1 file
+    print(request.POST.keys())
+    img = request.POST['image'] # gets only 1 file
+    # img = base64.b64decode(img[23:])
 
     # img = api.preprocess(os.path.join(images_path, img_filename))
 
-    result_list = api.menu_recognition(img, user_token=api_user_token)
+    result_list = api.menu_recognition(img[23:], user_token=api_user_token)
 
-    return JsonResponse(result_list)
+    return JsonResponse(result_list, safe=False)

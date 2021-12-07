@@ -51,17 +51,24 @@ class ConfirmDetection extends Component {
   componentDidMount() {
     const uploadedImage = this.props.location.state.image;
     console.log(uploadedImage);
-    console.log(this.props.location.state.type);
+    // console.log(this.props.location.state.type);
 
     this.setState({ image: uploadedImage });
-    this.setState({ type: this.props.location.state.type });
+    this.setState({ type: 'meal' });
     this.props.onGetMenu(this.state.menuName);
 
-    const form = new FormData();
-    form.append('files', this.state.image);
-    this.props.onGetDetection(form);
-    console.log('detection', this.props.detectedMenus);
-    this.setState({ menuName: this.props.detectedMenus[0].name });
+    // const form = new FormData();
+    // form.append('files', uploadedImage);
+    // form.append('image', uploadedImage);
+    // for (const value of form.keys()) {
+    //   console.log(value);
+    // }
+    // for (const value of form.values()) {
+    //   console.log(value);
+    // }
+    // this.props.onGetDetection(form);
+    // console.log('detection', this.props.detectedMenus);
+    this.setState({ menuName: this.props.location.state.menuName });
   }
 
   onClickedEditResultButton = () => {
@@ -92,26 +99,29 @@ class ConfirmDetection extends Component {
       let apiRes = null;
       try {
         apiRes = await axios.get(`/api/nutrition/${today}/`);
-      } catch (err) {
-        if (err.response.status === 404) {
-          const countInput = (this.state.type === 'meal') ? 1 : 0;
-          this.props.onCreateUserNutrition(today, this.props.selectedMenu.calories,
-            this.props.selectedMenu.carbs, this.props.selectedMenu.protein, this.props.selectedMenu.fat, countInput);
-        }
       } finally {
-        const currentCalories = apiRes.data.calories;
-        const currentCarbs = apiRes.data.carbs;
-        const currentProtein = apiRes.data.protein;
-        const currentFat = apiRes.data.fat;
-        const currentCount = apiRes.data.count_all;
         const countInput = (this.state.type === 'meal') ? 1 : 0;
+        if (apiRes.data.calories === 0 && apiRes.data.carbs === 0 && apiRes.data.protein === 0 && apiRes.data.fat === 0) {
+          this.props.onCreateUserNutrition(today,
+            this.props.selectedMenu.calories,
+            this.props.selectedMenu.carbs,
+            this.props.selectedMenu.protein,
+            this.props.selectedMenu.fat,
+            countInput);
+        } else {
+          const currentCalories = apiRes.data.calories;
+          const currentCarbs = apiRes.data.carbs;
+          const currentProtein = apiRes.data.protein;
+          const currentFat = apiRes.data.fat;
+          const currentCount = apiRes.data.count_all;
 
-        this.props.onEditUserNutrition(today,
-          currentCalories + this.props.selectedMenu.calories,
-          currentCarbs + this.props.selectedMenu.carbs,
-          currentProtein + this.props.selectedMenu.protein,
-          currentFat + this.props.selectedMenu.fat,
-          currentCount + countInput);
+          this.props.onEditUserNutrition(today,
+            currentCalories + this.props.selectedMenu.calories,
+            currentCarbs + this.props.selectedMenu.carbs,
+            currentProtein + this.props.selectedMenu.protein,
+            currentFat + this.props.selectedMenu.fat,
+            currentCount + countInput);
+        }
       }
     })();
     this.props.history.push('/history');

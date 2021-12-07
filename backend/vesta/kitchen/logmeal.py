@@ -1,6 +1,8 @@
+import base64
 import os
 import requests
 from PIL import Image
+from io import BytesIO, StringIO
 
 #################
 # configuration
@@ -120,8 +122,15 @@ def menu_recognition(img_path, user_token=api_user_token):
     # Single Dishes Detection
     url = api_url + 'recognition/dish'
     # resp = requests.post(url,files={'image': open(img, 'rb')}, headers=headers)
-    resp = requests.post(url,files=img, headers=headers)
-    print(resp.json()["recognition_results"]) # display dish only
+    # img_open = open('upload_img.jpg','w')
+    # img_open.write(base64.decodestring(img))
+    img_open = Image.open(BytesIO(base64.b64decode(img)))
+    img_open = img_open.convert('RGB')
+    img_open.save('uploaded_img.jpg')
+
+
+    resp = requests.post(url,files={'image':open('uploaded_img.jpg', 'rb')}, headers=headers)
     print(resp.json())
+    print(resp.json()["recognition_results"]) # display dish only
     
     return resp.json()["recognition_results"]
