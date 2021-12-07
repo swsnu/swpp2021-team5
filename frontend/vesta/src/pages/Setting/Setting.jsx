@@ -94,8 +94,6 @@ class Setting extends Component {
       alert('Weight should be a number larger than 4');
       return;
     }
-    // const thisState = this.state;
-    // this.setState({ ...thisState, age: result });
     this.props.onSaveUserSetting(
       this.props.currUser.username,
       parseInt(result),
@@ -144,8 +142,6 @@ class Setting extends Component {
       alert('Height should be a number');
       return;
     }
-    // const thisState = this.state;
-    // this.setState({ ...thisState, height: result });
     this.props.onSaveUserSetting(
       this.props.currUser.username,
       this.props.currUser.age,
@@ -204,7 +200,6 @@ class Setting extends Component {
     }
     const newPreference = this.props.currUser.preference;
     newPreference.push(result);
-    console.log(newPreference);
     this.props.onSaveUserSetting(
       this.props.currUser.username,
       this.props.currUser.age,
@@ -220,7 +215,6 @@ class Setting extends Component {
     const newPreference = this.props.currUser.preference.filter((menu) => {
       return menu !== target;
     });
-    console.log(newPreference);
     this.props.onSaveUserSetting(
       this.props.currUser.username,
       this.props.currUser.age,
