@@ -9,6 +9,7 @@ import Setting from './Setting';
 import { getMockStore } from '../../test-utils/mock';
 import { history } from '../../store/store';
 import * as actionCreators from '../../store/actions/User/user';
+import recommendedCalorie from './Calculator'
 
 const userInitialState = {
   currentUser: {
@@ -23,12 +24,16 @@ const userInitialState = {
   },
   userNutrition: null,
 };
-const userInitialState_ = {
+const userInitialState_null = {
+  currentUser: null,
+  userNutrition: null,
+};
+const userInitialState_female = {
   currentUser: {
     userID: 1,
     username: 'testname',
-    age: 1,
-    sex: null,
+    age: 5,
+    sex: false,
     height: 1,
     weight: 1,
     targetCalories: 1,
@@ -46,6 +51,8 @@ const recipeInitialState = {
 
 };
 const mockStore = getMockStore(userInitialState, recordInitialState, menuInitialState, recipeInitialState);
+const mockStore_null = getMockStore(userInitialState_null, recordInitialState, menuInitialState, recipeInitialState);
+const mockStore_female = getMockStore(userInitialState_female, recordInitialState, menuInitialState, recipeInitialState);
 
 describe('Setting', () => {
   let setting, spyOnGetUserSetting;
@@ -114,9 +121,64 @@ describe('Setting', () => {
     femaleWrapper.simulate('click');
     expect(spyOnSaveUserSetting).toHaveBeenCalledTimes(1);
   });
+
+  it('should ignore to edit sex from male to male', () => {
+    const spyOnSaveUserSetting = jest.spyOn(actionCreators, 'saveUserSetting')
+      .mockImplementation(({}) => (dispatch) => {});
+    const component = mount(setting);
+    const femaleWrapper = component.find('button#male-button');
+    femaleWrapper.simulate('click');
+    expect(spyOnSaveUserSetting).toHaveBeenCalledTimes(0);
+  });
+
+  it('should set sex from female to male correctly', () => {
+    let setting_female = (
+      <Provider store={mockStore_female}>
+        <ConnectedRouter history={history}>
+          <Switch>
+            <Route path="/" exact component={Setting} />
+          </Switch>
+        </ConnectedRouter>
+      </Provider>
+    );
+    let spyOnGetUserSetting = jest.spyOn(actionCreators, 'getUserSetting').mockImplementation(() => (dispatch) => {});
+    const spyOnSaveUserSetting_female = jest.spyOn(actionCreators, 'saveUserSetting')
+      .mockImplementation(({}) => (dispatch) => {});
+    const component = mount(setting_female);
+    const femaleWrapper = component.find('button#male-button');
+    femaleWrapper.simulate('click');
+    expect(spyOnSaveUserSetting_female).toHaveBeenCalledTimes(1);
+  });
+
+  it('should ignore to edit sex from female to female', () => {
+    let setting_female = (
+      <Provider store={mockStore_female}>
+        <ConnectedRouter history={history}>
+          <Switch>
+            <Route path="/" exact component={Setting} />
+          </Switch>
+        </ConnectedRouter>
+      </Provider>
+    );
+    let spyOnGetUserSetting= jest.spyOn(actionCreators, 'getUserSetting').mockImplementation(() => (dispatch) => {});
+    const spyOnSaveUserSetting_female = jest.spyOn(actionCreators, 'saveUserSetting')
+      .mockImplementation(({}) => (dispatch) => {});
+    const component = mount(setting_female);
+    const femaleWrapper = component.find('button#female-button');
+    femaleWrapper.simulate('click');
+    expect(spyOnSaveUserSetting_female).toHaveBeenCalledTimes(0);
+  });
   
   it('should ignore height edit when cancle', () => {
     window.prompt = jest.fn().mockImplementation(() => null);
+    const component = mount(setting);
+    const wrap = component.find('Button#height-edit-button');
+    wrap.simulate('click');
+    expect(wrap.length).toEqual(1);
+  });
+
+  it('should check if height is number', () => {
+    window.prompt = jest.fn().mockImplementation(() => 'asdf');
     const component = mount(setting);
     const wrap = component.find('Button#height-edit-button');
     wrap.simulate('click');
@@ -167,14 +229,23 @@ describe('Setting', () => {
     expect(wrap.length).toEqual(1);
   });
 
-  xit('should set state target calorie correctly', () => {
+  it('should set state target calorie correctly', () => {
     const spyOnSaveUserSetting = jest.spyOn(actionCreators, 'saveUserSetting')
       .mockImplementation(({}) => (dispatch) => {});
     window.prompt = jest.fn().mockImplementation(() => '170');
     const component = mount(setting);
     const wrap = component.find('Button#target-calorie-edit-button');
     wrap.simulate('click');
+    expect(wrap.length).toBe(1);
     expect(spyOnSaveUserSetting).toHaveBeenCalledTimes(1);
+  });
+
+  it('should ignore target calorie edit when cancle', () => {
+    window.prompt = jest.fn().mockImplementation(() => 'asdf');
+    const component = mount(setting);
+    const wrap = component.find('Button#target-calorie-edit-button');
+    wrap.simulate('click');
+    expect(wrap.length).toEqual(1);
   });
 
   it('should ignore target calorie edit when cancle', () => {
@@ -201,15 +272,16 @@ describe('Setting', () => {
     expect(settingInstance.state.preference.length).toEqual(2);
   })
 
-  xit('should delete preference', () => {
+  it('should delete preference', () => {
     const spyOnSaveUserSetting = jest.spyOn(actionCreators, 'saveUserSetting')
       .mockImplementation(({}) => (dispatch) => {});
-    window.confirm = jest.fn().mockImplementation(() => true);
+    // window.confirm = jest.fn().mockImplementation(() => true);
     const component = mount(setting);
     const wrap = component.find('button#ingredient-button').at(0);
     wrap.simulate('click');
-    console.log(component.debug());
+    // console.log(component.debug());
     const okayButton = component.find('.uiprimarybutton');
+    expect(wrap.length).toBe(1);
     expect(okayButton.length).toBe(1);
     expect(spyOnSaveUserSetting).toHaveBeenCalledTimes(1);
   })
@@ -234,11 +306,37 @@ describe('Setting', () => {
     expect(spyOnSaveUserSetting).toHaveBeenCalledTimes(1);
   })
 
+  it('should not dispatch resign correctly', () => {
+    window.confirm = jest.fn().mockImplementation(() => false);
+    const spyOnDeleteUserAccount = jest.spyOn(actionCreators, 'deleteUserAccount').mockImplementation(() => (dispatch) => {});
+    const component = mount(setting);
+    const wrap = component.find('button#user-resign-button');
+    wrap.simulate('click');
+    expect(spyOnDeleteUserAccount).toHaveBeenCalledTimes(0);
+  });
+
   it('should dispatch resign correctly', () => {
+    window.confirm = jest.fn().mockImplementation(() => true);
     const spyOnDeleteUserAccount = jest.spyOn(actionCreators, 'deleteUserAccount').mockImplementation(() => (dispatch) => {});
     const component = mount(setting);
     const wrap = component.find('button#user-resign-button');
     wrap.simulate('click');
     expect(spyOnDeleteUserAccount).toHaveBeenCalledTimes(1);
   });
+
+  it('should check if it is not logged in', () => {
+    let setting_null = (
+      <Provider store={mockStore_null}>
+        <ConnectedRouter history={history}>
+          <Switch>
+            <Route path="/" exact component={Setting} />
+          </Switch>
+        </ConnectedRouter>
+      </Provider>
+    );
+    let spyOnGetUserSetting_null = jest.spyOn(actionCreators, 'getUserSetting').mockImplementation(() => (dispatch) => {});
+    const component = mount(setting_null);
+    const wrapper = component.find('.SettingPage');
+    expect(wrapper.length).toBe(1);
+  })
 });

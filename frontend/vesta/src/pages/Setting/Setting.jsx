@@ -236,25 +236,6 @@ class Setting extends Component {
     this.setState({...thisState, confirmOpen: false});
   }
 
-  /*
-  onClickedSaveButton = () => {
-    let result = confirm('Will you save this user profile?')
-    if (result === false) {
-      return;
-    }
-
-    this.props.onSaveUserSetting(
-      this.state.username,
-      parseInt(this.state.age),
-      this.state.sex,
-      parseFloat(this.state.height),
-      parseFloat(this.state.weight),
-      this.state.preference,
-      parseFloat(this.state.targetCalories),
-    );
-  }
-  */
-
   onClickedDeleteAccountButton = () => {
     let result = confirm('Are you sure to delete your account?');
     if (result === false) {
@@ -265,7 +246,6 @@ class Setting extends Component {
   }
 
   render() {
-    console.log()
     if (this.props.currUser === null) {
       return (
         <div className="SettingPage">
