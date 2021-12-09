@@ -35,7 +35,8 @@ export const saveUserSetting = (user) => (dispatch) => axios.put('/api/user/prof
 export const getUserSetting = () => (dispatch) => axios.get('/api/user/profile/')
   .then((res) => {
     dispatch(saveUserSetting_({...res.data}));
-  });
+  })
+  .catch(() => dispatch(push('/login')));
 
 export const deleteUserAccount = () => (dispatch) => axios.delete('/api/user/resign/')
   .then((res) => {

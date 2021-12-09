@@ -48,6 +48,7 @@ padding: 10px;
 
 class Main extends Component {
   componentDidMount() {
+    this.props.getUserSetting();
     const today = (new Date()).toISOString().split('T')[0];
     this.props.getRecommendedMenus(today);
     this.props.getCountAll(today);
@@ -236,6 +237,7 @@ const mapDispatchToProps = (dispatch) => ({
     countAll) => dispatch(actionCreators.editUserNutrition(date, calories, carbs, protein, fat, countAll)),
   getRecommendedMenus: (date) => dispatch(actionCreators.getRecommendedMenus(date)),
   getCountAll: (date) => dispatch(actionCreators.getCountAll(date)),
+  getUserSetting: () => dispatch(actionCreators.getUserSetting()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Main));
