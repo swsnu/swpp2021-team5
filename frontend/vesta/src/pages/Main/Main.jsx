@@ -96,26 +96,35 @@ class Main extends Component {
   }
 
   onClickedFollowedRecButton = () => {
-    this.props.history.push({
-      pathname: '/record',
-      state: { type: 'meal' },
-    });
-    this.setState((prevState) => ({ idx: prevState.idx + 1 }));
+    const bool = window.confirm('Did you follow our recommended meal? If you confirm, you can record your meal details.');
+    if (bool) {
+      this.props.history.push({
+        pathname: '/record',
+        state: { type: 'meal' },
+      });
+      this.setState((prevState) => ({ idx: prevState.idx + 1 }));
+    }
   }
 
   onClickedNotFollowedButton = () => {
-    this.props.history.push({
-      pathname: '/record',
-      state: { type: 'meal' },
-    });
-    this.setState((prevState) => ({ idx: prevState.idx + 1 }));
+    const bool = window.confirm('Did you have alternative menu rather than recommended meal? If you confirm, you can record your meal details.');
+    if (bool) {
+      this.props.history.push({
+        pathname: '/record',
+        state: { type: 'meal' },
+      });
+      this.setState((prevState) => ({ idx: prevState.idx + 1 }));
+    }
   }
 
   onClickedRecordSnackButton = () => {
-    this.props.history.push({
-      pathname: '/record',
-      state: { type: 'snack' },
-    });
+    const bool = window.confirm('Did you have a snack? If you confirm, you can record your snack details.');
+    if (bool) {
+      this.props.history.push({
+        pathname: '/record',
+        state: { type: 'snack' },
+      });
+    }
   }
 
   onClickedMenuRecButton = () => {
