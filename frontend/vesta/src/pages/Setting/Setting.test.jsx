@@ -232,7 +232,7 @@ describe('Setting', () => {
   it('should set state target calorie correctly', () => {
     const spyOnSaveUserSetting = jest.spyOn(actionCreators, 'saveUserSetting')
       .mockImplementation(({}) => (dispatch) => {});
-    window.prompt = jest.fn().mockImplementation(() => '170');
+    window.prompt = jest.fn().mockImplementation(() => '1200');
     const component = mount(setting);
     const wrap = component.find('Button#target-calorie-edit-button');
     wrap.simulate('click');
