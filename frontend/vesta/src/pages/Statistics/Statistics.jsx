@@ -48,6 +48,7 @@ class Statistics extends Component {
   }
 
   componentDidMount() {
+    this.props.getUserSetting();
     const today = (new Date()).toISOString().split('T')[0];
     this.props.onGetUserNutrition(today);
     this.props.onGetAllUserNutrition();
@@ -154,7 +155,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     onGetUserNutrition: (date) => dispatch(actionCreators.getUserNutrition(date)),
-    onGetAllUserNutrition : () => dispatch(actionCreators.getAllUserNutrition())
+    onGetAllUserNutrition : () => dispatch(actionCreators.getAllUserNutrition()),
+    getUserSetting: () => dispatch(actionCreators.getUserSetting()),
   }
 }
 
