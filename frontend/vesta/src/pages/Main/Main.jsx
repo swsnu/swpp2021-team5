@@ -56,9 +56,10 @@ class Main extends Component {
   }
 
   onClickedSkipButton = () => {
+    const today = (new Date()).toISOString().split('T')[0];
+    console.log(this.props.userNutrition);
     const bool = window.confirm('Did you skip your meal? If you confirm, we will edit your nutrition information as skipped.');
     if (bool) {
-      const today = (new Date()).toISOString().split('T')[0];
       this.props.onEditUserNutrition(
         today,
         this.props.userNutrition.calories,
@@ -68,6 +69,7 @@ class Main extends Component {
         this.props.userNutrition.count_all + 1,
       );
     }
+    this.props.getRecommendedMenus(today);
     // (async () => {
     //   let apiRes = null;
     //   try {
