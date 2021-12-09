@@ -1,4 +1,3 @@
-/* istanbul ignore file */
 /* eslint-disable */
 
 import React, { Component } from 'react';
@@ -65,7 +64,7 @@ class Signup extends Component {
       .then((res) => {
         if(res.data.availability == true) {
           alert('This Username is available');
-        } else if(res.data.availability == false) {
+        } else if(res.data.availability === false) {
           alert('This Username is Not available.\n Please choose another one');
         }
       });
