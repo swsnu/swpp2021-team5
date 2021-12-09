@@ -51,6 +51,7 @@ class Statistics extends Component {
     const today = (new Date()).toISOString().split('T')[0];
     this.props.onGetUserNutrition(today);
     this.props.onGetAllUserNutrition();
+    this.props.onGetUserSetting();
   }
 
   onClickedWeeklyPrevButton = () => {
@@ -154,7 +155,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     onGetUserNutrition: (date) => dispatch(actionCreators.getUserNutrition(date)),
-    onGetAllUserNutrition : () => dispatch(actionCreators.getAllUserNutrition())
+    onGetAllUserNutrition : () => dispatch(actionCreators.getAllUserNutrition()),
+    onGetUserSetting: () => dispatch(actionCreators.getUserSetting()),
   }
 }
 

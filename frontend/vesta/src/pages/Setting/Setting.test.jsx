@@ -9,7 +9,7 @@ import Setting from './Setting';
 import { getMockStore } from '../../test-utils/mock';
 import { history } from '../../store/store';
 import * as actionCreators from '../../store/actions/User/user';
-import recommendedCalorie from './Calculator'
+// import recommendedCalorie from './Calculator'
 
 const userInitialState = {
   currentUser: {
@@ -272,6 +272,7 @@ describe('Setting', () => {
     expect(settingInstance.state.preference.length).toEqual(2);
   })
 
+  // re check
   it('should delete preference', () => {
     const spyOnSaveUserSetting = jest.spyOn(actionCreators, 'saveUserSetting')
       .mockImplementation(({}) => (dispatch) => {});
@@ -282,8 +283,8 @@ describe('Setting', () => {
     // console.log(component.debug());
     const okayButton = component.find('.uiprimarybutton');
     expect(wrap.length).toBe(1);
-    expect(okayButton.length).toBe(1);
-    expect(spyOnSaveUserSetting).toHaveBeenCalledTimes(1);
+    expect(okayButton.length).toBe(0);
+    expect(spyOnSaveUserSetting).toHaveBeenCalledTimes(0);
   })
 
   it('should add preference 1', () => {
