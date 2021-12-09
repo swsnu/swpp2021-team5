@@ -78,6 +78,7 @@ const recordReducer = (state = initialState, action) => {
         id: action.id, image: action.image, date: action.date,
         liked: action.liked, review: action.review
       };
+      console.log(newRecord);
       return { ...state, userRecords: [...state.userRecords, newRecord]};
     }
     case actionTypes.GET_RECORD: {

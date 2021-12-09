@@ -11,7 +11,7 @@ from .models import TodayMenu
 # Create your views here.
 ## recommend 15 menus total(5 for each meal)
 def recommend(request, date):
-    print('here')
+    # print('here')
     # if unauthenticated
     if not request.user.is_authenticated:
         return HttpResponse(status = 401)
@@ -52,7 +52,7 @@ def recommend(request, date):
             response_dict = []
             if len(response)!=0:
                 for res in response:
-                    print(res)
+                    # print(res)
                     if res is not None:
                         response_dict.append({
                             'id': res.id,
@@ -70,6 +70,10 @@ def recommend(request, date):
             return JsonResponse(response_dict, safe=False)
         
         count = len(Record.objects.filter(user_id=request.user.id, date=today))  
+        print('date:',today)
+        print('user_id:',request.user.id)
+        print('count:',count)
+        print('today_menu.count:',today_menu.count)
         if count == today_menu.count:    # no new records were made
             response_dict = []
             dict = model_to_dict(today_menu)
@@ -80,7 +84,7 @@ def recommend(request, date):
                 else:
                     try:
                         menu = Menu.objects.get(id=value)
-                        print(str(menu.image).split('/')[-1])
+                        # print(str(menu.image).split('/')[-1])
                         response_dict.append({
                             'id': menu.id,
                             'name': menu.name,
