@@ -52,58 +52,81 @@ class Main extends Component {
     const today = (new Date()).toISOString().split('T')[0];
     this.props.getRecommendedMenus(today);
     this.props.getCountAll(today);
+    this.props.getUserNutrition(today);
   }
 
   onClickedSkipButton = () => {
     const today = (new Date()).toISOString().split('T')[0];
-    (async () => {
-      let apiRes = null;
-      try {
-        apiRes = await axios.get(`/api/nutrition/${today}/`);
-      } finally {
-        const countInput = (this.state.type === 'meal') ? 1 : 0;
-        if (apiRes.data.calories === 0 && apiRes.data.carbs === 0 && apiRes.data.protein === 0 && apiRes.data.fat === 0) {
-          this.props.onCreateUserNutrition(today, 0, 0, 0, 0, 1);
-        } else {
-          const currentCalories = apiRes.data.calories;
-          const currentCarbs = apiRes.data.carbs;
-          const currentProtein = apiRes.data.protein;
-          const currentFat = apiRes.data.fat;
-          const currentCount = apiRes.data.count_all;
+    console.log(this.props.userNutrition);
+    const bool = window.confirm('Did you skip your meal? If you confirm, we will edit your nutrition information as skipped.');
+    if (bool) {
+      this.props.onEditUserNutrition(
+        today,
+        this.props.userNutrition.calories,
+        this.props.userNutrition.carbs,
+        this.props.userNutrition.protein,
+        this.props.userNutrition.fat,
+        this.props.userNutrition.count_all + 1,
+      );
+    }
+    this.props.getRecommendedMenus(today);
+    // (async () => {
+    //   let apiRes = null;
+    //   try {
+    //     apiRes = await axios.get(`/api/nutrition/${today}/`);
+    //   } finally {
+    //     const countInput = (this.state.type === 'meal') ? 1 : 0;
+    //     if (apiRes.data.calories === 0 && apiRes.data.carbs === 0 && apiRes.data.protein === 0 && apiRes.data.fat === 0) {
+    //       this.props.onCreateUserNutrition(today, 0, 0, 0, 0, 1);
+    //     } else {
+    //       const currentCalories = apiRes.data.calories;
+    //       const currentCarbs = apiRes.data.carbs;
+    //       const currentProtein = apiRes.data.protein;
+    //       const currentFat = apiRes.data.fat;
+    //       const currentCount = apiRes.data.count_all;
 
-          this.props.onEditUserNutrition(today,
-            currentCalories,
-            currentCarbs,
-            currentProtein,
-            currentFat,
-            currentCount + 1);
-        }
-      }
-    })();
-    this.setState((prevState) => ({ idx: prevState.idx + 1 }));
+    //       this.props.onEditUserNutrition(today,
+    //         currentCalories,
+    //         currentCarbs,
+    //         currentProtein,
+    //         currentFat,
+    //         currentCount + 1);
+    //     }
+    //   }
+    // })();
+    // this.setState((prevState) => ({ idx: prevState.idx + 1 }));
   }
 
   onClickedFollowedRecButton = () => {
-    this.props.history.push({
-      pathname: '/record',
-      state: { type: 'meal' },
-    });
-    this.setState((prevState) => ({ idx: prevState.idx + 1 }));
+    const bool = window.confirm('Did you follow our recommended meal? If you confirm, you can record your meal details.');
+    if (bool) {
+      this.props.history.push({
+        pathname: '/record',
+        state: { type: 'meal' },
+      });
+      this.setState((prevState) => ({ idx: prevState.idx + 1 }));
+    }
   }
 
   onClickedNotFollowedButton = () => {
-    this.props.history.push({
-      pathname: '/record',
-      state: { type: 'meal' },
-    });
-    this.setState((prevState) => ({ idx: prevState.idx + 1 }));
+    const bool = window.confirm('Did you have alternative menu rather than recommended meal? If you confirm, you can record your meal details.');
+    if (bool) {
+      this.props.history.push({
+        pathname: '/record',
+        state: { type: 'meal' },
+      });
+      this.setState((prevState) => ({ idx: prevState.idx + 1 }));
+    }
   }
 
   onClickedRecordSnackButton = () => {
-    this.props.history.push({
-      pathname: '/record',
-      state: { type: 'snack' },
-    });
+    const bool = window.confirm('Did you have a snack? If you confirm, you can record your snack details.');
+    if (bool) {
+      this.props.history.push({
+        pathname: '/record',
+        state: { type: 'snack' },
+      });
+    }
   }
 
   onClickedMenuRecButton = () => {
@@ -178,7 +201,7 @@ class Main extends Component {
                       </Grid.Column>
                       <Grid.Column>
                         <Icon circular name="camera icon" onClick={this.onClickedRecordSnackButton} />
-                        record
+                        snack
                       </Grid.Column>
                     </Grid>
                   </MealRecordArea>
@@ -228,6 +251,7 @@ class Main extends Component {
 const mapStateToProps = (state) => ({
   recommendedMenus: state.menu.recommendedMenus,
   countAll: state.menu.count,
+  userNutrition: state.user.userNutrition,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -238,6 +262,7 @@ const mapDispatchToProps = (dispatch) => ({
   getRecommendedMenus: (date) => dispatch(actionCreators.getRecommendedMenus(date)),
   getCountAll: (date) => dispatch(actionCreators.getCountAll(date)),
   getUserSetting: () => dispatch(actionCreators.getUserSetting()),
+  getUserNutrition: (date) => dispatch(actionCreators.getUserNutrition(date)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Main));

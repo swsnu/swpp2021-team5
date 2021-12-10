@@ -11,7 +11,7 @@ from .models import TodayMenu
 # Create your views here.
 ## recommend 15 menus total(5 for each meal)
 def recommend(request, date):
-    print('here')
+    # print('here')
     # if unauthenticated
     if not request.user.is_authenticated:
         return HttpResponse(status = 401)
@@ -52,7 +52,7 @@ def recommend(request, date):
             response_dict = []
             if len(response)!=0:
                 for res in response:
-                    print(res)
+                    # print(res)
                     if res is not None:
                         response_dict.append({
                             'id': res.id,
@@ -69,42 +69,47 @@ def recommend(request, date):
                         response_dict.append(None)
             return JsonResponse(response_dict, safe=False)
         
-        count = len(Record.objects.filter(user_id=request.user.id, date=today))  
-        if count == today_menu.count:    # no new records were made
-            response_dict = []
-            dict = model_to_dict(today_menu)
-            for key, value in dict.items():
-                # print(key, ", ", value)
-                if key in ('id', 'user', 'count', 'date'):
-                    continue
-                else:
-                    try:
-                        menu = Menu.objects.get(id=value)
-                        print(str(menu.image).split('/')[-1])
-                        response_dict.append({
-                            'id': menu.id,
-                            'name': menu.name,
-                            'calories': menu.calories,
-                            'carbs': menu.carbs,
-                            'protein': menu.protein,
-                            'fat': menu.fat,
-                            'image': "http://localhost:8000/media/"+str(menu.image).split('/')[-1],
-                            'recipe': menu.recipe,
-                            'ingredient': menu.ingredient
-                        })
-                    except Menu.DoesNotExist:
-                        response_dict.append(None)
-            return JsonResponse(response_dict, safe=False)
+        # count = len(Record.objects.filter(user_id=request.user.id, date=today))  
+        # print('date:',today)
+        # print('user_id:',request.user.id)
+        # print('count:',count)
+        # print('today_menu.count:',today_menu.count)
+        # if count == today_menu.count:    # no new records were made
+        #     response_dict = []
+        #     dict = model_to_dict(today_menu)
+        #     for key, value in dict.items():
+        #         # print(key, ", ", value)
+        #         if key in ('id', 'user', 'count', 'date'):
+        #             continue
+        #         else:
+        #             try:
+        #                 menu = Menu.objects.get(id=value)
+        #                 # print(str(menu.image).split('/')[-1])
+        #                 response_dict.append({
+        #                     'id': menu.id,
+        #                     'name': menu.name,
+        #                     'calories': menu.calories,
+        #                     'carbs': menu.carbs,
+        #                     'protein': menu.protein,
+        #                     'fat': menu.fat,
+        #                     'image': "http://localhost:8000/media/"+str(menu.image).split('/')[-1],
+        #                     'recipe': menu.recipe,
+        #                     'ingredient': menu.ingredient
+        #                 })
+        #             except Menu.DoesNotExist:
+        #                 response_dict.append(None)
+        #     return JsonResponse(response_dict, safe=False)
 
-        today_menu.count = count   # if you ate something else including snack, update today_menu.count
-        today_menu.save()
+        # today_menu.count = count   # if you ate something else including snack, update today_menu.count
+        # today_menu.save()
         
         try:  # count times of MEAL (not snack)
             count_all = UserNutrition.objects.get(user_id=request.user.id, date=today).count_all
         except UserNutrition.DoesNotExist:   # there should not be such a case like this -> if there is a record, then UserNutrition exits
             count_all = 0
 
-        if count_all == 3:   # if count_all == 3, just return the same todayMenu
+        if count_all >= 3:   # if count_all >= 3, just return the same todayMenu
+            print('here')
             response_dict = []
             dict = model_to_dict(today_menu)
             for key, value in dict.items():
@@ -282,7 +287,7 @@ def recommend_algorithm(request, today, count_all):
             fat=0
         )
     # left meal times 
-    times = (3 - count_all)
+    times = (3 - count_all)  # will be bigger than 0, exceptions handled above
 
     target_cal = Profile.objects.get(user_id=request.user.id).target_calories
     target_carbs = ((target_cal*0.5)/4)

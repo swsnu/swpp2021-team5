@@ -16,6 +16,10 @@ class FoodRecord extends Component {
     };
   }
 
+  componentDidMount() {
+    this.props.getUserSetting();
+  }
+
   onChangedImageInput = (event) => {
     const file = event.target.files[0];
     const reader = new FileReader();
@@ -80,6 +84,7 @@ const mapDispatchToProps = (dispatch) => ({
     countAll) => dispatch(actionCreators.editUserNutrition(date, calories, carbs, protein, fat, countAll)),
   onGetDetection: (formData) => dispatch(actionCreators.detect(formData)),
   onAddRecord: (formData) => dispatch(actionCreators.addRecord(formData)),
+  getUserSetting: () => dispatch(actionCreators.getUserSetting()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(FoodRecord));

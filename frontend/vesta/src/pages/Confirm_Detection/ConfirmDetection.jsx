@@ -49,6 +49,7 @@ class ConfirmDetection extends Component {
   }
 
   componentDidMount() {
+    this.props.getUserSetting();
     const uploadedImage = this.props.location.state.image;
     console.log(uploadedImage);
     // console.log(this.props.location.state.type);
@@ -204,6 +205,7 @@ const mapDispatchToProps = (dispatch) => ({
     countAll) => dispatch(actionCreators.editUserNutrition(date, calories, carbs, protein, fat, countAll)),
   onGetDetection: (formData) => dispatch(actionCreators.detect(formData)),
   onAddRecord: (formData) => dispatch(actionCreators.addRecord(formData)),
+  getUserSetting: () => dispatch(actionCreators.getUserSetting()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(ConfirmDetection));
