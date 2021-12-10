@@ -36,7 +36,7 @@ class FoodRecord extends Component {
       const form = new FormData();
       form.append('image', this.state.image);
       this.props.onGetDetection(form);
-
+      window.confirm('Your menu image is being detected :) Please wait for about 10 seconds!');
       setTimeout(() => this.props.history.push({
         pathname: '/confirm',
         state: { image: this.state.image, menuName: this.props.detectedMenus[0].name },
@@ -83,7 +83,6 @@ const mapDispatchToProps = (dispatch) => ({
   onEditUserNutrition: (date, calories, carbs, protein, fat,
     countAll) => dispatch(actionCreators.editUserNutrition(date, calories, carbs, protein, fat, countAll)),
   onGetDetection: (formData) => dispatch(actionCreators.detect(formData)),
-  onAddRecord: (formData) => dispatch(actionCreators.addRecord(formData)),
   getUserSetting: () => dispatch(actionCreators.getUserSetting()),
 });
 

@@ -69,6 +69,7 @@ class Main extends Component {
         this.props.userNutrition.count_all + 1,
       );
     }
+    this.props.getCountAll(today);
     this.props.getRecommendedMenus(today);
     // (async () => {
     //   let apiRes = null;
