@@ -59,11 +59,12 @@ class Signup extends Component {
   }
 
   onClickedCheckAvailButton = () => {
+  
     axios.get(`/api/user/signup/${this.state.username}/`)
       .then((res) => {
         if(res.data.availability == true) {
           alert('This Username is available');
-        } else if(res.data.availability == false) {
+        } else if(res.data.availability === false) {
           alert('This Username is Not available.\n Please choose another one');
         }
       });
@@ -134,11 +135,11 @@ class Signup extends Component {
     if (!isNumeric(this.state.age) || parseInt(this.state.age) < 5) {
       alert('Age should be a number larger than 4');
       return;
-    } else if (!isNumeric(this.state.height)) {
-      alert('Height should be entered as a number');
+    } else if (!isNumeric(this.state.height) || parseFloat(this.state.height < 100)) {
+      alert('Height should be entered as a number larger than 100');
       return;
-    } else if (!isNumeric(this.state.weight)) {
-      alert('Weight should be enterend as a number');
+    } else if (!isNumeric(this.state.weight) || parseFloat(this.state.weight) < 10) {
+      alert('Weight should be enterend as a number larget than 10');
       return;
     }
 
@@ -224,7 +225,7 @@ class Signup extends Component {
               {sexSelectButton}
             </Form.Field>
             <Form.Field>
-              <label align='left'>Height</label>
+              <label align='left'>Height (cm)</label>
               <input
                 id='height-input'  
                 type='text'
@@ -233,7 +234,7 @@ class Signup extends Component {
               />
             </Form.Field>
             <Form.Field>
-              <label align='left'>Weight</label>
+              <label align='left'>Weight (kg)</label>
               <input
                 id='weight-input'  
                 type='text'

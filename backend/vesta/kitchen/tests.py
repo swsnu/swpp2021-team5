@@ -452,7 +452,7 @@ class KitchenTestClass(TestCase):
         self.assertEqual(response.status_code, 200)
 
         response = client.get('/api/nutrition/2021-11-12/')
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 200)
 
         response = client.post('/api/nutrition/2021-11-12/', json.dumps({
             "calories": 1, "carbs": 1, "protein": 1, "fat": 1, "count_all": 1

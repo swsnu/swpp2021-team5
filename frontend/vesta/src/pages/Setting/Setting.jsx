@@ -138,8 +138,8 @@ class Setting extends Component {
     if(result === null) {
       return;
     }
-    if (!isNumeric(result)) {
-      alert('Height should be a number');
+    if (!isNumeric(result) || parseFloat(result) < 100) {
+      alert('Height should be a number larger than 100');
       return;
     }
     this.props.onSaveUserSetting(
@@ -158,8 +158,8 @@ class Setting extends Component {
     if(result === null) {
       return;
     }
-    if (!isNumeric(result)) {
-      alert('Weight should be a number');
+    if (!isNumeric(result) || parseFloat(result) < 10) {
+      alert('Weight should be a number larger than 10');
       return;
     }
     this.props.onSaveUserSetting(
@@ -178,8 +178,8 @@ class Setting extends Component {
     if(result === null) {
       return;
     }
-    if (!isNumeric(result)) {
-      alert('Target Calorie should be a number');
+    if (!isNumeric(result) || parseFloat(result) < 1000) {
+      alert('Target Calorie should be a number larger than 1000');
       return;
     }
     this.props.onSaveUserSetting(
@@ -236,25 +236,6 @@ class Setting extends Component {
     this.setState({...thisState, confirmOpen: false});
   }
 
-  /*
-  onClickedSaveButton = () => {
-    let result = confirm('Will you save this user profile?')
-    if (result === false) {
-      return;
-    }
-
-    this.props.onSaveUserSetting(
-      this.state.username,
-      parseInt(this.state.age),
-      this.state.sex,
-      parseFloat(this.state.height),
-      parseFloat(this.state.weight),
-      this.state.preference,
-      parseFloat(this.state.targetCalories),
-    );
-  }
-  */
-
   onClickedDeleteAccountButton = () => {
     let result = confirm('Are you sure to delete your account?');
     if (result === false) {
@@ -265,10 +246,9 @@ class Setting extends Component {
   }
 
   render() {
-    console.log()
     if (this.props.currUser === null) {
       return (
-        <div>
+        <div className="SettingPage">
           Not Logged in
         </div>
       )
@@ -332,7 +312,7 @@ class Setting extends Component {
                 </Table.Row>
                 <Table.Row textAlign='center'>
                   <Table.HeaderCell>height</Table.HeaderCell>
-                  <Table.Cell>{height}</Table.Cell>
+                  <Table.Cell>{`${height} cm`}</Table.Cell>
                   <Table.Cell>
                     <Button
                       id='height-edit-button'
@@ -344,7 +324,7 @@ class Setting extends Component {
                 </Table.Row>
                 <Table.Row textAlign='center'>
                   <Table.HeaderCell>weight</Table.HeaderCell>
-                  <Table.Cell>{weight}</Table.Cell>
+                  <Table.Cell>{`${weight} kg`}</Table.Cell>
                   <Table.Cell>
                   <Button
                     id='weight-edit-button'
@@ -356,7 +336,7 @@ class Setting extends Component {
                 </Table.Row>
                 <Table.Row textAlign='center'>
                   <Table.HeaderCell>Target Calories</Table.HeaderCell>
-                  <Table.Cell>{targetCalories}</Table.Cell>
+                  <Table.Cell>{`${targetCalories} Kcal`}</Table.Cell>
                   <Table.Cell>
                       <Button
                         id='target-calorie-edit-button'
