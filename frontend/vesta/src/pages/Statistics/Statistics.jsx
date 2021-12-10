@@ -48,7 +48,6 @@ class Statistics extends Component {
   }
 
   componentDidMount() {
-    this.props.getUserSetting();
     const today = (new Date()).toISOString().split('T')[0];
     this.props.onGetUserNutrition(today);
     this.props.onGetAllUserNutrition();

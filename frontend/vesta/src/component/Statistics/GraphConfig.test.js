@@ -33,7 +33,6 @@ describe('GraphConfig', () => {
     expect(result).toBe('100%');
     const result2 = weeklyOptions.plugins.tooltip.callbacks.label(testContext);
     expect(result2).toEqual('0%');
-
   });
 
   it('should configure tooltips', () => {
@@ -55,5 +54,5 @@ describe('GraphConfig', () => {
     expect(result).toBe('100%');
     const result2 = monthlyOptions.plugins.tooltip.callbacks.label(testContext);
     expect(result2).toEqual('0%');
-  })
+  });
 });
