@@ -109,7 +109,7 @@ def recommend(request, date):
             count_all = 0
 
         if count_all >= 3:   # if count_all >= 3, just return the same todayMenu
-            print('here')
+            # print('here')
             response_dict = []
             dict = model_to_dict(today_menu)
             for key, value in dict.items():
