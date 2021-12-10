@@ -10,6 +10,7 @@ import { getMockStore } from '../../test-utils/mock';
 import { history } from '../../store/store';
 import * as actionCreators from '../../store/actions/User/user';
 import { isNumeric } from './Signup';
+import axios from 'axios'
 
 const userInitialState = {
   currentUser: {
@@ -62,7 +63,63 @@ describe('Signup', () => {
     expect(spyOnRegister).toHaveBeenCalledTimes(0);
   })
 
+  it('should check availability', (done) => {
+    axios.get = jest.fn((url) => new Promise((resolve, reject) => {
+      const result = {
+        status: 200, data: {availability: true},
+      };
+      resolve(result);
+    }));
+    const component = mount(signup);
+    const usernameWrapper = component.find('#username-input');
+    const availabilityWrapper = component.find('Button#availability-button');
+    usernameWrapper.simulate('change', { target: { value: 'testname'}});
+    availabilityWrapper.simulate('click');
+    expect(axios.get).toHaveBeenCalledTimes(1);
+    done();
+  })
+
+  it('should check availability 2', () => {
+    axios.get = jest.fn((url) => new Promise((resolve, reject) => {
+      const result = {
+        status: 200, data: {availability: false},
+      };
+      resolve(result);
+    }));
+    const component = mount(signup);
+    const usernameWrapper = component.find('#username-input');
+    const availabilityWrapper = component.find('Button#availability-button');
+    usernameWrapper.simulate('change', { target: { value: 'testname2'}});
+    availabilityWrapper.simulate('click');
+    expect(axios.get).toHaveBeenCalledTimes(1);
+    expect(availabilityWrapper.length).toBe(1);
+  });
+
+  it('should check availability when clicked register', (done) => {
+    axios.get = jest.fn((url) => new Promise((resolve, reject) => {
+      const result = {
+        status: 200, data: {availability: false},
+      };
+      resolve(result);
+    }));
+    const spyOnRegister = jest.spyOn(actionCreators, 'signUp')
+      .mockImplementation(() => dispatch => {});
+    const component = mount(signup);
+    const usernameWrapper = component.find('#username-input');
+    const registerWrapper = component.find('Button#register-button');
+    usernameWrapper.simulate('change', { target: { value: 'testname'}});
+    registerWrapper.simulate('click');
+    expect(spyOnRegister).toHaveBeenCalledTimes(0);
+    done();
+  })
+
   it('should check password input', () => {
+    axios.get = jest.fn((url) => new Promise((resolve, reject) => {
+      const result = {
+        status: 200, data: {availability: true},
+      };
+      resolve(result);
+    }));
     const spyOnRegister = jest.spyOn(actionCreators, 'signUp')
       .mockImplementation(() => dispatch => {});
     const component = mount(signup);
@@ -70,13 +127,18 @@ describe('Signup', () => {
     const passwordWrapper = component.find('#password-input');
     const confirmPasswordWrapper = component.find('#confirm-password-input');
     const wrapper = component.find('button#register-button');
-
     usernameWrapper.simulate('change', { target: { value: 'testname'}});
     wrapper.simulate('click');
     expect(spyOnRegister).toHaveBeenCalledTimes(0);
   });
 
   it('should check if confirpassword is equal to password', () => {
+    axios.get = jest.fn((url) => new Promise((resolve, reject) => {
+      const result = {
+        status: 200, data: {availability: true},
+      };
+      resolve(result);
+    }));
     const spyOnRegister = jest.spyOn(actionCreators, 'signUp')
       .mockImplementation(() => dispatch => {});
     const component = mount(signup);
@@ -93,6 +155,12 @@ describe('Signup', () => {
   });
 
   it('should check if age is entered', () => {
+    axios.get = jest.fn((url) => new Promise((resolve, reject) => {
+      const result = {
+        status: 200, data: {availability: true},
+      };
+      resolve(result);
+    }));
     const spyOnRegister = jest.spyOn(actionCreators, 'signUp')
       .mockImplementation(() => dispatch => {});
     const component = mount(signup);
@@ -109,6 +177,12 @@ describe('Signup', () => {
   })
   
   it('should check if age is numeric', () => {
+    axios.get = jest.fn((url) => new Promise((resolve, reject) => {
+      const result = {
+        status: 200, data: {availability: true},
+      };
+      resolve(result);
+    }));
     const spyOnRegister = jest.spyOn(actionCreators, 'signUp')
       .mockImplementation(() => dispatch => {});
     const component = mount(signup);
@@ -127,6 +201,12 @@ describe('Signup', () => {
   })
 
   it('should check if age is available', () => {
+    axios.get = jest.fn((url) => new Promise((resolve, reject) => {
+      const result = {
+        status: 200, data: {availability: true},
+      };
+      resolve(result);
+    }));
     const spyOnRegister = jest.spyOn(actionCreators, 'signUp')
       .mockImplementation(() => dispatch => {});
     const component = mount(signup);
@@ -142,30 +222,15 @@ describe('Signup', () => {
     ageWrapper.simulate('change', { target: { value: '4'}});
     wrapper.simulate('click');
     expect(spyOnRegister).toHaveBeenCalledTimes(0);
-  })
-
-  /*
-  it('should check height', () => {
-    const spyOnRegister = jest.spyOn(actionCreators, 'signUp')
-      .mockImplementation(() => dispatch => {});
-    const component = mount(signup);
-    const usernameWrapper = component.find('#username-input');
-    const passwordWrapper = component.find('#password-input');
-    const confirmPasswordWrapper = component.find('#confirm-password-input');
-    const ageWrapper = component.find('#age-input');
-    const wrapper = component.find('button#register-button');
-
-    usernameWrapper.simulate('change', { target: { value: 'testname'}});
-    passwordWrapper.simulate('change', { target: { value: 'testpasswd'}});
-    confirmPasswordWrapper.simulate('change', { target: { value: 'testpasswd'}});
-    ageWrapper.simulate('change', { target: { value: '5'}});
-    wrapper.simulate('click');
-    expect(spyOnRegister).toHaveBeenCalledTimes(0);
   });
-  */
-
   
   it('should check if height is numeric', () => {
+    axios.get = jest.fn((url) => new Promise((resolve, reject) => {
+      const result = {
+        status: 200, data: {availability: true},
+      };
+      resolve(result);
+    }));
     const spyOnRegister = jest.spyOn(actionCreators, 'signUp')
       .mockImplementation(() => dispatch => {});
     const component = mount(signup);
@@ -184,30 +249,14 @@ describe('Signup', () => {
     wrapper.simulate('click');
     expect(spyOnRegister).toHaveBeenCalledTimes(0);
   });
-
-  /*
-  it('should check weight', () => {
-    const spyOnRegister = jest.spyOn(actionCreators, 'signUp')
-      .mockImplementation(() => dispatch => {});
-    const component = mount(signup);
-    const usernameWrapper = component.find('#username-input');
-    const passwordWrapper = component.find('#password-input');
-    const confirmPasswordWrapper = component.find('#confirm-password-input');
-    const ageWrapper = component.find('#age-input');
-    const heightWrapper = component.find('#height-input');
-    const wrapper = component.find('button#register-button');
-
-    usernameWrapper.simulate('change', { target: { value: 'testname'}});
-    passwordWrapper.simulate('change', { target: { value: 'testpasswd'}});
-    confirmPasswordWrapper.simulate('change', { target: { value: 'testpasswd'}});
-    ageWrapper.simulate('change', { target: { value: '5'}});
-    heightWrapper.simulate('change', { target: { value: '170'}});
-    wrapper.simulate('click');
-    expect(spyOnRegister).toHaveBeenCalledTimes(0);
-  })*/
-
   
   it('should check if weight is numeric', () => {
+    axios.get = jest.fn((url) => new Promise((resolve, reject) => {
+      const result = {
+        status: 200, data: {availability: true},
+      };
+      resolve(result);
+    }));
     const spyOnRegister = jest.spyOn(actionCreators, 'signUp')
       .mockImplementation(() => dispatch => {});
     const component = mount(signup);
@@ -231,6 +280,12 @@ describe('Signup', () => {
 
   
   it('should dispatch register action', () => {
+    axios.get = jest.fn((url) => new Promise((resolve, reject) => {
+      const result = {
+        status: 200, data: {availability: true},
+      };
+      resolve(result);
+    }));
     const spyOnRegister = jest.spyOn(actionCreators, 'signUp')
       .mockImplementation(() => dispatch => {});
     const component = mount(signup);

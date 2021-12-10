@@ -1,4 +1,4 @@
-import { todayOptions, weeklyOptions } from './GraphConfig';
+import { todayOptions, weeklyOptions, monthlyOptions } from './GraphConfig';
 
 const testContext = {
   dataIndex: 0,
@@ -14,7 +14,10 @@ const testContext = {
         }
       ]
     }
-  }
+  },
+  dataset: {
+    data: [0, 1, 2, 3]
+  },
 };
 
 describe('GraphConfig', () => {
@@ -28,6 +31,8 @@ describe('GraphConfig', () => {
   it('should return correct value: weekly', () => {
     const result = weeklyOptions.scales.y.ticks.callback(100);
     expect(result).toBe('100%');
+    const result2 = weeklyOptions.plugins.tooltip.callbacks.label(testContext);
+    expect(result2).toEqual('0%');
   });
 
   it('should configure tooltips', () => {
@@ -42,5 +47,12 @@ describe('GraphConfig', () => {
     expect(func(testContext4)).toEqual('Intake: 3 grams\nRecommended: 3 grams');
     const testContext5 = { ...testContext, dataIndex: 4 };
     expect(func(testContext5)).toEqual('');
+  });
+
+  it('should return correct value: monthly', () => {
+    const result = monthlyOptions.scales.y.ticks.callback(100);
+    expect(result).toBe('100%');
+    const result2 = monthlyOptions.plugins.tooltip.callbacks.label(testContext);
+    expect(result2).toEqual('0%');
   });
 });
