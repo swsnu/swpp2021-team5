@@ -143,13 +143,13 @@ def menu_recognition(img_path, user_token=api_user_token):
     resp = requests.post(url,json={'imageId': result_dict['imageId']}, headers=headers)
     print(resp.json()) # display nutritional info
 
-    result_dict["nutritional_info"] = resp.json()
+    result_dict["nutritional_info"] = resp.json()["nutritional_info"]
 
     url = api_url + 'recipe/ingredients'
     resp = requests.post(url,json={'imageId': result_dict['imageId']}, headers=headers)
     print(resp.json()) # display ingredients info
 
-    result_dict["ingredients"] = resp.json()
+    result_dict["ingredients"] = resp.json()["recipe"]
 
 
 
