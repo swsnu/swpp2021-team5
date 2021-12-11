@@ -114,5 +114,4 @@ describe('menu actions', () => {
         done();
       });
   });
-
 });

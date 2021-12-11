@@ -12,9 +12,10 @@ const userInitialState = {};
 const recordInitialState = {};
 const menuInitialState = {};
 const recipeInitialState = {};
+const mlInitialState = {};
 
 let confirmDetection;
-const mockStore = getMockStore(userInitialState, recordInitialState, menuInitialState, recipeInitialState);
+const mockStore = getMockStore(userInitialState, recordInitialState, menuInitialState, recipeInitialState, mlInitialState);
 
 describe('<ConfirmDetection />', () => {
   beforeEach(() => {

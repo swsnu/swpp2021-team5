@@ -10,6 +10,7 @@ import * as actionCreators from '../../store/actions/index';
 class MenuRecommendation extends Component {
   componentDidMount() {
     console.log('componentdidmount');
+    this.props.getUserSetting();
     const today = (new Date()).toISOString().split('T')[0];
     console.log(today);
     this.props.getRecommendedMenus(today);
@@ -43,6 +44,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   getRecommendedMenus: (date) => dispatch(actionCreators.getRecommendedMenus(date)),
+  getUserSetting: () => dispatch(actionCreators.getUserSetting()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(MenuRecommendation));
