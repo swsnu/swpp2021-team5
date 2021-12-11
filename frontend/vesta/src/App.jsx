@@ -43,7 +43,7 @@ function App(props) {
           <Route
             path="/recommendation/:menuName/:idx"
             exact
-            render={() => <NutritionalInfoAndRecipe />}
+            render={({match}) => <NutritionalInfoAndRecipe menuName={match.params.menuName} idx={match.params.idx}/>}
           />
           <Route
             path="/history"

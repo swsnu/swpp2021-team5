@@ -11,20 +11,12 @@ import Recipe from '../../component/Recipe/Recipe';
 
 class NutritionalInfoAndRecipe extends Component {
   componentDidMount() {
-    // const date = new Date();
-    // const year = date.getFullYear();
-    // const month = date.getMonth();
-    // const day = date.getDate();
     const today = (new Date()).toISOString().split('T')[0];
     console.log(today);
     this.props.getRecommendedMenus((new Date()).toISOString().split('T')[0]);
   }
 
   changeRecommendation = () => {
-    // const date = new Date();
-    // const year = date.getFullYear();
-    // const month = date.getMonth();
-    // const day = date.getDate();
     const today = (new Date()).toISOString().split('T')[0];
     let ans = confirm("Do you want to change this menu to your main recommended meal?");
     if (ans) {

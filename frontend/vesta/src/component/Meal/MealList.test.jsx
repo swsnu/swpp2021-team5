@@ -4,11 +4,12 @@ import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
 import { Switch } from 'react-router';
 import { Route, Link } from 'react-router-dom';
-import { Button, Grid } from 'semantic-ui-react';
+import { Button, Grid, Icon } from 'semantic-ui-react';
 import { getMockStore } from '../../test-utils/mock';
 import { history } from '../../store/store';
 import * as actionCreators from '../../store/actions/Menu/menu';
 import MealList from './MealList';
+import { Breakfast, MealName } from '../../styles/Menu_Recommendation/Meals';
 
 const userInitialState = {};
 const recordInitialState = {};
@@ -46,6 +47,11 @@ const stubMenuInitialState = {
 const recipeInitialState = {};
 const mockStore = getMockStore(userInitialState, recordInitialState, stubMenuInitialState, recipeInitialState);
 
+// jest.mock('../../styles/Menu_Recommendation/Meals/MealName', () => jest.fn(() => <div/>));
+// jest.mock('../../styles/Menu_Recommendation/Meals/Breakfast', () => jest.fn(() => <div/>));
+// jest.mock('../../styles/Menu_Recommendation/Meals/Lunch', () => jest.fn(() => <div/>));
+// jest.mock('../../styles/Menu_Recommendation/Meals/Dinner', () => jest.fn(() => <div/>));
+
 describe('MealList', () => {
   let mealList;
 
@@ -80,24 +86,33 @@ describe('MealList', () => {
     component.unmount();
   });
 
-  it('should redirect to onMealDetail', () => {
-    const component = mount(mealList).find('.MealList');
-    const wrapper = component.find('a');
-    wrapper.at(0).simulate('click');
-    // expect(history.location.pathname).toBe('/recommendation/acorn-squash-and-arugula-pizza/3/')
-  })
-
-  xit('should click other breakfast correctly', () => {
+  xit('should render Breakfast component', () => {
     const component = mount(mealList);
-    // expect(component.find('MenuRecommendation').find(Grid).find('button#other-meal-breakfast-button').length).toBe(1);
-    // component.find('button').at(1).simulate('click');
-    component.find('button#other-meal-breakfast-button').simulate('click');
-    const wrapper = component.find(MealList.WrappedComponent).instance();
-    expect(wrapper.state.otherBreakfast).toBe(true);
-    component.find('button').at(1).simulate('click');
-    // component.find('button#other-meal-breakfast-button').simulate('click');
-    const wrapper_ = component.find(MealList.WrappedComponent).instance();
-    expect(wrapper_.state.otherBreakfast).toBe(false);
-    // component.unmount();
+    // const wrapper = component.find('icon#other-breakfast').at(0).simulate('click');
+    component.update();
+    console.log(component.debug());
+    console.log(component.html());
+    // console.log(MealList.WrappedComponent);
+    const wrapper = component.find('.MenuRecommendation').find('div#container').find('div#breakfast').find('Icon').simulate('click');
+    // expect(wrapper).toHaveLength(1);
+    // expect(component.containsMatchingElement(
+    //   <Icon className="other-breakfast" name="search plus" size="large" onClick={() => this.onClickedOtherBreakfast()}/>
+    // )).toEqual(true);
   });
+
+  // xit('should redirect to onMealDetail', () => {
+  //   const component = mount(mealList).find('.MealList');
+  //   const wrapper = component.find('a');
+  //   wrapper.at(0).simulate('click');
+  // })
+
+  // xit('should click other breakfast correctly', () => {
+  //   const component = mount(mealList);
+  //   component.find('button#other-meal-breakfast-button').simulate('click');
+  //   const wrapper = component.find(MealList.WrappedComponent).instance();
+  //   expect(wrapper.state.otherBreakfast).toBe(true);
+  //   component.find('button').at(1).simulate('click');
+  //   const wrapper_ = component.find(MealList.WrappedComponent).instance();
+  //   expect(wrapper_.state.otherBreakfast).toBe(false);
+  // });
 });
