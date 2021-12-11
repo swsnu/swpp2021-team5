@@ -9,11 +9,13 @@ const initialState = {
     { id: 1836, name: 'chocolate flakes', prob: 0.0383072764154349, subclasses: [] },
     { id: 1857, name: 'cream', prob: 0.009033033847299522, subclasses: [] }
   ],
+  nutrition: {},
+  ingredients: [],
 };
 const mlReducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.DETECT:
-      return { ...state, detectedMenu: action.detectedMenu };
+      return { ...state, detectedMenu: action.detectedMenu, nutrition: action.nutrition, ingredients: action.ingredients };
     default:
       break;
   }
