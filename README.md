@@ -11,14 +11,36 @@ You can see more details about our service at our wiki page: https://github.com/
 
 ## How to build the service
 ### Frontend
-`cd frontend/veseta/
-yarn install
-yarn start`
+#### Run
+`cd frontend/vesta/`
 
+`yarn install`
+
+`yarn start`
+
+#### Test
+`cd frontend/vesta/`
+
+`yarn test --coverage --watchAll=false`
+
+-----
 ### Backend
-`cd backend/vesta/
-pip install -r requirements.txt
-python manage.py makemigrations kitchen
-python manage.py makemigrations recommend
-python manage.py migrate
-python manage.py runserver`
+#### Run
+`cd backend/vesta/`
+
+`pip install -r requirements.txt`
+
+`python manage.py makemigrations kitchen`
+
+`python manage.py makemigrations recommend`
+
+`python manage.py migrate`
+
+`python manage.py runserver`
+
+#### Test
+`cd backend/vesta/`
+
+`coverage run --source='.' manage.py test`
+
+`coverage report -m`
