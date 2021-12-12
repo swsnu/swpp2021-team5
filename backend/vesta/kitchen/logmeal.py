@@ -133,21 +133,22 @@ def menu_recognition(img_path, user_token=api_user_token):
 
     resp = requests.post(url,files={'image':open('uploaded_img.jpg', 'rb')}, headers=headers)
     print(resp.json())
-    print(resp.json()["recognition_results"]) # display dish only
+    print(resp.json()['imageId'])
+    print("***Menu Detection: ", resp.json()["recognition_results"]) # display dish only
 
     result_dict["recognition_results"] = resp.json()["recognition_results"]
-    result_dict["image_id"] = resp.json()["image_id"]
+    result_dict["imageId"] = resp.json()['imageId']
 
     url = api_url + 'recipe/nutritionalInfo'
 
     resp = requests.post(url,json={'imageId': result_dict['imageId']}, headers=headers)
-    print(resp.json()) # display nutritional info
+    print("***Nutrition Detection: ", resp.json()) # display nutritional info
 
     result_dict["nutritional_info"] = resp.json()["nutritional_info"]
 
     url = api_url + 'recipe/ingredients'
     resp = requests.post(url,json={'imageId': result_dict['imageId']}, headers=headers)
-    print(resp.json()) # display ingredients info
+    print("***Ingredient Detection: ", resp.json()) # display ingredients info
 
     result_dict["ingredients"] = resp.json()["recipe"]
 

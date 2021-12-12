@@ -36,17 +36,15 @@ class FoodRecord extends Component {
       const form = new FormData();
       form.append('image', this.state.image);
       this.props.onGetDetection(form);
-      window.confirm('Your menu image is being detected :) Please wait for about 10 seconds!');
-      setTimeout(() => this.props.history.push({
-        pathname: '/confirm',
-        state: { image: this.state.image, menuName: this.props.detectedMenus[0].name },
-      }), 10000);
-      /*
+      // window.confirm('Your menu image is being detected :) Please wait for about 10 seconds!');
       this.props.history.push({
         pathname: '/confirm',
-        state: { image: this.state.image, menuName: this.props.detectedMenus[0].name },
+        state: { image: this.state.image }
       });
-      */
+      // setTimeout(() => this.props.history.push({
+      //   pathname: '/confirm',
+      //   state: { image: this.state.image, menuName: this.props.detectedMenus[0].name },
+      // }), 10000);
     }
   }
 
