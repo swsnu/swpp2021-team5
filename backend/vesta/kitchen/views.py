@@ -537,23 +537,47 @@ def menu(request):
     all_menu_list = list(Menu.objects.all().values())
     return JsonResponse(all_menu_list, safe=False)
 
-@require_GET
 def menu_name(request, menuname):
     ## If user is not signed in, respond with 401
     if not request.user.is_authenticated:
         return HttpResponse(status = 401)
-        
-    ## If there are no menus with menu_name, respond with 404
-    if not Menu.objects.filter(name = menuname).exists():
-        return HttpResponse(status = 404)
+    
+    if request.method == "GET":
+        ## If there are no menus with menu_name, respond with 404
+        if not Menu.objects.filter(name = menuname).exists():
+            return HttpResponse(status = 404)
 
-    ## return corresponding menu
-    matching_menu = Menu.objects.get(name = menuname)
-    response_dict = {'id' : matching_menu.id, 'name' : menuname, 'calories' : matching_menu.calories,
-                    'carbs' : matching_menu.carbs, 'protein' : matching_menu.protein,
-                    'fat' : matching_menu.fat, 'image' : matching_menu.image.url,
-                    'recipe': matching_menu.recipe, 'ingredient': matching_menu.ingredient }
-    return JsonResponse(response_dict)
+        ## return corresponding menu
+        matching_menu = Menu.objects.get(name = menuname)
+        response_dict = {'id' : matching_menu.id, 'name' : menuname, 'calories' : matching_menu.calories,
+                        'carbs' : matching_menu.carbs, 'protein' : matching_menu.protein,
+                        'fat' : matching_menu.fat, 'image' : matching_menu.image.url,
+                        'recipe': matching_menu.recipe, 'ingredient': matching_menu.ingredient }
+        return JsonResponse(response_dict)
+    
+    elif request.method == "POST":
+        ## TODO: need to add recipe
+        ## TODO: check image URL
+        ## TODO: add RECORD after making a new menu
+        menu = Menu.objects.create(
+            name = menuname,
+            calories = request.POST['calories'],
+            carbs = request.POST['carbs'],
+            protein = request.POST['protein'],
+            fat = request.POST['fat'],
+            image = request.POST['image'],
+            recipe = "",
+            ingredient = request.POST['ingredient']
+        )
+        menu.save()
+        response_dict = {'id': menu.id, 'name': menuname, 'calories' : menu.calories,
+                        'carbs' : menu.carbs, 'protein' : menu.protein,
+                        'fat' : menu.fat, 'image' : menu.image.url,
+                        'recipe': menu.recipe, 'ingredient': menu.ingredient}
+        return JsonResponse(response_dict, status=200)
+    
+    else:
+        return HttpResponseNotAllowed(['GET', 'POST'])
     
 @ensure_csrf_cookie
 @require_GET

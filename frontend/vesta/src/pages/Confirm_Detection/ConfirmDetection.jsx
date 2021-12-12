@@ -49,32 +49,6 @@ class ConfirmDetection extends Component {
     };
   }
 
-  // componentDidMount() {
-  //   window.confirm('Your menu image is being detected :) Please wait for about 10 seconds!');
-  //   this.props.getUserSetting();
-  //   const uploadedImage = this.props.location.state.image;
-  //   console.log(uploadedImage);
-  //   // console.log(this.props.location.state.type);
-
-  //   this.setState({ image: uploadedImage });
-  //   this.setState({ type: 'meal' });
-  //   // this.props.onGetMenu(this.state.menuName);
-
-  //   // const form = new FormData();
-  //   // form.append('files', uploadedImage);
-  //   // form.append('image', uploadedImage);
-  //   // for (const value of form.keys()) {
-  //   //   console.log(value);
-  //   // }
-  //   // for (const value of form.values()) {
-  //   //   console.log(value);
-  //   // }
-  //   // this.props.onGetDetection(form);
-  //   // console.log('detection', this.props.detectedMenus);
-  //   // this.setState({ menuName: this.props.location.state.menuName });
-  //   this.setState({ menuName: this.props.detectedMenus[0].name });
-  // }
-
   onClickedEditResultButton = () => {
     const correctName = prompt('Please enter correct meal name');
     this.setState({ menuName: correctName });
