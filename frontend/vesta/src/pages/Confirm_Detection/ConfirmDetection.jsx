@@ -49,8 +49,8 @@ class ConfirmDetection extends Component {
     };
   }
 
-  componentDidMount() {
-    window.confirm('Your menu image is being detected :) Please wait for about 10 seconds!');
+  // componentDidMount() {
+  //   window.confirm('Your menu image is being detected :) Please wait for about 10 seconds!');
   //   this.props.getUserSetting();
   //   const uploadedImage = this.props.location.state.image;
   //   console.log(uploadedImage);
@@ -73,7 +73,7 @@ class ConfirmDetection extends Component {
   //   // console.log('detection', this.props.detectedMenus);
   //   // this.setState({ menuName: this.props.location.state.menuName });
   //   this.setState({ menuName: this.props.detectedMenus[0].name });
-  }
+  // }
 
   onClickedEditResultButton = () => {
     const correctName = prompt('Please enter correct meal name');
@@ -122,94 +122,145 @@ class ConfirmDetection extends Component {
     this.props.history.push('/history');
   }
 
+  calculateCarbAndProtein = (percent) => {
+    return ((1800 * (percent/100))/4).toFixed(2)
+  }
+
+  calculateFat = (percent) => {
+    return ((1800 * (percent/100))/9).toFixed(2)
+  }
+
   render() {
-    console.log('here');
-    let calories = 560;
-    let carbs = 132.12;
-    let protein = 12.1;
-    let fat = 28.2;
-    // if (this.props.selectedMenu) {
-    //   calories = this.props.selectedMenu.calories;
-    //   carbs = this.props.selectedMenu.carbs;
-    //   protein = this.props.selectedMenu.protein;
-    //   fat = this.props.selectedMenu.fat;
-    // }
-    // console.log(this.state.image);
-    if (this.props.detectedMenu && this.props.nutrition) {
-
-      const uploadedImage = this.props.location.state.image;
-      console.log(uploadedImage);
-      this.setState({ image: uploadedImage });
-      this.setState({ type: 'meal' });
-      this.setState({ menuName: this.props.detectedMenus[0].name });
-
-      // calories = this.props.nutrition;
-      console.log(this.props.nutrition);
-
-      return (
-        <div>
-          <Container className="Confirm">
-            <Background>
-              <Nutrient
-                menu_name={`You Ate : ${this.state.menuName}`}
-                calories={calories}
-                carbs={carbs}
-                protein={protein}
-                fat={fat}
-                src={this.state.image}
-              />
-              <Divider />
-              <EditArea>
-                <p>
-                  Is the detection result wrong?
-                  Tell us what you ate
-                </p>
-                <Icon circular name="edit icon" onClick={this.onClickedEditResultButton} />
-              </EditArea>
-              <ReviewArea>
-                <h1>
-                  Create a review for your meal
-                </h1>
-                <p>
-                  If you dont want to write a review now,
-                  you can leave it blank and write it later.
-                </p>
-                <Form>
-                  <TextArea id="review-text" placeholder="write review here" onChange={this.onChangedReviewInput} />
-                </Form>
-                <p>
-                  Press Confirm / Cancel to Create a record or Cancel.
-                </p>
-                <Grid columns={2}>
-                  <Grid.Column>
-                    <p> Confirm </p>
-                    <Icon circular name="check icon" onClick={this.onClickedConfirmButton} />
-                  </Grid.Column>
-                  <Grid.Column>
-                    <p> Cancel </p>
-                    <Icon circular name="x icon" onClick={this.onClickedCancelButton} />
-                  </Grid.Column>
-                </Grid>
-              </ReviewArea>
-            </Background>
-          </Container>
-        </div>
-      );
-    }
     return (
-      <Segment>
-        <Dimmer active inverted>
-          <Loader inverted content="Your menu is being detected" />
-        </Dimmer>
-        <Image src="https://react.semantic-ui.com/images/wireframe/short-paragraph.png" />
-      </Segment>
+      <div>
+        <Container className="Confirm">
+          <Background>
+            <Nutrient
+              menu_name={`${this.props.detectedMenu[0].name}`}
+              calories={this.props.nutrition.calories}
+              carbs={this.calculateCarbAndProtein(this.props.nutrition.dailyIntakeReference.CHOCDF.percent)}
+              protein={this.calculateCarbAndProtein(this.props.nutrition.dailyIntakeReference.PROCNT.percent)}
+              fat={this.calculateFat(this.props.nutrition.dailyIntakeReference.FAT.percent)}
+              src={this.props.location.state.image}
+            />
+          </Background>
+          <Divider />
+          <EditArea>
+            <p>
+              Is the detection result wrong?
+              Tell us what you ate
+            </p>
+            <Icon circular name="edit icon" onClick={this.onClickedEditResultButton} />
+          </EditArea>
+          <ReviewArea>
+            <h1>
+              Create a review for your meal
+            </h1>
+            <p>
+              If you dont want to write a review now,
+              you can leave it blank and write it later.
+            </p>
+            <Form>
+              <TextArea id="review-text" placeholder="write review here" onChange={this.onChangedReviewInput} />
+            </Form>
+            <p>
+              Press Confirm / Cancel to Create a record or Cancel.
+            </p>
+            <Grid columns={2}>
+              <Grid.Column>
+                <p> Confirm </p>
+                <Icon circular name="check icon" onClick={this.onClickedConfirmButton} />
+              </Grid.Column>
+              <Grid.Column>
+                <p> Cancel </p>
+                <Icon circular name="x icon" onClick={this.onClickedCancelButton} />
+              </Grid.Column>
+            </Grid>
+          </ReviewArea>
+        </Container>
+      </div>
     );
+    // console.log('here');
+    // let calories = 560;
+    // let carbs = 132.12;
+    // let protein = 12.1;
+    // let fat = 28.2;
+
+    // const uploadedImage = this.props.location.state.image;
+    // this.setState({ image: uploadedImage });
+    // this.setState({ type: 'meal' });
+    // this.setState({ menuName: this.props.detectedMenu[0].name });
+
+    // console.log(this.props.detectedMenu);
+    // console.log(this.props.nutrition);
+    // console.log(this.props.ingredients);
+    // console.log(this.props.nutrition);
+    // console.log(this.props.ingredients);
+
+    // return (
+    //   <div>
+    //     <Container className="Confirm">
+    //       <Background>
+    //         <Nutrient
+    //           menu_name={`You Ate : ${this.state.menuName}`}
+    //           calories={calories}
+    //           carbs={carbs}
+    //           protein={protein}
+    //           fat={fat}
+    //           src={this.state.image}
+    //         />
+    //         <Divider />
+    //         <EditArea>
+    //           <p>
+    //             Is the detection result wrong?
+    //             Tell us what you ate
+    //           </p>
+    //           <Icon circular name="edit icon" onClick={this.onClickedEditResultButton} />
+    //         </EditArea>
+    //         <ReviewArea>
+    //           <h1>
+    //             Create a review for your meal
+    //           </h1>
+    //           <p>
+    //             If you dont want to write a review now,
+    //             you can leave it blank and write it later.
+    //           </p>
+    //           <Form>
+    //             <TextArea id="review-text" placeholder="write review here" onChange={this.onChangedReviewInput} />
+    //           </Form>
+    //           <p>
+    //             Press Confirm / Cancel to Create a record or Cancel.
+    //           </p>
+    //           <Grid columns={2}>
+    //             <Grid.Column>
+    //               <p> Confirm </p>
+    //               <Icon circular name="check icon" onClick={this.onClickedConfirmButton} />
+    //             </Grid.Column>
+    //             <Grid.Column>
+    //               <p> Cancel </p>
+    //               <Icon circular name="x icon" onClick={this.onClickedCancelButton} />
+    //             </Grid.Column>
+    //           </Grid>
+    //         </ReviewArea>
+    //       </Background>
+    //     </Container>
+    //   </div>
+    // );
+    // }
+    // return (
+    //   <Segment>
+    //     <Dimmer active inverted>
+    //       <Loader inverted content="Your menu is being detected" />
+    //     </Dimmer>
+    //     <Image src="https://react.semantic-ui.com/images/wireframe/short-paragraph.png" />
+    //   </Segment>
+    // );
   }
 }
 
 const mapStateToProps = (state) => ({
   selectedMenu: state.menu.selectedMenu,
-  detectedMenus: state.ml.detectedMenu,
+  detectedMenu: state.ml.detectedMenu,
   nutrition: state.ml.nutrition,
   ingredients: state.ml.ingredients,
 });
