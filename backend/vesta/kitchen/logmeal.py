@@ -120,7 +120,7 @@ def menu_recognition(img_path, user_token=api_user_token):
     headers = {'Authorization': 'Bearer ' + api_user_token}
 
     # Single Dishes Detection
-    url = api_url + 'recognition/dish'
+    url = api_url + 'recognition/complete'
     # resp = requests.post(url,files={'image': open(img, 'rb')}, headers=headers)
     # img_open = open('upload_img.jpg','w')
     # img_open.write(base64.decodestring(img))
@@ -136,7 +136,7 @@ def menu_recognition(img_path, user_token=api_user_token):
     print(resp.json()["recognition_results"]) # display dish only
 
     result_dict["recognition_results"] = resp.json()["recognition_results"]
-    result_dict["image_id"] = resp.json()["image_id"]
+    result_dict["imageId"] = resp.json()["imageId"]
 
     url = api_url + 'recipe/nutritionalInfo'
 
