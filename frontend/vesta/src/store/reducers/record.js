@@ -3,50 +3,7 @@ import { toggleRecord } from '../actions';
 import * as actionTypes from '../actions/actionType';
 
 const initialState = {
-  userRecords: [
-    {
-      id: 1,
-      image: "/sushi_example_image.jpeg",
-      date: "2021/11/09",
-      liked: true,
-      review: null,
-    },
-    {
-      id: 2,
-      image: "/chicken_sample_image.jpeg",
-      date: "2021/11/08",
-      liked: false,
-      review: null,
-    },
-    {
-      id: 3,
-      image: "/pasta_sample_image.jpeg",
-      date: "2021/11/07",
-      liked: true,
-      review: null,
-    },
-    {
-      id: 4,
-      image: "/DummyImages/dinner5_.jpeg",
-      date: "2021/11/07",
-      liked: true,
-      review: null,
-    },
-    {
-      id: 5,
-      image: "/DummyImages/breakfast3_.jpeg",
-      date: "2021/11/07",
-      liked: false,
-      review: null,
-    },
-    {
-      id: 6,
-      image: "/DummyImages/dinner1_.jpeg",
-      date: "2021/11/07",
-      liked: true,
-      review: null,
-    },
-  ],
+  userRecords: null,
   selectedRecord: {
     id: 1,
     date: "2021/11/09",
@@ -79,7 +36,8 @@ const recordReducer = (state = initialState, action) => {
         liked: action.liked, review: action.review
       };
       console.log(newRecord);
-      return { ...state, userRecords: [...state.userRecords, newRecord]};
+      return state;
+      // return { ...state, userRecords: state.userRecords.push(newRecord)};
     }
     case actionTypes.GET_RECORD: {
       return { ...state, selectedRecord: action.record };

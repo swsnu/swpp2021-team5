@@ -78,6 +78,15 @@ class ConfirmDetection extends Component {
     return ((1800 * (percent/100))/9).toFixed(2)
   }
 
+  parseIngredient = (ingredients) => {
+    let result = [];
+    for (let rec of ingredients) {
+      result.push(rec['name']);
+    }
+    console.log(result);
+    return (result);
+  }
+
   onClickedConfirmButton = () => {
     const today = (new Date()).toISOString().split('T')[0];
     const countInput = (this.state.type === 'meal') ? 1 : 0;
@@ -93,22 +102,23 @@ class ConfirmDetection extends Component {
     form.append('carbs', menuCarb)
     form.append('protein', menuProtein)
     form.append('fat', menuFat)
-    form.append('ingredient', this.props.ingredients);
+    form.append('ingredient', this.parseIngredient(this.props.ingredients));
     form.append('review', this.state.review);
     form.append('liked', 'False');
     form.append('image', this.props.location.state.image);
     this.props.onAddRecord(form);
 
     console.log(this.props.userNutrition.calories);
-    this.props.onEditUserNutrition(
-      today,
-      (this.props.userNutrition.calories + menuCal),
-      (this.props.userNutrition.carbs + menuCarb),
-      (this.props.userNutrition.protein + menuProtein),
-      (this.props.userNutrition.fat + menuFat),
-      (this.props.userNutrition.count_all + countInput)
-    );
-
+    // this.props.onEditUserNutrition(
+    //   today,
+    //   (this.props.userNutrition.calories + menuCal),
+    //   (this.props.userNutrition.carbs + menuCarb),
+    //   (this.props.userNutrition.protein + menuProtein),
+    //   (this.props.userNutrition.fat + menuFat),
+    //   (this.props.userNutrition.count_all + countInput)
+    // );
+    //////////////
+    
     // const today = (new Date()).toISOString().split('T')[0];
     // (async () => {
     //   let apiRes = null;
@@ -155,8 +165,14 @@ class ConfirmDetection extends Component {
     console.log(form.get('ingredient'));
     console.log(form.get('review'));
     console.log(form.get('liked'));
-    console.log(form.get('image'));
+    // console.log(form.get('image'));
     console.log(this.props.userNutrition);
+    let result = [];
+    for (let rec of this.props.ingredients) {
+      result.push(rec['name']);
+    }
+    console.log(result);
+    // console.log(str(result));
 
     if (this.props.storedRecords) {
       return (
@@ -165,7 +181,7 @@ class ConfirmDetection extends Component {
         }} />
       )
     }
-    
+
     return (
       <div>
         <Container className="Confirm">

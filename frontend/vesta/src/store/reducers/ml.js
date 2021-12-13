@@ -15,7 +15,7 @@ const initialState = {
 const mlReducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.DETECT:
-      console.log(action);
+      console.log(action.ingredients);
       return { ...state, detectedMenu: action.detectedMenu, nutrition: action.nutrition, ingredients: action.ingredients };
     default:
       break;

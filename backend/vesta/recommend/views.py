@@ -11,7 +11,6 @@ from .models import TodayMenu
 # Create your views here.
 ## recommend 15 menus total(5 for each meal)
 def recommend(request, date):
-    # print('here')
     # if unauthenticated
     if not request.user.is_authenticated:
         return HttpResponse(status = 401)
@@ -52,7 +51,6 @@ def recommend(request, date):
             response_dict = []
             if len(response)!=0:
                 for res in response:
-                    # print(res)
                     if res is not None:
                         response_dict.append({
                             'id': res.id,
@@ -134,8 +132,6 @@ def recommend(request, date):
             return JsonResponse(response_dict, safe=False)
 
         response = recommend_algorithm(request, today, count_all)
-        print('count_all: ',count_all)
-        print(response)
         if count_all==0:
             today_menu.breakfast = response[0]
             today_menu.lunch = response[1]
@@ -276,7 +272,6 @@ def recommend(request, date):
 
 ## internal function
 def recommend_algorithm(request, today, count_all):
-    print(Menu.objects.all())
     try:
         today_nutrition = UserNutrition.objects.get(
             user_id=request.user.id, date=today)

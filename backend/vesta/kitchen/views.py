@@ -2,6 +2,7 @@ import json
 import datetime
 from django.db.models.fields import NullBooleanField
 from django.http import HttpResponse, HttpResponseNotAllowed
+from django.http import response
 from django.http.response import JsonResponse
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.contrib.auth import authenticate, login, logout
@@ -16,6 +17,7 @@ import shutil
 import re
 from django.conf import settings
 from PIL import Image
+from io import BytesIO
 
 # Create your views here.
 
@@ -358,8 +360,19 @@ def record(request):
             return HttpResponse(status = 401)
 
         ## return all records
-        all_record_list = list(Record.objects.all().values())
-        return JsonResponse(all_record_list, safe=False)
+        response_dict = []
+        # all_record_list = list(Record.objects.all().values())
+        for new_record in Record.objects.all():
+            response_dict.append({
+                'id' : new_record.id,
+                'user_id' : new_record.user.id,
+                'menu_id' : new_record.menu.id,
+                'review' : new_record.review,
+                'liked' : new_record.liked,
+                'date' : new_record.date.strftime("%Y-%m-%d"),
+                'image' : "http://localhost:8000/media/"+str(new_record.image).split('/')[-1]
+            })
+        return JsonResponse(response_dict, safe=False)
 
     if request.method == "POST":
         ## If user is not signed in, respond with 401
@@ -369,22 +382,29 @@ def record(request):
         print(request.POST['menu_name'])
         print(request.POST['calories'])
         print(request.POST['ingredient'])
+        print(request.POST['carbs'])
+        print(request.POST['review'])
 
         ## decode request
         menu_name = re.sub(' +','-', request.POST['menu_name'])
-        calories = request.POST['calories']
-        carbs = request.POST['carbs']
-        protein = request.POST['protein']
-        fat = request.POST['fat']
+        img_open = Image.open(BytesIO(base64.b64decode(request.POST['image'][23:])))
+        img_open = img_open.convert('RGB')
+        path = os.path.join(settings.MEDIA_ROOT,menu_name+'.jpg')
+        img_open.save(path)
+
+        calories = float(request.POST['calories'])
+        carbs = float(request.POST['carbs'])
+        protein = float(request.POST['protein'])
+        fat = float(request.POST['fat'])
         ingredient = request.POST['ingredient']
-        image = request.POST['image']
+        image = path
         review_text = request.POST['review']
         liked = request.POST['liked'] == "True"
 
         ## save image in menu_images
-        image_name = re.sub(' +', '-', menu_name)+".jpg"
-        image_ = Image.open(image)
-        image_.save(settings.MEDIA_ROOT+image_name, 'jpg')
+        # image_name = re.sub(' +', '-', menu_name)+".jpg"
+        # image_ = Image.open(image)
+        # image_.save(settings.MEDIA_ROOT+image_name, 'jpg')
 
         menu = Menu.objects.create(  ## create menu first
             name = menu_name,
@@ -392,7 +412,7 @@ def record(request):
             carbs = carbs,
             protein = protein,
             fat = fat,
-            image = settings.MEDIA_ROOT+image_name,
+            image = path,
             recipe = "",
             ingredient = ingredient
         )
@@ -407,21 +427,19 @@ def record(request):
                                 review = review_text,
                                 liked = liked,
                                 date = datetime.date.today(),
-                                image = image)
+                                image = path)
 
-        print('image')
-        print(request.POST['image'])
         new_record.save()
 
-        ## respond with created record detail
+        # respond with created record detail
         response_dict = {'id' : new_record.id,
                         'user_id' : new_record.user.id,
                         'menu_id' : new_record.menu.id,
                         'review' : new_record.review,
                         'liked' : new_record.liked,
                         'date' : new_record.date.strftime("%Y-%m-%d"),
-                        'image' : new_record.image.url}
-        return JsonResponse(response_dict)
+                        'image' : "http://localhost:8000/media/"+str(new_record.image).split('/')[-1]}
+        return JsonResponse(response_dict, safe=False)
     return HttpResponseNotAllowed(["GET", "POST"])
 
 @require_GET
@@ -470,7 +488,7 @@ def record_user_id(request, user_id):
                 'review' : rec.review,
                 'liked' : rec.liked,
                 'date' : rec.date,
-                'image' : rec.image.url
+                'image' : "http://localhost:8000/media/"+str(rec.image).split('/')[-1]
             })
 
     return JsonResponse(response_dict, safe = False)
