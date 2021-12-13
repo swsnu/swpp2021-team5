@@ -38,36 +38,25 @@ class PastNutritionInfo extends Component {
 
   render() {
     let todayNutritionIntake, recommendedCalorie;
-    
-    if (this.props.currUserNutrition === null) {
-      todayNutritionIntake = {
-        calories: 0,
-        carbs: 0,
-        protein: 0,
-        fat: 0,
-      }
-    } else {
+    console.log(this.props.currUserNutrition);
+    console.log(this.props.currUser);
+    if (this.props.currUserNutrition && this.props.currUser) {
       todayNutritionIntake = {
         calories: this.props.currUserNutrition.calories,
         carbs: this.props.currUserNutrition.carbs,
         protein: this.props.currUserNutrition.protein,
         fat: this.props.currUserNutrition.fat,
-      }
-    }
-    if (this.props.currUser === null) {
-      recommendedCalorie = 99999;
-    } else {
+      };
       recommendedCalorie = this.props.currUser.targetCalories;
-    }
-    let recommendedCarbs = Calculator.recommendedCarbs(recommendedCalorie);
-    let recommendedProtein = Calculator.recommendedProtein(recommendedCalorie);
-    let recommendedFat = Calculator.recommendedFat(recommendedCalorie);
-    let recommendedIntake = {
-      calories: recommendedCalorie,
-      carbs: recommendedCarbs,
-      protein: recommendedProtein,
-      fat: recommendedFat,
-    }
+      let recommendedCarbs = Calculator.recommendedCarbs(recommendedCalorie);
+      let recommendedProtein = Calculator.recommendedProtein(recommendedCalorie);
+      let recommendedFat = Calculator.recommendedFat(recommendedCalorie);
+      const recommendedIntake = {
+        calories: recommendedCalorie,
+        carbs: recommendedCarbs,
+        protein: recommendedProtein,
+        fat: recommendedFat,
+      };
 
       const processedUserNutritions = this.state.userNutritions.map((nutrition) => {
         const dateObject = new Date(nutrition.date);
