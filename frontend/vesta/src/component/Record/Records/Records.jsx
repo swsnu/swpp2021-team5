@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { Component, createRef } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
@@ -31,7 +32,7 @@ class Records extends Component {
 
   render() {
     if (this.props.storedRecords) {
-      let { storedRecords } = this.props;
+      let storedRecords = this.props.storedRecords;
       if (this.state.showLiked) {
         storedRecords = storedRecords.filter((rec) => rec.liked === true);
       }

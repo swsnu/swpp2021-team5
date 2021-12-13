@@ -387,10 +387,10 @@ def record(request):
 
         ## decode request
         menu_name = re.sub(' +','-', request.POST['menu_name'])
-        img_open = Image.open(BytesIO(base64.b64decode(request.POST['image'][23:])))
+        img_open = Image.open(BytesIO(base64.b64decode(request.POST['image'][23:]))) # remove javascript syntax
         img_open = img_open.convert('RGB')
         path = os.path.join(settings.MEDIA_ROOT,menu_name+'.jpg')
-        img_open.save(path)
+        img_open.save(path)  # save image to menu_images folder
 
         calories = float(request.POST['calories'])
         carbs = float(request.POST['carbs'])
@@ -400,11 +400,6 @@ def record(request):
         image = path
         review_text = request.POST['review']
         liked = request.POST['liked'] == "True"
-
-        ## save image in menu_images
-        # image_name = re.sub(' +', '-', menu_name)+".jpg"
-        # image_ = Image.open(image)
-        # image_.save(settings.MEDIA_ROOT+image_name, 'jpg')
 
         menu = Menu.objects.create(  ## create menu first
             name = menu_name,
@@ -419,7 +414,7 @@ def record(request):
         menu.save()
         print('menu_name:', menu.name, 'calories: ', menu.calories, 
             'carbs: ', menu.carbs, 'protein: ', menu.protein, 
-            'fat: ', menu.fat, #'image: ', menu.image,
+            'fat: ', menu.fat, 'image: ', "http://localhost:8000/media/"+str(menu.image).split('/')[-1],
             'recipe: ', menu.recipe, 'ingredient: ', menu.ingredient)
 
         new_record = Record(user = request.user,  ## create record and return
@@ -454,13 +449,18 @@ def record_id_func(request, record_id):
 
     ## return record of record_id
     matching_record = Record.objects.get(id = record_id)
+    matching_menu = matching_record.menu
     response_dict = {'id' : record_id,
                     'user_id' : matching_record.user.id,
-                    'menu_id' : matching_record.menu.id,
+                    'menu_name' : matching_menu.name,
+                    'menu_calories' : matching_menu.calories,
+                    'menu_carbs' : matching_menu.carbs,
+                    'menu_protein': matching_menu.protein,
+                    'menu_fat': matching_menu.fat,
                     'review' : matching_record.review,
                     'liked' : matching_record.liked,
                     'date' : matching_record.date,
-                    'image' : matching_record.image.url}
+                    'image' : "http://localhost:8000/media/"+str(matching_record.image).split('/')[-1]}
     return JsonResponse(response_dict)
 
 @require_GET
@@ -614,36 +614,15 @@ def menu_name(request, menuname):
             return HttpResponse(status = 404)
 
         ## return corresponding menu
-        matching_menu = Menu.objects.get(name = menuname)
+        matching_menu = Menu.objects.filter(name = menuname)
+        if len(matching_menu) > 1:
+            matching_menu = matching_menu[0]
         response_dict = {'id' : matching_menu.id, 'name' : menuname, 'calories' : matching_menu.calories,
                         'carbs' : matching_menu.carbs, 'protein' : matching_menu.protein,
                         'fat' : matching_menu.fat, 'image' : matching_menu.image.url,
                         'recipe': matching_menu.recipe, 'ingredient': matching_menu.ingredient }
         return JsonResponse(response_dict)
     
-    # elif request.method == "POST":
-    #     ## TODO: need to add recipe
-    #     ## TODO: check image URL
-    #     ## TODO: add RECORD after making a new menu
-    #     menu = Menu.objects.create(
-    #         name = menuname,
-    #         calories = request.POST['calories'],
-    #         carbs = request.POST['carbs'],
-    #         protein = request.POST['protein'],
-    #         fat = request.POST['fat'],
-    #         image = request.POST['image'],
-    #         recipe = "",
-    #         ingredient = request.POST['ingredient']
-    #     )
-    #     menu.save()
-    #     response_dict = {'id': menu.id, 'name': menuname, 'calories' : menu.calories,
-    #                     'carbs' : menu.carbs, 'protein' : menu.protein,
-    #                     'fat' : menu.fat, 'image' : menu.image.url,
-    #                     'recipe': menu.recipe, 'ingredient': menu.ingredient}
-    #     return JsonResponse(response_dict, status=200)
-    
-    # else:
-    #     return HttpResponseNotAllowed(['GET', 'POST'])
     
 @ensure_csrf_cookie
 @require_GET

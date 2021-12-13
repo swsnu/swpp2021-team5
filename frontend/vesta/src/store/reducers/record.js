@@ -4,13 +4,7 @@ import * as actionTypes from '../actions/actionType';
 
 const initialState = {
   userRecords: null,
-  selectedRecord: {
-    id: 1,
-    date: "2021/11/09",
-    liked: true,
-    review: "My favorite Dish",
-    menu: "sushi"
-  },
+  selectedRecord: null,
   selectedReview: null,
 };
 const recordReducer = (state = initialState, action) => {
