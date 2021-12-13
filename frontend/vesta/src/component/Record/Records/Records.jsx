@@ -26,7 +26,6 @@ class Records extends Component {
   }
 
   componentDidMount() {
-    // this.props.getUserSetting();
     this.props.onGetRecords(this.props.userID);
   }
 

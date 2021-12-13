@@ -134,6 +134,8 @@ def recommend(request, date):
             return JsonResponse(response_dict, safe=False)
 
         response = recommend_algorithm(request, today, count_all)
+        print('count_all: ',count_all)
+        print(response)
         if count_all==0:
             today_menu.breakfast = response[0]
             today_menu.lunch = response[1]
@@ -274,6 +276,7 @@ def recommend(request, date):
 
 ## internal function
 def recommend_algorithm(request, today, count_all):
+    print(Menu.objects.all())
     try:
         today_nutrition = UserNutrition.objects.get(
             user_id=request.user.id, date=today)
@@ -302,10 +305,11 @@ def recommend_algorithm(request, today, count_all):
 
     menus = Menu.objects.all()
     candidates = []
-    # print('calories:', allowed_cal)
-    # print('carbs:', allowed_carbs)
-    # print('protein:', allowed_protein)
-    # print('fat:', allowed_fat)
+    print('target_calories', target_cal)
+    print('calories:', allowed_cal)
+    print('carbs:', allowed_carbs)
+    print('protein:', allowed_protein)
+    print('fat:', allowed_fat)
     # choose all candidates
     for menu in menus:
         if (menu.calories < allowed_cal) and (menu.carbs < allowed_carbs) and (menu.protein < allowed_protein) and (menu.fat < allowed_fat):

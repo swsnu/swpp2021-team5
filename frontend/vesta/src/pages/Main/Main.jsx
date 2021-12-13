@@ -147,6 +147,24 @@ class Main extends Component {
     if (this.props.recommendedMenus && this.props.countAll !== -1) {
       console.log(this.props.countAll);
       console.log(this.props.recommendedMenus);
+      let nextMeal = 'Nothing to recommend';
+      if (this.props.recommendedMenus[this.props.countAll] !== null) {
+        nextMeal = (
+          <div>
+            <p style={{ marginBottom: '0px' }}>{ this.props.recommendedMenus[this.props.countAll].name }</p>
+            <a href={`/recommendation/${this.props.recommendedMenus[this.props.countAll].name}/${this.props.countAll}`}>
+              <Image
+                src={this.props.recommendedMenus[this.props.countAll].image}
+                alt="menu"
+                size="centered large"
+                style={{
+                  objectFit: 'cover', height: '400px', width: '400px', 'border-radius': '15px'
+                }}
+              />
+            </a>
+          </div>
+        );
+      }
       return (
         <div>
           <Container>
@@ -159,17 +177,7 @@ class Main extends Component {
                   {(this.props.countAll < 3)
                     ? (
                       <MealRecordArea style={{ 'font-size': '30px', padding: '15px' }}>
-                        <p style={{ marginBottom: '0px' }}>{ this.props.recommendedMenus[this.props.countAll].name }</p>
-                        <a href={`/recommendation/${this.props.recommendedMenus[this.props.countAll].name}/${this.props.countAll}`}>
-                          <Image
-                            src={this.props.recommendedMenus[this.props.countAll].image}
-                            alt="menu"
-                            size="centered large"
-                            style={{
-                              objectFit: 'cover', height: '400px', width: '400px', 'border-radius': '15px'
-                            }}
-                          />
-                        </a>
+                        {nextMeal}
                       </MealRecordArea>
                     )
                     : (

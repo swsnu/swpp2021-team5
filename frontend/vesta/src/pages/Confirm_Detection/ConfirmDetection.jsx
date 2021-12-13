@@ -9,6 +9,7 @@ import styled from 'styled-components';
 import axios from 'axios';
 import Nutrient from '../../component/Nutrient/Nutrient';
 import * as actionCreators from '../../store/actions/index';
+import { Redirect } from 'react-router-dom';
 
 const Background = styled.div`
 background-color:#F2F2F2;
@@ -129,7 +130,7 @@ class ConfirmDetection extends Component {
     //       currentCount + countInput);
     //   }
     // })();
-    this.props.history.push('/history');
+    // this.props.history.push('/history');
   }
 
   render() {
@@ -156,6 +157,15 @@ class ConfirmDetection extends Component {
     console.log(form.get('liked'));
     console.log(form.get('image'));
     console.log(this.props.userNutrition);
+
+    if (this.props.storedRecords) {
+      return (
+        <Redirect to={{
+          pathname: '/history',
+        }} />
+      )
+    }
+    
     return (
       <div>
         <Container className="Confirm">
@@ -289,6 +299,7 @@ const mapStateToProps = (state) => ({
   nutrition: state.ml.nutrition,
   ingredients: state.ml.ingredients,
   userNutrition: state.user.userNutrition,
+  storedRecords: state.record.userRecords,
 });
 
 const mapDispatchToProps = (dispatch) => ({
