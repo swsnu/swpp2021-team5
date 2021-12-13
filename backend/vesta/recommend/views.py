@@ -312,28 +312,27 @@ def recommend_algorithm(request, today, count_all):
     print('fat:', allowed_fat)
     # choose all candidates
     for menu in menus:
-        if (menu.calories < allowed_cal) and (menu.carbs < allowed_carbs) and (menu.protein < allowed_protein) and (menu.fat < allowed_fat):
-            # check ingredients
-            preferences = Preference.objects.filter(user_id=request.user.id) # QuerySet
-            preference = []
-            for pref in preferences:
-                pref = model_to_dict(pref)
-                for key, value in pref.items():
-                    if key in ('id', 'user'):
-                        continue
-                    else:
-                        preference.append(value)
-            ingredient = re.findall("'(.*?)'", menu.ingredient)  # list
-            intersect = set(preference) & set(ingredient)
-            if intersect:   # if there is intersection, do not include
-                continue
-            else:  # no intersection
-                difference = (allowed_cal - menu.calories) + (allowed_carbs - menu.carbs) + (allowed_protein - menu.protein) + (allowed_fat - menu.fat)
-                menu = [
-                    menu,
-                    difference
-                ]
-                candidates.append(menu)
+        # check ingredients
+        preferences = Preference.objects.filter(user_id=request.user.id) # QuerySet
+        preference = []
+        for pref in preferences:
+            pref = model_to_dict(pref)
+            for key, value in pref.items():
+                if key in ('id', 'user'):
+                    continue
+                else:
+                    preference.append(value)
+        ingredient = re.findall("'(.*?)'", menu.ingredient)  # list
+        intersect = set(preference) & set(ingredient)
+        if intersect:   # if there is intersection, do not include
+            continue
+        else:  # no intersection
+            difference = abs(allowed_cal - menu.calories) + abs(allowed_carbs - menu.carbs) + abs(allowed_protein - menu.protein) + abs(allowed_fat - menu.fat)
+            menu = [
+                menu,
+                difference
+            ]
+            candidates.append(menu)
     
     # sort in the order of little difference with the target nutrition
     candidates = sorted(candidates, key=lambda x:x[1])
