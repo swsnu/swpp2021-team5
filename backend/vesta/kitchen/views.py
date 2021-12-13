@@ -12,6 +12,10 @@ from .models import Profile, UserNutrition, Preference, Menu, Record
 from . import logmeal as api
 import os
 import base64
+import shutil
+import re
+from django.conf import settings
+from PIL import Image
 
 # Create your views here.
 
@@ -134,6 +138,7 @@ def profile(request):
 
             user_profile = user.profile
             response_dict = {
+                'userID': user.id,
                 'username': user.username,
                 'age': user_profile.age,
                 'sex': user_profile.sex,
@@ -295,11 +300,11 @@ def nutrition(request, date):
                 return HttpResponse(status=404)
 
             # should add checking Forbidden(403)
-            new_calories = int(req_data['calories'])
-            new_carbs = int(req_data['carbs'])
-            new_protein = int(req_data['protein'])
-            new_fat = int(req_data['fat'])
-            new_count_all = int(req_data['count_all'])
+            new_calories = float(req_data['calories'])
+            new_carbs = float(req_data['carbs'])
+            new_protein = float(req_data['protein'])
+            new_fat = float(req_data['fat'])
+            new_count_all = float(req_data['count_all'])
 
             today_nutrition.calories = new_calories
             today_nutrition.carbs = new_carbs
@@ -361,21 +366,48 @@ def record(request):
         if not request.user.is_authenticated:
             return HttpResponse(status = 401)
 
+        print(request.POST['menu_name'])
+        print(request.POST['calories'])
+        print(request.POST['ingredient'])
+
         ## decode request
-        # req_data = json.loads(request.body.decode())
-        menu_name = request.POST['menu_name']
+        menu_name = re.sub(' +','-', request.POST['menu_name'])
+        calories = request.POST['calories']
+        carbs = request.POST['carbs']
+        protein = request.POST['protein']
+        fat = request.POST['fat']
+        ingredient = request.POST['ingredient']
+        image = request.POST['image']
         review_text = request.POST['review']
         liked = request.POST['liked'] == "True"
 
-        if not Menu.objects.filter(name = menu_name).exists():
-            return HttpResponse(status = 404)
+        ## save image in menu_images
+        image_name = re.sub(' +', '-', menu_name)+".jpg"
+        image_ = Image.open(image)
+        image_.save(settings.MEDIA_ROOT+image_name, 'jpg')
 
-        new_record = Record(user = request.user,
-                                menu = Menu.objects.get(name = menu_name),
+        menu = Menu.objects.create(  ## create menu first
+            name = menu_name,
+            calories = calories,
+            carbs = carbs,
+            protein = protein,
+            fat = fat,
+            image = settings.MEDIA_ROOT+image_name,
+            recipe = "",
+            ingredient = ingredient
+        )
+        menu.save()
+        print('menu_name:', menu.name, 'calories: ', menu.calories, 
+            'carbs: ', menu.carbs, 'protein: ', menu.protein, 
+            'fat: ', menu.fat, #'image: ', menu.image,
+            'recipe: ', menu.recipe, 'ingredient: ', menu.ingredient)
+
+        new_record = Record(user = request.user,  ## create record and return
+                                menu = menu,
                                 review = review_text,
                                 liked = liked,
                                 date = datetime.date.today(),
-                                image = request.POST['image'])
+                                image = image)
 
         print('image')
         print(request.POST['image'])
@@ -383,12 +415,12 @@ def record(request):
 
         ## respond with created record detail
         response_dict = {'id' : new_record.id,
-                            'user_id' : new_record.user.id,
-                            'menu_id' : new_record.menu.id,
-                            'review' : new_record.review,
-                            'liked' : new_record.liked,
-                            'date' : new_record.date.strftime("%Y-%m-%d"),
-                            'image' : new_record.image.url}
+                        'user_id' : new_record.user.id,
+                        'menu_id' : new_record.menu.id,
+                        'review' : new_record.review,
+                        'liked' : new_record.liked,
+                        'date' : new_record.date.strftime("%Y-%m-%d"),
+                        'image' : new_record.image.url}
         return JsonResponse(response_dict)
     return HttpResponseNotAllowed(["GET", "POST"])
 
@@ -420,13 +452,28 @@ def record_user_id(request, user_id):
         return HttpResponse(status = 401)
 
     ## Get all records whose user id is user_id
-    all_record_list = [record for record in Record.objects.all().values() if record["user_id"] == user_id]
+    all_record_list = Record.objects.filter(user_id=user_id)
+    print(all_record_list)
+    # all_record_list = [record for record in Record.objects.all().values() if record["user_id"] == user_id]
 
     ## If there are no such records, respond with 404
-    if len(all_record_list) == 0:
-        return HttpResponse(status = 404)
+    # if len(all_record_list) == 0:
+    #     return HttpResponse(status = 404)
     ## else, return records
-    return JsonResponse(all_record_list, safe = False)
+    response_dict = []
+    if len(all_record_list) != 0:
+        for rec in all_record_list:
+            response_dict.append({
+                'id' : rec.id,
+                'user_id' : rec.user.id,
+                'menu_id' : rec.menu.id,
+                'review' : rec.review,
+                'liked' : rec.liked,
+                'date' : rec.date,
+                'image' : rec.image.url
+            })
+
+    return JsonResponse(response_dict, safe = False)
 
 def review(request, review_record_id):
     ## if request method is not GET, POST, PUT, or DELETE, respond with 405
@@ -537,6 +584,7 @@ def menu(request):
     all_menu_list = list(Menu.objects.all().values())
     return JsonResponse(all_menu_list, safe=False)
 
+@require_GET
 def menu_name(request, menuname):
     ## If user is not signed in, respond with 401
     if not request.user.is_authenticated:
@@ -555,29 +603,29 @@ def menu_name(request, menuname):
                         'recipe': matching_menu.recipe, 'ingredient': matching_menu.ingredient }
         return JsonResponse(response_dict)
     
-    elif request.method == "POST":
-        ## TODO: need to add recipe
-        ## TODO: check image URL
-        ## TODO: add RECORD after making a new menu
-        menu = Menu.objects.create(
-            name = menuname,
-            calories = request.POST['calories'],
-            carbs = request.POST['carbs'],
-            protein = request.POST['protein'],
-            fat = request.POST['fat'],
-            image = request.POST['image'],
-            recipe = "",
-            ingredient = request.POST['ingredient']
-        )
-        menu.save()
-        response_dict = {'id': menu.id, 'name': menuname, 'calories' : menu.calories,
-                        'carbs' : menu.carbs, 'protein' : menu.protein,
-                        'fat' : menu.fat, 'image' : menu.image.url,
-                        'recipe': menu.recipe, 'ingredient': menu.ingredient}
-        return JsonResponse(response_dict, status=200)
+    # elif request.method == "POST":
+    #     ## TODO: need to add recipe
+    #     ## TODO: check image URL
+    #     ## TODO: add RECORD after making a new menu
+    #     menu = Menu.objects.create(
+    #         name = menuname,
+    #         calories = request.POST['calories'],
+    #         carbs = request.POST['carbs'],
+    #         protein = request.POST['protein'],
+    #         fat = request.POST['fat'],
+    #         image = request.POST['image'],
+    #         recipe = "",
+    #         ingredient = request.POST['ingredient']
+    #     )
+    #     menu.save()
+    #     response_dict = {'id': menu.id, 'name': menuname, 'calories' : menu.calories,
+    #                     'carbs' : menu.carbs, 'protein' : menu.protein,
+    #                     'fat' : menu.fat, 'image' : menu.image.url,
+    #                     'recipe': menu.recipe, 'ingredient': menu.ingredient}
+    #     return JsonResponse(response_dict, status=200)
     
-    else:
-        return HttpResponseNotAllowed(['GET', 'POST'])
+    # else:
+    #     return HttpResponseNotAllowed(['GET', 'POST'])
     
 @ensure_csrf_cookie
 @require_GET

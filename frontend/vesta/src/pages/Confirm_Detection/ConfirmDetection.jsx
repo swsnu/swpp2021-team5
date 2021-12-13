@@ -49,6 +49,11 @@ class ConfirmDetection extends Component {
     };
   }
 
+  componentDidMount() {
+    const today = (new Date()).toISOString().split('T')[0];
+    this.props.getUserNutrition(today);
+  }
+
   onClickedEditResultButton = () => {
     const correctName = prompt('Please enter correct meal name');
     this.setState({ menuName: correctName });
@@ -64,38 +69,6 @@ class ConfirmDetection extends Component {
     this.props.history.push('/main');
   }
 
-  onClickedConfirmButton = () => {
-    const form = new FormData();
-    form.append('menu_name', this.state.menuName);
-    form.append('review', this.state.review);
-    form.append('liked', 'False');
-    form.append('image', this.state.image.image);
-    this.props.onAddRecord(form);
-
-    const today = (new Date()).toISOString().split('T')[0];
-    (async () => {
-      let apiRes = null;
-      try {
-        apiRes = await axios.get(`/api/nutrition/${today}/`);
-      } finally {
-        const countInput = (this.state.type === 'meal') ? 1 : 0;
-        const currentCalories = apiRes.data.calories;
-        const currentCarbs = apiRes.data.carbs;
-        const currentProtein = apiRes.data.protein;
-        const currentFat = apiRes.data.fat;
-        const currentCount = apiRes.data.count_all;
-
-        this.props.onEditUserNutrition(today,
-          currentCalories + this.props.selectedMenu.calories,
-          currentCarbs + this.props.selectedMenu.carbs,
-          currentProtein + this.props.selectedMenu.protein,
-          currentFat + this.props.selectedMenu.fat,
-          currentCount + countInput);
-      }
-    })();
-    this.props.history.push('/history');
-  }
-
   calculateCarbAndProtein = (percent) => {
     return ((1800 * (percent/100))/4).toFixed(2)
   }
@@ -104,7 +77,85 @@ class ConfirmDetection extends Component {
     return ((1800 * (percent/100))/9).toFixed(2)
   }
 
+  onClickedConfirmButton = () => {
+    const today = (new Date()).toISOString().split('T')[0];
+    const countInput = (this.state.type === 'meal') ? 1 : 0;
+
+    const menuCal = this.props.nutrition.calories;
+    const menuCarb = this.calculateCarbAndProtein(this.props.nutrition.dailyIntakeReference.CHOCDF.percent)
+    const menuProtein = this.calculateCarbAndProtein(this.props.nutrition.dailyIntakeReference.PROCNT.percent)
+    const menuFat = this.calculateFat(this.props.nutrition.dailyIntakeReference.FAT.percent)
+    
+    const form = new FormData();
+    form.append('menu_name', this.props.detectedMenu[0].name);
+    form.append('calories', menuCal);
+    form.append('carbs', menuCarb)
+    form.append('protein', menuProtein)
+    form.append('fat', menuFat)
+    form.append('ingredient', this.props.ingredients);
+    form.append('review', this.state.review);
+    form.append('liked', 'False');
+    form.append('image', this.props.location.state.image);
+    this.props.onAddRecord(form);
+
+    console.log(this.props.userNutrition.calories);
+    this.props.onEditUserNutrition(
+      today,
+      (this.props.userNutrition.calories + menuCal),
+      (this.props.userNutrition.carbs + menuCarb),
+      (this.props.userNutrition.protein + menuProtein),
+      (this.props.userNutrition.fat + menuFat),
+      (this.props.userNutrition.count_all + countInput)
+    );
+
+    // const today = (new Date()).toISOString().split('T')[0];
+    // (async () => {
+    //   let apiRes = null;
+    //   try {
+    //     apiRes = await axios.get(`/api/nutrition/${today}/`);
+    //   } finally {
+    //     const countInput = (this.state.type === 'meal') ? 1 : 0;
+    //     const currentCalories = apiRes.data.calories;
+    //     const currentCarbs = apiRes.data.carbs;
+    //     const currentProtein = apiRes.data.protein;
+    //     const currentFat = apiRes.data.fat;
+    //     const currentCount = apiRes.data.count_all;
+
+    //     this.props.onEditUserNutrition(today,
+    //       currentCalories + this.props.selectedMenu.calories,
+    //       currentCarbs + this.props.selectedMenu.carbs,
+    //       currentProtein + this.props.selectedMenu.protein,
+    //       currentFat + this.props.selectedMenu.fat,
+    //       currentCount + countInput);
+    //   }
+    // })();
+    this.props.history.push('/history');
+  }
+
   render() {
+    const menuCarb = this.calculateCarbAndProtein(this.props.nutrition.dailyIntakeReference.CHOCDF.percent)
+    const menuProtein = this.calculateCarbAndProtein(this.props.nutrition.dailyIntakeReference.PROCNT.percent)
+    const menuFat = this.calculateFat(this.props.nutrition.dailyIntakeReference.FAT.percent)
+    const form = new FormData();
+    form.append('menu_name', this.props.detectedMenu[0].name);
+    form.append('calories', this.props.nutrition.calories);
+    form.append('carbs', menuCarb)
+    form.append('protein', menuProtein)
+    form.append('fat', menuFat)
+    form.append('ingredient', this.props.ingredients);
+    form.append('review', this.state.review);
+    form.append('liked', 'False');
+    form.append('image', this.props.location.state.image);
+    console.log(form.get('menu_name'));
+    console.log(form.get('calories'));
+    console.log(form.get('carbs'));
+    console.log(form.get('protein'));
+    console.log(form.get('fat'));
+    console.log(form.get('ingredient'));
+    console.log(form.get('review'));
+    console.log(form.get('liked'));
+    console.log(form.get('image'));
+    console.log(this.props.userNutrition);
     return (
       <div>
         <Container className="Confirm">
@@ -237,6 +288,7 @@ const mapStateToProps = (state) => ({
   detectedMenu: state.ml.detectedMenu,
   nutrition: state.ml.nutrition,
   ingredients: state.ml.ingredients,
+  userNutrition: state.user.userNutrition,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -248,6 +300,7 @@ const mapDispatchToProps = (dispatch) => ({
   onGetDetection: (formData) => dispatch(actionCreators.detect(formData)),
   onAddRecord: (formData) => dispatch(actionCreators.addRecord(formData)),
   getUserSetting: () => dispatch(actionCreators.getUserSetting()),
+  getUserNutrition: (date) => dispatch(actionCreators.getUserNutrition(date)), 
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(ConfirmDetection));
