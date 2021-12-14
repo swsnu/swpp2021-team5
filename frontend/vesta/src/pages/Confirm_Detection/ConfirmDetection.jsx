@@ -63,9 +63,35 @@ class ConfirmDetection extends Component {
   }
 
   onClickedEditResultButton = () => {
-    const correctName = prompt('Please enter correct meal name');
+    console.log('here');
+    const form = new FormData();
+    let correctName = prompt('Please enter correct meal name (only string)');
+    // while (typeof correctName !== "string") correctName = prompt('Please enter meal name with correct value');
+    
+    let calories = prompt('Please enter calories(kcal) of your menu (only number)');
+    // while (typeof calories !== "number") calories = prompt('Please enter calories with correct value');
+    
+    let carbs = prompt('Please enter carbohydrate (grams) of your menu (only number)');
+    // while (typeof carbs !== "number") carbs = prompt('Please enter carbs with correct value');
+    
+    let protein = prompt('Please enter protein (grams) of your menu (only number)');
+    // while (typeof protein !== "string") correctName = prompt('Please enter protein with correct value');
+
+    let ingredient = prompt('Please enter ingredient of your menu (parse by comma)');
+    // while (typeof ingredient !== "string") correctName = prompt('Please enter ingredient with correct value');
+
+    let recipe = prompt('Please enter recipe of your menu (parse by comma)');
+    // while (typeof recipe !== "string") correctName = prompt('Please enter recipe with correct value');
+
+    form.append('menu_name', correctName);
+    form.append('calories', calories);
+    form.append('carbs', carbs);
+    form.append('protein', protein);
+    form.append('ingredient', ingredient);
+    form.append('recipe', recipe);
+    if (correctName && calories && carbs && protein && ingredient && recipe) this.props.onAddRecord(form);
     this.setState({ menuName: correctName });
-    this.props.onGetMenu(correctName);
+    // this.props.onGetMenu(correctName);
   }
 
   onChangedReviewInput = (event) => {
@@ -328,7 +354,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onGetMenu: (menuName) => dispatch(actionCreators.getMenu(menuName)),
+  // onGetMenu: (menuName) => dispatch(actionCreators.getMenu(menuName)),
   onCreateUserNutrition: (date, calories, carbs, protein, fat,
     countAll) => dispatch(actionCreators.createUserNutrition(date, calories, carbs, protein, fat, countAll)),
   onEditUserNutrition: (date, calories, carbs, protein, fat,
