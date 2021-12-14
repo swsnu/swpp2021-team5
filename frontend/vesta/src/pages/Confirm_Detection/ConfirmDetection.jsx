@@ -53,6 +53,13 @@ class ConfirmDetection extends Component {
   componentDidMount() {
     const today = (new Date()).toISOString().split('T')[0];
     this.props.getUserNutrition(today);
+    this.setType();
+  }
+
+  setType = () => {
+    this.setState({
+      type: this.props.location.state.type
+    })
   }
 
   onClickedEditResultButton = () => {
@@ -109,14 +116,16 @@ class ConfirmDetection extends Component {
     this.props.onAddRecord(form);
 
     console.log(this.props.userNutrition.calories);
-    // this.props.onEditUserNutrition(
-    //   today,
-    //   (this.props.userNutrition.calories + menuCal),
-    //   (this.props.userNutrition.carbs + menuCarb),
-    //   (this.props.userNutrition.protein + menuProtein),
-    //   (this.props.userNutrition.fat + menuFat),
-    //   (this.props.userNutrition.count_all + countInput)
-    // );
+    console.log(countInput);
+    this.props.onEditUserNutrition(
+      today,
+      (this.props.userNutrition.calories + menuCal),
+      (this.props.userNutrition.carbs + menuCarb),
+      (this.props.userNutrition.protein + menuProtein),
+      (this.props.userNutrition.fat + menuFat),
+      (this.props.userNutrition.count_all + countInput)
+    );
+    this.props.history.push('/history');
     //////////////
     
     // const today = (new Date()).toISOString().split('T')[0];

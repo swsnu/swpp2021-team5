@@ -16,11 +16,20 @@ class FoodRecord extends Component {
     this.state = {
       image: null,
       detecting: false,
+      type: '',
     };
   }
 
   componentDidMount() {
     this.props.getUserSetting();
+  }
+
+  setType = () => {
+    console.log(this.props.location.state.type);
+    this.setState({
+      type: this.props.location.state.type  // 1 of followed, unfollowed, meal
+    });
+    // console.log(this.state.type);
   }
 
   onChangedImageInput = (event) => {
@@ -40,47 +49,13 @@ class FoodRecord extends Component {
       form.append('image', this.state.image);
       this.props.onGetDetection(form);
       this.setState({ detecting: true });
-      // console.log(this.props.detectedMenu);
-      // console.log(this.props.nutrition);
-      // console.log(this.props.ingredients);
-      // if (this.props.detectedMenu && this.props.nutrition && this.props.ingredients) {
-      //   console.log(this.props.detectedMenu);
-      //   console.log(this.props.nutrition);
-      //   console.log(this.props.ingredients);
-      //   this.props.history.push({
-      //     pathname: '/confirm',
-      //     state: { image: this.state.image }
-      //   });
-      // }
-      // window.confirm('Your menu image is being detected :) Please wait for about 10 seconds!');
-      // this.props.history.push({
-      //   pathname: '/confirm',
-      //   state: { image: this.state.image }
-      // });
-      // if (this.props.detectedMenu && this.props.nutrition && this.props.ingredients) {
-      //   // return (
-      //   //   <Segment>
-      //   //     <Dimmer active inverted>
-      //   //       <Loader inverted content="Your menu is being detected" />
-      //   //     </Dimmer>
-      //   //     <Image src="https://react.semantic-ui.com/images/wireframe/short-paragraph.png" />
-      //   //   </Segment>
-      //   // );
-      //   this.props.history.push({
-      //     pathname: '/confirm',
-      //     state: { image: this.state.image }
-      //   });
-      // }
-      // setTimeout(() => this.props.history.push({
-      //   pathname: '/confirm',
-      //   state: { image: this.state.image, menuName: this.props.detectedMenus[0].name },
-      // }), 10000);
     }
   }
 
   render() {
     console.log(this.state.detecting);
     console.log(this.props.detectedMenu);
+    console.log(this.state.type);
     if (!this.state.detecting) {
       return (
         <div>
@@ -110,21 +85,13 @@ class FoodRecord extends Component {
         </Segment>
       );
     }
-    // if (this.state.detecting && this.props.detectedMenu && this.props.nutrition && this.props.ingredients) {
-    //   console.log(this.props.detectedMenu);
-    //   console.log(this.props.nutrition);
-    //   console.log(this.props.ingredients);
-    //   return (
-    //     <Redirect to={{
-    //       pathname: '/confirm',
-    //       state: { image: this.state.image }
-    //     }} />
-    //   );
-    // }
     return (
       <Redirect to={{
         pathname: '/confirm',
-        state: { image: this.state.image }
+        state: {
+          image: this.state.image,
+          type: this.props.location.state.type
+        }
       }} />
     );
   }

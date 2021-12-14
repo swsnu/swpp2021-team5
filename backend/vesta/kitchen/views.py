@@ -517,7 +517,6 @@ def review(request, review_record_id):
     if request.method == "POST":
         ## create review in selected record
         review_post = request.POST['review']
-        # review_post = json.loads(request.body.decode())
         print(review_post)
         record_to_add_review = Record.objects.get(id = review_record_id)
         record_to_add_review.review = review_post
@@ -535,10 +534,7 @@ def review(request, review_record_id):
 
     if request.method == "PUT":
         ## edit review in selected record
-        # print(request.body.decode())
         new_review = request.body.decode()
-        # print(new_review)
-        # new_review = request.POST['new_review']
         print(new_review)
         record_to_edit_review = Record.objects.get(id = review_record_id)
         record_to_edit_review.review = new_review
