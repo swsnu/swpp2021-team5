@@ -58,8 +58,8 @@ class RecordDetail extends Component {
   }
 
   componentDidMount() {
-    console.log(this.state.liked);
-    console.log(this.props.id);
+    // console.log(this.state.liked);
+    // console.log(this.props.id);
     this.props.onGetRecord(this.props.id);
     this.updateInitial();
   }
@@ -94,8 +94,8 @@ class RecordDetail extends Component {
       fat = this.props.record.menu_fat;
       review = this.props.record.review;
       date = this.props.record.date;
-      console.log(this.props.record.liked);
-      console.log(this.state.liked);
+      // console.log(this.props.record.liked);
+      // console.log(this.state.liked);
       if (this.state.liked === true) color = 'red';
       else color = 'black';
 
@@ -152,7 +152,7 @@ class RecordDetail extends Component {
                     </Grid>
                   </TextArea>
                 </div>
-                {/* <Review /> */}
+                <Review />
                 <div>
                   <Button id="back-to-history"
                     onClick={() => this.props.history.push('/history')}

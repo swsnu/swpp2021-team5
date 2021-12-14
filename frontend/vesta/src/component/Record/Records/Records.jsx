@@ -45,7 +45,6 @@ class Records extends Component {
         storedRecords = storedRecords.filter((rec) => rec.liked === true);
       }
       const demoRecords_ = storedRecords.map((rec) => (
-        // <a href={`/history/${rec.id}`} key={rec.id}>
         <div onClick={() => this.redirectRecordDetail(rec)}>
           <img
             src={rec.image}
