@@ -69,6 +69,7 @@ class Main extends Component {
         this.props.userNutrition.count_all + 1,
       );
     }
+    this.props.getCountAll(today);
     this.props.getRecommendedMenus(today);
     // (async () => {
     //   let apiRes = null;
@@ -255,8 +256,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onCreateUserNutrition: (date, calories, carbs, protein, fat,
-    countAll) => dispatch(actionCreators.createUserNutrition(date, calories, carbs, protein, fat, countAll)),
+  // onCreateUserNutrition: (date, calories, carbs, protein, fat,
+  //   countAll) => dispatch(actionCreators.createUserNutrition(date, calories, carbs, protein, fat, countAll)),
   onEditUserNutrition: (date, calories, carbs, protein, fat,
     countAll) => dispatch(actionCreators.editUserNutrition(date, calories, carbs, protein, fat, countAll)),
   getRecommendedMenus: (date) => dispatch(actionCreators.getRecommendedMenus(date)),

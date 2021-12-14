@@ -1,4 +1,4 @@
-import logmeal as api
+from . import logmeal as api
 from PIL import Image
 import os
 

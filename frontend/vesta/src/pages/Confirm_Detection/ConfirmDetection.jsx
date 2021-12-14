@@ -102,27 +102,18 @@ class ConfirmDetection extends Component {
         apiRes = await axios.get(`/api/nutrition/${today}/`);
       } finally {
         const countInput = (this.state.type === 'meal') ? 1 : 0;
-        if (apiRes.data.calories === 0 && apiRes.data.carbs === 0 && apiRes.data.protein === 0 && apiRes.data.fat === 0) {
-          this.props.onCreateUserNutrition(today,
-            this.props.selectedMenu.calories,
-            this.props.selectedMenu.carbs,
-            this.props.selectedMenu.protein,
-            this.props.selectedMenu.fat,
-            countInput);
-        } else {
-          const currentCalories = apiRes.data.calories;
-          const currentCarbs = apiRes.data.carbs;
-          const currentProtein = apiRes.data.protein;
-          const currentFat = apiRes.data.fat;
-          const currentCount = apiRes.data.count_all;
+        const currentCalories = apiRes.data.calories;
+        const currentCarbs = apiRes.data.carbs;
+        const currentProtein = apiRes.data.protein;
+        const currentFat = apiRes.data.fat;
+        const currentCount = apiRes.data.count_all;
 
-          this.props.onEditUserNutrition(today,
-            currentCalories + this.props.selectedMenu.calories,
-            currentCarbs + this.props.selectedMenu.carbs,
-            currentProtein + this.props.selectedMenu.protein,
-            currentFat + this.props.selectedMenu.fat,
-            currentCount + countInput);
-        }
+        this.props.onEditUserNutrition(today,
+          currentCalories + this.props.selectedMenu.calories,
+          currentCarbs + this.props.selectedMenu.carbs,
+          currentProtein + this.props.selectedMenu.protein,
+          currentFat + this.props.selectedMenu.fat,
+          currentCount + countInput);
       }
     })();
     this.props.history.push('/history');
