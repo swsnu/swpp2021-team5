@@ -580,7 +580,13 @@ def liked(request, liked_record_id):
         return HttpResponse(status = 403)
 
     record_to_toggle_liked = Record.objects.get(id = liked_record_id)
-    record_to_toggle_liked.liked = not record_to_toggle_liked.liked
+    print(record_to_toggle_liked.liked)
+    if record_to_toggle_liked.liked == True:
+        record_to_toggle_liked.liked = False
+    else:
+        record_to_toggle_liked.liked = True
+    record_to_toggle_liked.save()
+    print(record_to_toggle_liked.liked)
 
     response_dict = {'id' : liked_record_id,
                     'user_id' : record_to_toggle_liked.user.id,

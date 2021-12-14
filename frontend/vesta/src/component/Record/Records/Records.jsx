@@ -30,6 +30,14 @@ class Records extends Component {
     this.props.onGetRecords(this.props.userID);
   }
 
+  redirectRecordDetail = (rec) => {
+    console.log(rec.liked);
+    this.props.history.push({
+      pathname: `/history/${rec.id}`,
+      state: { liked: rec.liked }
+    });
+  }
+
   render() {
     if (this.props.storedRecords) {
       let storedRecords = this.props.storedRecords;
@@ -37,7 +45,8 @@ class Records extends Component {
         storedRecords = storedRecords.filter((rec) => rec.liked === true);
       }
       const demoRecords_ = storedRecords.map((rec) => (
-        <a href={`/history/${rec.id}`} key={rec.id}>
+        // <a href={`/history/${rec.id}`} key={rec.id}>
+        <div onClick={() => this.redirectRecordDetail(rec)}>
           <img
             src={rec.image}
             alt="record"
@@ -49,7 +58,7 @@ class Records extends Component {
               borderRadius: '20px'
             }}
           />
-        </a>
+        </div>
       ));
       const demoRecords = [[], [], []];
       for (let i = 0; i < demoRecords_.length; i += 1) {
@@ -72,7 +81,7 @@ class Records extends Component {
               pointing
               style={{ backgroundColor: '#fff', paddingTop: '1em' }}
             >
-              <Menu.Item
+              <Menu.Item  // All
                 position="right"
                 as="a"
                 style={{ width: 70 }}
@@ -83,7 +92,7 @@ class Records extends Component {
                   acticeItem: 'All'
                 })}
               />
-              <Menu.Item
+              <Menu.Item  // Liked
                 position="left"
                 as="a"
                 style={{ width: 70 }}

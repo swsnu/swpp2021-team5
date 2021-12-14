@@ -13,16 +13,13 @@ const recordReducer = (state = initialState, action) => {
       return { ...state, userRecords: action.records };
     }
     case actionTypes.TOGGLE_LIKED: {
-      const toggledRecords = state.userRecords.map((rec) => {
-        if (rec.id === action.targetID) {
-          return { ...rec, liked: !rec.liked };
-        } return { ...rec };
-      });
-      let toggledRecord = state.selectedRecord;
-      // if (state.selectedRecord !== null && action.targetID === state.selectedRecord.id) {
-      //   toggledRecord = state.userRecords.find((rec) => rec.id === action.targetID);
-      // }
-      return { ...state, userRecords: toggledRecords, selectedRecord: toggledRecord };
+      // const toggledRecords = state.userRecords.map((rec) => {
+      //   if (rec.id === action.targetID) {
+      //     return { ...rec, liked: !rec.liked };
+      //   } return { ...rec };
+      // });
+      // let toggledRecord = state.selectedRecord;
+      return { ...state };
     }
     case actionTypes.ADD_RECORD: {
       const newRecord = {
@@ -31,7 +28,6 @@ const recordReducer = (state = initialState, action) => {
       };
       console.log(newRecord);
       return state;
-      // return { ...state, userRecords: state.userRecords.push(newRecord)};
     }
     case actionTypes.GET_RECORD: {
       return { ...state, selectedRecord: action.record };

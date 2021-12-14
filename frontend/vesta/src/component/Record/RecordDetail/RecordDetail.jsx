@@ -50,48 +50,54 @@ margin-bottom:30px;
 `;
 
 class RecordDetail extends Component {
-  componentDidMount() {
-    console.log(this.props.id);
-    this.props.onGetRecord(this.props.id)
-    // if (this.props.record) {
-    //   console.log("liked");
-    //   console.log(this.props.record);
-    //   console.log(this.props.record.menu);
-    //   this.props.onGetMenu(this.props.record.menu);
-    //   this.setState({ liked: this.props.record.liked });
-    // }
+  constructor() {
+    super();
+    this.state = {
+      liked: false
+    };
   }
-  // clickRecordsHandler = () => {
-  //   this.props.history.push('/history/');
-  // }
-  state = { liked: true }
+
+  componentDidMount() {
+    console.log(this.state.liked);
+    console.log(this.props.id);
+    this.props.onGetRecord(this.props.id);
+    this.updateInitial();
+  }
+
+  updateInitial = () => {
+    this.setState({
+      liked: this.props.location.state.liked
+    });
+  }
+
+  toggleLiked = () => {
+    if(this.state.liked == true) this.setState({ liked: false });
+    else this.setState({ liked: true });
+    this.props.onToggleRecord(this.props.id);
+  }
 
   render() {
-    var liked = false;
-    liked = this.state.liked;
-    var color='black';
-    if (liked===true) {
-      color='red'
-    }
-    console.log(this.state.liked)
-
     let menuName = '';  // initialization
     let calories = 0;
     let carbs = 0;
     let protein = 0;
     let fat = 0;
-    let recipe = '';
     let date = "";
+    let review = "";
+    let color = 'black';
 
-    // if (this.props.selectedMenu !== null && this.props.record !== null) {
     if (this.props.record !== null) {
       menuName = this.props.record.menu_name;
       calories = this.props.record.menu_calories;
       carbs = this.props.record.menu_carbs;
       protein = this.props.record.menu_protein;
       fat = this.props.record.menu_fat;
-      // recipe = this.props.selectedMenu.recipe;
-      date = this.props.record.date
+      review = this.props.record.review;
+      date = this.props.record.date;
+      console.log(this.props.record.liked);
+      console.log(this.state.liked);
+      if (this.state.liked === true) color = 'red';
+      else color = 'black';
 
       return (
         <div className="RecordDetail">
@@ -148,10 +154,10 @@ class RecordDetail extends Component {
                 </div>
                 {/* <Review /> */}
                 <div>
-                  <Button id="back-to-recommendations"
+                  <Button id="back-to-history"
                     onClick={() => this.props.history.push('/history')}
                     >Back</Button>
-                  <Button onClick={() => { this.setState({liked: !liked});this.props.onToggleRecord(this.props.id)}}>
+                  <Button onClick={() => { this.toggleLiked() }}>
                     <h4 className="liked" style={{color:color}}>&#9829;</h4>
                   </Button>
                 </div>
@@ -189,6 +195,7 @@ const mapDispatchToProps = dispatch => {
       dispatch(actionCreators.toggleRecord(recordID)),
     onGetMenu: (menuName) => 
       dispatch(actionCreators.getMenu(menuName)),
+    onGetRecords: (userID) => dispatch(actionCreators.getRecords(userID)),
   }
 }
 
