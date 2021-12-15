@@ -401,6 +401,13 @@ def record(request):
         review_text = request.POST['review']
         liked = request.POST['liked'] == "True"
 
+        pattern = re.findall(r"(.*?),", ingredient)
+        ing_list = []
+        for p in pattern:
+            ing_list.append("'"+p+"'")
+        ingredient = ', '.join(ing_list)
+        print(ingredient)
+
         menu = Menu.objects.create(  ## create menu first
             name = menu_name,
             calories = calories,

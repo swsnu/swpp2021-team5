@@ -47,6 +47,7 @@ class ConfirmDetection extends Component {
       review: '',
       image: null,
       type: null,
+      editMenu: null,
     };
   }
 
@@ -63,33 +64,44 @@ class ConfirmDetection extends Component {
   }
 
   onClickedEditResultButton = () => {
-    console.log('here');
+    // console.log('here');
+    let correctName = null;
+    let calories = null;
+    let carbs = null;
+    let protein = null;
+    let ingredient = null;
+    // let recipe = null;
+    let fat = null;
     const form = new FormData();
-    let correctName = prompt('Please enter correct meal name (only string)');
-    // while (typeof correctName !== "string") correctName = prompt('Please enter meal name with correct value');
-    
-    let calories = prompt('Please enter calories(kcal) of your menu (only number)');
-    // while (typeof calories !== "number") calories = prompt('Please enter calories with correct value');
-    
-    let carbs = prompt('Please enter carbohydrate (grams) of your menu (only number)');
-    // while (typeof carbs !== "number") carbs = prompt('Please enter carbs with correct value');
-    
-    let protein = prompt('Please enter protein (grams) of your menu (only number)');
-    // while (typeof protein !== "string") correctName = prompt('Please enter protein with correct value');
-
-    let ingredient = prompt('Please enter ingredient of your menu (parse by comma)');
-    // while (typeof ingredient !== "string") correctName = prompt('Please enter ingredient with correct value');
-
-    let recipe = prompt('Please enter recipe of your menu (parse by comma)');
-    // while (typeof recipe !== "string") correctName = prompt('Please enter recipe with correct value');
-
-    form.append('menu_name', correctName);
-    form.append('calories', calories);
-    form.append('carbs', carbs);
-    form.append('protein', protein);
-    form.append('ingredient', ingredient);
-    form.append('recipe', recipe);
-    if (correctName && calories && carbs && protein && ingredient && recipe) this.props.onAddRecord(form);
+    correctName = prompt('Please enter correct meal name (only string)');
+    if (correctName !== null) {
+      console.log('not null');
+      calories = prompt('Please enter calories(kcal) of your menu (only number)');
+      if (calories !== null) {
+        carbs = prompt('Please enter carbohydrate (grams) of your menu (only number)');
+        if (carbs !== null) {
+          protein = prompt('Please enter protein (grams) of your menu (only number)');
+          if (protein !== null) {
+            fat = prompt('Please enter fat (grams) of your menu (only number)');
+            if (fat) {
+              ingredient = prompt('Please enter ingredient of your menu (parse by comma)');
+            }
+          }
+        }
+      }
+    }
+    form.append('menu_name', correctName);  //string
+    form.append('calories', parseFloat(calories));
+    form.append('carbs', parseFloat(carbs));
+    form.append('protein', parseFloat(protein));
+    form.append('fat', parseFloat(fat));
+    form.append('ingredient', ingredient);  //string
+    // form.append('recipe', recipe);
+    console.log(correctName, calories, carbs, protein, fat, ingredient);
+    if (correctName && calories && carbs && protein && fat && ingredient) {
+      // this.props.onAddRecord(form);
+      this.setState({ editMenu: form });
+    }
     this.setState({ menuName: correctName });
     // this.props.onGetMenu(correctName);
   }
@@ -123,26 +135,42 @@ class ConfirmDetection extends Component {
   onClickedConfirmButton = () => {
     const today = (new Date()).toISOString().split('T')[0];
     const countInput = (this.state.type === 'meal') ? 1 : 0;
+    let form = new FormData();
+    let menuCal = 0;
+    let menuCarb = 0;
+    let menuProtein = 0;
+    let menuFat = 0;
+    let ingredient = '';
 
-    const menuCal = this.props.nutrition.calories;
-    const menuCarb = this.calculateCarbAndProtein(this.props.nutrition.dailyIntakeReference.CHOCDF.percent)
-    const menuProtein = this.calculateCarbAndProtein(this.props.nutrition.dailyIntakeReference.PROCNT.percent)
-    const menuFat = this.calculateFat(this.props.nutrition.dailyIntakeReference.FAT.percent)
-    
-    const form = new FormData();
-    form.append('menu_name', this.props.detectedMenu[0].name);
-    form.append('calories', menuCal);
-    form.append('carbs', menuCarb)
-    form.append('protein', menuProtein)
-    form.append('fat', menuFat)
-    form.append('ingredient', this.parseIngredient(this.props.ingredients));
+    if (!this.state.editMenu) {  // when the detection is correct, editMenu == null
+      menuCal = this.props.nutrition.calories;
+      menuCarb = this.calculateCarbAndProtein(this.props.nutrition.dailyIntakeReference.CHOCDF.percent)
+      menuProtein = this.calculateCarbAndProtein(this.props.nutrition.dailyIntakeReference.PROCNT.percent)
+      menuFat = this.calculateFat(this.props.nutrition.dailyIntakeReference.FAT.percent)
+      
+      form.append('menu_name', this.props.detectedMenu[0].name);
+      form.append('calories', menuCal);
+      form.append('carbs', menuCarb)
+      form.append('protein', menuProtein)
+      form.append('fat', menuFat)
+      form.append('ingredient', this.parseIngredient(this.props.ingredients));
+    } else {  // when the detection is wrong, editMneu !== null
+      form = this.state.editMenu;
+      menuCal = this.state.editMenu.get('calories');
+      menuCarb = this.state.editMenu.get('carbs');
+      menuProtein = this.state.editMenu.get('protein');
+      menuFat = this.state.editMenu.get('fat');
+      ingredient = this.state.editMenu.get('ingredient');
+      console.log('menuCal: ', menuCal);
+      console.log('ingredient:', ingredient);
+    }
     form.append('review', this.state.review);
     form.append('liked', 'False');
     form.append('image', this.props.location.state.image);
-    this.props.onAddRecord(form);
+    this.props.onAddRecord(form);  // add record (includes creating a new menu in backend)
 
     console.log(this.props.userNutrition.calories);
-    console.log(countInput);
+    console.log('countInput:',countInput);
     this.props.onEditUserNutrition(
       today,
       (this.props.userNutrition.calories + menuCal),
@@ -152,30 +180,6 @@ class ConfirmDetection extends Component {
       (this.props.userNutrition.count_all + countInput)
     );
     this.props.history.push('/history');
-    //////////////
-    
-    // const today = (new Date()).toISOString().split('T')[0];
-    // (async () => {
-    //   let apiRes = null;
-    //   try {
-    //     apiRes = await axios.get(`/api/nutrition/${today}/`);
-    //   } finally {
-    //     const countInput = (this.state.type === 'meal') ? 1 : 0;
-    //     const currentCalories = apiRes.data.calories;
-    //     const currentCarbs = apiRes.data.carbs;
-    //     const currentProtein = apiRes.data.protein;
-    //     const currentFat = apiRes.data.fat;
-    //     const currentCount = apiRes.data.count_all;
-
-    //     this.props.onEditUserNutrition(today,
-    //       currentCalories + this.props.selectedMenu.calories,
-    //       currentCarbs + this.props.selectedMenu.carbs,
-    //       currentProtein + this.props.selectedMenu.protein,
-    //       currentFat + this.props.selectedMenu.fat,
-    //       currentCount + countInput);
-    //   }
-    // })();
-    // this.props.history.push('/history');
   }
 
   render() {
@@ -266,81 +270,6 @@ class ConfirmDetection extends Component {
         </Container>
       </div>
     );
-    // console.log('here');
-    // let calories = 560;
-    // let carbs = 132.12;
-    // let protein = 12.1;
-    // let fat = 28.2;
-
-    // const uploadedImage = this.props.location.state.image;
-    // this.setState({ image: uploadedImage });
-    // this.setState({ type: 'meal' });
-    // this.setState({ menuName: this.props.detectedMenu[0].name });
-
-    // console.log(this.props.detectedMenu);
-    // console.log(this.props.nutrition);
-    // console.log(this.props.ingredients);
-    // console.log(this.props.nutrition);
-    // console.log(this.props.ingredients);
-
-    // return (
-    //   <div>
-    //     <Container className="Confirm">
-    //       <Background>
-    //         <Nutrient
-    //           menu_name={`You Ate : ${this.state.menuName}`}
-    //           calories={calories}
-    //           carbs={carbs}
-    //           protein={protein}
-    //           fat={fat}
-    //           src={this.state.image}
-    //         />
-    //         <Divider />
-    //         <EditArea>
-    //           <p>
-    //             Is the detection result wrong?
-    //             Tell us what you ate
-    //           </p>
-    //           <Icon circular name="edit icon" onClick={this.onClickedEditResultButton} />
-    //         </EditArea>
-    //         <ReviewArea>
-    //           <h1>
-    //             Create a review for your meal
-    //           </h1>
-    //           <p>
-    //             If you dont want to write a review now,
-    //             you can leave it blank and write it later.
-    //           </p>
-    //           <Form>
-    //             <TextArea id="review-text" placeholder="write review here" onChange={this.onChangedReviewInput} />
-    //           </Form>
-    //           <p>
-    //             Press Confirm / Cancel to Create a record or Cancel.
-    //           </p>
-    //           <Grid columns={2}>
-    //             <Grid.Column>
-    //               <p> Confirm </p>
-    //               <Icon circular name="check icon" onClick={this.onClickedConfirmButton} />
-    //             </Grid.Column>
-    //             <Grid.Column>
-    //               <p> Cancel </p>
-    //               <Icon circular name="x icon" onClick={this.onClickedCancelButton} />
-    //             </Grid.Column>
-    //           </Grid>
-    //         </ReviewArea>
-    //       </Background>
-    //     </Container>
-    //   </div>
-    // );
-    // }
-    // return (
-    //   <Segment>
-    //     <Dimmer active inverted>
-    //       <Loader inverted content="Your menu is being detected" />
-    //     </Dimmer>
-    //     <Image src="https://react.semantic-ui.com/images/wireframe/short-paragraph.png" />
-    //   </Segment>
-    // );
   }
 }
 

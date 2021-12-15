@@ -73,7 +73,7 @@ describe('<Review/>', () => {
   it('should render', () => {
     const component = mount(review);
     expect(component.length).toBe(1);
-    expect(spyGetRecord).toBeCalledTimes(1);
+    expect(spyGetRecord).toBeCalledTimes(2);
   });
 
   it('should edit review button', () => {

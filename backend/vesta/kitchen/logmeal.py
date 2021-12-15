@@ -14,6 +14,7 @@ available_company_tokens = [
     'c3f7853b6adbfd3b84f9fb93bf4a8a8e6e847c75',
     '96757cd38e4c64d23729d2975460c9a504572def',
     '77ed7fdbb3c84d457ba350585af0c2b0d52b579c',
+    'bdfa246a23a2962b3f2ce4aab2565196d41c87b1',
 ]
 api_user_token = '0ce3203ec3f4906581d6ee835e08eafb4e10264e'
 api_url = 'https://api.logmeal.es/v2/'

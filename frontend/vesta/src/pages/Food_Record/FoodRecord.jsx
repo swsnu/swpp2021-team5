@@ -21,6 +21,7 @@ class FoodRecord extends Component {
   }
 
   componentDidMount() {
+    window.confirm('Please refresh your page before uploading image.');
     this.props.getUserSetting();
   }
 
