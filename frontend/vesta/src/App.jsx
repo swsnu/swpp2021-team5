@@ -18,7 +18,10 @@ import Setting from './pages/Setting/Setting';
 import Statistics from './pages/Statistics/Statistics';
 import Signup from './pages/Signup/Signup';
 
+import axios from 'axios';
+
 function App(props) {
+  axios.get('/api/token/');
   const { history } = props;
   return (
     <ConnectedRouter history={history}>
