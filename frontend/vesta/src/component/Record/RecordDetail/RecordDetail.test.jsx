@@ -58,7 +58,7 @@ describe('<RecordDetail />', () => {
   afterEach(() => {
     jest.clearAllMocks();
   })
-  it('should be rendered properly', () => {
+  xit('should be rendered properly', () => {
 
     const component = mount(recordDetail);
     const wrapper = component.find('.RecordDetail');
