@@ -31,7 +31,7 @@ class PastNutritionInfo extends Component {
 
   componentDidMount() {
     const today = (new Date()).toISOString().split('T')[0];
-    this.setState({ ...this.state, userNutritions: dummyUserNutritions });
+    // this.setState({ ...this.state, userNutritions: dummyUserNutritions });
     this.props.onGetUserNutrition(today);
     this.props.onGetUserSetting();
   }

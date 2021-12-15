@@ -332,30 +332,36 @@ def recommend_algorithm(request, today, count_all):
     # sort in the order of little difference with the target nutrition
     candidates = sorted(candidates, key=lambda x:x[1])
     # select the ones with like
-    liked_menus = []
-    liked_records = Record.objects.filter(user_id=request.user.id, liked=True)
-    for rec in liked_records:
-        for can in candidates:
-            if can[0].name == rec.menu.name:
-                liked_menus.append(can[0])
+    # liked_menus = []
+    # liked_records = Record.objects.filter(user_id=request.user.id, liked=True)
+    # for rec in liked_records:
+    #     for can in candidates:
+    #         if can[0].name == rec.menu.name:
+    #             liked_menus.append(can[0])
     
     result = []
-    liked_num = len(liked_menus)
-    if liked_num != 0:
-        result.extend(liked_menus)
+    # liked_num = len(liked_menus)
+    # if liked_num != 0:
+    #     result.extend(liked_menus)
+    idx = 0
+    for can in candidates:
+        if idx < 15:
+            result.append(can[0])
+        else:
+            break
     
-    if len(candidates) < 15: # if candidates are less than 15
-        for can in candidates:
-            result.append(can[0])  
-        while len(result) != 15:
-            result.append(None)
-    else:
-        for can in candidates:
-            if liked_num < 15:
-                result.append(can[0])
-                liked_num+=1
-            else:
-                break
+    # if len(candidates) < 15: # if candidates are less than 15
+    #     for can in candidates:
+    #         result.append(can[0])  
+    #     while len(result) != 15:
+    #         result.append(None)
+    # else:
+    #     for can in candidates:
+    #         if liked_num < 15:
+    #             result.append(can[0])
+    #             liked_num+=1
+    #         else:
+    #             break
 
     response_dict = []
     for res in result:
