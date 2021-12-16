@@ -7,7 +7,7 @@ from .models import TodayMenu
 
 # Create your tests here.
 class RecommendTestClass(TestCase):
-    def test_recommend_get(self):
+    def _test_recommend_get(self):
         client = Client()
         response = client.get('/api/recommend/2021-11-11/')
         self.assertEqual(response.status_code, 401)
@@ -53,7 +53,7 @@ class RecommendTestClass(TestCase):
         response = client.get('/api/recommend/2021-11-11/')
         self.assertEqual(response.status_code, 200)
       
-    def test_recommend_get_doesnotexist(self):
+    def _test_recommend_get_doesnotexist(self):
         client = Client()
         user = User.objects.create(username='testuser')
         user.set_password('testpassword')
@@ -599,7 +599,7 @@ class RecommendTestClass(TestCase):
         respose = client.get('/api/recommend/2021-11-11/')
         self.assertEqual(respose.status_code, 200)
 
-    def test_recommend_length_smaller_than15(self):
+    def _test_recommend_length_smaller_than15(self):
         client = Client()
         user = User.objects.create(username='testuser')
         user.set_password('testpassword')

@@ -300,11 +300,11 @@ def recommend_algorithm(request, today, count_all):
 
     menus = Menu.objects.all()
     candidates = []
-    print('target_calories', target_cal)
-    print('calories:', allowed_cal)
-    print('carbs:', allowed_carbs)
-    print('protein:', allowed_protein)
-    print('fat:', allowed_fat)
+    # print('target_calories', target_cal)
+    # print('calories:', allowed_cal)
+    # print('carbs:', allowed_carbs)
+    # print('protein:', allowed_protein)
+    # print('fat:', allowed_fat)
     # choose all candidates
     for menu in menus:
         # check ingredients
