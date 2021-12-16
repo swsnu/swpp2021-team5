@@ -2,6 +2,7 @@ import json
 import datetime
 from django.db.models.fields import NullBooleanField
 from django.http import HttpResponse, HttpResponseNotAllowed
+from django.http import response
 from django.http.response import JsonResponse
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.contrib.auth import authenticate, login, logout
@@ -12,6 +13,11 @@ from .models import Profile, UserNutrition, Preference, Menu, Record
 from . import logmeal as api
 import os
 import base64
+import shutil
+import re
+from django.conf import settings
+from PIL import Image
+from io import BytesIO
 
 # Create your views here.
 
@@ -134,6 +140,7 @@ def profile(request):
 
             user_profile = user.profile
             response_dict = {
+                'userID': user.id,
                 'username': user.username,
                 'age': user_profile.age,
                 'sex': user_profile.sex,
@@ -295,11 +302,11 @@ def nutrition(request, date):
                 return HttpResponse(status=404)
 
             # should add checking Forbidden(403)
-            new_calories = int(req_data['calories'])
-            new_carbs = int(req_data['carbs'])
-            new_protein = int(req_data['protein'])
-            new_fat = int(req_data['fat'])
-            new_count_all = int(req_data['count_all'])
+            new_calories = float(req_data['calories'])
+            new_carbs = float(req_data['carbs'])
+            new_protein = float(req_data['protein'])
+            new_fat = float(req_data['fat'])
+            new_count_all = float(req_data['count_all'])
 
             today_nutrition.calories = new_calories
             today_nutrition.carbs = new_carbs
@@ -353,43 +360,88 @@ def record(request):
             return HttpResponse(status = 401)
 
         ## return all records
-        all_record_list = list(Record.objects.all().values())
-        return JsonResponse(all_record_list, safe=False)
+        response_dict = []
+        # all_record_list = list(Record.objects.all().values())
+        for new_record in Record.objects.all():
+            response_dict.append({
+                'id' : new_record.id,
+                'user_id' : new_record.user.id,
+                'menu_id' : new_record.menu.id,
+                'review' : new_record.review,
+                'liked' : new_record.liked,
+                'date' : new_record.date.strftime("%Y-%m-%d"),
+                'image' : "http://localhost:8000/media/"+str(new_record.image).split('/')[-1]
+            })
+        return JsonResponse(response_dict, safe=False)
 
     if request.method == "POST":
         ## If user is not signed in, respond with 401
         if not request.user.is_authenticated:
             return HttpResponse(status = 401)
 
+        print(request.POST['menu_name'])
+        print(request.POST['calories'])
+        print(request.POST['ingredient'])
+        print(request.POST['carbs'])
+        print(request.POST['review'])
+
         ## decode request
-        # req_data = json.loads(request.body.decode())
-        menu_name = request.POST['menu_name']
+        menu_name = re.sub(' +','-', request.POST['menu_name'])
+        img_open = Image.open(BytesIO(base64.b64decode(request.POST['image'][23:]))) # remove javascript syntax
+        img_open = img_open.convert('RGB')
+        path = os.path.join(settings.MEDIA_ROOT,menu_name+'.jpg')
+        img_open.save(path)  # save image to menu_images folder
+
+        calories = float(request.POST['calories'])
+        carbs = float(request.POST['carbs'])
+        protein = float(request.POST['protein'])
+        fat = float(request.POST['fat'])
+        ingredient = request.POST['ingredient']
+        image = path
         review_text = request.POST['review']
         liked = request.POST['liked'] == "True"
 
-        if not Menu.objects.filter(name = menu_name).exists():
-            return HttpResponse(status = 404)
+        pattern = re.findall(r"(.*?),", ingredient)
+        ing_list = []
+        for p in pattern:
+            ing_list.append("'"+p+"'")
+        ingredient = ', '.join(ing_list)
+        print(ingredient)
 
-        new_record = Record(user = request.user,
-                                menu = Menu.objects.get(name = menu_name),
+        menu = Menu.objects.create(  ## create menu first
+            name = menu_name,
+            calories = calories,
+            carbs = carbs,
+            protein = protein,
+            fat = fat,
+            image = path,
+            recipe = "",
+            ingredient = ingredient
+        )
+        menu.save()
+        print('menu_name:', menu.name, 'calories: ', menu.calories, 
+            'carbs: ', menu.carbs, 'protein: ', menu.protein, 
+            'fat: ', menu.fat, 'image: ', "http://localhost:8000/media/"+str(menu.image).split('/')[-1],
+            'recipe: ', menu.recipe, 'ingredient: ', menu.ingredient)
+
+        new_record = Record(user = request.user,  ## create record and return
+                                menu = menu,
                                 review = review_text,
                                 liked = liked,
                                 date = datetime.date.today(),
-                                image = request.POST['image'])
+                                image = path)
 
-        print('image')
-        print(request.POST['image'])
         new_record.save()
 
-        ## respond with created record detail
+        # respond with created record detail
         response_dict = {'id' : new_record.id,
-                            'user_id' : new_record.user.id,
-                            'menu_id' : new_record.menu.id,
-                            'review' : new_record.review,
-                            'liked' : new_record.liked,
-                            'date' : new_record.date.strftime("%Y-%m-%d"),
-                            'image' : new_record.image.url}
-        return JsonResponse(response_dict)
+                        'user_id' : new_record.user.id,
+                        'menu_id' : new_record.menu.id,
+                        'review' : new_record.review,
+                        'liked' : new_record.liked,
+                        'date' : new_record.date.strftime("%Y-%m-%d"),
+                        'image' : "http://localhost:8000/media/"+str(new_record.image).split('/')[-1]}
+        return JsonResponse(response_dict, safe=False)
     return HttpResponseNotAllowed(["GET", "POST"])
 
 @require_GET
@@ -404,13 +456,18 @@ def record_id_func(request, record_id):
 
     ## return record of record_id
     matching_record = Record.objects.get(id = record_id)
+    matching_menu = matching_record.menu
     response_dict = {'id' : record_id,
                     'user_id' : matching_record.user.id,
-                    'menu_id' : matching_record.menu.id,
+                    'menu_name' : matching_menu.name,
+                    'menu_calories' : matching_menu.calories,
+                    'menu_carbs' : matching_menu.carbs,
+                    'menu_protein': matching_menu.protein,
+                    'menu_fat': matching_menu.fat,
                     'review' : matching_record.review,
                     'liked' : matching_record.liked,
                     'date' : matching_record.date,
-                    'image' : matching_record.image.url}
+                    'image' : "http://localhost:8000/media/"+str(matching_record.image).split('/')[-1]}
     return JsonResponse(response_dict)
 
 @require_GET
@@ -420,13 +477,28 @@ def record_user_id(request, user_id):
         return HttpResponse(status = 401)
 
     ## Get all records whose user id is user_id
-    all_record_list = [record for record in Record.objects.all().values() if record["user_id"] == user_id]
+    all_record_list = Record.objects.filter(user_id=user_id)
+    print(all_record_list)
+    # all_record_list = [record for record in Record.objects.all().values() if record["user_id"] == user_id]
 
     ## If there are no such records, respond with 404
-    if len(all_record_list) == 0:
-        return HttpResponse(status = 404)
+    # if len(all_record_list) == 0:
+    #     return HttpResponse(status = 404)
     ## else, return records
-    return JsonResponse(all_record_list, safe = False)
+    response_dict = []
+    if len(all_record_list) != 0:
+        for rec in all_record_list:
+            response_dict.append({
+                'id' : rec.id,
+                'user_id' : rec.user.id,
+                'menu_id' : rec.menu.id,
+                'review' : rec.review,
+                'liked' : rec.liked,
+                'date' : rec.date,
+                'image' : "http://localhost:8000/media/"+str(rec.image).split('/')[-1]
+            })
+
+    return JsonResponse(response_dict, safe = False)
 
 def review(request, review_record_id):
     ## if request method is not GET, POST, PUT, or DELETE, respond with 405
@@ -451,7 +523,8 @@ def review(request, review_record_id):
 
     if request.method == "POST":
         ## create review in selected record
-        review_post = json.loads(request.body.decode())['review']
+        review_post = request.POST['review']
+        print(review_post)
         record_to_add_review = Record.objects.get(id = review_record_id)
         record_to_add_review.review = review_post
         record_to_add_review.save()
@@ -468,7 +541,8 @@ def review(request, review_record_id):
 
     if request.method == "PUT":
         ## edit review in selected record
-        new_review = json.loads(request.body.decode())['review']
+        new_review = request.body.decode()
+        print(new_review)
         record_to_edit_review = Record.objects.get(id = review_record_id)
         record_to_edit_review.review = new_review
         record_to_edit_review.save()
@@ -515,7 +589,13 @@ def liked(request, liked_record_id):
         return HttpResponse(status = 403)
 
     record_to_toggle_liked = Record.objects.get(id = liked_record_id)
-    record_to_toggle_liked.liked = not record_to_toggle_liked.liked
+    print(record_to_toggle_liked.liked)
+    if record_to_toggle_liked.liked == True:
+        record_to_toggle_liked.liked = False
+    else:
+        record_to_toggle_liked.liked = True
+    record_to_toggle_liked.save()
+    print(record_to_toggle_liked.liked)
 
     response_dict = {'id' : liked_record_id,
                     'user_id' : record_to_toggle_liked.user.id,
@@ -542,18 +622,22 @@ def menu_name(request, menuname):
     ## If user is not signed in, respond with 401
     if not request.user.is_authenticated:
         return HttpResponse(status = 401)
-        
-    ## If there are no menus with menu_name, respond with 404
-    if not Menu.objects.filter(name = menuname).exists():
-        return HttpResponse(status = 404)
+    
+    if request.method == "GET":
+        ## If there are no menus with menu_name, respond with 404
+        if not Menu.objects.filter(name = menuname).exists():
+            return HttpResponse(status = 404)
 
-    ## return corresponding menu
-    matching_menu = Menu.objects.get(name = menuname)
-    response_dict = {'id' : matching_menu.id, 'name' : menuname, 'calories' : matching_menu.calories,
-                    'carbs' : matching_menu.carbs, 'protein' : matching_menu.protein,
-                    'fat' : matching_menu.fat, 'image' : matching_menu.image.url,
-                    'recipe': matching_menu.recipe, 'ingredient': matching_menu.ingredient }
-    return JsonResponse(response_dict)
+        ## return corresponding menu
+        matching_menu = Menu.objects.filter(name = menuname)
+        if len(matching_menu) >= 1:
+            matching_menu = matching_menu[0]
+        response_dict = {'id' : matching_menu.id, 'name' : menuname, 'calories' : matching_menu.calories,
+                        'carbs' : matching_menu.carbs, 'protein' : matching_menu.protein,
+                        'fat' : matching_menu.fat, 'image' : matching_menu.image.url,
+                        'recipe': matching_menu.recipe, 'ingredient': matching_menu.ingredient }
+        return JsonResponse(response_dict)
+    
     
 @ensure_csrf_cookie
 @require_GET
