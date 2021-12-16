@@ -203,7 +203,6 @@ class ConfirmDetection extends Component {
     console.log(form.get('ingredient'));
     console.log(form.get('review'));
     console.log(form.get('liked'));
-    // console.log(form.get('image'));
     console.log(this.props.userNutrition);
     let result = [];
     for (let rec of this.props.ingredients) {
