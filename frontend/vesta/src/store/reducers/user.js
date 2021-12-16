@@ -11,7 +11,7 @@ const userReducer = (state = initialState, action) => {
       return {
         ...state,
         currentUser: {
-          userID: action.userID,
+          ...state.currentUser,
           username: action.username,
           age: action.age,
           sex: action.sex,
@@ -65,7 +65,7 @@ const userReducer = (state = initialState, action) => {
       };
 
     case actionTypes.LOGOUT:
-      return { ...state, currentUser: action.currentUser, userNutrition: action.userNutrition };
+      return { ...state, currentUser: action.currentUser };
 
     case actionTypes.GET_ALL_USER_NUTRITION:
       return { ...state, userNutritions: action.userNutritions };

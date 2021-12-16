@@ -83,6 +83,6 @@ describe('<Records />', () => {
     const records = component.find('a');
     records.at(0).simulate('click');
     records.at(1).simulate('click');
-    // records.at(2).simulate('click');
+    records.at(2).simulate('click');
   });
 });

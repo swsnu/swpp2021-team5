@@ -121,7 +121,6 @@ export const editUserNutrition = (date, calories, carbs, protein, fat, count_all
 export const logout_ = () => ({
   type: actionTypes.LOGOUT,
   currentUser: null,
-  userNutrition: null,
 });
 
 export const logout = () => (dispatch) => axios.get('/api/user/signout/')
