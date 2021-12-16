@@ -69,48 +69,13 @@ class Main extends Component {
         this.props.userNutrition.count_all + 1,
       );
     }
+    window.confirm('Please refresh your page!');
     this.props.getCountAll(today);
     this.props.getRecommendedMenus(today);
-    // (async () => {
-    //   let apiRes = null;
-    //   try {
-    //     apiRes = await axios.get(`/api/nutrition/${today}/`);
-    //   } finally {
-    //     const countInput = (this.state.type === 'meal') ? 1 : 0;
-    //     if (apiRes.data.calories === 0 && apiRes.data.carbs === 0 && apiRes.data.protein === 0 && apiRes.data.fat === 0) {
-    //       this.props.onCreateUserNutrition(today, 0, 0, 0, 0, 1);
-    //     } else {
-    //       const currentCalories = apiRes.data.calories;
-    //       const currentCarbs = apiRes.data.carbs;
-    //       const currentProtein = apiRes.data.protein;
-    //       const currentFat = apiRes.data.fat;
-    //       const currentCount = apiRes.data.count_all;
-
-    //       this.props.onEditUserNutrition(today,
-    //         currentCalories,
-    //         currentCarbs,
-    //         currentProtein,
-    //         currentFat,
-    //         currentCount + 1);
-    //     }
-    //   }
-    // })();
-    // this.setState((prevState) => ({ idx: prevState.idx + 1 }));
   }
 
-  onClickedFollowedRecButton = () => {
-    const bool = window.confirm('Did you follow our recommended meal? If you confirm, you can record your meal details.');
-    if (bool) {
-      this.props.history.push({
-        pathname: '/record',
-        state: { type: 'meal' },
-      });
-      this.setState((prevState) => ({ idx: prevState.idx + 1 }));
-    }
-  }
-
-  onClickedNotFollowedButton = () => {
-    const bool = window.confirm('Did you have alternative menu rather than recommended meal? If you confirm, you can record your meal details.');
+  onClickedRecordMealButton = () => {
+    const bool = window.confirm('Did you have a meal(NOT snack)? If you confirm, you can record your meal details.');
     if (bool) {
       this.props.history.push({
         pathname: '/record',
@@ -147,6 +112,24 @@ class Main extends Component {
     if (this.props.recommendedMenus && this.props.countAll !== -1) {
       console.log(this.props.countAll);
       console.log(this.props.recommendedMenus);
+      let nextMeal = 'Nothing to recommend';
+      if (this.props.recommendedMenus[this.props.countAll] !== null) {
+        nextMeal = (
+          <div>
+            <p style={{ marginBottom: '0px' }}>{ this.props.recommendedMenus[this.props.countAll].name }</p>
+            <a href={`/recommendation/${this.props.recommendedMenus[this.props.countAll].name}/${this.props.countAll}`}>
+              <Image
+                src={this.props.recommendedMenus[this.props.countAll].image}
+                alt="menu"
+                size="centered large"
+                style={{
+                  objectFit: 'cover', height: '400px', width: '400px', 'border-radius': '15px'
+                }}
+              />
+            </a>
+          </div>
+        );
+      }
       return (
         <div>
           <Container>
@@ -159,17 +142,7 @@ class Main extends Component {
                   {(this.props.countAll < 3)
                     ? (
                       <MealRecordArea style={{ 'font-size': '30px', padding: '15px' }}>
-                        <p style={{ marginBottom: '0px' }}>{ this.props.recommendedMenus[this.props.countAll].name }</p>
-                        <a href={`/recommendation/${this.props.recommendedMenus[this.props.countAll].name}/${this.props.countAll}`}>
-                          <Image
-                            src={this.props.recommendedMenus[this.props.countAll].image}
-                            alt="menu"
-                            size="centered large"
-                            style={{
-                              objectFit: 'cover', height: '400px', width: '400px', 'border-radius': '15px'
-                            }}
-                          />
-                        </a>
+                        {nextMeal}
                       </MealRecordArea>
                     )
                     : (
@@ -187,18 +160,14 @@ class Main extends Component {
                   </MealRecordArea>
                   <MealRecordArea style={{ backgroundColor: '#AA7B6F', color: '#F2F2F2' }}>
                     {meal}
-                    <Grid columns={4}>
+                    <Grid columns={3}>
                       <Grid.Column>
                         <Icon circular name="x icon" onClick={this.onClickedSkipButton} />
                         skip
                       </Grid.Column>
                       <Grid.Column>
-                        <Icon circular name="check icon" onClick={this.onClickedFollowedRecButton} />
-                        followed
-                      </Grid.Column>
-                      <Grid.Column>
-                        <Icon circular name="edit icon" onClick={this.onClickedNotFollowedButton} />
-                        alternative
+                        <Icon circular name="food" onClick={this.onClickedRecordMealButton} />
+                        meal
                       </Grid.Column>
                       <Grid.Column>
                         <Icon circular name="camera icon" onClick={this.onClickedRecordSnackButton} />
@@ -256,8 +225,6 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  // onCreateUserNutrition: (date, calories, carbs, protein, fat,
-  //   countAll) => dispatch(actionCreators.createUserNutrition(date, calories, carbs, protein, fat, countAll)),
   onEditUserNutrition: (date, calories, carbs, protein, fat,
     countAll) => dispatch(actionCreators.editUserNutrition(date, calories, carbs, protein, fat, countAll)),
   getRecommendedMenus: (date) => dispatch(actionCreators.getRecommendedMenus(date)),

@@ -11,7 +11,6 @@ from .models import TodayMenu
 # Create your views here.
 ## recommend 15 menus total(5 for each meal)
 def recommend(request, date):
-    # print('here')
     # if unauthenticated
     if not request.user.is_authenticated:
         return HttpResponse(status = 401)
@@ -52,7 +51,6 @@ def recommend(request, date):
             response_dict = []
             if len(response)!=0:
                 for res in response:
-                    # print(res)
                     if res is not None:
                         response_dict.append({
                             'id': res.id,
@@ -302,62 +300,68 @@ def recommend_algorithm(request, today, count_all):
 
     menus = Menu.objects.all()
     candidates = []
-    # print('calories:', allowed_cal)
-    # print('carbs:', allowed_carbs)
-    # print('protein:', allowed_protein)
-    # print('fat:', allowed_fat)
+    print('target_calories', target_cal)
+    print('calories:', allowed_cal)
+    print('carbs:', allowed_carbs)
+    print('protein:', allowed_protein)
+    print('fat:', allowed_fat)
     # choose all candidates
     for menu in menus:
-        if (menu.calories < allowed_cal) and (menu.carbs < allowed_carbs) and (menu.protein < allowed_protein) and (menu.fat < allowed_fat):
-            # check ingredients
-            preferences = Preference.objects.filter(user_id=request.user.id) # QuerySet
-            preference = []
-            for pref in preferences:
-                pref = model_to_dict(pref)
-                for key, value in pref.items():
-                    if key in ('id', 'user'):
-                        continue
-                    else:
-                        preference.append(value)
-            ingredient = re.findall("'(.*?)'", menu.ingredient)  # list
-            intersect = set(preference) & set(ingredient)
-            if intersect:   # if there is intersection, do not include
-                continue
-            else:  # no intersection
-                difference = (allowed_cal - menu.calories) + (allowed_carbs - menu.carbs) + (allowed_protein - menu.protein) + (allowed_fat - menu.fat)
-                menu = [
-                    menu,
-                    difference
-                ]
-                candidates.append(menu)
+        # check ingredients
+        preferences = Preference.objects.filter(user_id=request.user.id) # QuerySet
+        preference = []
+        for pref in preferences:
+            pref = model_to_dict(pref)
+            for key, value in pref.items():
+                if key in ('id', 'user'):
+                    continue
+                else:
+                    preference.append(value)
+        ingredient = re.findall("'(.*?)'", menu.ingredient)  # list
+        intersect = set(preference) & set(ingredient)
+        if intersect:   # if there is intersection, do not include
+            continue
+        else:  # no intersection
+            difference = abs(allowed_cal - menu.calories) + abs(allowed_carbs - menu.carbs) + abs(allowed_protein - menu.protein) + abs(allowed_fat - menu.fat)
+            menu = [
+                menu,
+                difference
+            ]
+            candidates.append(menu)
     
     # sort in the order of little difference with the target nutrition
     candidates = sorted(candidates, key=lambda x:x[1])
     # select the ones with like
-    liked_menus = []
-    liked_records = Record.objects.filter(user_id=request.user.id, liked=True)
-    for rec in liked_records:
-        for can in candidates:
-            if can[0].name == rec.menu.name:
-                liked_menus.append(can[0])
+    # liked_menus = []
+    # liked_records = Record.objects.filter(user_id=request.user.id, liked=True)
+    # for rec in liked_records:
+    #     for can in candidates:
+    #         if can[0].name == rec.menu.name:
+    #             liked_menus.append(can[0])
     
     result = []
-    liked_num = len(liked_menus)
-    if liked_num != 0:
-        result.extend(liked_menus)
+    # liked_num = len(liked_menus)
+    # if liked_num != 0:
+    #     result.extend(liked_menus)
+    idx = 0
+    for can in candidates:
+        if idx < 15:
+            result.append(can[0])
+        else:
+            break
     
-    if len(candidates) < 15: # if candidates are less than 15
-        for can in candidates:
-            result.append(can[0])  
-        while len(result) != 15:
-            result.append(None)
-    else:
-        for can in candidates:
-            if liked_num < 15:
-                result.append(can[0])
-                liked_num+=1
-            else:
-                break
+    # if len(candidates) < 15: # if candidates are less than 15
+    #     for can in candidates:
+    #         result.append(can[0])  
+    #     while len(result) != 15:
+    #         result.append(None)
+    # else:
+    #     for can in candidates:
+    #         if liked_num < 15:
+    #             result.append(can[0])
+    #             liked_num+=1
+    #         else:
+    #             break
 
     response_dict = []
     for res in result:

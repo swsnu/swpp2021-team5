@@ -53,12 +53,12 @@ const preferenceButtonList = (preference, isOpen, clickedMenuHandler, open, clos
   const list = preference.map((menu) => {
     return (
       <div>
-        <Button key={menu} id='ingredient-button' Mini style={{backgroundColor: '#CCEECC', margin: '2px', height: '26px', padding: '4%', fontSize: '13px'}} onClick={() => open()}>{`${menu} X`}</Button>
+        <Button key={menu} id='ingredient-button' Mini sty le={{backgroundColor: '#CCEECC', margin: '2px', height: '26px', padding: '4%', fontSize: '13px'}} onClick={() => {console.log(`${menu} clicked`); open()}}>{`${menu} X`}</Button>
         <Confirm
           id='confirm-button'
           open={isOpen}
           onCancel={() => close()}
-          onConfirm={() => clickedMenuHandler(menu)}
+          onConfirm={() => {close(); clickedMenuHandler(menu)}}
         />
       </div>
     )

@@ -24,7 +24,7 @@ class RecommendTestClass(TestCase):
 
         profile = Profile.objects.create(user_id=user.id, age=20, sex=True, height=180, weight=70, target_calories=2000, api_id=1, api_name="", api_token="")
         profile.save()
-        
+
         date_list = "2021-11-11".split('-')
         today = datetime.date(int(date_list[0]), 
               int(date_list[1]), int(date_list[2]))
