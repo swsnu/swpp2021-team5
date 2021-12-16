@@ -99,7 +99,6 @@ class ConfirmDetection extends Component {
     // form.append('recipe', recipe);
     console.log(correctName, calories, carbs, protein, fat, ingredient);
     if (correctName && calories && carbs && protein && fat && ingredient) {
-      // this.props.onAddRecord(form);
       this.setState({ editMenu: form });
     }
     this.setState({ menuName: correctName });
