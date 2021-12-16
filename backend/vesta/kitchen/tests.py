@@ -65,7 +65,7 @@ class KitchenTestClass(TestCase):
         Record.objects.create(user=user, menu=menu1,
                             review='review1', liked=True,
                             date=datetime.date(2021,11,1),
-                            image='/media/record_images/brownie.jpeg')
+                            image='./record_images/brownie.jpeg')
 
         ## GET TEST
         ## if client is not signed in, response to GET request should be 401
@@ -114,12 +114,12 @@ class KitchenTestClass(TestCase):
         ## correct response test
         response = client2.get('/api/record/user/1/')
         self.assertEqual(response.status_code, 200)
-        self.assertEqual('[{"id": 1, "user_id": 1, "menu_id": 1, "review": "review1", "liked": true, "date": "2021-11-01", "image": "http://localhost:8000/media/brownie.jpeg"}]', response.content.decode())
+        self.assertEqual('[{"id": 1, "user_id": 1, "menu_id": 1, "review": "review1", "liked": true, "date": "2021-11-01", "image": "./record_images/brownie.jpeg"}]', response.content.decode())
 
 
 
     ## test /api/record/<int:review_record_id>/review/
-    def _test_review(self):
+    def test_review(self):
         user = User.objects.create(username='testuser')
         user.set_password('testpassword')
         user.save()
@@ -241,7 +241,7 @@ class KitchenTestClass(TestCase):
 
 
     ## test api/menu/<str:menuname>/
-    def _test_menu_name(self):
+    def test_menu_name(self):
         user = User.objects.create(username='testuser')
         user.set_password('testpassword')
         user.save()
@@ -250,9 +250,8 @@ class KitchenTestClass(TestCase):
         client2 = Client()
         client2.login(username='testuser', password='testpassword')
 
-        menu = Menu.objects.create(name='testmenu', calories=1, carbs=1, protein=1,
+        Menu.objects.create(name='testmenu', calories=1, carbs=1, protein=1,
                             fat=1, image='./images/brownie.jpeg', recipe="1. make brownie", ingredient="chocolate")
-        menu.save()
 
         ## GET TEST
         ## if client is not signed in, response to GET request should be 401

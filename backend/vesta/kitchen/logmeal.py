@@ -8,17 +8,12 @@ from io import BytesIO, StringIO
 # configuration
 api_company_token = '08c17275a67ca0d8c1fc40f4ec776884d10a41dd'
 available_company_tokens = [
-    'c3f7853b6adbfd3b84f9fb93bf4a8a8e6e847c75',
-    '96757cd38e4c64d23729d2975460c9a504572def',
-    '77ed7fdbb3c84d457ba350585af0c2b0d52b579c',
-    'bdfa246a23a2962b3f2ce4aab2565196d41c87b1',
-    '5bc558d598fe25bd16d027c3c2410c77d270c118',
-    '1915d8bc9cdf9a409b90cdc04c87c314786c3fce',
-    '9249a3ccbc8eee2e377e58ff3e4e655131c7ff06',
-    '1f2accef0d7833c437176ff68fdc6b5f93e2ed8d',
     '08c17275a67ca0d8c1fc40f4ec776884d10a41dd',
     '46cf3c97d0e55fc9c959f92d5de39babbb5f1d08',
     '195ab2bb681393befe2be38cba010c7a925728c7',
+    'c3f7853b6adbfd3b84f9fb93bf4a8a8e6e847c75',
+    '96757cd38e4c64d23729d2975460c9a504572def',
+    '77ed7fdbb3c84d457ba350585af0c2b0d52b579c',
 ]
 api_user_token = '0ce3203ec3f4906581d6ee835e08eafb4e10264e'
 api_url = 'https://api.logmeal.es/v2/'
@@ -125,7 +120,7 @@ def menu_recognition(img_path, user_token=api_user_token):
     headers = {'Authorization': 'Bearer ' + api_user_token}
 
     # Single Dishes Detection
-    url = api_url + 'recognition/complete'
+    url = api_url + 'recognition/dish'
     # resp = requests.post(url,files={'image': open(img, 'rb')}, headers=headers)
     # img_open = open('upload_img.jpg','w')
     # img_open.write(base64.decodestring(img))
@@ -133,31 +128,9 @@ def menu_recognition(img_path, user_token=api_user_token):
     img_open = img_open.convert('RGB')
     img_open.save('uploaded_img.jpg')
 
-    result_dict = {}
-
 
     resp = requests.post(url,files={'image':open('uploaded_img.jpg', 'rb')}, headers=headers)
     print(resp.json())
-    print(resp.json()['imageId'])
-    print("***Menu Detection: ", resp.json()["recognition_results"]) # display dish only
-
-    result_dict["recognition_results"] = resp.json()["recognition_results"]
-    result_dict["imageId"] = resp.json()['imageId']
-
-    url = api_url + 'recipe/nutritionalInfo'
-
-    resp = requests.post(url,json={'imageId': result_dict['imageId']}, headers=headers)
-    print("***Nutrition Detection: ", resp.json()) # display nutritional info
-
-    result_dict["nutritional_info"] = resp.json()["nutritional_info"]
-
-    url = api_url + 'recipe/ingredients'
-    resp = requests.post(url,json={'imageId': result_dict['imageId']}, headers=headers)
-    print("***Ingredient Detection: ", resp.json()) # display ingredients info
-
-    result_dict["ingredients"] = resp.json()["recipe"]
-
-
-
+    print(resp.json()["recognition_results"]) # display dish only
     
-    return result_dict
+    return resp.json()["recognition_results"]

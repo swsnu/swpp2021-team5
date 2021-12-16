@@ -65,7 +65,7 @@ class NutritionalInfoAndRecipe extends Component {
             <Link to="/recommendation">
               <Button className="menu-recommendation-button">Recommendation-page</Button>
             </Link>
-            {/* <Button className="change-button" onClick={() => this.changeRecommendation()}>Change</Button> */}
+            <Button className="change-button" onClick={() => this.changeRecommendation()}>Change</Button>
           </Background>
         </div>
       );

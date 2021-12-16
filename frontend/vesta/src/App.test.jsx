@@ -16,8 +16,8 @@ const recipeInitialState = {};
 
 const mockStore = getMockStore(userInitialState, recordInitialState, menuInitialState, recipeInitialState);
 
-jest.mock('./pages/Signup/Signup', () => jest.fn(() => <div class="a">signup</div>));
-jest.mock('./pages/Menu_Recommendation/MenuRecommendation', () => jest.fn(() => <div class="b"/>));
+jest.mock('./pages/Signup/Signup', () => jest.fn(() => <div />));
+jest.mock('./pages/Menu_Recommendation/MenuRecommendation', () => jest.fn(() => <div />));
 jest.mock('./pages/Nutritional_Info_and_Recipe/NutritionalInfoAndRecipe', () => jest.fn(() => <div />));
 jest.mock('./pages/PastMealRecord/PastMealRecord', () => jest.fn(() => <div />));
 jest.mock('./pages/PreviousMeal/PreviousMeal', () => jest.fn(() => <div />));
@@ -40,9 +40,6 @@ describe('App', () => {
   it('should render correctly', () => {
     const component = mount(app);
     expect(component.find('.App').length).toBe(1);
-    console.log(component.find('div').length)
-    console.log(component.find('Route[exact=true][path="/signup"]').first())
-    expect(component.find('Route[exact=true][path="/signup"]').length).toBe(0);
   });
 
 });

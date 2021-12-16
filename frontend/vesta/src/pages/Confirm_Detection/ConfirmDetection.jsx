@@ -1,15 +1,13 @@
-/* eslint-disable */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
-  Divider, Container, TextArea, Form, Icon, Grid, Segment, Dimmer, Loader,
+  Button, Divider, Container, TextArea, Form, Icon, Grid,
 } from 'semantic-ui-react';
 import { withRouter } from 'react-router';
 import styled from 'styled-components';
 import axios from 'axios';
 import Nutrient from '../../component/Nutrient/Nutrient';
 import * as actionCreators from '../../store/actions/index';
-import { Redirect } from 'react-router-dom';
 
 const Background = styled.div`
 background-color:#F2F2F2;
@@ -47,63 +45,37 @@ class ConfirmDetection extends Component {
       review: '',
       image: null,
       type: null,
-      editMenu: null,
     };
   }
 
   componentDidMount() {
-    const today = (new Date()).toISOString().split('T')[0];
-    this.props.getUserNutrition(today);
-    this.setType();
-  }
+    this.props.getUserSetting();
+    const uploadedImage = this.props.location.state.image;
+    console.log(uploadedImage);
+    // console.log(this.props.location.state.type);
 
-  setType = () => {
-    this.setState({
-      type: this.props.location.state.type
-    })
+    this.setState({ image: uploadedImage });
+    this.setState({ type: 'meal' });
+    this.props.onGetMenu(this.state.menuName);
+
+    // const form = new FormData();
+    // form.append('files', uploadedImage);
+    // form.append('image', uploadedImage);
+    // for (const value of form.keys()) {
+    //   console.log(value);
+    // }
+    // for (const value of form.values()) {
+    //   console.log(value);
+    // }
+    // this.props.onGetDetection(form);
+    // console.log('detection', this.props.detectedMenus);
+    this.setState({ menuName: this.props.location.state.menuName });
   }
 
   onClickedEditResultButton = () => {
-    // console.log('here');
-    let correctName = null;
-    let calories = null;
-    let carbs = null;
-    let protein = null;
-    let ingredient = null;
-    // let recipe = null;
-    let fat = null;
-    const form = new FormData();
-    correctName = prompt('Please enter correct meal name (only string)');
-    if (correctName !== null) {
-      console.log('not null');
-      calories = prompt('Please enter calories(kcal) of your menu (only number)');
-      if (calories !== null) {
-        carbs = prompt('Please enter carbohydrate (grams) of your menu (only number)');
-        if (carbs !== null) {
-          protein = prompt('Please enter protein (grams) of your menu (only number)');
-          if (protein !== null) {
-            fat = prompt('Please enter fat (grams) of your menu (only number)');
-            if (fat) {
-              ingredient = prompt('Please enter ingredient of your menu (parse by comma)');
-            }
-          }
-        }
-      }
-    }
-    form.append('menu_name', correctName);  //string
-    form.append('calories', parseFloat(calories));
-    form.append('carbs', parseFloat(carbs));
-    form.append('protein', parseFloat(protein));
-    form.append('fat', parseFloat(fat));
-    form.append('ingredient', ingredient);  //string
-    // form.append('recipe', recipe);
-    console.log(correctName, calories, carbs, protein, fat, ingredient);
-    if (correctName && calories && carbs && protein && fat && ingredient) {
-      // this.props.onAddRecord(form);
-      this.setState({ editMenu: form });
-    }
+    const correctName = prompt('Please enter correct meal name');
     this.setState({ menuName: correctName });
-    // this.props.onGetMenu(correctName);
+    this.props.onGetMenu(correctName);
   }
 
   onChangedReviewInput = (event) => {
@@ -115,158 +87,96 @@ class ConfirmDetection extends Component {
     this.props.history.push('/main');
   }
 
-  calculateCarbAndProtein = (percent) => {
-    return ((1800 * (percent/100))/4).toFixed(2)
-  }
-
-  calculateFat = (percent) => {
-    return ((1800 * (percent/100))/9).toFixed(2)
-  }
-
-  parseIngredient = (ingredients) => {
-    let result = [];
-    for (let rec of ingredients) {
-      result.push(rec['name']);
-    }
-    console.log(result);
-    return (result);
-  }
-
   onClickedConfirmButton = () => {
-    const today = (new Date()).toISOString().split('T')[0];
-    const countInput = (this.state.type === 'meal') ? 1 : 0;
-    let form = new FormData();
-    let menuCal = 0;
-    let menuCarb = 0;
-    let menuProtein = 0;
-    let menuFat = 0;
-    let ingredient = '';
-
-    if (!this.state.editMenu) {  // when the detection is correct, editMenu == null
-      menuCal = this.props.nutrition.calories;
-      menuCarb = this.calculateCarbAndProtein(this.props.nutrition.dailyIntakeReference.CHOCDF.percent)
-      menuProtein = this.calculateCarbAndProtein(this.props.nutrition.dailyIntakeReference.PROCNT.percent)
-      menuFat = this.calculateFat(this.props.nutrition.dailyIntakeReference.FAT.percent)
-      
-      form.append('menu_name', this.props.detectedMenu[0].name);
-      form.append('calories', menuCal);
-      form.append('carbs', menuCarb)
-      form.append('protein', menuProtein)
-      form.append('fat', menuFat)
-      form.append('ingredient', this.parseIngredient(this.props.ingredients));
-    } else {  // when the detection is wrong, editMneu !== null
-      form = this.state.editMenu;
-      menuCal = this.state.editMenu.get('calories');
-      menuCarb = this.state.editMenu.get('carbs');
-      menuProtein = this.state.editMenu.get('protein');
-      menuFat = this.state.editMenu.get('fat');
-      ingredient = this.state.editMenu.get('ingredient');
-      console.log('menuCal: ', menuCal);
-      console.log('ingredient:', ingredient);
-    }
+    const form = new FormData();
+    form.append('menu_name', this.state.menuName);
     form.append('review', this.state.review);
     form.append('liked', 'False');
-    form.append('image', this.props.location.state.image);
-    this.props.onAddRecord(form);  // add record (includes creating a new menu in backend)
+    form.append('image', this.state.image.image);
+    this.props.onAddRecord(form);
 
-    console.log(this.props.userNutrition.calories);
-    console.log('countInput:',countInput);
-    this.props.onEditUserNutrition(
-      today,
-      (this.props.userNutrition.calories + menuCal),
-      (this.props.userNutrition.carbs + menuCarb),
-      (this.props.userNutrition.protein + menuProtein),
-      (this.props.userNutrition.fat + menuFat),
-      (this.props.userNutrition.count_all + countInput)
-    );
+    const today = (new Date()).toISOString().split('T')[0];
+    (async () => {
+      let apiRes = null;
+      try {
+        apiRes = await axios.get(`/api/nutrition/${today}/`);
+      } finally {
+        const countInput = (this.state.type === 'meal') ? 1 : 0;
+        const currentCalories = apiRes.data.calories;
+        const currentCarbs = apiRes.data.carbs;
+        const currentProtein = apiRes.data.protein;
+        const currentFat = apiRes.data.fat;
+        const currentCount = apiRes.data.count_all;
+
+        this.props.onEditUserNutrition(today,
+          currentCalories + this.props.selectedMenu.calories,
+          currentCarbs + this.props.selectedMenu.carbs,
+          currentProtein + this.props.selectedMenu.protein,
+          currentFat + this.props.selectedMenu.fat,
+          currentCount + countInput);
+      }
+    })();
     this.props.history.push('/history');
   }
 
   render() {
-    const menuCarb = this.calculateCarbAndProtein(this.props.nutrition.dailyIntakeReference.CHOCDF.percent)
-    const menuProtein = this.calculateCarbAndProtein(this.props.nutrition.dailyIntakeReference.PROCNT.percent)
-    const menuFat = this.calculateFat(this.props.nutrition.dailyIntakeReference.FAT.percent)
-    const form = new FormData();
-    form.append('menu_name', this.props.detectedMenu[0].name);
-    form.append('calories', this.props.nutrition.calories);
-    form.append('carbs', menuCarb)
-    form.append('protein', menuProtein)
-    form.append('fat', menuFat)
-    form.append('ingredient', this.props.ingredients);
-    form.append('review', this.state.review);
-    form.append('liked', 'False');
-    form.append('image', this.props.location.state.image);
-    console.log(form.get('menu_name'));
-    console.log(form.get('calories'));
-    console.log(form.get('carbs'));
-    console.log(form.get('protein'));
-    console.log(form.get('fat'));
-    console.log(form.get('ingredient'));
-    console.log(form.get('review'));
-    console.log(form.get('liked'));
-    // console.log(form.get('image'));
-    console.log(this.props.userNutrition);
-    let result = [];
-    for (let rec of this.props.ingredients) {
-      result.push(rec['name']);
+    let calories = 560;
+    let carbs = 132.12;
+    let protein = 12.1;
+    let fat = 28.2;
+    if (this.props.selectedMenu) {
+      calories = this.props.selectedMenu.calories;
+      carbs = this.props.selectedMenu.carbs;
+      protein = this.props.selectedMenu.protein;
+      fat = this.props.selectedMenu.fat;
     }
-    console.log(result);
-    // console.log(str(result));
-
-    if (this.props.storedRecords) {
-      return (
-        <Redirect to={{
-          pathname: '/history',
-        }} />
-      )
-    }
-
+    // console.log(this.state.image);
     return (
       <div>
         <Container className="Confirm">
           <Background>
             <Nutrient
-              menu_name={`${this.props.detectedMenu[0].name}`}
-              calories={this.props.nutrition.calories}
-              carbs={this.calculateCarbAndProtein(this.props.nutrition.dailyIntakeReference.CHOCDF.percent)}
-              protein={this.calculateCarbAndProtein(this.props.nutrition.dailyIntakeReference.PROCNT.percent)}
-              fat={this.calculateFat(this.props.nutrition.dailyIntakeReference.FAT.percent)}
-              src={this.props.location.state.image}
+              menu_name={`You Ate : ${this.state.menuName}`}
+              calories={calories}
+              carbs={carbs}
+              protein={protein}
+              fat={fat}
+              src={this.state.image}
             />
+            <Divider />
+            <EditArea>
+              <p>
+                Is the detection result wrong?
+                Tell us what you ate
+              </p>
+              <Icon circular name="edit icon" onClick={this.onClickedEditResultButton} />
+            </EditArea>
+            <ReviewArea>
+              <h1>
+                Create a review for your meal
+              </h1>
+              <p>
+                If you dont want to write a review now,
+                you can leave it blank and write it later.
+              </p>
+              <Form>
+                <TextArea id="review-text" placeholder="write review here" onChange={this.onChangedReviewInput} />
+              </Form>
+              <p>
+                Press Confirm / Cancel to Create a record or Cancel.
+              </p>
+              <Grid columns={2}>
+                <Grid.Column>
+                  <p> Confirm </p>
+                  <Icon circular name="check icon" onClick={this.onClickedConfirmButton} />
+                </Grid.Column>
+                <Grid.Column>
+                  <p> Cancel </p>
+                  <Icon circular name="x icon" onClick={this.onClickedCancelButton} />
+                </Grid.Column>
+              </Grid>
+            </ReviewArea>
           </Background>
-          <Divider />
-          <EditArea>
-            <p>
-              Is the detection result wrong?
-              Tell us what you ate
-            </p>
-            <Icon circular name="edit icon" onClick={this.onClickedEditResultButton} />
-          </EditArea>
-          <ReviewArea>
-            <h1>
-              Create a review for your meal
-            </h1>
-            <p>
-              If you dont want to write a review now,
-              you can leave it blank and write it later.
-            </p>
-            <Form>
-              <TextArea id="review-text" placeholder="write review here" onChange={this.onChangedReviewInput} />
-            </Form>
-            <p>
-              Press Confirm / Cancel to Create a record or Cancel.
-            </p>
-            <Grid columns={2}>
-              <Grid.Column>
-                <p> Confirm </p>
-                <Icon circular name="check icon" onClick={this.onClickedConfirmButton} />
-              </Grid.Column>
-              <Grid.Column>
-                <p> Cancel </p>
-                <Icon circular name="x icon" onClick={this.onClickedCancelButton} />
-              </Grid.Column>
-            </Grid>
-          </ReviewArea>
         </Container>
       </div>
     );
@@ -275,15 +185,11 @@ class ConfirmDetection extends Component {
 
 const mapStateToProps = (state) => ({
   selectedMenu: state.menu.selectedMenu,
-  detectedMenu: state.ml.detectedMenu,
-  nutrition: state.ml.nutrition,
-  ingredients: state.ml.ingredients,
-  userNutrition: state.user.userNutrition,
-  storedRecords: state.record.userRecords,
+  detectedMenus: state.ml.detectedMenu,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  // onGetMenu: (menuName) => dispatch(actionCreators.getMenu(menuName)),
+  onGetMenu: (menuName) => dispatch(actionCreators.getMenu(menuName)),
   onCreateUserNutrition: (date, calories, carbs, protein, fat,
     countAll) => dispatch(actionCreators.createUserNutrition(date, calories, carbs, protein, fat, countAll)),
   onEditUserNutrition: (date, calories, carbs, protein, fat,
@@ -291,7 +197,6 @@ const mapDispatchToProps = (dispatch) => ({
   onGetDetection: (formData) => dispatch(actionCreators.detect(formData)),
   onAddRecord: (formData) => dispatch(actionCreators.addRecord(formData)),
   getUserSetting: () => dispatch(actionCreators.getUserSetting()),
-  getUserNutrition: (date) => dispatch(actionCreators.getUserNutrition(date)), 
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(ConfirmDetection));

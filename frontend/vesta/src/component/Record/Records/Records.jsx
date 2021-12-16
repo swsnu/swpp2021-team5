@@ -1,10 +1,7 @@
-/* eslint-disable */
 import React, { Component, createRef } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import {
-  Image, Grid, Segment, Sticky, Menu, Dimmer, Loader
-} from 'semantic-ui-react';
+import { Image, Grid, Segment, Sticky, Menu } from 'semantic-ui-react';
 import styled from 'styled-components';
 import Record from '../Record';
 import * as actionCreators from '../../../store/actions/index';
@@ -27,107 +24,89 @@ class Records extends Component {
   }
 
   componentDidMount() {
-    this.props.onGetRecords(this.props.userID);
-  }
-
-  redirectRecordDetail = (rec) => {
-    // console.log(rec.liked);
-    this.props.history.push({
-      pathname: `/history/${rec.id}`,
-      state: { liked: rec.liked }
-    });
+    this.props.onGetRecords(this.props.user.userID);
   }
 
   render() {
-    if (this.props.storedRecords) {
-      let storedRecords = this.props.storedRecords;
-      if (this.state.showLiked) {
-        storedRecords = storedRecords.filter((rec) => rec.liked === true);
-      }
-      const demoRecords_ = storedRecords.map((rec) => (
-        <div key={rec.id} onClick={() => this.redirectRecordDetail(rec)}>
-          <img
-            src={rec.image}
-            alt="record"
-            style={{
-              width: '200px',
-              height: '200px',
-              objectFit: 'cover',
-              padding: '10px',
-              borderRadius: '20px'
-            }}
-          />
-        </div>
-      ));
-      const demoRecords = [[], [], []];
-      for (let i = 0; i < demoRecords_.length; i += 1) {
-        demoRecords[i % 3].push(demoRecords_[i]);
-      }
-      let notify = null;
-      if (demoRecords_.length === 0) {
-        notify = (
-          <Div>
-            Upload your first record,
-            and get personalized menu recommendation!
-          </Div>
-        );
-      }
-      return (
-        <div className="Records" ref={this.contextRef}>
-          <Sticky context={this.contextRef}>
-            <Menu
-              attached="top"
-              pointing
-              style={{ backgroundColor: '#fff', paddingTop: '1em' }}
-            >
-              <Menu.Item  // All
-                position="right"
-                as="a"
-                style={{ width: 70 }}
-                active={this.state.acticeItem === 'All'}
-                name="All"
-                onClick={() => this.setState({
-                  showLiked: false,
-                  acticeItem: 'All'
-                })}
-              />
-              <Menu.Item  // Liked
-                position="left"
-                as="a"
-                style={{ width: 70 }}
-                active={this.state.acticeItem === 'Liked'}
-                name="Liked"
-                onClick={() => this.setState({
-                  showLiked: true,
-                  acticeItem: 'Liked'
-                })}
-              />
-            </Menu>
-          </Sticky>
-          <Segment>
-            {notify}
-            <Grid centered columns={3} textAlign="center" relaxed="very">
-              <Grid.Column width={2}>
-                {demoRecords[0]}
-              </Grid.Column>
-              <Grid.Column width={2}>
-                {demoRecords[1]}
-              </Grid.Column>
-              <Grid.Column width={2}>
-                {demoRecords[2]}
-              </Grid.Column>
-            </Grid>
-          </Segment>
-        </div>
+    let { storedRecords } = this.props;
+    if (this.state.showLiked) {
+      storedRecords = storedRecords.filter((rec) => rec.liked === true);
+    }
+    const demoRecords_ = storedRecords.map((rec) => (
+      <a href={`/history/${rec.id}`} key={rec.id}>
+        <img
+          src={rec.image}
+          alt="record"
+          style={{
+            width: '200px',
+            height: '200px',
+            objectFit: 'cover',
+            padding: '10px',
+            borderRadius: '20px'
+          }}
+        />
+      </a>
+    ));
+    const demoRecords = [[], [], []];
+    for (let i = 0; i < demoRecords_.length; i += 1) {
+      demoRecords[i % 3].push(demoRecords_[i]);
+    }
+    let notify = null;
+    if (demoRecords_.length === 0) {
+      notify = (
+        <Div>
+          Upload your first record,
+          and get personalized menu recommendation!
+        </Div>
       );
     }
     return (
-      <Segment>
-        <Dimmer active inverted>
-          <Loader inverted content="Loading" />
-        </Dimmer>
-        <Image src="https://react.semantic-ui.com/images/wireframe/short-paragraph.png" />
-      </Segment>
+      <div className="Records" ref={this.contextRef}>
+        <Sticky context={this.contextRef}>
+          <Menu
+            attached="top"
+            pointing
+            style={{ backgroundColor: '#fff', paddingTop: '1em' }}
+          >
+            <Menu.Item
+              position="right"
+              as="a"
+              style={{ width: 70 }}
+              active={this.state.acticeItem === 'All'}
+              name="All"
+              onClick={() => this.setState({
+                showLiked: false,
+                acticeItem: 'All'
+              })}
+            />
+            <Menu.Item
+              position="left"
+              as="a"
+              style={{ width: 70 }}
+              active={this.state.acticeItem === 'Liked'}
+              name="Liked"
+              onClick={() => this.setState({
+                showLiked: true,
+                acticeItem: 'Liked'
+              })}
+            />
+          </Menu>
+        </Sticky>
+        <Segment>
+          {notify}
+          <Grid centered columns={3} textAlign="center" relaxed="very">
+            <Grid.Column width={2}>
+              {demoRecords[0]}
+            </Grid.Column>
+            <Grid.Column width={2}>
+              {demoRecords[1]}
+            </Grid.Column>
+            <Grid.Column width={2}>
+              {demoRecords[2]}
+            </Grid.Column>
+          </Grid>
+        </Segment>
+      </div>
     );
   }
 }

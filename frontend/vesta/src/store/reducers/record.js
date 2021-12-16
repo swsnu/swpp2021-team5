@@ -3,8 +3,57 @@ import { toggleRecord } from '../actions';
 import * as actionTypes from '../actions/actionType';
 
 const initialState = {
-  userRecords: null,
-  selectedRecord: null,
+  userRecords: [
+    {
+      id: 1,
+      image: "/sushi_example_image.jpeg",
+      date: "2021/11/09",
+      liked: true,
+      review: null,
+    },
+    {
+      id: 2,
+      image: "/chicken_sample_image.jpeg",
+      date: "2021/11/08",
+      liked: false,
+      review: null,
+    },
+    {
+      id: 3,
+      image: "/pasta_sample_image.jpeg",
+      date: "2021/11/07",
+      liked: true,
+      review: null,
+    },
+    {
+      id: 4,
+      image: "/DummyImages/dinner5_.jpeg",
+      date: "2021/11/07",
+      liked: true,
+      review: null,
+    },
+    {
+      id: 5,
+      image: "/DummyImages/breakfast3_.jpeg",
+      date: "2021/11/07",
+      liked: false,
+      review: null,
+    },
+    {
+      id: 6,
+      image: "/DummyImages/dinner1_.jpeg",
+      date: "2021/11/07",
+      liked: true,
+      review: null,
+    },
+  ],
+  selectedRecord: {
+    id: 1,
+    date: "2021/11/09",
+    liked: true,
+    review: "My favorite Dish",
+    menu: "sushi"
+  },
   selectedReview: null,
 };
 const recordReducer = (state = initialState, action) => {
@@ -13,13 +62,16 @@ const recordReducer = (state = initialState, action) => {
       return { ...state, userRecords: action.records };
     }
     case actionTypes.TOGGLE_LIKED: {
-      // const toggledRecords = state.userRecords.map((rec) => {
-      //   if (rec.id === action.targetID) {
-      //     return { ...rec, liked: !rec.liked };
-      //   } return { ...rec };
-      // });
-      // let toggledRecord = state.selectedRecord;
-      return { ...state };
+      const toggledRecords = state.userRecords.map((rec) => {
+        if (rec.id === action.targetID) {
+          return { ...rec, liked: !rec.liked };
+        } return { ...rec };
+      });
+      let toggledRecord = state.selectedRecord;
+      // if (state.selectedRecord !== null && action.targetID === state.selectedRecord.id) {
+      //   toggledRecord = state.userRecords.find((rec) => rec.id === action.targetID);
+      // }
+      return { ...state, userRecords: toggledRecords, selectedRecord: toggledRecord };
     }
     case actionTypes.ADD_RECORD: {
       const newRecord = {
@@ -27,7 +79,7 @@ const recordReducer = (state = initialState, action) => {
         liked: action.liked, review: action.review
       };
       console.log(newRecord);
-      return state;
+      return { ...state, userRecords: [...state.userRecords, newRecord]};
     }
     case actionTypes.GET_RECORD: {
       return { ...state, selectedRecord: action.record };
