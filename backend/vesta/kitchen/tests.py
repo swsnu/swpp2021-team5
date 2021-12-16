@@ -32,7 +32,11 @@ class KitchenTestClass(TestCase):
         ## if client is signed in, response to GET request should be 200 with correct content
         response = client2.get('/api/record/')
         self.assertEqual(response.status_code, 200)
+<<<<<<< HEAD
         self.assertIn('[{"id": 1, "user_id": 1, "menu_id": 1, "review": "review1", "liked": true, "date": "2021-11-01", "image": "http://localhost:8000/media/brownie.jpeg"}]',response.content.decode())
+=======
+        self.assertIn('[{"id": 1, "user_id": 1, "menu_id": 1, "review": "review1", "liked": true, "date": "2021-11-01", "image": "/media/record_images/brownie.jpeg"}]',response.content.decode())
+>>>>>>> develop
 
 
         ## POST TEST
@@ -65,7 +69,7 @@ class KitchenTestClass(TestCase):
         Record.objects.create(user=user, menu=menu1,
                             review='review1', liked=True,
                             date=datetime.date(2021,11,1),
-                            image='./record_images/brownie.jpeg')
+                            image='/media/record_images/brownie.jpeg')
 
         ## GET TEST
         ## if client is not signed in, response to GET request should be 401
@@ -79,7 +83,11 @@ class KitchenTestClass(TestCase):
         ## correct response test
         response = client2.get('/api/record/1/')
         self.assertEqual(response.status_code, 200)
+<<<<<<< HEAD
         self.assertEqual('{"id": 1, "user_id": 1, "menu_name": "testmenu", "menu_calories": 1.0, "menu_carbs": 1.0, "menu_protein": 1.0, "menu_fat": 1.0, "review": "review1", "liked": true, "date": "2021-11-01", "image": "http://localhost:8000/media/brownie.jpeg"}', response.content.decode())
+=======
+        self.assertEqual('{"id": 1, "user_id": 1, "menu_id": 1, "review": "review1", "liked": true, "date": "2021-11-01", "image": "http:localhost:8000/media/record_images/brownie.jpeg"}', response.content.decode())
+>>>>>>> develop
 
 
         ## NOT GET TEST
@@ -110,8 +118,13 @@ class KitchenTestClass(TestCase):
         self.assertEqual(response.status_code, 401)
 
         ## if record whose user is user_id does not exist, response should be 404
+<<<<<<< HEAD
         # response = client2.get('/api/record/user/2/')
         # self.assertEqual(response.status_code, 404)
+=======
+        response = client2.get('/api/record/user/200000/')
+        self.assertEqual(response.status_code, 404)
+>>>>>>> develop
 
         ## correct response test
         response = client2.get('/api/record/user/1/')
@@ -252,8 +265,9 @@ class KitchenTestClass(TestCase):
         client2 = Client()
         client2.login(username='testuser', password='testpassword')
 
-        Menu.objects.create(name='testmenu', calories=1, carbs=1, protein=1,
+        menu = Menu.objects.create(name='testmenu', calories=1, carbs=1, protein=1,
                             fat=1, image='./images/brownie.jpeg', recipe="1. make brownie", ingredient="chocolate")
+        menu.save()
 
         ## GET TEST
         ## if client is not signed in, response to GET request should be 401

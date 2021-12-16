@@ -31,7 +31,7 @@ class Records extends Component {
   }
 
   redirectRecordDetail = (rec) => {
-    console.log(rec.liked);
+    // console.log(rec.liked);
     this.props.history.push({
       pathname: `/history/${rec.id}`,
       state: { liked: rec.liked }
@@ -45,7 +45,7 @@ class Records extends Component {
         storedRecords = storedRecords.filter((rec) => rec.liked === true);
       }
       const demoRecords_ = storedRecords.map((rec) => (
-        <div onClick={() => this.redirectRecordDetail(rec)}>
+        <div key={rec.id} onClick={() => this.redirectRecordDetail(rec)}>
           <img
             src={rec.image}
             alt="record"
