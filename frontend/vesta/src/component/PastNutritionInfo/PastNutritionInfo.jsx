@@ -31,31 +31,26 @@ class PastNutritionInfo extends Component {
 
   componentDidMount() {
     const today = (new Date()).toISOString().split('T')[0];
-    this.setState({ ...this.state, userNutritions: dummyUserNutritions });
+    // this.setState({ ...this.state, userNutritions: dummyUserNutritions });
     this.props.onGetUserNutrition(today);
     this.props.onGetUserSetting();
   }
 
   render() {
-    let todayNutritionIntake = {};
+    let todayNutritionIntake, recommendedCalorie;
     console.log(this.props.currUserNutrition);
     console.log(this.props.currUser);
     if (this.props.currUserNutrition && this.props.currUser) {
-      console.log(this.props.currUserNutrition);
       todayNutritionIntake = {
         calories: this.props.currUserNutrition.calories,
         carbs: this.props.currUserNutrition.carbs,
         protein: this.props.currUserNutrition.protein,
         fat: this.props.currUserNutrition.fat,
       };
-      const age = this.props.currUser.age;
-      const sex = this.props.currUser.sex;
-      const height = this.props.currUser.height;
-      const weight = this.props.currUser.weight;
-      const recommendedCarbs = Calculator.recommendedCarbs(age, sex, height, weight);
-      const recommendedProtein = Calculator.recommendedProtein(age, sex, height, weight);
-      const recommendedFat = Calculator.recommendedFat(age, sex, height, weight);
-      const recommendedCalorie = this.props.currUser.targetCalories;
+      recommendedCalorie = this.props.currUser.targetCalories;
+      let recommendedCarbs = Calculator.recommendedCarbs(recommendedCalorie);
+      let recommendedProtein = Calculator.recommendedProtein(recommendedCalorie);
+      let recommendedFat = Calculator.recommendedFat(recommendedCalorie);
       const recommendedIntake = {
         calories: recommendedCalorie,
         carbs: recommendedCarbs,

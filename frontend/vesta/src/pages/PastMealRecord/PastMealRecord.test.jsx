@@ -6,11 +6,23 @@ import { Route, Switch } from 'react-router';
 import PastMealRecord from './PastMealRecord';
 import { history } from '../../store/store';
 import { getMockStore } from '../../test-utils/mock';
+import * as actionCreators from '../../store/actions/Record/record';
+import * as actionCreators_ from '../../store/actions/User/user';
 import RecordDetail from '../../component/Record/RecordDetail/RecordDetail';
+import {
+  Image, Segment, Dimmer, Loader
+} from 'semantic-ui-react';
 
 const stubInitialState = {
-  user: {
-    userID: 1
+  currentUser: {
+    userID: 1,
+    username: 1,
+    age: 1,
+    sex: 1,
+    height: 1,
+    weight: 1,
+    preference: 1,
+    targetCalories: 1,
   },
   userRecords: [
     {
@@ -42,11 +54,11 @@ describe('<PastMealRecord />', () => {
   let recordDetail;
   beforeEach(() => {
     recordDetail = (
-      <Provider>
+      <Provider store={mockStore}>
         <ConnectedRouter history={history}>
           <Switch>
             <Route
-              path="/"
+              path="/history"
               exact
               render={() => <PastMealRecord />}
             />
@@ -54,11 +66,14 @@ describe('<PastMealRecord />', () => {
         </ConnectedRouter>
       </Provider>
     );
+    const spyGetRecs = jest.spyOn(actionCreators, 'getRecords');
+    const spyGetSet = jest.spyOn(actionCreators_, 'getUserSetting');
   });
 
   it('should be rendered properly', () => {
-    const component = shallow(< PastMealRecord />);
-    const wrapper = component.find('.PastMealRecord');
-    expect(wrapper.length).toBe(1);
+    const component = mount(recordDetail);
+    const wrapper = component.find('div');
+    console.log(component)
+    expect(wrapper.length).toBe(0);
   });
 });
