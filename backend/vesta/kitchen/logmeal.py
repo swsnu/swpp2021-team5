@@ -8,13 +8,17 @@ from io import BytesIO, StringIO
 # configuration
 api_company_token = '08c17275a67ca0d8c1fc40f4ec776884d10a41dd'
 available_company_tokens = [
-    '08c17275a67ca0d8c1fc40f4ec776884d10a41dd',
-    '46cf3c97d0e55fc9c959f92d5de39babbb5f1d08',
-    '195ab2bb681393befe2be38cba010c7a925728c7',
     'c3f7853b6adbfd3b84f9fb93bf4a8a8e6e847c75',
     '96757cd38e4c64d23729d2975460c9a504572def',
     '77ed7fdbb3c84d457ba350585af0c2b0d52b579c',
     'bdfa246a23a2962b3f2ce4aab2565196d41c87b1',
+    '5bc558d598fe25bd16d027c3c2410c77d270c118',
+    '1915d8bc9cdf9a409b90cdc04c87c314786c3fce',
+    '9249a3ccbc8eee2e377e58ff3e4e655131c7ff06',
+    '1f2accef0d7833c437176ff68fdc6b5f93e2ed8d',
+    '08c17275a67ca0d8c1fc40f4ec776884d10a41dd',
+    '46cf3c97d0e55fc9c959f92d5de39babbb5f1d08',
+    '195ab2bb681393befe2be38cba010c7a925728c7',
 ]
 api_user_token = '0ce3203ec3f4906581d6ee835e08eafb4e10264e'
 api_url = 'https://api.logmeal.es/v2/'
