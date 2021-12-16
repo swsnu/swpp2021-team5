@@ -3,7 +3,11 @@ import { shallow, mount } from 'enzyme';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
 import { Route, Switch } from 'react-router';
+import {
+  Button, Grid, Image, Segment, Dimmer, Loader
+} from 'semantic-ui-react';
 import RecordDetail from './RecordDetail';
+import Review from '../Review/Review';
 import { history } from '../../../store/store';
 import { getMockStore } from '../../../test-utils/mock';
 import * as actionCreators from '../../../store/actions/Record/record';
@@ -15,7 +19,13 @@ const stubInitialState = {
     id: 1,
     liked: true,
     date: 1,
-    menu: 1
+    menu_name: 1,
+    menu_calories: 1,
+    menu_carbs: 1,
+    menu_protein: 1,
+    menu_fat: 1,
+    review: "1",
+    date: 1,
   },
   selectedMenu: {
     name: 1,
@@ -44,7 +54,6 @@ describe('<RecordDetail />', () => {
           <Switch>
             <Route
               path="/"
-              exact
               render={() => <RecordDetail id={1} />}
             />
           </Switch>
@@ -54,6 +63,7 @@ describe('<RecordDetail />', () => {
     const spyGetRec = jest.spyOn(actionCreators, 'getRecord');
     const spyToggleRec = jest.spyOn(actionCreators, 'toggleRecord');
     const spyGetmenu = jest.spyOn(actionCreators_, 'getMenu');
+    const spyGetRecs = jest.spyOn(actionCreators, 'getRecords');
   });
   afterEach(() => {
     jest.clearAllMocks();

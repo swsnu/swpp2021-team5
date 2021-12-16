@@ -630,7 +630,7 @@ def menu_name(request, menuname):
 
         ## return corresponding menu
         matching_menu = Menu.objects.filter(name = menuname)
-        if len(matching_menu) > 1:
+        if len(matching_menu) >= 1:
             matching_menu = matching_menu[0]
         response_dict = {'id' : matching_menu.id, 'name' : menuname, 'calories' : matching_menu.calories,
                         'carbs' : matching_menu.carbs, 'protein' : matching_menu.protein,
