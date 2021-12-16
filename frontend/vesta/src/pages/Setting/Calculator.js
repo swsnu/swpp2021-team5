@@ -1,9 +1,9 @@
 /* eslint-disable */
 export const recommendedCalorie = (age, sex, height, weight) => {
   if (sex === true) {
-    return (height - 100) * 0.9 * 35;
+    return 66.47 + 13.75 * weight + 5 * height - 6.76 * age;
   } else if (sex === false) {
-    return (height - 100) * 0.9 * 30;
+    return 655.1 + 9.56 * weight + 1.85 * height - 4.68 * age;
   }
 };
 

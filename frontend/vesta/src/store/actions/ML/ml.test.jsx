@@ -3,9 +3,8 @@ import store from '../../store';
 import * as actionCreators from '../index';
 
 const stubSelectedMenu = {
-  recognition_results: ['1'],
-  nutritional_info: ['1'],
-  ingredients: ['1'],
+  id: 1,
+  name: 'stubMenu'
 };
 
 describe('record actions', () => {
@@ -23,7 +22,7 @@ describe('record actions', () => {
     store.dispatch(actionCreators.detect(1))
       .then(() => {
         const newState = store.getState();
-        expect(newState.ml.detectedMenu).toEqual(stubSelectedMenu.recognition_results);
+        expect(newState.ml.detectedMenu).toEqual(stubSelectedMenu);
         expect(axios.post).toHaveBeenCalledTimes(1);
         done();
       });
